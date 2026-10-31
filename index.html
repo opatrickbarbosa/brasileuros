@@ -70,7 +70,7 @@ body.home.at-top .top:not(.open){background:transparent;border-color:transparent
   .top .wrap{gap:10px}
   .brand img{height:28px}
   .top .cta{margin-left:auto}
-  .menu-btn{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;cursor:pointer;flex:none}
+  .menu-btn{display:grid;place-items:center;width:48px;height:48px;border:0;border-radius:50%;background:transparent;color:#fff;cursor:pointer;flex:none}
   .menu-btn span,.menu-btn span::before,.menu-btn span::after{display:block;width:18px;height:2px;background:currentColor;border-radius:2px;position:relative;transition:transform .25s ease,background .25s ease}
   .menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0}
   .menu-btn span::before{top:-6px}.menu-btn span::after{top:6px}
@@ -278,7 +278,7 @@ select:focus,input:focus,textarea:focus{outline:none;border-color:var(--sky-2);b
 
 /* page hero (inner) */
 .phero{position:relative;overflow:hidden;background:var(--sky);color:#fff;isolation:isolate}
-.phero-bg{position:absolute;inset:-30% 0;z-index:-1;background:var(--skyhero) center 30%/cover;will-change:transform}
+.phero-bg{position:absolute;inset:-45% 0 -30%;z-index:-1;background:var(--skyhero) center 30%/cover;will-change:transform}
 .phero .wrap{padding-block:44px 40px}
 .phero h1{font-size:clamp(2.3rem,5vw,3.8rem);text-shadow:0 3px 0 rgba(0,20,70,.35)}
 .phero p{margin-top:10px;max-width:56ch;color:#e8f0ff;font-size:1.06rem}
@@ -485,6 +485,51 @@ legend{font-family:var(--display);font-size:1.3rem;padding:0;margin-bottom:4px;c
 }
 @media (min-width:769px){.glass,.show,.panel,.filters,.format,.top{-webkit-backdrop-filter:blur(8px) saturate(1.4);backdrop-filter:blur(8px) saturate(1.4)}}
 
+/* linha do tempo */
+.tl{display:grid;gap:56px;position:relative}
+.tl::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:3px;background:linear-gradient(var(--sun),var(--sky-2))}
+.tl-item{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(20px,4vw,44px);align-items:center;padding-left:32px}
+.tl-item::before{content:"";position:absolute;left:-6px;top:50%;width:15px;height:15px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 4px var(--paper)}
+.tl-when{font-family:var(--display);font-weight:900;font-size:clamp(1.6rem,3.4vw,2.2rem);line-height:1;color:var(--sky-2)}
+:root[data-theme="dark"] .tl-when{color:var(--sun)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tl-when{color:var(--sun)}}
+.tl-text{display:grid;gap:10px}
+.tl-text h3{font-family:var(--body);font-weight:800;font-size:1.2rem;line-height:1.3}
+.tl-text .place{font-weight:700;color:var(--ink)}
+.tl-text p:last-child{color:var(--muted);max-width:52ch}
+.car{position:relative;border-radius:18px;overflow:hidden;background:#0b1a3a;box-shadow:0 18px 40px rgba(10,40,100,.18)}
+.car-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.car-track::-webkit-scrollbar{display:none}
+.car-track img{flex:0 0 100%;width:100%;aspect-ratio:4/3;object-fit:cover;scroll-snap-align:start;max-width:100%}
+.car-btn{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:0;background:rgba(255,255,255,.88);color:#0f1e3b;font:900 1.6rem/1 var(--body);cursor:pointer;display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.car-btn:disabled{opacity:0;pointer-events:none}
+.car-btn.prev{left:12px}.car-btn.next{right:12px}
+.car-count{position:absolute;right:12px;bottom:12px;font-size:.78rem;font-weight:800;color:#fff;background:rgba(0,0,0,.45);padding:4px 10px;border-radius:999px}
+@media (max-width:760px){.tl::before{left:0}.tl-item{grid-template-columns:1fr;padding-left:22px}.tl-item::before{top:10px}.car-btn{width:44px;height:44px}}
+
+/* idiomas */
+.langs{display:flex;gap:2px}
+.langs button{min-height:40px;min-width:40px;padding:0 8px;border:0;border-radius:999px;background:transparent;color:inherit;font:700 .8rem var(--body);letter-spacing:.06em;cursor:pointer;opacity:.75}
+.langs button:hover{opacity:1}
+.langs button[aria-pressed="true"]{opacity:1;background:rgba(255,255,255,.18)}
+.langs.in-top{color:#fff;margin-left:4px}
+.langs.in-menu{display:none}
+.nav-foot{display:none}
+.langs.in-foot{color:#c9d6f2}
+.langs.in-links{justify-content:center;color:#fff}
+.links-page .socials{justify-content:center}
+@media (max-width:820px){
+  .langs.in-top{display:none}
+  .nav-foot{display:grid;gap:14px;margin-top:18px}
+  .langs.in-menu{display:flex;justify-content:space-between;color:#fff}
+  .langs.in-menu button{min-height:48px;flex:1;font-size:.95rem}
+  .nav-foot .nav-close{margin-top:0}
+}
+.duo-cast{grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px;margin-inline:auto}
+.propa-ic.wa{background:#25D366}
+.propa-ic.wa svg{width:20px;height:20px}
+body.home.at-top::before{background:transparent}
+
 /* modal + toast */
 .modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(5,15,40,.6);padding:16px}
 .modal-card{width:min(460px,100%);max-height:calc(100% - 32px);overflow:auto;background:var(--card);color:var(--ink);border-radius:20px;padding:22px;display:grid;gap:12px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
@@ -509,483 +554,514 @@ legend{font-family:var(--display);font-size:1.3rem;padding:0;margin-bottom:4px;c
 <div id="layer"></div>
 
 <script>
-const IMG={logo:"assets/logo.webp",duo:"assets/duo.webp",bill:"assets/bill.webp",patrick:"assets/patrick.webp",pipo:"assets/pipo.webp",zuca:"assets/zuca.png",gabriel_face:"assets/gabriel_face.webp",gabriel_am:"assets/gabriel_am.webp",abner_face:"assets/abner_face.webp",abner_am:"assets/abner_am.webp",patrick_am:"assets/patrick_am.webp",pipo_am:"assets/pipo_am.webp",poster_s:"assets/poster_s.webp",live_pipo:"assets/live_pipo.webp",fl2604:"assets/fl2604.webp",fl1806:"assets/fl1806.webp",g_jump:"assets/g_jump.webp",ground:"assets/hero_ground.webp",patrick_face:"assets/patrick_face.webp",pipo_face:"assets/pipo_face.webp",chirigota:"assets/logo_chirigota.png",chandrio:"assets/logo_chandrio.png"};
+const IMG={logo:"assets/logo.webp",duo:"assets/duo.webp",bill:"assets/bill.webp",patrick:"assets/patrick.webp",pipo:"assets/pipo.webp",zuca:"assets/zuca.png",tl_rai1:"assets/tl_rai1.webp",tl_rai2:"assets/tl_rai2.webp",tl_rai3:"assets/tl_rai3.webp",tl_rai4:"assets/tl_rai4.webp",tl_rai5:"assets/tl_rai5.webp",tl_mad1:"assets/tl_mad1.webp",tl_mad2:"assets/tl_mad2.webp",tl_mad3:"assets/tl_mad3.webp",tl_mng1:"assets/tl_mng1.webp",tl_mng2:"assets/tl_mng2.webp",tl_mng3:"assets/tl_mng3.webp",gabriel_face:"assets/gabriel_face.webp",gabriel_am:"assets/gabriel_am.webp",abner_face:"assets/abner_face.webp",abner_am:"assets/abner_am.webp",patrick_am:"assets/patrick_am.webp",pipo_am:"assets/pipo_am.webp",poster_s:"assets/poster_s.webp",live_pipo:"assets/live_pipo.webp",fl2604:"assets/fl2604.webp",fl1806:"assets/fl1806.webp",g_jump:"assets/g_jump.webp",ground:"assets/hero_ground.webp",patrick_face:"assets/patrick_face.webp",pipo_face:"assets/pipo_face.webp",chirigota:"assets/logo_chirigota.png",chandrio:"assets/logo_chandrio.png"};
 
+/* ---------- idioma ---------- */
+const LANGS=[["pt","PT","Português"],["en","EN","English"],["es","ES","Español"],["ca","CA","Català"]];
+const LOCALE={pt:"pt-BR",en:"en-GB",es:"es-ES",ca:"ca-ES"};
+function pickLang(){let s=null;try{s=localStorage.getItem("bx-lang")}catch(_){}
+  if(s&&LOCALE[s])return s;const n=(navigator.language||"pt").slice(0,2).toLowerCase();return LOCALE[n]?n:"pt"}
+let LANG=pickLang();
+function setLang(l){LANG=l;try{localStorage.setItem("bx-lang",l)}catch(_){}document.documentElement.lang=LOCALE[l];route();onScroll()}
+const L=o=>o[LANG]??o.pt;
+
+const T={
+ pt:{nav:["Início","Agenda","Comediantes","Para empresas","Sobre","Contato"],tickets:"Ingressos",openMenu:"Abrir menu",closeMenu:"Fechar menu",lang:"Idioma",
+  heroH:'O humor do Brasil, toda quarta em <em>Barcelona</em>',heroSub:"Stand-up em português no Bar La Chirigota, às 19:30.",
+  ticker:["Toda quarta","19:30","Bar La Chirigota","Barcelona","Stand-up em português","Comédia do Nosso Jeitinho"],
+  onStage:"Em cartaz",nextShows:"Próximos shows",fullAgenda:"Agenda completa →",cast:"Elenco",castH:"Quem sobe no palco",seeAll:"Ver todos →",
+  premiere:"Estreia",today:"É hoje",tomorrow:"Amanhã",open:"Vendas abertas",last:"Últimos ingressos",extra:"Sessão extra",sold:"Esgotado",
+  buy:"Garantir entradas",buyNow:"Comprar agora",short:"Ingressos",waitlist:"Lista de espera",noDates:"Sem datas abertas no momento.",
+  agendaH:"Agenda",agendaP:"Todas as datas da temporada. Os ingressos são vendidos pela Eventbrite.",
+  castPageP:"Os comediantes da Brasileuros.",
+  nextDates:"Próximas datas",allDates:n=>`Ver todas as ${n} datas →`,seeDates:"Ver datas",hire:n=>`Contratar ${n}`,videos:"Vídeos",
+  linksSub:"Stand-up brasileiro · toda quarta em Barcelona",nextShow:"Próximo show",allDatesBtn:"Ver todas as datas",bizBtn:"Contratações para empresas e eventos privados",castBtn:"Conheça os comediantes",
+  waT:"Receba os avisos",waD:"Show novo, pré-venda e sessão extra direto no seu WhatsApp.",waTitle:"Avisos no WhatsApp",
+  phone:"Seu WhatsApp",city:"Sua cidade",cityL:"Cidade onde você mora",notify:"Avisar-me",consent:'Aceito receber avisos da Brasileuros por WhatsApp. Saio quando quiser. <a href="#privacidade">Privacidade</a>',
+  errVip:"Coloque seu WhatsApp e sua cidade.",errOk:"Marque o aceite para receber os avisos.",vipDone:c=>`Pronto! Você vai receber os avisos de shows em ${c}.`,
+  sendFail:"Não foi possível enviar agora. Tente de novo em alguns minutos.",sending:"Enviando…",
+  foot:["Agenda","Comediantes","Para empresas","Ficha técnica","Sobre","Contato","Entradas","Privacidade"],realization:"Realização",
+  bizH:"Comédia para a sua empresa",bizP:"Shows fechados, mestres de cerimônias e stand-up sob medida em português, espanhol, inglês ou bilíngue.",askQuote:"Pedir proposta",
+  formats:"Formatos",formatsH:"O que dá para contratar",
+  F:[["60 min","Noite de comédia exclusiva","Show fechado para festa de fim de ano, confraternização ou convenção."],["MC","Mestre de cerimônias","Condução de conferências, simpósios e premiações, com ritmo e improviso."],["Sob medida","Stand-up customizado","Texto adaptado aos temas, metas e desafios da sua empresa."],["Marca","Patrocínio da temporada","Sua marca no palco e na comunicação da Brasileuros."]],
+  quoteH:"Pedido de proposta",you:"Você",company:"A empresa",event:"O evento",fName:"Nome completo",fMail:"E-mail corporativo",fTel:"Telefone / WhatsApp com código do país",fComp:"Empresa",fSite:"Site",fRole:"Seu cargo",fSector:"Setor",
+  sectors:["Alimentos e bebidas","Tecnologia","Turismo e hotelaria","Finanças","Comércio","Outro"],
+  types:["Stand-up fechado para funcionários","Mestre de cerimônias","Patrocínio","Outro formato"],fPlace:"Cidade e país",fPlacePh:"Barcelona, Espanha",fDate:"Data prevista",fDatePh:"Dezembro de 2026",fLang:"Idioma do show",showLangs:["Português","Espanhol","Inglês","Bilíngue"],fBudget:"Investimento previsto",select:"Selecione",budgets:["Até 1.500 €","1.500 € a 3.500 €","3.500 € a 7.000 €","Acima de 7.000 €"],
+  sendQuote:"Enviar pedido de proposta",errQuote:"Preencha nome, e-mail, telefone, empresa, cidade e investimento.",errCorp:"Use o e-mail da empresa (nome@empresa.com).",errType:"Escolha pelo menos um formato.",
+  quoteDone:n=>`Obrigado, ${n}. A produção responde em até 2 dias úteis.`,quoteOk:"Pedido recebido",
+  next:"O que acontece depois",steps:["Seu pedido chega direto à produção.","A produção responde com disponibilidade para a data e a cidade.","Você recebe a proposta com formato, duração, ficha técnica e valor."],
+  techH:"Ficha técnica",techP:"Requisitos mínimos para receber qualquer show da Brasileuros.",stage:"Palco e som",kit:"Media kit",kitP:"Fotos em 300 DPI e esta ficha em PDF. Peça pelo formulário de contato.",
+  rider:[["Microfone","1 microfone sem fio cardioide profissional (Shure SM58, Beta 58A ou Sennheiser e935) com pilhas novas."],["Suporte","1 pedestal reto de base redonda pesada. Sem haste girafa."],["Reserva","1 microfone com fio XLR montado e testado na lateral do palco."],["Retorno","1 caixa de retorno no chão, voltada para o comediante."],["Mobiliário","1 banqueta alta sem rodinhas e 1 mesinha lateral para água."],["Silêncio","Sem moedor de café, louça ou coqueteleira durante os 60 a 80 minutos do show."]],
+  aboutH:"Nossa história",aboutP:"Do Comédia a La Brasileña à Brasileuros: dois imigrantes transformando perrengue em show.",
+  contactH:"Fale com a produção",contactP:"Imprensa, parcerias ou dúvidas. Para ingressos, use a agenda.",topic:"Assunto",topics:["Imprensa","Público","Parceria","Outro"],msg:"Mensagem",send:"Enviar mensagem",errContact:"Preencha nome, e-mail e mensagem.",contactDone:"Mensagem enviada. A produção responde em breve.",
+  privH:"Privacidade e cookies",privP:"Como tratamos seus dados, conforme o RGPD.",
+  priv:[["O que guardamos","Para os avisos: WhatsApp e cidade. Para propostas e contato: os dados que você escreve no formulário."],["Consentimento","Nenhuma caixa vem marcada. Você pode pedir a exclusão dos seus dados a qualquer momento."],["Como sair","No WhatsApp, responda SAIR a qualquer momento."],["Cookies","Medição só depois do seu aceite."]],
+  waitH:"Esgotou. Quer entrar na lista de espera?",waitP:"Se abrir sessão extra, quem está na lista compra antes.",waitBtn:"Entrar na lista de espera",waitDone:"Você está na lista.",close:"Fechar",
+  week:"Toda quarta",tlH:"Linha do tempo"},
+ en:{nav:["Home","Shows","Comedians","For companies","About","Contact"],tickets:"Tickets",openMenu:"Open menu",closeMenu:"Close menu",lang:"Language",
+  heroH:'Brazilian humour, every Wednesday in <em>Barcelona</em>',heroSub:"Stand-up in Portuguese at Bar La Chirigota, 7:30 pm.",
+  ticker:["Every Wednesday","7:30 pm","Bar La Chirigota","Barcelona","Stand-up in Portuguese","Comédia do Nosso Jeitinho"],
+  onStage:"On stage",nextShows:"Upcoming shows",fullAgenda:"All dates →",cast:"Cast",castH:"Who's on stage",seeAll:"See all →",
+  premiere:"Premiere",today:"Tonight",tomorrow:"Tomorrow",open:"On sale",last:"Last tickets",extra:"Extra show",sold:"Sold out",
+  buy:"Get tickets",buyNow:"Buy now",short:"Tickets",waitlist:"Waiting list",noDates:"No dates on sale right now.",
+  agendaH:"Shows",agendaP:"Every date of the season. Tickets are sold on Eventbrite.",castPageP:"The Brasileuros comedians.",
+  nextDates:"Upcoming dates",allDates:n=>`See all ${n} dates →`,seeDates:"See dates",hire:n=>`Book ${n}`,videos:"Videos",
+  linksSub:"Brazilian stand-up · every Wednesday in Barcelona",nextShow:"Next show",allDatesBtn:"See all dates",bizBtn:"Corporate and private events",castBtn:"Meet the comedians",
+  waT:"Get show alerts",waD:"New shows, presales and extra dates straight to your WhatsApp.",waTitle:"WhatsApp alerts",
+  phone:"Your WhatsApp",city:"Your city",cityL:"City you live in",notify:"Notify me",consent:'I agree to receive Brasileuros alerts on WhatsApp. I can leave anytime. <a href="#privacidade">Privacy</a>',
+  errVip:"Add your WhatsApp number and your city.",errOk:"Tick the box to receive alerts.",vipDone:c=>`Done! You'll get show alerts for ${c}.`,
+  sendFail:"We couldn't send it right now. Please try again in a few minutes.",sending:"Sending…",
+  foot:["Shows","Comedians","For companies","Tech rider","About","Contact","Tickets","Privacy"],realization:"Produced by",
+  bizH:"Comedy for your company",bizP:"Private shows, hosts and tailor-made stand-up in Portuguese, Spanish, English or bilingual.",askQuote:"Request a quote",
+  formats:"Formats",formatsH:"What you can book",
+  F:[["60 min","Private comedy night","A private show for your end-of-year party, team event or convention."],["MC","Master of ceremonies","Hosting for conferences, summits and award nights."],["Tailor-made","Custom stand-up","Material written around your company's topics and goals."],["Brand","Season sponsorship","Your brand on stage and across Brasileuros communications."]],
+  quoteH:"Quote request",you:"You",company:"Company",event:"The event",fName:"Full name",fMail:"Work email",fTel:"Phone / WhatsApp with country code",fComp:"Company",fSite:"Website",fRole:"Your role",fSector:"Sector",
+  sectors:["Food and drink","Technology","Travel and hospitality","Finance","Retail","Other"],
+  types:["Private stand-up for staff","Master of ceremonies","Sponsorship","Other format"],fPlace:"City and country",fPlacePh:"Barcelona, Spain",fDate:"Expected date",fDatePh:"December 2026",fLang:"Show language",showLangs:["Portuguese","Spanish","English","Bilingual"],fBudget:"Expected budget",select:"Select",budgets:["Up to €1,500","€1,500 to €3,500","€3,500 to €7,000","Over €7,000"],
+  sendQuote:"Send quote request",errQuote:"Fill in name, email, phone, company, city and budget.",errCorp:"Please use your work email.",errType:"Choose at least one format.",
+  quoteDone:n=>`Thank you, ${n}. The team will reply within 2 working days.`,quoteOk:"Request received",
+  next:"What happens next",steps:["Your request goes straight to the production team.","They reply with availability for your date and city.","You get a proposal with format, length, tech rider and fee."],
+  techH:"Tech rider",techP:"Minimum requirements for any Brasileuros show.",stage:"Stage and sound",kit:"Media kit",kitP:"300 DPI photos and this rider as a PDF. Ask for it through the contact form.",
+  rider:[["Microphone","1 professional cardioid wireless mic (Shure SM58, Beta 58A or Sennheiser e935) with fresh batteries."],["Stand","1 straight stand with a heavy round base. No boom arm."],["Backup","1 wired XLR mic set up and tested at the side of the stage."],["Monitor","1 floor monitor facing the comedian."],["Furniture","1 tall stool without wheels and 1 small side table for water."],["Silence","No coffee grinders, dishwashing or cocktail shakers during the 60 to 80 minute show."]],
+  aboutH:"Our story",aboutP:"From Comédia a La Brasileña to Brasileuros: two immigrants turning everyday struggles into a show.",
+  contactH:"Contact the team",contactP:"Press, partnerships or questions. For tickets, see the shows page.",topic:"Subject",topics:["Press","Audience","Partnership","Other"],msg:"Message",send:"Send message",errContact:"Fill in name, email and message.",contactDone:"Message sent. The team will get back to you soon.",
+  privH:"Privacy and cookies",privP:"How we handle your data under the GDPR.",
+  priv:[["What we keep","For alerts: WhatsApp number and city. For quotes and contact: what you write in the form."],["Consent","No box comes pre-ticked. You can ask us to delete your data at any time."],["How to leave","Reply STOP on WhatsApp at any time."],["Cookies","Analytics only after you accept."]],
+  waitH:"Sold out. Join the waiting list?",waitP:"If an extra show opens, people on the list buy first.",waitBtn:"Join the waiting list",waitDone:"You're on the list.",close:"Close",
+  week:"Every Wednesday",tlH:"Timeline"},
+ es:{nav:["Inicio","Agenda","Cómicos","Empresas","Sobre","Contacto"],tickets:"Entradas",openMenu:"Abrir menú",closeMenu:"Cerrar menú",lang:"Idioma",
+  heroH:'El humor de Brasil, todos los miércoles en <em>Barcelona</em>',heroSub:"Stand-up en portugués en el Bar La Chirigota, a las 19:30.",
+  ticker:["Todos los miércoles","19:30","Bar La Chirigota","Barcelona","Stand-up en portugués","Comédia do Nosso Jeitinho"],
+  onStage:"En cartel",nextShows:"Próximos shows",fullAgenda:"Agenda completa →",cast:"Elenco",castH:"Quién sube al escenario",seeAll:"Ver todos →",
+  premiere:"Estreno",today:"Hoy",tomorrow:"Mañana",open:"A la venta",last:"Últimas entradas",extra:"Sesión extra",sold:"Agotado",
+  buy:"Conseguir entradas",buyNow:"Comprar ya",short:"Entradas",waitlist:"Lista de espera",noDates:"No hay fechas a la venta ahora mismo.",
+  agendaH:"Agenda",agendaP:"Todas las fechas de la temporada. Las entradas se venden en Eventbrite.",castPageP:"Los cómicos de Brasileuros.",
+  nextDates:"Próximas fechas",allDates:n=>`Ver las ${n} fechas →`,seeDates:"Ver fechas",hire:n=>`Contratar a ${n}`,videos:"Vídeos",
+  linksSub:"Stand-up brasileño · todos los miércoles en Barcelona",nextShow:"Próximo show",allDatesBtn:"Ver todas las fechas",bizBtn:"Empresas y eventos privados",castBtn:"Conoce a los cómicos",
+  waT:"Recibe los avisos",waD:"Nuevos shows, preventa y sesiones extra directo a tu WhatsApp.",waTitle:"Avisos por WhatsApp",
+  phone:"Tu WhatsApp",city:"Tu ciudad",cityL:"Ciudad donde vives",notify:"Avisarme",consent:'Acepto recibir avisos de Brasileuros por WhatsApp. Puedo darme de baja cuando quiera. <a href="#privacidade">Privacidad</a>',
+  errVip:"Pon tu WhatsApp y tu ciudad.",errOk:"Marca la casilla para recibir los avisos.",vipDone:c=>`¡Listo! Recibirás los avisos de shows en ${c}.`,
+  sendFail:"No se ha podido enviar ahora. Inténtalo de nuevo en unos minutos.",sending:"Enviando…",
+  foot:["Agenda","Cómicos","Empresas","Ficha técnica","Sobre","Contacto","Entradas","Privacidad"],realization:"Producción",
+  bizH:"Comedia para tu empresa",bizP:"Shows privados, maestros de ceremonias y stand-up a medida en portugués, español, inglés o bilingüe.",askQuote:"Pedir presupuesto",
+  formats:"Formatos",formatsH:"Qué puedes contratar",
+  F:[["60 min","Noche de comedia privada","Show privado para la cena de empresa, un encuentro de equipo o una convención."],["MC","Maestro de ceremonias","Presentación de congresos, jornadas y entregas de premios."],["A medida","Stand-up personalizado","Texto adaptado a los temas y retos de tu empresa."],["Marca","Patrocinio de la temporada","Tu marca en el escenario y en la comunicación de Brasileuros."]],
+  quoteH:"Solicitud de presupuesto",you:"Tú",company:"La empresa",event:"El evento",fName:"Nombre completo",fMail:"Email de empresa",fTel:"Teléfono / WhatsApp con prefijo",fComp:"Empresa",fSite:"Web",fRole:"Tu cargo",fSector:"Sector",
+  sectors:["Alimentación y bebidas","Tecnología","Turismo y hostelería","Finanzas","Comercio","Otro"],
+  types:["Stand-up privado para la plantilla","Maestro de ceremonias","Patrocinio","Otro formato"],fPlace:"Ciudad y país",fPlacePh:"Barcelona, España",fDate:"Fecha prevista",fDatePh:"Diciembre de 2026",fLang:"Idioma del show",showLangs:["Portugués","Español","Inglés","Bilingüe"],fBudget:"Presupuesto previsto",select:"Selecciona",budgets:["Hasta 1.500 €","De 1.500 € a 3.500 €","De 3.500 € a 7.000 €","Más de 7.000 €"],
+  sendQuote:"Enviar solicitud",errQuote:"Rellena nombre, email, teléfono, empresa, ciudad y presupuesto.",errCorp:"Usa el email de la empresa.",errType:"Elige al menos un formato.",
+  quoteDone:n=>`Gracias, ${n}. La producción responde en 2 días laborables como máximo.`,quoteOk:"Solicitud recibida",
+  next:"Qué pasa después",steps:["Tu solicitud llega directamente a la producción.","Te responden con la disponibilidad para tu fecha y ciudad.","Recibes la propuesta con formato, duración, ficha técnica y precio."],
+  techH:"Ficha técnica",techP:"Requisitos mínimos para cualquier show de Brasileuros.",stage:"Escenario y sonido",kit:"Media kit",kitP:"Fotos a 300 DPI y esta ficha en PDF. Pídelo desde el formulario de contacto.",
+  rider:[["Micrófono","1 micrófono inalámbrico cardioide profesional (Shure SM58, Beta 58A o Sennheiser e935) con pilas nuevas."],["Pie","1 pie recto con base redonda pesada. Sin jirafa."],["Reserva","1 micrófono con cable XLR montado y probado en el lateral del escenario."],["Monitor","1 monitor de suelo orientado al cómico."],["Mobiliario","1 taburete alto sin ruedas y 1 mesita auxiliar para el agua."],["Silencio","Sin molinillo de café, platos ni cocteleras durante los 60 a 80 minutos del show."]],
+  aboutH:"Nuestra historia",aboutP:"De Comédia a La Brasileña a Brasileuros: dos inmigrantes convirtiendo sus apuros en un show.",
+  contactH:"Habla con la producción",contactP:"Prensa, colaboraciones o dudas. Para entradas, mira la agenda.",topic:"Asunto",topics:["Prensa","Público","Colaboración","Otro"],msg:"Mensaje",send:"Enviar mensaje",errContact:"Rellena nombre, email y mensaje.",contactDone:"Mensaje enviado. La producción te responderá pronto.",
+  privH:"Privacidad y cookies",privP:"Cómo tratamos tus datos según el RGPD.",
+  priv:[["Qué guardamos","Para los avisos: WhatsApp y ciudad. Para presupuestos y contacto: lo que escribes en el formulario."],["Consentimiento","Ninguna casilla viene marcada. Puedes pedir que borremos tus datos cuando quieras."],["Cómo darte de baja","Responde BAJA en WhatsApp en cualquier momento."],["Cookies","Medición solo después de que aceptes."]],
+  waitH:"Agotado. ¿Te apuntas a la lista de espera?",waitP:"Si se abre una sesión extra, quien está en la lista compra antes.",waitBtn:"Apuntarme a la lista",waitDone:"Ya estás en la lista.",close:"Cerrar",
+  week:"Todos los miércoles",tlH:"Línea de tiempo"},
+ ca:{nav:["Inici","Agenda","Còmics","Empreses","Sobre","Contacte"],tickets:"Entrades",openMenu:"Obrir menú",closeMenu:"Tancar menú",lang:"Idioma",
+  heroH:"L'humor del Brasil, cada dimecres a <em>Barcelona</em>",heroSub:"Stand-up en portuguès al Bar La Chirigota, a les 19.30.",
+  ticker:["Cada dimecres","19.30","Bar La Chirigota","Barcelona","Stand-up en portuguès","Comédia do Nosso Jeitinho"],
+  onStage:"En cartell",nextShows:"Propers espectacles",fullAgenda:"Agenda completa →",cast:"Repartiment",castH:"Qui puja a l'escenari",seeAll:"Veure'ls tots →",
+  premiere:"Estrena",today:"Avui",tomorrow:"Demà",open:"A la venda",last:"Últimes entrades",extra:"Sessió extra",sold:"Exhaurit",
+  buy:"Aconseguir entrades",buyNow:"Comprar ara",short:"Entrades",waitlist:"Llista d'espera",noDates:"Ara mateix no hi ha dates a la venda.",
+  agendaH:"Agenda",agendaP:"Totes les dates de la temporada. Les entrades es venen a Eventbrite.",castPageP:"Els còmics de Brasileuros.",
+  nextDates:"Properes dates",allDates:n=>`Veure les ${n} dates →`,seeDates:"Veure dates",hire:n=>`Contractar ${n}`,videos:"Vídeos",
+  linksSub:"Stand-up brasiler · cada dimecres a Barcelona",nextShow:"Proper espectacle",allDatesBtn:"Veure totes les dates",bizBtn:"Empreses i esdeveniments privats",castBtn:"Coneix els còmics",
+  waT:"Rep els avisos",waD:"Nous espectacles, preventa i sessions extra directament al teu WhatsApp.",waTitle:"Avisos per WhatsApp",
+  phone:"El teu WhatsApp",city:"La teva ciutat",cityL:"Ciutat on vius",notify:"Avisa'm",consent:'Accepto rebre avisos de Brasileuros per WhatsApp. Em puc donar de baixa quan vulgui. <a href="#privacidade">Privacitat</a>',
+  errVip:"Posa el teu WhatsApp i la teva ciutat.",errOk:"Marca la casella per rebre els avisos.",vipDone:c=>`Fet! Rebràs els avisos d'espectacles a ${c}.`,
+  sendFail:"No s'ha pogut enviar ara. Torna-ho a provar d'aquí a uns minuts.",sending:"Enviant…",
+  foot:["Agenda","Còmics","Empreses","Fitxa tècnica","Sobre","Contacte","Entrades","Privacitat"],realization:"Producció",
+  bizH:"Comèdia per a la teva empresa",bizP:"Espectacles privats, mestres de cerimònies i stand-up a mida en portuguès, castellà, anglès o bilingüe.",askQuote:"Demanar pressupost",
+  formats:"Formats",formatsH:"Què pots contractar",
+  F:[["60 min","Nit de comèdia privada","Espectacle privat per al sopar d'empresa, una trobada d'equip o una convenció."],["MC","Mestre de cerimònies","Presentació de congressos, jornades i lliuraments de premis."],["A mida","Stand-up personalitzat","Text adaptat als temes i reptes de la teva empresa."],["Marca","Patrocini de la temporada","La teva marca a l'escenari i a la comunicació de Brasileuros."]],
+  quoteH:"Sol·licitud de pressupost",you:"Tu",company:"L'empresa",event:"L'esdeveniment",fName:"Nom complet",fMail:"Correu de l'empresa",fTel:"Telèfon / WhatsApp amb prefix",fComp:"Empresa",fSite:"Web",fRole:"El teu càrrec",fSector:"Sector",
+  sectors:["Alimentació i begudes","Tecnologia","Turisme i hostaleria","Finances","Comerç","Altres"],
+  types:["Stand-up privat per a la plantilla","Mestre de cerimònies","Patrocini","Un altre format"],fPlace:"Ciutat i país",fPlacePh:"Barcelona, Espanya",fDate:"Data prevista",fDatePh:"Desembre de 2026",fLang:"Idioma de l'espectacle",showLangs:["Portuguès","Castellà","Anglès","Bilingüe"],fBudget:"Pressupost previst",select:"Tria",budgets:["Fins a 1.500 €","De 1.500 € a 3.500 €","De 3.500 € a 7.000 €","Més de 7.000 €"],
+  sendQuote:"Enviar sol·licitud",errQuote:"Omple nom, correu, telèfon, empresa, ciutat i pressupost.",errCorp:"Fes servir el correu de l'empresa.",errType:"Tria almenys un format.",
+  quoteDone:n=>`Gràcies, ${n}. La producció respon en un màxim de 2 dies feiners.`,quoteOk:"Sol·licitud rebuda",
+  next:"Què passa després",steps:["La teva sol·licitud arriba directament a la producció.","Et responen amb la disponibilitat per a la data i la ciutat.","Reps la proposta amb format, durada, fitxa tècnica i preu."],
+  techH:"Fitxa tècnica",techP:"Requisits mínims per a qualsevol espectacle de Brasileuros.",stage:"Escenari i so",kit:"Media kit",kitP:"Fotos a 300 DPI i aquesta fitxa en PDF. Demana-ho des del formulari de contacte.",
+  rider:[["Micròfon","1 micròfon sense fil cardioide professional (Shure SM58, Beta 58A o Sennheiser e935) amb piles noves."],["Peu","1 peu recte amb base rodona pesant. Sense girafa."],["Reserva","1 micròfon amb cable XLR muntat i provat al lateral de l'escenari."],["Retorn","1 monitor de terra orientat al còmic."],["Mobiliari","1 tamboret alt sense rodes i 1 tauleta auxiliar per a l'aigua."],["Silenci","Sense molinet de cafè, plats ni cocteleres durant els 60 a 80 minuts de l'espectacle."]],
+  aboutH:"La nostra història",aboutP:"De Comédia a La Brasileña a Brasileuros: dos immigrants convertint els seus maldecaps en un espectacle.",
+  contactH:"Parla amb la producció",contactP:"Premsa, col·laboracions o dubtes. Per a entrades, mira l'agenda.",topic:"Assumpte",topics:["Premsa","Públic","Col·laboració","Altres"],msg:"Missatge",send:"Enviar missatge",errContact:"Omple nom, correu i missatge.",contactDone:"Missatge enviat. La producció et respondrà aviat.",
+  privH:"Privacitat i galetes",privP:"Com tractem les teves dades segons el RGPD.",
+  priv:[["Què guardem","Per als avisos: WhatsApp i ciutat. Per a pressupostos i contacte: el que escrius al formulari."],["Consentiment","Cap casella ve marcada. Pots demanar que esborrem les teves dades quan vulguis."],["Com donar-te de baixa","Respon BAIXA al WhatsApp en qualsevol moment."],["Galetes","Mesura només després que acceptis."]],
+  waitH:"Exhaurit. T'apuntes a la llista d'espera?",waitP:"Si s'obre una sessió extra, qui és a la llista compra abans.",waitBtn:"Apuntar-me a la llista",waitDone:"Ja ets a la llista.",close:"Tancar",
+  week:"Cada dimecres",tlH:"Línia del temps"}
+};
+const t=k=>T[LANG][k]??T.pt[k];
+
+/* ---------- dados ---------- */
 const COMEDIANS=[
- {slug:"patrick-barbosa",loc:"Barcelona, Espanha",name:"Patrick Barbosa",first:"Patrick",img:"patrick",base:"Barcelona · Espanha",
-  hook:"Anfitrião de palco e produtor das noites Brasileuros.",
-  short:"Patrick Barbosa é comediante e produtor brasileiro radicado em Barcelona. Comanda noites de stand-up em La Chirigota, criou o projeto Brasileuros e o quadro audiovisual Barcelouca.",
-  full:["Anfitrião cênico por natureza, Patrick conduz a noite do primeiro ao último riso: abre, costura os números e mantém a plateia aquecida entre um comediante e outro.","Em Barcelona, produz noites de comédia brasileira em La Chirigota e é um dos criadores do projeto Brasileuros. Fora do palco, assina o Barcelouca, quadro audiovisual sobre a vida de brasileiro na cidade."],
-  b2b:"Mestre de cerimônias e apresentações corporativas para a comunidade ibérica.",tags:["MC","Host","PT · ES"]},
- {slug:"pipo-marquetti",loc:"Barcelona, Espanha",name:"Pipo Marquetti",first:"Pipo",img:"pipo",base:"Barcelona · Circuito espanhol",
-  hook:"No palco espanhol desde 2017, em português e em espanhol.",
-  short:"Pipo Marquetti atua no circuito de comédia da Espanha desde 2017. Com o show Amazonia em cartaz, transita com fluência entre plateias de língua portuguesa e espanhola.",
-  full:["Pipo construiu carreira no circuito espanhol, onde se apresenta desde 2017. O show Amazonia é a vitrine do seu humor: brasileiro na origem, ibérico na prática.","A troca natural entre português e espanhol faz dele o nome certo para plateias mistas, festivais latinos e empresas multinacionais."],
-  b2b:"Shows bilíngues (português/espanhol) para multinacionais e festivais latinos.",tags:["Bilíngue","PT · ES","Festivais"]},
- {slug:"fernanda-arantes",loc:"França",name:"Fernanda Arantes",first:"Fernanda",img:null,base:"França · Multicidades",
-  hook:"Solo autoral Virando a Chave, nas capitais europeias.",
-  short:"Fernanda Arantes é atriz e comediante autoral. Com o solo Virando a Chave, roda as capitais europeias falando de imigração, adaptação e do olhar feminino sobre a vida fora do Brasil.",
-  full:["Atriz de formação, Fernanda leva para o stand-up a construção cênica do teatro. Virando a Chave é o seu solo: uma hora sobre mudar de país, recomeçar e rir disso.","O show já passou por várias capitais europeias e conversa diretamente com quem vive a experiência da imigração."],
-  b2b:"Palestras bem-humoradas e eventos sobre diversidade e liderança feminina; teatros de médio porte.",tags:["Solo","Palestras","Diversidade"]},
- {slug:"renan-vital",loc:"Lisboa, Portugal",name:"Renan Vital",first:"Renan",img:null,base:"Lisboa e Oeiras · Portugal",
-  hook:"Stand-up e improviso no maior polo lusófono da Europa.",
-  short:"Renan Vital é comediante e improvisador em Lisboa. Residente nas noites do Espaço Evoé e do El Train Carruagem Bar, circula entre a comédia brasileira, portuguesa e dos PALOP.",
-  full:["Lisboa é o maior polo lusófono da Europa, e Renan está no centro dele: residente no Espaço Evoé e no El Train Carruagem Bar, alterna stand-up e improviso.","A ligação com a comédia portuguesa e dos PALOP faz dele o curador natural para noites completas em Portugal."],
-  b2b:"Curadoria de noites de stand-up, workshops de improviso corporativo e eventos em Portugal.",tags:["Improviso","Curadoria","PT"]},
- {slug:"abner-muzel",loc:"Madri, Espanha",name:"Abner Müzel",first:"Abner",img:"abner",photo:true,base:"Madri · Espanha",social:{instagram:"https://www.instagram.com/abnermuzel/"},
-  hook:"O primeiro comediante brasileiro com um espetáculo bilíngue.",
-  short:"Abner Müzel é comediante brasileiro radicado em Madri e o primeiro a ter um espetáculo de comédia bilíngue, em espanhol e português. Foi o convidado do Comédia a La Brasileña em Madri, em 2025.",
-  full:[],b2b:"Shows bilíngues (espanhol e português) em Madri.",tags:[]},
- {slug:"gabriel-zubek",loc:"Madri, Espanha",name:"Gabriel Zubek",first:"Gabriel",img:"gabriel",photo:true,base:"Madri · Espanha",social:{instagram:"https://www.instagram.com/gabrielzubek/"},
-  hook:"Ator e comediante entre Brasil, Espanha e Estados Unidos.",
-  short:"Gabriel Zubek é ator e comediante brasileiro, com trabalhos entre Brasil, Espanha e Estados Unidos. Divide com Abner Müzel o show Brazil com S, no Madrid Comedy Festival.",
-  full:[],b2b:"",tags:[]}
+ {slug:"patrick-barbosa",name:"Patrick Barbosa",first:"Patrick",img:"patrick",
+  loc:{pt:"Barcelona, Espanha",en:"Barcelona, Spain",es:"Barcelona, España",ca:"Barcelona"},
+  short:{pt:"Patrick Barbosa é comediante e produtor brasileiro radicado em Barcelona. Comanda noites de stand-up em La Chirigota, criou o projeto Brasileuros e o quadro audiovisual Barcelouca.",
+   en:"Patrick Barbosa is a Brazilian comedian and producer based in Barcelona. He runs stand-up nights at La Chirigota, created Brasileuros and the video series Barcelouca.",
+   es:"Patrick Barbosa es cómico y productor brasileño afincado en Barcelona. Dirige noches de stand-up en La Chirigota, creó el proyecto Brasileuros y la serie audiovisual Barcelouca.",
+   ca:"Patrick Barbosa és còmic i productor brasiler establert a Barcelona. Dirigeix nits de stand-up a La Chirigota i va crear el projecte Brasileuros i la sèrie audiovisual Barcelouca."}},
+ {slug:"pipo-marquetti",name:"Pipo Marquetti",first:"Pipo",img:"pipo",social:{instagram:"https://www.instagram.com/pipomarquetti/",youtube:"https://www.youtube.com/@pipomarquetti",tiktok:"https://www.tiktok.com/@pipomarquetti"},
+  loc:{pt:"Barcelona, Espanha",en:"Barcelona, Spain",es:"Barcelona, España",ca:"Barcelona"},
+  short:{pt:"Pipo Marquetti atua no circuito de comédia da Espanha desde 2017. Brasileiro barcelonês por insistência, transita com fluência entre plateias de língua portuguesa e espanhola.",
+   en:"Pipo Marquetti has been on the Spanish comedy circuit since 2017. A Brazilian who became a Barcelona local through sheer insistence, he moves easily between Portuguese- and Spanish-speaking crowds.",
+   es:"Pipo Marquetti actúa en el circuito de comedia de España desde 2017. Brasileño barcelonés por insistencia, se mueve con soltura entre públicos de habla portuguesa y española.",
+   ca:"Pipo Marquetti actua al circuit de comèdia d'Espanya des del 2017. Brasiler barceloní per insistència, es mou amb facilitat entre públics de parla portuguesa i castellana."}}
 ];
+const C=Object.fromEntries(COMEDIANS.map(c=>[c.slug,c]));
 const ICON={
  instagram:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor"/></svg>',
- youtube:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor"/><path d="M10 9l5.5 3-5.5 3z" fill="var(--sky)"/></svg>',
+ youtube:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.7 2.7 0 0 0-1.9-1.9C18 4.8 12 4.8 12 4.8s-6 0-7.7.5A2.7 2.7 0 0 0 2.4 7.2 28 28 0 0 0 2 12a28 28 0 0 0 .4 4.8 2.7 2.7 0 0 0 1.9 1.9c1.7.5 7.7.5 7.7.5s6 0 7.7-.5a2.7 2.7 0 0 0 1.9-1.9A28 28 0 0 0 22 12a28 28 0 0 0-.4-4.8zM10 15V9l5.2 3z" fill="currentColor"/></svg>',
  tiktok:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 3h3c.3 2.2 1.7 3.6 3.5 3.8v3.1c-1.3 0-2.5-.4-3.5-1v6.4a5.6 5.6 0 1 1-5.6-5.6c.3 0 .6 0 .9.1v3.2a2.5 2.5 0 1 0 1.7 2.4z" fill="currentColor"/></svg>'};
+const WA_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12 3.2a8.7 8.7 0 0 0-7.5 13.2L3.3 20.8l4.5-1.2A8.7 8.7 0 1 0 12 3.2zm0 15.9a7.2 7.2 0 0 1-3.7-1l-.3-.2-2.7.7.7-2.6-.2-.3a7.2 7.2 0 1 1 6.2 3.4zm4-5.4c-.2-.1-1.3-.6-1.5-.7-.2-.1-.3-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a5.9 5.9 0 0 1-2.9-2.6c-.2-.4.2-.4.6-1.2.1-.1 0-.3 0-.4l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.4a.8.8 0 0 0-.6.3 2.5 2.5 0 0 0-.8 1.9 4.4 4.4 0 0 0 .9 2.3 10 10 0 0 0 3.8 3.4c1.4.6 2 .7 2.7.6.4-.1 1.3-.5 1.5-1 .2-.5.2-1 .1-1-.1-.1-.2-.2-.4-.3z"/></svg>';
 const NETS=[["instagram","Instagram"],["youtube","YouTube"],["tiktok","TikTok"]];
 const BRAND_SOCIAL={instagram:"https://www.instagram.com/osbrasileuros/",youtube:"https://www.youtube.com/@osbrasileuros",tiktok:"https://www.tiktok.com/@osbrasileuros"};
-function socialIcons(c){const S=c.social||BRAND_SOCIAL;return `<div class="socials">${NETS.filter(([k])=>!c.social||S[k]).map(([k,l])=>{const u=S[k];return u?`<a class="soc" href="${u}" target="_blank" rel="noopener" aria-label="${l} de ${esc(c.social?c.name:"Brasileuros")}">${ICON[k]}</a>`:`<button class="soc" type="button" data-soc="${l}" aria-label="${l} de ${esc(c.name)}">${ICON[k]}</button>`}).join("")}</div>`}
-const C=Object.fromEntries(COMEDIANS.map(c=>[c.slug,c]));
+function socialIcons(c){const S=c.social||BRAND_SOCIAL;return `<div class="socials">${NETS.filter(([k])=>S[k]).map(([k,l])=>`<a class="soc" href="${S[k]}" target="_blank" rel="noopener" aria-label="${l} ${esc(c.name||"Brasileuros")}">${ICON[k]}</a>`).join("")}</div>`}
 
-/* Temporada em Barcelona: toda quarta, de 4/11 até o fim do ano. */
 const TICKETS="https://brasileuros.eventbrite.com";
+const SEASON=["2026-11-04","2026-11-11","2026-11-18","2026-11-25","2026-12-02","2026-12-09","2026-12-16","2026-12-23","2026-12-30"];
+const NEVER=["2026-11-02","2026-11-09","2026-11-16","2026-11-23","2026-11-30","2026-12-07","2026-12-14"];
 const SHOWS=[
- {id:"bcn-1104",titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:"2026-11-04",hora:"19:30",cidade:"Barcelona",pais:"Espanha",sala:"Bar La Chirigota",status:"AUTO",tick:"Eventbrite",url:TICKETS,selo:"Estreia"},
- {id:"bcn-1111",titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:"2026-11-11",hora:"19:30",cidade:"Barcelona",pais:"Espanha",sala:"Bar La Chirigota",status:"AUTO",tick:"Eventbrite",url:TICKETS},
- {id:"bcn-1118",titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:"2026-11-18",hora:"19:30",cidade:"Barcelona",pais:"Espanha",sala:"Bar La Chirigota",status:"AUTO",tick:"Eventbrite",url:TICKETS},
- {id:"bcn-1125",titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:"2026-11-25",hora:"19:30",cidade:"Barcelona",pais:"Espanha",sala:"Bar La Chirigota",status:"AUTO",tick:"Eventbrite",url:TICKETS},
- {id:"bcn-1202",titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:"2026-12-02",hora:"19:30",cidade:"Barcelona",pais:"Espanha",sala:"Bar La Chirigota",status:"AUTO",tick:"Eventbrite",url:TICKETS},
- {id:"bcn-1209",titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:"2026-12-09",hora:"19:30",cidade:"Barcelona",pais:"Espanha",sala:"Bar La Chirigota",status:"AUTO",tick:"Eventbrite",url:TICKETS},
- {id:"bcn-1216",titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:"2026-12-16",hora:"19:30",cidade:"Barcelona",pais:"Espanha",sala:"Bar La Chirigota",status:"AUTO",tick:"Eventbrite",url:TICKETS},
- {id:"bcn-1223",titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:"2026-12-23",hora:"19:30",cidade:"Barcelona",pais:"Espanha",sala:"Bar La Chirigota",status:"AUTO",tick:"Eventbrite",url:TICKETS},
- {id:"bcn-1230",titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:"2026-12-30",hora:"19:30",cidade:"Barcelona",pais:"Espanha",sala:"Bar La Chirigota",status:"AUTO",tick:"Eventbrite",url:TICKETS}
+ ...SEASON.map((dd,i)=>({id:"bcn-"+dd.slice(5).replace("-",""),titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:dd,hora:"19:30",cidade:"Barcelona",sala:"Bar La Chirigota",status:"AUTO",url:TICKETS,premiere:i===0})),
+ ...NEVER.map(dd=>({id:"nev-"+dd.slice(5).replace("-",""),titulo:"La NEVERita · humor fresco",artistas:["pipo-marquetti"],data:dd,hora:"20:45",cidade:"Barcelona",sala:"Coctelería Never",status:"AUTO",url:"https://www.atrapalo.com/entradas/la-neverita-humor-fresco_e4931062",own:true}))
 ].sort((a,b)=>a.data.localeCompare(b.data));
+const CITIES=["Barcelona","Madrid","Lisboa","Porto","Paris","London","Berlin","Dublin"];
 
-const CITIES=["Barcelona","Lisboa","Porto","Madri","Paris","Londres","Berlim","Dublin","Outra"];
-const TOUR=["Toda quarta","19:30","Bar La Chirigota","Barcelona","Stand-up em português","Comédia do Nosso Jeitinho"];
-const WD=["dom","seg","ter","qua","qui","sex","sáb"], MO=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
-const WDL=["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
-const MOL=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
-
+/* ---------- utilidades ---------- */
 const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
-const slugify=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"_");
 function d(s){const[y,m,dd]=s.data.split("-").map(Number);return new Date(y,m-1,dd)}
-function todayStr(){const t=new Date();return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0")}
-function upcoming(){const t=todayStr();return SHOWS.filter(s=>s.data>=t&&s.status!=="CANCELADO")}
-/* Status automático: manual (ESGOTADO, SESSAO_EXTRA, CANCELADO) sempre vence; senão muda com a proximidade. */
-const LAST_DAYS=4;
-function daysTo(s){const t=new Date();t.setHours(0,0,0,0);return Math.round((d(s)-t)/864e5)}
-function st(s){if(s.status!=="AUTO"&&s.status!=="DISPONIVEL")return s.status;const n=daysTo(s);return n<=LAST_DAYS?"ULTIMOS_INGRESSOS":"DISPONIVEL"}
-
-/* ---------- components ---------- */
-function statusBadge(s){
-  const b=[];
-  if(s.selo) b.push(`<span class="badge real">${esc(s.selo)}</span>`);
-  const x=st(s), n=daysTo(s);
-  if(n===0) b.push(`<span class="badge today">É hoje</span>`); else if(n===1) b.push(`<span class="badge today">Amanhã</span>`);
-  if(x==="DISPONIVEL") b.push(`<span class="badge open">Vendas abertas</span>`);
-  if(x==="ULTIMOS_INGRESSOS") b.push(`<span class="badge hot">Últimos ingressos</span>`);
-  if(x==="SESSAO_EXTRA") b.push(`<span class="badge gold">Sessão extra confirmada</span>`);
-  if(x==="ESGOTADO") b.push(`<span class="badge sold">Esgotado</span>`);
-    return b.join("");
-}
-function buyBtn(s,extra="",short){
-  if(st(s)==="ESGOTADO") return `<button class="btn btn-wait ${extra}" data-wait="${s.id}">Lista de espera</button>`;
-  const label=short?"Ingressos":st(s)==="ULTIMOS_INGRESSOS"?"Comprar agora":"Garantir ingresso";
-  return `<a class="btn btn-ok ${extra}" href="${ticketUrl(s)}" target="_blank" rel="noopener"><span class="l-long">${label}</span><span class="l-short">Ingressos</span></a>`;
-}
-function ticketUrl(s){const bio=location.hash==="#links";
+function todayStr(){const x=new Date();return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")}
+function upcoming(all){const x=todayStr();return SHOWS.filter(s=>s.data>=x&&s.status!=="CANCELADO"&&(all||!s.own))}
+function daysTo(s){const x=new Date();x.setHours(0,0,0,0);return Math.round((d(s)-x)/864e5)}
+function st(s){if(s.status!=="AUTO")return s.status;return daysTo(s)<=4?"ULTIMOS_INGRESSOS":"DISPONIVEL"}
+const fmt=(o,dt)=>new Intl.DateTimeFormat(LOCALE[LANG],o).format(dt).replace(".","");
+function ticketUrl(s){const bio=/^(entradas|links)$/.test(curRoute());
   const u=new URL(s.url);u.searchParams.set("utm_source",bio?"instagram":"brasileuros");u.searchParams.set("utm_medium",bio?"bio":"site");u.searchParams.set("utm_campaign",bio?"produtora":"agenda");u.searchParams.set("utm_content",s.id);return u.toString()}
-function cast(s){return s.artistas.map(a=>`<a href="#${a}">${esc(C[a].name)}</a>`).join(" & ")}
-function showCard(s,mini){
-  const dt=d(s);
+
+/* envio de formulários: destino da produção guardado codificado, nunca exibido */
+const DEST=atob("enVjYXByb2R1Y2Npb25lc0BnbWFpbC5jb20=");
+async function sendForm(subject,data){
+  const r=await fetch("https://formsubmit.co/ajax/"+DEST,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({_subject:subject,_template:"table",_captcha:"false",...data})});
+  if(!r.ok)throw new Error("send");return r.json()}
+
+/* ---------- componentes ---------- */
+function statusBadge(s){
+  const b=[],x=st(s),n=daysTo(s);
+  if(s.premiere)b.push(`<span class="badge real">${t("premiere")}</span>`);
+  if(n===0)b.push(`<span class="badge today">${t("today")}</span>`);else if(n===1)b.push(`<span class="badge today">${t("tomorrow")}</span>`);
+  if(x==="DISPONIVEL")b.push(`<span class="badge open">${t("open")}</span>`);
+  if(x==="ULTIMOS_INGRESSOS")b.push(`<span class="badge hot">${t("last")}</span>`);
+  if(x==="SESSAO_EXTRA")b.push(`<span class="badge gold">${t("extra")}</span>`);
+  if(x==="ESGOTADO")b.push(`<span class="badge sold">${t("sold")}</span>`);
+  return b.join("")}
+function buyBtn(s,extra=""){
+  if(st(s)==="ESGOTADO")return `<button class="btn btn-wait ${extra}" data-wait="${s.id}">${t("waitlist")}</button>`;
+  return `<a class="btn btn-ok ${extra}" href="${ticketUrl(s)}" target="_blank" rel="noopener">${st(s)==="ULTIMOS_INGRESSOS"?t("buyNow"):t("buy")}</a>`}
+function showCard(s,mini){const dt=d(s);
   return `<article class="show ${mini?"mini":""}">
-    <div class="date tnum" aria-label="${WDL[dt.getDay()]}, ${dt.getDate()} de ${MOL[dt.getMonth()]}"><span class="wd">${WD[dt.getDay()]}</span><span class="d">${dt.getDate()}</span><span class="m">${MO[dt.getMonth()]}</span></div>
-    <div class="show-info">
-      <div class="badges">${statusBadge(s)}</div>
-      ${mini?"":`<h3>${esc(s.titulo)}</h3>`}
-      <div class="show-meta tnum"><span><b>${s.hora}</b> · ${esc(s.sala)}${mini?"":", "+esc(s.cidade)}</span>${mini?"":`<span>com ${cast(s)}</span>`}</div>
-    </div>
-    <div class="show-act">${buyBtn(s,"btn-sm",mini)}</div>
-  </article>`;
-}
-const MAP={"d": "M116.2,575.9L102.4,556.4L80.7,546.5L51.2,551.5L53.2,514.1L39.4,509.1L51.2,470.9L55.1,426.5L43.3,399.8L65.0,378.2L112.2,380.9L151.6,383.6L191.0,386.3L198.9,353.5L202.8,314.3L183.1,280.0L133.9,256.6L167.4,232.9L195.0,235.9L189.0,205.8L228.4,211.8L258.0,168.8L289.5,156.3L305.2,137.3L321.0,101.7L364.3,82.0L395.8,72.0L395.8,34.7L387.9,0.0L649.8,0.0L649.8,437.0L608.5,426.5L582.9,407.9L539.6,383.6L510.0,334.1L496.2,325.6L468.7,334.1L470.6,364.5L494.3,380.9L506.1,413.2L543.5,439.7L590.8,473.4L563.2,501.5L553.4,514.1L533.7,526.7L533.7,473.4L508.1,455.3L472.6,429.1L433.2,399.8L429.3,372.8L401.7,359.0L374.2,375.5L344.6,394.5L321.0,386.3L287.5,394.5L289.5,421.2L269.8,439.7L244.2,450.1L220.6,488.8L230.4,506.6L216.6,519.1L206.8,536.6L185.1,558.8L139.8,558.8ZM114.2,193.6L167.4,178.1L254.0,159.4L259.9,114.7L232.4,85.3L224.5,51.8L195.0,14.0L183.1,0.0L108.3,0.0L128.0,34.7L161.5,68.6L167.4,91.9L135.9,91.9L143.8,124.4L122.1,140.4L143.8,150.0L167.4,159.4L137.8,165.7ZM108.3,127.7L104.4,91.9L108.3,68.6L116.2,41.6L82.7,21.0L63.0,31.3L29.5,61.9L37.4,101.7L23.6,134.1L37.4,150.0L68.9,140.4ZM395.8,439.7L407.6,439.7L413.5,402.5L395.8,413.2ZM391.9,501.5L415.5,499.0L419.4,452.7L387.9,452.7ZM470.6,531.6L533.7,521.7L523.8,558.8ZM273.7,491.3L293.4,483.7L289.5,477.3L273.7,486.2ZM-9.8,624.0L-9.8,600.1L104.4,600.1L110.3,580.8L122.1,578.4L169.4,592.9L206.8,583.2L256.0,561.3L287.5,556.4L354.5,549.0L395.8,552.7L429.3,544.1L445.0,553.9L433.2,585.7L441.1,600.1L427.3,624.0Z", "W": 640, "H": 624, "LON0": -11.5, "LON1": 21.0, "YT": 1.1850506905200973, "YB": 0.631658119939162};
-const PLACES={"patrick-barbosa":{label:"Barcelona",lon:2.17,lat:41.39,q:"Barcelona, Espanha"},"pipo-marquetti":{label:"Barcelona",lon:2.17,lat:41.39,q:"Barcelona, Espanha"},"fernanda-arantes":{label:"Paris",lon:2.35,lat:48.86,q:"Paris, França"},"renan-vital":{label:"Lisboa",lon:-9.14,lat:38.72,q:"Lisboa, Portugal"},"abner-muzel":{label:"Madri",lon:-3.70,lat:40.42,q:"Madrid, España"},"gabriel-zubek":{label:"Madri",lon:-3.70,lat:40.42,q:"Madrid, España"}};
-function proj(lon,lat){const my=l=>Math.log(Math.tan(Math.PI/4+l*Math.PI/360));return[(lon-MAP.LON0)/(MAP.LON1-MAP.LON0)*MAP.W,(MAP.YT-my(lat))/(MAP.YT-MAP.YB)*MAP.H]}
-function mapCard(c){const pl=PLACES[c.slug];if(!pl)return"";const[x,y]=proj(pl.lon,pl.lat);
-  const others=Object.values(PLACES).filter(v=>v.label!==pl.label).filter((v,i,a)=>a.findIndex(z=>z.label===v.label)===i);
-  const vw=380,vh=300,vx=Math.max(0,Math.min(MAP.W-vw,x-vw/2)),vy=Math.max(0,Math.min(MAP.H-vh,y-vh/2));
-  return `<div class="panel mapcard"><div class="map-head"><h2>Onde ${esc(c.first)} está</h2><a class="link-more" href="https://www.google.com/maps/search/${encodeURIComponent(pl.q)}" target="_blank" rel="noopener">Abrir no Google Maps →</a></div>
-  <svg class="map" viewBox="${vx.toFixed(0)} ${vy.toFixed(0)} ${vw} ${vh}" role="img" aria-label="Mapa: ${esc(pl.q)}">
-    <path class="land" d="${MAP.d}"/>
-    ${others.map(o=>{const[a,b]=proj(o.lon,o.lat);return `<g class="city"><circle cx="${a.toFixed(1)}" cy="${b.toFixed(1)}" r="3.5"/><text x="${(a+7).toFixed(1)}" y="${(b+4).toFixed(1)}">${o.label}</text></g>`}).join("")}
-    <g class="here"><circle class="pulse" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="10"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6"/><text x="${(x+12).toFixed(1)}" y="${(y+5).toFixed(1)}">${pl.label}</text></g>
-  </svg></div>`}
-const PIN='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg>';
+    <div class="date tnum" aria-label="${fmt({weekday:"long",day:"numeric",month:"long"},dt)}"><span class="wd">${fmt({weekday:"short"},dt)}</span><span class="d">${dt.getDate()}</span><span class="m">${fmt({month:"short"},dt)}</span></div>
+    <div class="show-info"><div class="badges">${statusBadge(s)}</div>${mini&&!s.own?"":`<h3>${esc(s.titulo)}</h3>`}
+      <div class="show-meta tnum"><span><b>${s.hora}</b> · ${esc(s.sala)}${mini?"":", "+esc(s.cidade)}</span></div></div>
+    <div class="show-act">${buyBtn(s,"btn-sm")}</div></article>`}
 function memberCard(c){
-  const loc=c.loc||c.base;
-  const media=c.img?`<img src="${IMG[c.img+"_face"]}" alt="${esc(c.name)}" loading="lazy">`:`<span class="mono">${c.name.split(" ").map(w=>w[0]).join("")}</span>`;
-  return `<a class="pcard" href="#${c.slug}">${c.img?"":`<span class="pc-soon">Foto em breve</span>`}<div class="pc-img" data-par="0.07">${media}</div><div class="pc-cap"><span class="pc-loc">${PIN}${esc(loc)}</span><h3>${esc(c.name)}</h3></div></a>`;
-}
+  return `<a class="pcard" href="#${c.slug}"><div class="pc-img" data-par="0.07"><img src="${IMG[c.img+"_face"]}" alt="${esc(c.name)}" loading="lazy"></div><div class="pc-cap"><span class="pc-loc">${PIN}${esc(L(c.loc))}</span><h3>${esc(c.name)}</h3></div></a>`}
+const PIN='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg>';
 function vipForm(id){
   return `<form class="vipmini" data-vip="${id}" novalidate>
     <div class="vm-row">
-      <select name="ddi" aria-label="Código do país"><option value="+34">+34</option><option value="+351">+351</option><option value="+33">+33</option><option value="+44">+44</option><option value="+49">+49</option><option value="+353">+353</option><option value="+31">+31</option><option value="+55">+55</option></select>
-      <input id="${id}-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="Seu WhatsApp" aria-label="WhatsApp">
-      <input id="${id}-cid" name="cidade" list="${id}-dl" placeholder="Sua cidade" aria-label="Cidade onde você mora" autocomplete="address-level2">
-      <datalist id="${id}-dl">${CITIES.filter(c=>c!=="Outra").map(c=>`<option value="${c}"></option>`).join("")}</datalist>
-      <button class="btn btn-sun btn-sm" type="submit">Avisar-me</button>
+      <select name="ddi" aria-label="+"><option>+34</option><option>+351</option><option>+33</option><option>+44</option><option>+49</option><option>+353</option><option>+31</option><option>+55</option></select>
+      <input name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="${t("phone")}" aria-label="WhatsApp">
+      <input name="cidade" list="${id}-dl" placeholder="${t("city")}" aria-label="${t("cityL")}" autocomplete="address-level2">
+      <datalist id="${id}-dl">${CITIES.map(c=>`<option value="${c}"></option>`).join("")}</datalist>
+      <button class="btn btn-sun btn-sm" type="submit">${t("notify")}</button>
     </div>
-    <label class="vm-ok" for="${id}-ok"><input type="checkbox" id="${id}-ok" name="ok"><span>Aceito receber avisos da Brasileuros por WhatsApp. Saio quando quiser. <a href="#privacidade">Privacidade</a></span></label>
-    <p class="err" hidden></p>
-  </form>`;
-}
+    <label class="vm-ok"><input type="checkbox" name="ok"><span>${t("consent")}</span></label>
+    <p class="err" hidden></p></form>`}
+function langSwitch(cls){return `<div class="langs ${cls||""}" role="group" aria-label="${t("lang")}">${LANGS.map(([k,c,n])=>`<button type="button" data-lang="${k}" lang="${k}" aria-pressed="${k===LANG}" title="${n}">${c}</button>`).join("")}</div>`}
 
-/* ---------- pages ---------- */
+/* ---------- páginas ---------- */
 function header(route){
-  const nav=[["","Início"],["agenda","Agenda"],["comediantes","Comediantes"],["corporativo","Para empresas"],["sobre","Sobre"],["contato","Contato"]];
-  const isCom=route==="comediantes"||C[route];
+  const keys=["","agenda","comediantes","corporativo","sobre","contato"];
+  const cur=C[route]?"comediantes":route;
   return `<header class="top"><div class="wrap">
-    <a class="brand" href="#" aria-label="Brasileuros, início"><img src="${IMG.logo}" alt="Brasileuros"></a>
-    <nav class="nav" aria-label="Principal">${nav.map(([h,t])=>`<a href="#${h}" ${(route===h||(h==="comediantes"&&isCom))?'aria-current="page"':""}>${t}</a>`).join("")}<button class="nav-close" type="button">Fechar menu</button></nav>
-    <a class="btn btn-sun btn-sm cta" href="#agenda">Ingressos</a>
-    <button class="menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false"><span></span></button>
-  </div></header>`;
-}
+    <a class="brand" href="#" aria-label="Brasileuros"><img src="${IMG.logo}" alt="Brasileuros"></a>
+    <nav class="nav" aria-label="Menu">${keys.map((h,i)=>`<a href="#${h}"${cur===h?' aria-current="page"':""}>${t("nav")[i]}</a>`).join("")}
+      <div class="nav-foot">${langSwitch("in-menu")}<button class="nav-close" type="button">${t("closeMenu")}</button></div></nav>
+    ${langSwitch("in-top")}
+    <a class="btn btn-sun btn-sm cta" href="#agenda">${t("tickets")}</a>
+    <button class="menu-btn" type="button" aria-label="${t("openMenu")}" aria-expanded="false"><span></span></button>
+  </div></header>`}
 function footer(){
-  const links=[["agenda","Agenda"],["comediantes","Comediantes"],["corporativo","Para empresas"],["ficha-tecnica","Ficha técnica"],["sobre","Sobre"],["contato","Contato"],["links","Link na bio"],["privacidade","Privacidade"],["privacidade","Cookies"]];
+  const keys=["agenda","comediantes","corporativo","ficha-tecnica","sobre","contato","entradas","privacidade"];
   return `<footer class="foot"><div class="foot-in">
     <img class="foot-logo" src="${IMG.logo}" alt="Brasileuros">
-    <details class="propa">
-      <summary><span class="propa-t"><span class="propa-ic" aria-hidden="true">€</span>Receba os avisos</span><span class="propa-d">Show novo, pré-venda e sessão extra direto no seu WhatsApp.</span></summary>
-      ${vipForm("foot")}
-    </details>
+    <details class="propa"><summary><span class="propa-t"><span class="propa-ic wa" aria-hidden="true">${WA_ICON}</span>${t("waT")}</span><span class="propa-d">${t("waD")}</span></summary>${vipForm("foot")}</details>
     <div class="foot-soc">${socialIcons({name:"Brasileuros"})}</div>
-    <nav class="foot-links" aria-label="Rodapé">${links.map(([h,t])=>`<a href="#${h}">${t}</a>`).join("")}</nav>
-    <div class="foot-real"><small>Realização</small><div class="partners"><img src="${IMG.chirigota}" alt="La Chirigota Restaurant & Bar"><img src="${IMG.zuca}" alt="Zuca Producciones"><img class="chandrio" src="${IMG.chandrio}" alt="El Chandrío"></div></div>
-  </div></footer>`;
-}
+    <nav class="foot-links" aria-label="Footer">${keys.map((h,i)=>`<a href="#${h}">${t("foot")[i]}</a>`).join("")}</nav>
+    ${langSwitch("in-foot")}
+    <div class="foot-real"><small>${t("realization")}</small><div class="partners"><img src="${IMG.chirigota}" alt="La Chirigota"><img src="${IMG.zuca}" alt="Zuca Producciones"><img class="chandrio" src="${IMG.chandrio}" alt="El Chandrío"></div></div>
+  </div></footer>`}
+function phero(h,p,extra){return `<section class="phero"><div class="phero-bg" data-par="0.15"></div><div class="wrap"><h1>${h}</h1>${p?`<p>${p}</p>`:""}${extra||""}</div></section>`}
 
 function pHome(){
-  const up=upcoming(), next=up[0], top3=up.slice(0,3);
-  const nd=next?d(next):null;
+  const up=upcoming(),next=up[0];
   return `<section class="hero" id="hero">
-    <div class="ly ly-sky" data-ly="sky"></div>
-    <div class="hero-shade"></div>
-    <div class="wrap">
-    <div class="hero-copy" data-ly="copy">
+    <div class="ly ly-sky" data-ly="sky"></div><div class="hero-shade"></div>
+    <div class="wrap"><div class="hero-copy" data-ly="copy">
       <img class="hero-logo" src="${IMG.logo}" alt="Brasileuros">
       <p class="jeitinho">– Comédia do Nosso Jeitinho –</p>
-      <h1>O humor do Brasil, toda quarta em <em>Barcelona</em></h1>
-      <p class="hero-sub">Stand-up em português no Bar La Chirigota, às 19:30.</p>
-      <div class="hero-ctas"><a class="btn btn-sun btn-hero" href="${next?ticketUrl(next):"#agenda"}"${next?' target="_blank" rel="noopener"':""}>Ingressos</a></div>
+      <h1>${t("heroH")}</h1>
+      <p class="hero-sub">${t("heroSub")}</p>
+      <div class="hero-ctas"><a class="btn btn-sun btn-hero" href="${next?ticketUrl(next):"#agenda"}"${next?' target="_blank" rel="noopener"':""}>${t("buy")}</a></div>
     </div></div>
     <div class="hero-stage">
       <img class="ly ly-ground" data-ly="ground" src="${IMG.ground}" alt="">
-      <img class="ly ly-duo" data-ly="duo" src="${IMG.duo}" alt="Patrick Barbosa e Pipo Marquetti saltando no gramado">
+      <img class="ly ly-duo" data-ly="duo" src="${IMG.duo}" alt="Patrick Barbosa & Pipo Marquetti">
       <img class="ly ly-bill" data-ly="bill" src="${IMG.bill}" alt="">
     </div>
-    <a class="cue" href="#home-shows" aria-label="Ver próximos shows"><span></span></a>
+    <a class="cue" href="#home-shows" aria-label="${t("nextShows")}"><span></span></a>
   </section>
-  <div class="ticker" aria-hidden="true"><div class="ticker-track">${[...TOUR,...TOUR].map(c=>`<span>${c}</span>`).join("")}</div></div>
-
+  <div class="ticker" aria-hidden="true"><div class="ticker-track">${[...t("ticker"),...t("ticker")].map(c=>`<span>${c}</span>`).join("")}</div></div>
   <section class="section" id="home-shows"><div class="wrap">
-    <div class="section-head"><div><p class="eyebrow">Em cartaz</p><h2>Próximos shows</h2></div><a class="link-more" href="#agenda">Agenda completa →</a></div>
-    <div class="shows">${top3.map(s=>showCard(s)).join("")}</div>
+    <div class="section-head"><div><p class="eyebrow">${t("onStage")}</p><h2>${t("nextShows")}</h2></div><a class="link-more" href="#agenda">${t("fullAgenda")}</a></div>
+    <div class="shows">${up.slice(0,3).map(s=>showCard(s)).join("")}</div>
   </div></section>
-
   <section class="section" style="padding-top:0"><div class="wrap">
-    <div class="section-head"><div><p class="eyebrow">Elenco</p><h2>Quem sobe no palco</h2></div><a class="link-more" href="#comediantes">Ver todos →</a></div>
-    <div class="cast">${COMEDIANS.map(memberCard).join("")}</div>
-  </div></section>
-
-`;
-}
+    <div class="section-head"><div><p class="eyebrow">${t("cast")}</p><h2>${t("castH")}</h2></div></div>
+    <div class="cast duo-cast">${COMEDIANS.map(memberCard).join("")}</div>
+  </div></section>`}
 
 function pLinks(){
-  const next=upcoming()[0]; const nd=next?d(next):null;
+  const next=upcoming()[0],nd=next?d(next):null;
   return `<div class="links-page"><div class="lw">
-    <div class="links-head"><img src="${IMG.logo}" alt="Brasileuros"><p>Stand-up brasileiro · toda quarta em Barcelona</p></div>
+    <div class="links-head"><img src="${IMG.logo}" alt="Brasileuros"><p>${t("linksSub")}</p></div>
     ${next?`<article class="next">
-      <div class="next-banner"><img class="bill" src="${IMG.bill}" alt=""><img class="duo" src="${IMG.duo}" alt="">${next.selo?`<span class="badge real">${esc(next.selo)}</span>`:""}</div>
-      <div class="next-body"><p class="eyebrow">Próximo show</p><h2>${esc(next.titulo.replace("Brasileuros – ",""))}</h2>
-        <p class="when tnum">${WDL[nd.getDay()].replace(/^./,c=>c.toUpperCase())}, ${nd.getDate()} de ${MOL[nd.getMonth()]} · ${next.hora}</p>
-        <p class="where">${esc(next.sala)}, ${esc(next.cidade)} · com ${next.artistas.map(a=>C[a].first).join(" e ")}</p>
-        ${st(next)==="ESGOTADO"?buyBtn(next):`<a class="btn btn-sun btn-glow" href="${ticketUrl(next)}" target="_blank" rel="noopener">Garantir bilhete</a>`}
-        <p class="where" style="text-align:center;font-size:.85rem">Toda quarta às 19:30 até o fim do ano</p>
+      <div class="next-banner"><img class="bill" src="${IMG.bill}" alt=""><img class="duo" src="${IMG.duo}" alt="">${next.premiere?`<span class="badge real">${t("premiere")}</span>`:""}</div>
+      <div class="next-body"><p class="eyebrow">${t("nextShow")}</p><h2>${esc(next.titulo.replace("Brasileuros – ",""))}</h2>
+        <p class="when tnum">${fmt({weekday:"long",day:"numeric",month:"long"},nd)} · ${next.hora}</p>
+        <p class="where">${esc(next.sala)}, ${esc(next.cidade)}</p>
+        ${st(next)==="ESGOTADO"?buyBtn(next):`<a class="btn btn-sun btn-glow" href="${ticketUrl(next)}" target="_blank" rel="noopener">${t("buy")}</a>`}
       </div></article>`:""}
-    <a class="lbtn" href="#agenda">Ver todas as datas</a>
-    <a class="lbtn" href="#corporativo">Contratações para empresas e eventos privados</a>
-    <a class="lbtn" href="#comediantes">Conheça nossos comediantes</a>
-    <div class="lvip"><p class="lvip-t">Avisos no WhatsApp</p>${vipForm("links")}</div>
-    <div class="links-foot"><span>brasileuros.com/links · substitui o Linktree</span><a href="#">Ver o site completo</a></div>
-  </div></div>`;
-}
+    <a class="lbtn" href="#agenda">${t("allDatesBtn")}</a>
+    <a class="lbtn" href="#corporativo">${t("bizBtn")}</a>
+    <a class="lbtn" href="#comediantes">${t("castBtn")}</a>
+    <div class="lvip"><p class="lvip-t">${t("waTitle")}</p>${vipForm("links")}</div>
+    ${socialIcons({name:"Brasileuros"})}
+    ${langSwitch("in-links")}
+  </div></div>`}
 
-let F={pais:"",art:""};
-function pAgenda(){
-  const paises=[...new Set(SHOWS.map(s=>s.pais))];
-  const cidades=[...new Set(SHOWS.map(s=>s.cidade))];
-  return `<section class="phero"><div class="phero-bg" data-par="0.3"></div><div class="wrap"><h1>Agenda</h1><p>Todas as datas da temporada. O ingresso é vendido pela Eventbrite.</p></div></section>
-  <section class="section" style="padding-top:28px"><div class="wrap">
-    <div class="filters">
-      <div class="field"><label for="f-local">País ou cidade</label><select id="f-local"><option value="">Todos os países e cidades</option>
-        <optgroup label="Países">${paises.map(p=>`<option value="p:${p}" ${F.pais==="p:"+p?"selected":""}>${p}</option>`).join("")}</optgroup>
-        <optgroup label="Cidades">${cidades.map(c=>`<option value="c:${c}" ${F.pais==="c:"+c?"selected":""}>${c}</option>`).join("")}</optgroup></select></div>
-      <div class="field"><label for="f-art">Comediante</label><select id="f-art"><option value="">Todos os comediantes</option>${COMEDIANS.map(c=>`<option value="${c.slug}" ${F.art===c.slug?"selected":""}>${c.name}</option>`).join("")}</select></div>
-      <span class="count tnum" id="f-count"></span>
-    </div>
-    <div class="shows" id="agenda-list"></div>
-  </div></section>`;
-}
-function renderAgenda(){
-  const list=document.getElementById("agenda-list"); if(!list) return;
-  const r=upcoming().filter(s=>{
-    if(F.pais.startsWith("p:")&&s.pais!==F.pais.slice(2)) return false;
-    if(F.pais.startsWith("c:")&&s.cidade!==F.pais.slice(2)) return false;
-    if(F.art&&!s.artistas.includes(F.art)) return false; return true;});
-  list.innerHTML=r.length?r.map(s=>showCard(s)).join(""):`<div class="empty">Nenhum show com esses filtros. Entre na lista VIP e avisamos quando abrir data.</div>`;
-  document.getElementById("f-count").textContent=r.length+(r.length===1?" show":" shows");
-}
-
-function pCast(){
-  return `<section class="phero"><div class="phero-bg" data-par="0.3"></div><div class="wrap"><h1>O elenco</h1><p>Comediantes brasileiros que moram na Europa. Em cada perfil, a história, as próximas datas e onde a pessoa está.</p></div></section>
-  <section class="section" style="padding-top:28px"><div class="wrap"><div class="cast">${COMEDIANS.map(memberCard).join("")}</div></div></section>`;
-}
-
-const RIDER=[["Microfone","1 microfone sem fio cardioide profissional (Shure SM58, Beta 58A ou Sennheiser e935) com pilhas alcalinas novas."],["Suporte","1 pedestal reto de base redonda pesada, de ferro fundido. Sem haste girafa."],["Backup","1 microfone dinâmico com fio XLR montado e testado na lateral do palco."],["Retorno","1 caixa monitor de chão voltada para o comediante, no centro do palco."],["Mobiliário","1 banqueta alta sem rodinhas e 1 mesinha lateral para água."],["Silêncio","Sem moinho de café, lavagem de louça ou coqueteleira durante os 60 a 80 minutos do espetáculo."]];
+function pAgenda(){return phero(t("agendaH"),t("agendaP"))+`<section class="section" style="padding-top:28px"><div class="wrap"><div class="shows">${upcoming().map(s=>showCard(s)).join("")||`<div class="empty">${t("noDates")}</div>`}</div></div></section>`}
+function pCast(){return phero(t("castH"),t("castPageP"))+`<section class="section" style="padding-top:28px"><div class="wrap"><div class="cast duo-cast">${COMEDIANS.map(memberCard).join("")}</div></div></section>`}
 
 function pProfile(c){
-  const shows=upcoming().filter(s=>s.artistas.includes(c.slug));
-  const photo=c.img?`<img class="${c.photo?"is-photo":""}" src="${IMG[c.img+"_am"]}" alt="${esc(c.name)}">`:`<span class="mono">${c.name.split(" ").map(w=>w[0]).join("")}</span>`;
-  return `<section class="phero"><div class="phero-bg" data-par="0.3"></div><div class="wrap" style="padding-block:28px 0">
-    <div class="prof"><div class="prof-photo">${photo}</div>
-      <div class="prof-copy"><h1>${esc(c.name)}</h1><p class="story">${esc(c.short)}</p>
-        ${socialIcons(c)}
-        <div class="hero-ctas"><a class="btn btn-sun" href="#agenda-${c.slug}">Ver datas</a><a class="btn btn-ghost" href="#corporativo">Contratar ${esc(c.first)}</a></div>
+  const shows=upcoming(true).filter(s=>s.artistas.includes(c.slug));
+  return `<section class="phero"><div class="phero-bg" data-par="0.15"></div><div class="wrap" style="padding-block:28px 0">
+    <div class="prof"><div class="prof-photo"><img src="${IMG[c.img+"_am"]}" alt="${esc(c.name)}"></div>
+      <div class="prof-copy"><h1>${esc(c.name)}</h1><p class="story">${esc(L(c.short))}</p>${socialIcons(c)}
+        <div class="hero-ctas"><a class="btn btn-sun" href="#agenda-${c.slug}">${t("seeDates")}</a><a class="btn btn-ghost" href="#corporativo">${t("hire")(c.first)}</a></div>
       </div></div></div></section>
-  <section class="section" style="padding-top:32px"><div class="wrap grid2">
-    <div class="panel" id="agenda-${c.slug}"><h2>Próximas datas</h2>
-      ${shows.length?`<div class="shows">${shows.slice(0,4).map(s=>showCard(s,true)).join("")}</div>
-      ${shows.length>4?`<a class="more-dates" href="#agenda" data-art="${c.slug}">Ver todas as ${shows.length} datas →</a>`:""}`:`<div class="empty">Sem datas abertas no momento.</div>`}</div>
-    <div style="display:grid;gap:24px;min-width:0">${mapCard(c)}
-    <div class="panel"><h2>Vídeos</h2>
-      <div class="videos"><div class="vid"><span>Stand-up · YouTube</span></div><div class="vid"><span>Melhores momentos</span></div></div>
-    </div></div>
-  </div>
-  </section>`;
-}
+  <section class="section" style="padding-top:32px"><div class="wrap" style="max-width:860px">
+    <div class="panel" id="agenda-${c.slug}"><h2>${t("nextDates")}</h2>
+      ${shows.length?`<div class="shows">${shows.slice(0,8).map(s=>showCard(s,true)).join("")}</div>${shows.length>8?`<a class="more-dates" href="#agenda">${t("allDates")(shows.length)}</a>`:""}`:`<div class="empty">${t("noDates")}</div>`}</div>
+  </div></section>`}
 
 function pFicha(){
-  return `<section class="phero"><div class="phero-bg" data-par="0.3"></div><div class="wrap"><h1>Ficha técnica</h1><p>Requisitos mínimos para receber qualquer show da Brasileuros. Vale para todos os comediantes.</p></div></section>
-  <section class="section"><div class="wrap grid2">
-    <div class="panel"><h2>Palco e som</h2><ul class="rider">${RIDER.map(([k,v])=>`<li><b>${k}</b><span>${v}</span></li>`).join("")}</ul></div>
-    <div class="panel"><h2>Media kit</h2><p class="note" style="margin:0 0 14px">Fotos em 300 DPI (vertical e horizontal) e esta ficha em PDF.</p>
-      <div style="display:grid;gap:10px">${COMEDIANS.map(c=>`<button class="btn btn-line btn-sm" style="justify-content:space-between" data-kit="${c.slug}"><span>${esc(c.name)}</span><span>.zip</span></button>`).join("")}</div>
-      <p class="note" style="margin-top:16px">Dúvidas técnicas: <span class="addr">booking@brasileuros.com</span></p></div>
-  </div></section>`;
-}
+  return phero(t("techH"),t("techP"))+`<section class="section"><div class="wrap grid2">
+    <div class="panel"><h2>${t("stage")}</h2><ul class="rider">${t("rider").map(([k,v])=>`<li><b>${k}</b><span>${v}</span></li>`).join("")}</ul></div>
+    <div class="panel"><h2>${t("kit")}</h2><p class="note">${t("kitP")}</p><a class="btn btn-line btn-sm" style="margin-top:14px" href="#contato">${t("nav")[5]} →</a></div>
+  </div></section>`}
+
 function pCorp(){
-  return `<section class="phero"><div class="phero-bg" data-par="0.3"></div><div class="wrap"><h1>Comédia para a sua empresa</h1><p>Shows fechados, mestres de cerimônias e stand-up sob medida em português, espanhol, inglês ou bilíngue. Para empresas brasileiras na Europa, multinacionais e agências de eventos.</p>
-    <div class="hero-ctas"><a class="btn btn-sun" href="#corp-form">Pedir proposta</a></div></div></section>
+  const F=t("F");
+  return phero(t("bizH"),t("bizP"),`<div class="hero-ctas"><a class="btn btn-sun" href="#corp-form">${t("askQuote")}</a></div>`)+`
   <section class="section" style="padding-top:32px"><div class="wrap">
-    <div class="section-head"><div><p class="eyebrow">Formatos</p><h2>O que dá para contratar</h2></div></div>
-    <div class="formats">
-      <div class="format"><span class="tag">60 min</span><h3>Noite de comédia exclusiva</h3><p>Show fechado para festa de fim de ano, confraternização ou convenção.</p></div>
-      <div class="format"><span class="tag">MC</span><h3>Mestre de cerimônias</h3><p>Condução de conferências, simpósios e premiações, com ritmo e improviso.</p></div>
-      <div class="format"><span class="tag">Sob medida</span><h3>Stand-up customizado</h3><p>Texto adaptado aos temas, metas e desafios da sua empresa.</p></div>
-      <div class="format"><span class="tag">Marca</span><h3>Patrocínio e naming rights</h3><p>Sua marca na temporada: telões, menção em palco e ativação de brindes.</p></div>
-    </div>
+    <div class="section-head"><div><p class="eyebrow">${t("formats")}</p><h2>${t("formatsH")}</h2></div></div>
+    <div class="formats">${F.map(([a,b,c])=>`<div class="format"><span class="tag">${a}</span><h3>${b}</h3><p>${c}</p></div>`).join("")}</div>
   </div></section>
   <section class="section" style="padding-top:0" id="corp-form"><div class="wrap grid2">
     <form class="panel form" id="b2b" novalidate>
-      <h2>Pedido de proposta</h2>
-      <fieldset><legend>Você</legend>
-        <div class="field"><label for="b-nome">Nome completo</label><input id="b-nome" name="nome" autocomplete="name" required></div>
-        <div class="row"><div class="field"><label for="b-mail">E-mail corporativo</label><input id="b-mail" name="mail" type="email" autocomplete="email" placeholder="nome@empresa.com" required></div>
-        <div class="field"><label for="b-tel">Telefone / WhatsApp com DDI</label><input id="b-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+34 612 345 678" required></div></div>
-      </fieldset>
-      <fieldset><legend>A empresa</legend>
-        <div class="row"><div class="field"><label for="b-emp">Empresa</label><input id="b-emp" name="emp" autocomplete="organization" required></div>
-        <div class="field"><label for="b-site">Site</label><input id="b-site" name="site" type="url" placeholder="https://"></div></div>
-        <div class="row"><div class="field"><label for="b-cargo">Seu cargo</label><input id="b-cargo" name="cargo" autocomplete="organization-title"></div>
-        <div class="field"><label for="b-setor">Setor</label><select id="b-setor" name="setor"><option>Alimentos & Bebidas</option><option>Tecnologia / SaaS</option><option>Turismo / Hotelaria</option><option>Financeiro / Fintech</option><option>Comércio / Varejo</option><option>Outro</option></select></div></div>
-      </fieldset>
-      <fieldset><legend>O evento</legend>
-        <div class="checks">
-          <label class="check" for="b-t1"><input type="checkbox" id="b-t1" name="tipo" value="show_fechado"><span>Stand-up fechado para funcionários</span></label>
-          <label class="check" for="b-t2"><input type="checkbox" id="b-t2" name="tipo" value="mc"><span>Mestre de cerimônias</span></label>
-          <label class="check" for="b-t3"><input type="checkbox" id="b-t3" name="tipo" value="patrocinio"><span>Parceria de marca / patrocínio</span></label>
-          <label class="check" for="b-t4"><input type="checkbox" id="b-t4" name="tipo" value="outro"><span>Outro formato</span></label>
-        </div>
-        <div class="row"><div class="field"><label for="b-local">Cidade e país</label><input id="b-local" name="local" placeholder="Madri, Espanha" required></div>
-        <div class="field"><label for="b-data">Data prevista ou janela</label><input id="b-data" name="data" placeholder="2ª quinzena de dezembro"></div></div>
-        <div class="row"><div class="field"><label for="b-lang">Idioma</label><select id="b-lang" name="lang"><option>Português</option><option>Espanhol</option><option>Inglês</option><option>Bilíngue</option></select></div>
-        <div class="field"><label for="b-inv">Investimento previsto</label><select id="b-inv" name="inv" required><option value="">Selecione</option><option>Até 1.500 €</option><option>1.500 € a 3.500 €</option><option>3.500 € a 7.000 €</option><option>Acima de 7.000 €</option></select></div></div>
-      </fieldset>
+      <h2>${t("quoteH")}</h2>
+      <fieldset><legend>${t("you")}</legend>
+        <div class="field"><label for="b-nome">${t("fName")}</label><input id="b-nome" name="nome" autocomplete="name"></div>
+        <div class="row"><div class="field"><label for="b-mail">${t("fMail")}</label><input id="b-mail" name="mail" type="email" autocomplete="email" placeholder="nome@empresa.com"></div>
+        <div class="field"><label for="b-tel">${t("fTel")}</label><input id="b-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+34 612 345 678"></div></div></fieldset>
+      <fieldset><legend>${t("company")}</legend>
+        <div class="row"><div class="field"><label for="b-emp">${t("fComp")}</label><input id="b-emp" name="emp" autocomplete="organization"></div>
+        <div class="field"><label for="b-site">${t("fSite")}</label><input id="b-site" name="site" type="url" placeholder="https://"></div></div>
+        <div class="row"><div class="field"><label for="b-cargo">${t("fRole")}</label><input id="b-cargo" name="cargo" autocomplete="organization-title"></div>
+        <div class="field"><label for="b-setor">${t("fSector")}</label><select id="b-setor" name="setor">${t("sectors").map(o=>`<option>${o}</option>`).join("")}</select></div></div></fieldset>
+      <fieldset><legend>${t("event")}</legend>
+        <div class="checks">${t("types").map((o,i)=>`<label class="check" for="b-t${i}"><input type="checkbox" id="b-t${i}" name="tipo" value="${o}"><span>${o}</span></label>`).join("")}</div>
+        <div class="row"><div class="field"><label for="b-local">${t("fPlace")}</label><input id="b-local" name="local" placeholder="${t("fPlacePh")}"></div>
+        <div class="field"><label for="b-data">${t("fDate")}</label><input id="b-data" name="data" placeholder="${t("fDatePh")}"></div></div>
+        <div class="row"><div class="field"><label for="b-lang">${t("fLang")}</label><select id="b-lang" name="lang">${t("showLangs").map(o=>`<option>${o}</option>`).join("")}</select></div>
+        <div class="field"><label for="b-inv">${t("fBudget")}</label><select id="b-inv" name="inv"><option value="">${t("select")}</option>${t("budgets").map(o=>`<option>${o}</option>`).join("")}</select></div></div></fieldset>
       <p class="err" hidden></p>
-      <button class="btn btn-sun" type="submit">Enviar pedido de proposta</button>
+      <button class="btn btn-sun" type="submit">${t("sendQuote")}</button>
     </form>
-    <div style="display:grid;gap:24px;min-width:0">
-      <div class="panel"><h2>O que acontece depois</h2><div class="route">
-        <div><i>1</i><span>Seu pedido chega a <b>booking@brasileuros.com</b> e ao grupo de WhatsApp dos produtores, ao mesmo tempo.</span></div>
-        <div><i>2</i><span>Um produtor responde com disponibilidade de elenco para a data e a cidade.</span></div>
-        <div><i>3</i><span>Proposta com formato, duração, ficha técnica e valor.</span></div></div></div>
-      <div class="panel"><h2>Quem indicar para quê</h2><div class="route">
-        ${COMEDIANS.map(c=>`<div><i>${c.first[0]}</i><span><a href="#${c.slug}"><b>${c.name}</b></a>: ${esc(c.b2b)}</span></div>`).join("")}</div></div>
-    </div>
-  </div></section>`;
-}
+    <div class="panel"><h2>${t("next")}</h2><div class="route">${t("steps").map((s,i)=>`<div><i>${i+1}</i><span>${s}</span></div>`).join("")}</div></div>
+  </div></section>`}
 
 const CHAPS=[
- {when:"2025",tag:"O começo",title:"Faltava um show fixo",place:"Barcelona",img:"poster_s",fit:"wide",pos:"50% 30%",
-  txt:["Pipo Marquetti e Patrick Barbosa são dois humoristas que, como qualquer imigrante, já passaram por todos os perrengues de viver fora. Faltava na cidade um show de comédia fixo, 100% em português.","Daí nasceu o Comédia a La Brasileña: para quem sente saudade de tomar choque no chuveiro, congela feijão em pote de sorvete ou só quer rir do nosso jeitinho."]},
- {when:"19 mar 2025",tag:"Primeiro show",title:"A primeira noite do Comédia a La Brasileña",place:"Associació RAI, Barcelona",img:"live_pipo",
-  txt:["Pipo e Patrick sobem ao palco juntos pela primeira vez, com um show inteiro em português para a comunidade brasileira de Barcelona."]},
- {when:"26 abr 2025",tag:"Madri",title:"Primeira vez fora de Barcelona",place:"La Parroquia del Humor, Madri",img:"fl2604",
-  txt:["O show viaja para Madri com Abner Muzel de convidado. Ingresso a 12 €, caipirinha na entrada e flyers espalhados pelos estabelecimentos brasileiros da cidade."]},
- {when:"18 jun 2025",tag:"Manga Rosa",title:"De volta a Barcelona, com caipirinha",place:"Restaurante Manga Rosa, Barcelona",img:"fl1806",
-  txt:["Nova noite em Barcelona, agora num restaurante brasileiro e com a primeira caipirinha por conta da casa."]},
- {when:"2026",tag:"Novo nome",title:"O Comédia a La Brasileña vira Brasileuros",place:"Barcelona",img:"g_jump",
-  txt:["O show ganha nome, identidade e fotos novas: Brasileuros, Comédia do Nosso Jeitinho. Brasil e euro no mesmo nome, porque é exatamente essa a vida de quem mora aqui."]},
- {when:"4 nov 2026",tag:"Temporada",title:"Toda quarta no Bar La Chirigota",place:"Bar La Chirigota, Barcelona",img:"duo",contain:true,
-  txt:["Começa a primeira temporada fixa: toda quarta às 19:30, até o fim do ano. Realização de La Chirigota, Zuca Producciones e El Chandrío."]}
+ {when:"2025",img:"poster_s",fit:"wide",
+  tag:{pt:"O começo",en:"The start",es:"El comienzo",ca:"El començament"},
+  title:{pt:"Faltava um show fixo",en:"There was no regular show",es:"Faltaba un show fijo",ca:"Faltava un espectacle fix"},place:"Barcelona",
+  txt:{pt:["Pipo Marquetti e Patrick Barbosa são dois humoristas que, como qualquer imigrante, já passaram por todos os perrengues de viver fora. Faltava na cidade um show de comédia fixo, 100% em português.","Daí nasceu o Comédia a La Brasileña: para quem sente saudade de tomar choque no chuveiro, congela feijão em pote de sorvete ou só quer rir do nosso jeitinho."],
+   en:["Pipo Marquetti and Patrick Barbosa are two comedians who, like any immigrant, have been through every hassle of living abroad. The city had no regular comedy show fully in Portuguese.","So Comédia a La Brasileña was born: for anyone who misses getting a shock from the shower, freezes beans in ice-cream tubs or just wants to laugh the Brazilian way."],
+   es:["Pipo Marquetti y Patrick Barbosa son dos cómicos que, como cualquier inmigrante, ya han pasado por todos los apuros de vivir fuera. En la ciudad faltaba un show de comedia fijo, 100 % en portugués.","Así nació Comédia a La Brasileña: para quien echa de menos la ducha que da calambre, congela frijoles en tarrinas de helado o solo quiere reírse a la brasileña."],
+   ca:["Pipo Marquetti i Patrick Barbosa són dos còmics que, com qualsevol immigrant, ja han passat per tots els maldecaps de viure fora. A la ciutat hi faltava un espectacle de comèdia fix, 100 % en portuguès.","Així va néixer Comédia a La Brasileña: per a qui troba a faltar la dutxa que fa calambre, congela mongetes en terrines de gelat o només vol riure a la brasilera."]}},
+ {when:"2026",img:"g_jump",tag:{pt:"Novo nome",en:"New name",es:"Nuevo nombre",ca:"Nou nom"},
+  title:{pt:"O Comédia a La Brasileña vira Brasileuros",en:"Comédia a La Brasileña becomes Brasileuros",es:"Comédia a La Brasileña pasa a ser Brasileuros",ca:"Comédia a La Brasileña es converteix en Brasileuros"},place:"Barcelona",
+  txt:{pt:["O show ganha nome, identidade e fotos novas: Brasileuros, Comédia do Nosso Jeitinho. Brasil e euro no mesmo nome, porque é exatamente essa a vida de quem mora aqui."],en:["The show gets a new name, look and photos: Brasileuros, Comédia do Nosso Jeitinho. Brazil and euro in one word, because that's exactly life for Brazilians here."],es:["El show estrena nombre, identidad y fotos: Brasileuros, Comédia do Nosso Jeitinho. Brasil y euro en un mismo nombre, porque esa es la vida de quien vive aquí."],ca:["L'espectacle estrena nom, identitat i fotos: Brasileuros, Comédia do Nosso Jeitinho. Brasil i euro en un mateix nom, perquè aquesta és la vida de qui viu aquí."]}},
+ {when:"04.11.2026",img:"duo",contain:true,tag:{pt:"Temporada",en:"Season",es:"Temporada",ca:"Temporada"},
+  title:{pt:"Toda quarta no Bar La Chirigota",en:"Every Wednesday at Bar La Chirigota",es:"Todos los miércoles en el Bar La Chirigota",ca:"Cada dimecres al Bar La Chirigota"},place:"Bar La Chirigota, Barcelona",
+  txt:{pt:["Começa a primeira temporada fixa: toda quarta às 19:30, até o fim do ano. Realização de La Chirigota, Zuca Producciones e El Chandrío."],en:["The first regular season begins: every Wednesday at 7:30 pm until the end of the year. Produced by La Chirigota, Zuca Producciones and El Chandrío."],es:["Empieza la primera temporada fija: todos los miércoles a las 19:30, hasta final de año. Producción de La Chirigota, Zuca Producciones y El Chandrío."],ca:["Comença la primera temporada fixa: cada dimecres a les 19.30, fins a final d'any. Producció de La Chirigota, Zuca Producciones i El Chandrío."]}}
 ];
+const VENUES=[
+ {when:{pt:"19 de março de 2025",en:"19 March 2025",es:"19 de marzo de 2025",ca:"19 de març de 2025"},place:"Associació RAI",city:"Barcelona",imgs:["tl_rai1","tl_rai2","tl_rai3","tl_rai4","tl_rai5"],
+  title:{pt:"A primeira noite",en:"The first night",es:"La primera noche",ca:"La primera nit"},
+  txt:{pt:"Pipo e Patrick sobem juntos ao palco pela primeira vez, com um show inteiro em português para a comunidade brasileira de Barcelona.",
+   en:"Pipo and Patrick share the stage for the first time, with a full show in Portuguese for Barcelona's Brazilian community.",
+   es:"Pipo y Patrick suben juntos al escenario por primera vez, con un show entero en portugués para la comunidad brasileña de Barcelona.",
+   ca:"En Pipo i en Patrick pugen junts a l'escenari per primera vegada, amb un espectacle sencer en portuguès per a la comunitat brasilera de Barcelona."}},
+ {when:{pt:"26 de abril de 2025",en:"26 April 2025",es:"26 de abril de 2025",ca:"26 d'abril de 2025"},place:"La Parroquia del Humor",city:"Madrid",imgs:["tl_mad1","tl_mad2","tl_mad3"],
+  title:{pt:"Primeira vez em Madri",en:"First time in Madrid",es:"Primera vez en Madrid",ca:"Primera vegada a Madrid"},
+  txt:{pt:"O show sai de Barcelona pela primeira vez. Abner Müzel entra como convidado, a caipirinha vem com o ingresso e os flyers rodam pelos estabelecimentos brasileiros da cidade.",
+   en:"The show leaves Barcelona for the first time. Abner Müzel joins as guest, a caipirinha comes with the ticket and flyers go round the city's Brazilian shops.",
+   es:"El show sale de Barcelona por primera vez. Abner Müzel se suma como invitado, la caipiriña viene con la entrada y los flyers recorren los locales brasileños de la ciudad.",
+   ca:"L'espectacle surt de Barcelona per primera vegada. Abner Müzel s'hi suma com a convidat, la caipirinha ve amb l'entrada i els flyers corren pels locals brasilers de la ciutat."}},
+ {when:{pt:"18 de junho de 2025",en:"18 June 2025",es:"18 de junio de 2025",ca:"18 de juny de 2025"},place:"Restaurante Manga Rosa",city:"Barcelona",imgs:["tl_mng1","tl_mng2","tl_mng3"],
+  title:{pt:"De volta a Barcelona, com caipirinha",en:"Back in Barcelona, with caipirinha",es:"De vuelta a Barcelona, con caipiriña",ca:"De tornada a Barcelona, amb caipirinha"},
+  txt:{pt:"Uma noite num restaurante brasileiro, com convidados no palco, ukulele e a primeira caipirinha por conta da casa.",
+   en:"A night at a Brazilian restaurant, with guests on stage, a ukulele and the first caipirinha on the house.",
+   es:"Una noche en un restaurante brasileño, con invitados en el escenario, ukelele y la primera caipiriña invitada.",
+   ca:"Una nit en un restaurant brasiler, amb convidats a l'escenari, ukulele i la primera caipirinha convidada."}}
+];
+function carousel(imgs,label){
+  return `<div class="car" data-car><div class="car-track" tabindex="0" aria-label="${esc(label)}">${imgs.map((k,i)=>`<img src="${IMG[k]}" alt="${esc(label)} · ${i+1}/${imgs.length}" loading="lazy">`).join("")}</div>
+    <button class="car-btn prev" type="button" data-dir="-1" aria-label="‹">‹</button><button class="car-btn next" type="button" data-dir="1" aria-label="›">›</button>
+    <span class="car-count tnum">1 / ${imgs.length}</span></div>`}
+function timeline(){
+  return `<div class="tl">${VENUES.map(v=>`<article class="tl-item">
+    <div class="tl-media">${carousel(v.imgs,v.place)}</div>
+    <div class="tl-text"><p class="tl-when tnum">${esc(L(v.when))}</p><h3>${esc(L(v.title))}</h3><p class="place">${esc(v.place)} · ${esc(v.city)}</p><p>${esc(L(v.txt))}</p></div>
+  </article>`).join("")}</div>`}
 function pSobre(){
-  return `<section class="phero"><div class="phero-bg" data-par="0.3"></div><div class="wrap"><h1>Nossa história</h1><p>Do Comédia a La Brasileña à Brasileuros: dois imigrantes transformando perrengue em show.</p></div></section>
-  <section class="section"><div class="wrap story">
-    ${CHAPS.map(ch=>`<article class="chap">
-      <figure class="chap-media ${ch.fit||""}" style="${ch.contain?"background:var(--sky) var(--skyhero) center/cover":""}"><span class="tag">${esc(ch.tag)}</span><img data-par="0.06" src="${IMG[ch.img]}" alt="${esc(ch.title)}" loading="lazy" style="${ch.contain?"object-fit:contain;object-position:50% 100%":""}${ch.pos?";object-position:"+ch.pos:""}"></figure>
-      <div class="chap-text glass"><span class="chap-when tnum">${ch.when}</span><h3>${esc(ch.title)}</h3><p class="place">${esc(ch.place)}</p>${ch.txt.map(t=>`<p>${esc(t)}</p>`).join("")}</div>
-    </article>`).join("")}
-  </div></section>`;
+  const chap=ch=>`<article class="chap">
+    <figure class="chap-media ${ch.fit||""}" style="${ch.contain?"background:var(--sky) var(--skyhero) center/cover":""}"><span class="tag">${esc(L(ch.tag))}</span><img data-par="0.06" src="${IMG[ch.img]}" alt="${esc(L(ch.title))}" loading="lazy" style="${ch.contain?"object-fit:contain;object-position:50% 100%":""}"></figure>
+    <div class="chap-text glass"><span class="chap-when tnum">${ch.when}</span><h3>${esc(L(ch.title))}</h3><p class="place">${esc(ch.place)}</p>${L(ch.txt).map(x=>`<p>${esc(x)}</p>`).join("")}</div></article>`;
+  return phero(t("aboutH"),t("aboutP"))+`
+  <section class="section tl-sec"><div class="wrap"><div class="section-head"><div><p class="eyebrow">2025</p><h2>${t("tlH")}</h2></div></div>${timeline()}</div></section>
+  <section class="section"><div class="wrap story">${CHAPS.slice(1).map(chap).join("")}</div></section>`;
 }
+function _oldSobre(){
+  return phero(t("aboutH"),t("aboutP"))+`<section class="section"><div class="wrap story">${CHAPS.map(ch=>`<article class="chap">
+    <figure class="chap-media ${ch.fit||""}" style="${ch.contain?"background:var(--sky) var(--skyhero) center/cover":""}"><span class="tag">${esc(L(ch.tag))}</span><img data-par="0.06" src="${IMG[ch.img]}" alt="${esc(L(ch.title))}" loading="lazy" style="${ch.contain?"object-fit:contain;object-position:50% 100%":""}"></figure>
+    <div class="chap-text glass"><span class="chap-when tnum">${ch.when}</span><h3>${esc(L(ch.title))}</h3><p class="place">${esc(ch.place)}</p>${L(ch.txt).map(x=>`<p>${esc(x)}</p>`).join("")}</div></article>`).join("")}</div></section>`}
+
 function pContato(){
-  const box=(t,a,x)=>`<div class="panel"><p class="eyebrow">${t}</p><p class="addr" id="ct-${slugify(t)}" style="margin-top:6px">${a}</p><p class="note">${x}</p><button class="btn btn-line btn-sm" style="margin-top:10px" data-copy="ct-${slugify(t)}">Copiar</button></div>`;
-  return `<section class="phero"><div class="phero-bg" data-par="0.3"></div><div class="wrap"><h1>Fale com a produção</h1><p>Para ingressos, use a <a href="#agenda" style="color:#fff">agenda</a>. Para o resto, escolha o canal certo.</p></div></section>
-  <section class="section"><div class="wrap contact-grid">
-    ${box("Contratações","booking@brasileuros.com","Shows corporativos, MC e patrocínio.")}
-    ${box("Imprensa","imprensa@brasileuros.com","Entrevistas, fotos e credenciamento.")}
-    ${box("Público","ola@brasileuros.com","Dúvidas sobre shows e lista VIP.")}
-  </div><div class="wrap"><p class="note">Endereços de exemplo; confirmar quando o domínio for registrado.</p></div></section>`;
-}
-function pPriv(){
-  return `<section class="phero"><div class="phero-bg" data-par="0.3"></div><div class="wrap"><h1>Privacidade e cookies</h1><p>Resumo de como tratamos seus dados, conforme o RGPD.</p></div></section>
-  <section class="section"><div class="wrap"><div class="prose">
-    <h2>O que guardamos</h2><ul><li>Lista VIP: primeiro nome, WhatsApp, e-mail (quando informado) e cidade onde você mora.</li><li>Pedidos de empresas: dados de contato e do evento informados no formulário.</li></ul>
-    <h2>Consentimento</h2><p>Nenhuma caixa vem marcada. Depois do cadastro, você recebe uma confirmação por e-mail e uma primeira mensagem no WhatsApp; guardamos data, hora e IP dessa autorização.</p>
-    <h2>Como sair</h2><p>Todo e-mail tem link de cancelamento no rodapé. No WhatsApp, responda <b>SAIR</b> a qualquer momento.</p>
-    <h2>Onde ficam os dados</h2><p>No Brevo, com servidores na França e na Alemanha.</p>
-    <h2>Cookies</h2><p>Medição (Google Analytics e Meta Pixel) só depois do seu aceite no banner, via Google Consent Mode v2.</p>
-    <p class="note">Texto-resumo para o protótipo. A política completa deve ser revisada por um profissional de proteção de dados.</p>
-  </div></div></section>`;
-}
+  return phero(t("contactH"),t("contactP"))+`<section class="section"><div class="wrap" style="max-width:720px">
+    <form class="panel form" id="contact" novalidate>
+      <div class="row"><div class="field"><label for="c-nome">${t("fName")}</label><input id="c-nome" name="nome" autocomplete="name"></div>
+      <div class="field"><label for="c-mail">E-mail</label><input id="c-mail" name="mail" type="email" autocomplete="email"></div></div>
+      <div class="field"><label for="c-topic">${t("topic")}</label><select id="c-topic" name="topic">${t("topics").map(o=>`<option>${o}</option>`).join("")}</select></div>
+      <div class="field"><label for="c-msg">${t("msg")}</label><textarea id="c-msg" name="msg" rows="5"></textarea></div>
+      <p class="err" hidden></p><button class="btn btn-sun" type="submit">${t("send")}</button>
+    </form></div></section>`}
 
-/* ---------- interactions ---------- */
-let toastT;
-function toast(html){
-  const el=document.getElementById("layer");
-  el.querySelector(".toast")?.remove();
-  el.insertAdjacentHTML("beforeend",`<div class="toast" role="status">${html}</div>`);
-  clearTimeout(toastT); toastT=setTimeout(()=>el.querySelector(".toast")?.remove(),5200);
-}
+function pPriv(){return phero(t("privH"),t("privP"))+`<section class="section"><div class="wrap"><div class="prose">${t("priv").map(([h,p])=>`<h2>${h}</h2><p>${p}</p>`).join("")}</div></div></section>`}
+
+/* ---------- interações ---------- */
 function openWait(s){
-  const tag=`espera_${slugify(s.cidade)}_${s.data}`;
   const layer=document.getElementById("layer");
-  layer.insertAdjacentHTML("beforeend",`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="w-t"><div class="modal-card">
-    <button class="modal-x" data-close>Fechar ✕</button>
-    <p class="eyebrow">${esc(s.cidade)} · ${d(s).getDate()} de ${MOL[d(s).getMonth()]}</p>
-    <h2 id="w-t">Esgotou. Quer entrar na lista de espera?</h2>
-    <p style="color:var(--muted)">Se abrir sessão extra, quem está na lista compra antes.</p>
-    <form class="form" id="wait-form" novalidate>
-      <div class="field"><label for="w-nome">Nome</label><input id="w-nome" autocomplete="given-name" required></div>
-      <div class="field"><label for="w-tel">WhatsApp com DDI</label><input id="w-tel" type="tel" placeholder="+34 612 345 678" required></div>
-      <div class="field"><label for="w-mail">E-mail</label><input id="w-mail" type="email" autocomplete="email" required></div>
-      <label class="consent" for="w-ok"><input type="checkbox" id="w-ok"><span>Autorizo a Brasileuros a enviar alertas de novos shows, pré-vendas e benefícios exclusivos por WhatsApp e e-mail. Posso cancelar meu cadastro a qualquer momento.</span></label>
-      <p class="err" hidden></p>
-      <button class="btn btn-sun" type="submit">Entrar na lista de espera</button>
-    </form></div></div>`);
-  const m=layer.querySelector(".modal:last-child");
-  m.querySelector("#w-nome").focus();
-  m.addEventListener("click",e=>{if(e.target===m||e.target.closest("[data-close]"))m.remove()});
-  m.querySelector("form").addEventListener("submit",e=>{
-    e.preventDefault(); const f=e.target, err=f.querySelector(".err");
-    if(!f.querySelector("#w-nome").value.trim()||f.querySelector("#w-tel").value.replace(/\D/g,"").length<8||!/^\S+@\S+\.\S+$/.test(f.querySelector("#w-mail").value)){err.textContent="Preencha nome, WhatsApp com DDI e um e-mail válido.";err.hidden=false;return}
-    if(!f.querySelector("#w-ok").checked){err.textContent="Marque a autorização para podermos avisar você.";err.hidden=false;return}
-    f.outerHTML=`<div class="done"><b>Você está na lista.</b><span>Se abrir sessão extra em ${esc(s.cidade)}, você recebe o link antes de todo mundo.</span><span style="font-size:.85rem;color:var(--muted)">No CRM: tag <code>${tag}</code></span></div>`;
-  });
+  layer.innerHTML=`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="w-t"><div class="modal-card">
+    <button class="modal-x" data-close>${t("close")} ✕</button><h2 id="w-t">${t("waitH")}</h2><p style="color:var(--muted)">${t("waitP")}</p>${vipForm("wait")}</div></div>`;
+  layer.querySelector(".modal").addEventListener("click",e=>{if(e.target.classList.contains("modal")||e.target.closest("[data-close]"))layer.innerHTML=""});
 }
-document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelector("#layer .modal:last-child")?.remove()});
-
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("layer").innerHTML=""});
 document.addEventListener("click",e=>{
-  const ar=e.target.closest("[data-art]"); if(ar){F.art=ar.dataset.art;F.pais=""}
-  const so=e.target.closest("[data-soc]"); if(so){toast(`<span>Link do ${so.dataset.soc} a definir. Me passe o perfil para ligar o ícone.</span>`);return}
+  const cb=e.target.closest(".car-btn"); if(cb){const tr=cb.parentElement.querySelector(".car-track");tr.scrollBy({left:tr.clientWidth*parseInt(cb.dataset.dir),behavior:RM.matches?"auto":"smooth"});return}
+  const lg=e.target.closest("[data-lang]"); if(lg){setLang(lg.dataset.lang);return}
   const w=e.target.closest("[data-wait]"); if(w){openWait(SHOWS.find(x=>x.id===w.dataset.wait));return}
-  const k=e.target.closest("[data-kit]"); if(k){toast(`<span>No site final, baixa <b>/media-kit-${k.dataset.kit.split("-")[0]}.zip</b>.</span><code>evento GTM: download_tech_rider · artista=${k.dataset.kit}</code>`);return}
-  const cp=e.target.closest("[data-copy]");
-  if(cp){const el=document.getElementById(cp.dataset.copy);const txt=el.textContent.trim();
-    const ok=()=>{cp.textContent="Copiado";setTimeout(()=>cp.textContent="Copiar",1600)};
-    const sel=()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);cp.textContent="Selecionado"};
-    try{navigator.clipboard.writeText(txt).then(ok,sel)}catch(_){sel()}}
 });
-document.addEventListener("change",e=>{
-  if(e.target.id==="f-local"){F.pais=e.target.value;renderAgenda()}
-  if(e.target.id==="f-art"){F.art=e.target.value;renderAgenda()}
-});
+async function submitTo(f,subject,data,doneHtml){
+  const btn=f.querySelector("button[type=submit]"),err=f.querySelector(".err"),label=btn.textContent;
+  btn.disabled=true;btn.textContent=t("sending");err.hidden=true;
+  try{await sendForm(subject,data);f.innerHTML=doneHtml}
+  catch(_){err.textContent=t("sendFail");err.hidden=false;btn.disabled=false;btn.textContent=label}
+}
 document.addEventListener("submit",e=>{
-  const f=e.target;
-  if(f.dataset.vip){e.preventDefault();const err=f.querySelector(".err");
-    const tel=f.tel.value.replace(/\D/g,""), cid=f.cidade.value.trim();
-    if(tel.length<6||!cid){err.textContent="Coloque seu WhatsApp e sua cidade.";err.hidden=false;return}
-    if(!f.ok.checked){err.textContent="Marque o aceite para receber os avisos.";err.hidden=false;return}
-    f.outerHTML=`<p class="vm-done">Pronto. Mandamos uma mensagem para ${esc(f.ddi.value)} ${esc(f.tel.value)}: responda para confirmar os avisos de ${esc(cid)}.</p>`;
-    return}
-  if(f.id==="b2b"){e.preventDefault();const err=f.querySelector(".err");
-    const req=["nome","mail","tel","emp","local","inv"].filter(n=>!f[n].value.trim());
-    if(req.length){err.textContent="Faltam campos obrigatórios: nome, e-mail, telefone, empresa, cidade e investimento.";err.hidden=false;return}
-    const dom=(f.mail.value.split("@")[1]||"").toLowerCase();
-    if(/^(gmail|hotmail|outlook|yahoo|icloud|live|uol|bol)\./.test(dom)){err.textContent="Use o e-mail da empresa (nome@empresa.com). E-mails pessoais não entram na fila comercial.";err.hidden=false;return}
-    if(!f.querySelectorAll("input[name=tipo]:checked").length){err.textContent="Escolha pelo menos um tipo de demanda.";err.hidden=false;return}
-    f.innerHTML=`<h2>Pedido recebido</h2><div class="done"><b>Obrigado, ${esc(f.nome.value.split(" ")[0])}.</b><span>Um produtor responde em até 2 dias úteis com disponibilidade para ${esc(f.local.value)}.</span><span style="font-size:.85rem;color:var(--muted)">Simulação: e-mail para <code>booking@brasileuros.com</code> + aviso no WhatsApp dos produtores · evento <code>submit_b2b_lead</code> · faixa <code>${esc(f.inv.value)}</code></span></div>`;
-  }
+  const f=e.target;e.preventDefault();const err=f.querySelector(".err");const bad=m=>{err.textContent=m;err.hidden=false};
+  if(f.dataset.vip){
+    const tel=f.tel.value.replace(/\D/g,""),cid=f.cidade.value.trim();
+    if(tel.length<6||!cid)return bad(t("errVip"));
+    if(!f.ok.checked)return bad(t("errOk"));
+    return submitTo(f,"Brasileuros · aviso WhatsApp",{whatsapp:f.ddi.value+" "+f.tel.value,cidade:cid,idioma:LANG,origem:f.dataset.vip},`<p class="vm-done">${esc(t("vipDone")(cid))}</p>`)}
+  if(f.id==="b2b"){
+    if(["nome","mail","tel","emp","local","inv"].some(n=>!f[n].value.trim()))return bad(t("errQuote"));
+    if(/@(gmail|hotmail|outlook|yahoo|icloud|live)\./i.test(f.mail.value))return bad(t("errCorp"));
+    const tipos=[...f.querySelectorAll("input[name=tipo]:checked")].map(x=>x.value);if(!tipos.length)return bad(t("errType"));
+    const data={nome:f.nome.value,email:f.mail.value,telefone:f.tel.value,empresa:f.emp.value,site:f.site.value,cargo:f.cargo.value,setor:f.setor.value,formato:tipos.join(", "),local:f.local.value,data:f.data.value,idioma_show:f.lang.value,investimento:f.inv.value,_replyto:f.mail.value};
+    return submitTo(f,"Brasileuros · pedido de proposta · "+f.emp.value,data,`<h2>${t("quoteOk")}</h2><div class="done"><b>${esc(t("quoteDone")(f.nome.value.split(" ")[0]))}</b></div>`)}
+  if(f.id==="contact"){
+    if(!f.nome.value.trim()||!/^\S+@\S+\.\S+$/.test(f.mail.value)||!f.msg.value.trim())return bad(t("errContact"));
+    return submitTo(f,"Brasileuros · contato · "+f.topic.value,{nome:f.nome.value,email:f.mail.value,assunto:f.topic.value,mensagem:f.msg.value,_replyto:f.mail.value},`<div class="done"><b>${t("contactDone")}</b></div>`)}
 });
 
-/* ---------- router ---------- */
+/* ---------- rotas (endereços limpos, sem #) ---------- */
+const ROUTES=["agenda","comediantes","corporativo","sobre","contato","privacidade","ficha-tecnica","entradas","links"];
+const BASE=(()=>{let p=location.pathname.replace(/index\.html$/,"");const parts=p.split("/");const last=parts[parts.length-1]||parts[parts.length-2]||"";
+  if(ROUTES.includes(last)||C[last]){p=p.slice(0,p.lastIndexOf(last))}return p.endsWith("/")?p:p+"/"})();
+function curRoute(){return decodeURIComponent(location.pathname.startsWith(BASE)?location.pathname.slice(BASE.length):"").replace(/\/$/,"").replace(/^index\.html$/,"")}
+function go(r,push=true){if(push)history.pushState({},"",BASE+r);route();decorate();onScroll()}
+function fixLinks(){document.querySelectorAll('a[href^="#"]').forEach(a=>{const r=a.getAttribute("href").slice(1);
+  if(r&&document.getElementById(r)){a.dataset.scroll=r;a.setAttribute("href",BASE+curRoute())}
+  else{a.dataset.route=r;a.setAttribute("href",BASE+r)}})}
+document.addEventListener("click",e=>{
+  const a=e.target.closest("a[data-scroll],a[data-route]");if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
+  e.preventDefault();
+  if(a.dataset.scroll){const el=document.getElementById(a.dataset.scroll);if(el)scrollTo({top:el.getBoundingClientRect().top+scrollY-90,behavior:RM.matches?"auto":"smooth"});return}
+  if(a.dataset.route.startsWith("agenda-")&&C[a.dataset.route.slice(7)]){go(a.dataset.route.slice(7));const el=document.getElementById(a.dataset.route);if(el)scrollTo(0,el.getBoundingClientRect().top+scrollY-90);return}
+  go(a.dataset.route)});
+addEventListener("popstate",()=>{route();decorate();onScroll()});
+
 function route(){
   document.body.classList.remove("menu-open");
-  const rr=decodeURIComponent(location.hash.slice(1));document.body.classList.toggle("home",rr===""||rr==="home-shows");
-  const r=decodeURIComponent(location.hash.slice(1));
-  const app=document.getElementById("app");
-  document.querySelectorAll("#layer .modal").forEach(m=>m.remove());
-  if(r==="links"){app.innerHTML=pLinks();window.scrollTo(0,0);return}
-  let body, target=null;
-  if(r==="agenda") body=pAgenda();
-  else if(r==="comediantes") body=pCast();
-  else if(C[r]) body=pProfile(C[r]);
+  if(location.hash.length>1){const hr=decodeURIComponent(location.hash.slice(1));history.replaceState({},"",BASE+(hr==="home-shows"?"":hr))}
+  const r=curRoute();
+  document.body.classList.toggle("home",r==="");
+  document.documentElement.lang=LOCALE[LANG];
+  const app=document.getElementById("app");document.getElementById("layer").innerHTML="";
+  if(r==="entradas"||r==="links"){app.innerHTML=pLinks();fixLinks();scrollTo(0,0);return}
+  let body,target=null;
+  if(r==="agenda")body=pAgenda();
+  else if(r==="comediantes")body=pCast();
+  else if(C[r])body=pProfile(C[r]);
   else if(r.startsWith("agenda-")&&C[r.slice(7)]){body=pProfile(C[r.slice(7)]);target=r}
-  else if(r==="corporativo") body=pCorp();
+  else if(r==="corporativo")body=pCorp();
   else if(r==="corp-form"){body=pCorp();target=r}
-  else if(r==="sobre") body=pSobre();
-  else if(r==="contato") body=pContato();
-  else if(r==="privacidade") body=pPriv();
-  else if(r==="ficha-tecnica") body=pFicha();
+  else if(r==="sobre")body=pSobre();
+  else if(r==="contato")body=pContato();
+  else if(r==="privacidade")body=pPriv();
+  else if(r==="ficha-tecnica")body=pFicha();
   else body=pHome();
   const nr=target?(target.startsWith("agenda-")?target.slice(7):"corporativo"):r;
-  app.innerHTML=header(C[nr]?nr:nr)+`<main>${body}</main>`+footer();
-  renderAgenda();
-  if(target){const t=document.getElementById(target);if(t){const top=t.getBoundingClientRect().top+scrollY-90;window.scrollTo(0,top)}}
-  else window.scrollTo(0,0);
+  app.innerHTML=header(nr)+`<main>${body}</main>`+footer();fixLinks();
+  if(target){const el=document.getElementById(target);if(el)scrollTo(0,el.getBoundingClientRect().top+scrollY-90)}else scrollTo(0,0);
+  decorate();
 }
 function decorate(){
-  document.querySelectorAll(".next-banner,.vid").forEach(el=>el.classList.add("zoom-in"));
+  document.querySelectorAll("[data-car]").forEach(c=>{const tr=c.querySelector(".car-track"),n=tr.children.length,cnt=c.querySelector(".car-count");
+    const upd=()=>{const i=Math.round(tr.scrollLeft/tr.clientWidth);cnt.textContent=(i+1)+" / "+n;c.querySelector(".prev").disabled=i<=0;c.querySelector(".next").disabled=i>=n-1};
+    tr.addEventListener("scroll",()=>requestAnimationFrame(upd),{passive:true});upd()});
+  document.querySelectorAll(".next-banner").forEach(el=>el.classList.add("zoom-in"));
   document.querySelectorAll(".section-head,.show,.format,.panel,.pcard").forEach(el=>el.classList.add("rise"));
-  const top=document.querySelector(".top"), btn=document.querySelector(".menu-btn");
-  const nc=document.querySelector(".nav-close"); if(nc&&btn) nc.onclick=()=>btn.click();
-  if(btn) btn.onclick=()=>{const o=!top.classList.contains("open");document.documentElement.style.setProperty("--menu-top",Math.max(0,top.getBoundingClientRect().bottom)+"px");top.classList.toggle("open",o);document.body.classList.toggle("menu-open",o);btn.setAttribute("aria-expanded",o);btn.setAttribute("aria-label",o?"Fechar menu":"Abrir menu")};
+  const top=document.querySelector(".top"),btn=document.querySelector(".menu-btn");
+  const nc=document.querySelector(".nav-close");if(nc&&btn)nc.onclick=()=>btn.click();
+  if(btn)btn.onclick=()=>{const o=!top.classList.contains("open");document.documentElement.style.setProperty("--menu-top",Math.max(0,top.getBoundingClientRect().bottom)+"px");top.classList.toggle("open",o);document.body.classList.toggle("menu-open",o);btn.setAttribute("aria-expanded",o);btn.setAttribute("aria-label",o?t("closeMenu"):t("openMenu"))};
 }
+
 const RM=matchMedia("(prefers-reduced-motion: reduce)");
 const MOB=matchMedia("(max-width:820px)");
 function onScroll(){
@@ -1018,5 +1094,5 @@ function onScroll(){
 let ticking=false;
 addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{onScroll();ticking=false})}},{passive:true});
 addEventListener("resize",onScroll);
-addEventListener("hashchange",()=>{route();decorate();onScroll()}); route(); decorate(); onScroll();
+route(); decorate(); onScroll();
 </script>
