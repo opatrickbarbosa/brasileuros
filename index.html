@@ -1,12 +1,25 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
 <title>Brasileuros</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Brasileuros: stand-up brasileiro com Patrick Barbosa e Pipo Marquetti. Toda quarta, 19:30, no Bar La Chirigota, Barcelona.">
+<meta name="theme-color" content="#1453c4">
+<meta property="og:title" content="Brasileuros · Comédia do Nosso Jeitinho">
+<meta property="og:description" content="Stand-up brasileiro toda quarta no Bar La Chirigota, Barcelona.">
+<meta property="og:image" content="/assets/duo.webp">
+<style>html,body{margin:0}body{min-height:100%}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap">
-<link rel="preload" href="assets/Mercadillo-Black.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/duo.webp" as="image">
+<link rel="preload" href="/assets/Mercadillo-Black.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/duo.webp" as="image">
 <style>
-@font-face{font-family:"Mercadillo";src:url(assets/Mercadillo-Bold.woff2) format("woff2");font-weight:400 700;font-style:normal;font-display:swap}
-@font-face{font-family:"Mercadillo";src:url(assets/Mercadillo-Black.woff2) format("woff2");font-weight:800 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Mercadillo";src:url(/assets/Mercadillo-Bold.woff2) format("woff2");font-weight:400 700;font-style:normal;font-display:swap}
+@font-face{font-family:"Mercadillo";src:url(/assets/Mercadillo-Black.woff2) format("woff2");font-weight:800 900;font-style:normal;font-display:swap}
 /* Layout: céu azul do pôster como faixa de marca (header, hero, /links); conteúdo em superfícies claras; amarelo só para ação */
 :root{
   --sky:#1453c4; --sky-2:#2f80e0; --sky-deep:#0c3a91;
@@ -17,7 +30,7 @@
   --hot-bg:#fde7e5; --open-bg:#dff3e6; --chip:#e7eefa;
   --display:"Mercadillo","Chewy","Cooper Black","Arial Rounded MT Bold",system-ui,sans-serif;
   --body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --r:14px; --skyimg:url(assets/sky.jpg); --glass:rgba(255,255,255,.52); --glass-line:rgba(255,255,255,.75); --glass-shadow:0 10px 30px rgba(15,45,110,.10); --skyhero:url(assets/hero_sky.jpg);
+  --r:14px; --skyimg:url(/assets/sky.jpg); --glass:rgba(255,255,255,.52); --glass-line:rgba(255,255,255,.75); --glass-shadow:0 10px 30px rgba(15,45,110,.10); --skyhero:url(/assets/hero_sky.jpg);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --paper:#0a1530; --card:#11214a; --ink:#edf2ff; --muted:#9db0d4; --line:#223a6b;
@@ -554,7 +567,7 @@ body.home.at-top::before{background:transparent}
 <div id="layer"></div>
 
 <script>
-const IMG={logo:"assets/logo.webp",duo:"assets/duo.webp",bill:"assets/bill.webp",patrick:"assets/patrick.webp",pipo:"assets/pipo.webp",zuca:"assets/zuca.png",tl_rai1:"assets/tl_rai1.webp",tl_rai2:"assets/tl_rai2.webp",tl_rai3:"assets/tl_rai3.webp",tl_rai4:"assets/tl_rai4.webp",tl_rai5:"assets/tl_rai5.webp",tl_mad1:"assets/tl_mad1.webp",tl_mad2:"assets/tl_mad2.webp",tl_mad3:"assets/tl_mad3.webp",tl_mng1:"assets/tl_mng1.webp",tl_mng2:"assets/tl_mng2.webp",tl_mng3:"assets/tl_mng3.webp",gabriel_face:"assets/gabriel_face.webp",gabriel_am:"assets/gabriel_am.webp",abner_face:"assets/abner_face.webp",abner_am:"assets/abner_am.webp",patrick_am:"assets/patrick_am.webp",pipo_am:"assets/pipo_am.webp",poster_s:"assets/poster_s.webp",live_pipo:"assets/live_pipo.webp",fl2604:"assets/fl2604.webp",fl1806:"assets/fl1806.webp",g_jump:"assets/g_jump.webp",ground:"assets/hero_ground.webp",patrick_face:"assets/patrick_face.webp",pipo_face:"assets/pipo_face.webp",chirigota:"assets/logo_chirigota.png",chandrio:"assets/logo_chandrio.png"};
+const IMG={logo:"/assets/logo.webp",duo:"/assets/duo.webp",bill:"/assets/bill.webp",patrick:"/assets/patrick.webp",pipo:"/assets/pipo.webp",zuca:"/assets/zuca.png",tl_rai1:"/assets/tl_rai1.webp",tl_rai2:"/assets/tl_rai2.webp",tl_rai3:"/assets/tl_rai3.webp",tl_rai4:"/assets/tl_rai4.webp",tl_rai5:"/assets/tl_rai5.webp",tl_mad1:"/assets/tl_mad1.webp",tl_mad2:"/assets/tl_mad2.webp",tl_mad3:"/assets/tl_mad3.webp",tl_mng1:"/assets/tl_mng1.webp",tl_mng2:"/assets/tl_mng2.webp",tl_mng3:"/assets/tl_mng3.webp",gabriel_face:"/assets/gabriel_face.webp",gabriel_am:"/assets/gabriel_am.webp",abner_face:"/assets/abner_face.webp",abner_am:"/assets/abner_am.webp",patrick_am:"/assets/patrick_am.webp",pipo_am:"/assets/pipo_am.webp",poster_s:"/assets/poster_s.webp",live_pipo:"/assets/live_pipo.webp",fl2604:"/assets/fl2604.webp",fl1806:"/assets/fl1806.webp",g_jump:"/assets/g_jump.webp",ground:"/assets/hero_ground.webp",patrick_face:"/assets/patrick_face.webp",pipo_face:"/assets/pipo_face.webp",chirigota:"/assets/logo_chirigota.png",chandrio:"/assets/logo_chandrio.png"};
 
 /* ---------- idioma ---------- */
 const LANGS=[["pt","PT","Português"],["en","EN","English"],["es","ES","Español"],["ca","CA","Català"]];
@@ -1096,3 +1109,6 @@ addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame((
 addEventListener("resize",onScroll);
 route(); decorate(); onScroll();
 </script>
+
+</body>
+</html>
