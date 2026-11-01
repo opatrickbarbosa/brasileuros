@@ -64,10 +64,10 @@ p{margin:0}
 .proto b{color:var(--sun);font-weight:700}
 
 /* header */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(20,83,196,.72);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);color:#fff;border-bottom:1px solid rgba(255,255,255,.14);transition:background .35s ease,border-color .35s ease}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(30,116,184,.88);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);color:#fff;border-bottom:1px solid rgba(255,255,255,.14);transition:background .35s ease,border-color .35s ease}
 body.home .top{position:fixed;left:0;right:0}
 body.home.at-top .top:not(.open){background:transparent;border-color:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
-@media (hover:hover){body.home.at-top .top:hover{background:rgba(20,83,196,.72);border-color:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6)}}
+@media (hover:hover){body.home.at-top .top:hover{background:rgba(30,116,184,.88);border-color:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6)}}
 .top .wrap{display:flex;align-items:center;gap:20px;padding-block:10px}
 .brand{display:block;flex:none}
 .brand img{height:34px;width:auto;display:block;filter:drop-shadow(0 2px 0 rgba(0,0,0,.25))}
@@ -492,25 +492,30 @@ legend{font-family:var(--display);font-size:1.3rem;padding:0;margin-bottom:4px;c
   .glass,.show,.panel,.filters,.format,.pc-cap,.top,.btn-ghost,.chap-text{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
   .show,.panel,.filters,.format,.chap-text{background:var(--card)}
   .pc-cap{background:rgba(10,30,80,.6)}
-  .top{background:rgba(20,83,196,.96)}
+  .top{background:rgba(30,116,184,.97)}
   .bgfx{display:none}
   [data-par],.ly,.pc-img{will-change:auto}
 }
 @media (min-width:769px){.glass,.show,.panel,.filters,.format,.top{-webkit-backdrop-filter:blur(8px) saturate(1.4);backdrop-filter:blur(8px) saturate(1.4)}}
 
-/* linha do tempo */
-.tl{display:grid;gap:56px;position:relative}
-.tl::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:3px;background:linear-gradient(var(--sun),var(--sky-2))}
-.tl-item{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(20px,4vw,44px);align-items:center;padding-left:32px}
-.tl-item::before{content:"";position:absolute;left:-6px;top:50%;width:15px;height:15px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 4px var(--paper)}
+/* linha do tempo: linha central, fotos alternando, destaque amarelo no hover */
+.tl{display:grid;gap:72px;position:relative;padding-block:12px}
+.tl::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:3px;margin-left:-1.5px;border-radius:3px;background:linear-gradient(var(--sun),var(--sky-2))}
+.tl-item{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:96px;align-items:center}
+.tl-item::before{content:"";position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--sky-2);box-shadow:0 0 0 5px var(--paper);transition:transform .25s ease,background .25s ease;z-index:1}
+.tl-item.flip .tl-media{order:2}
+.tl-item:hover::before{background:var(--sun);transform:scale(1.5)}
+.tl-text{display:grid;gap:10px;padding:22px 24px;border-radius:18px;border:2px solid transparent;transition:background .25s ease,border-color .25s ease}
+.tl-item:hover .tl-text{background:rgba(255,212,0,.16);border-color:var(--sun)}
+.tl-item:hover .car{box-shadow:0 0 0 4px var(--sun),0 18px 40px rgba(10,40,100,.18)}
 .tl-when{font-family:var(--display);font-weight:900;font-size:clamp(1.6rem,3.4vw,2.2rem);line-height:1;color:var(--sky-2)}
 :root[data-theme="dark"] .tl-when{color:var(--sun)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tl-when{color:var(--sun)}}
-.tl-text{display:grid;gap:10px}
 .tl-text h3{font-family:var(--body);font-weight:800;font-size:1.2rem;line-height:1.3}
 .tl-text .place{font-weight:700;color:var(--ink)}
 .tl-text p:last-child{color:var(--muted);max-width:52ch}
-.car{position:relative;border-radius:18px;overflow:hidden;background:#0b1a3a;box-shadow:0 18px 40px rgba(10,40,100,.18)}
+.tl-media{will-change:transform}
+.car{position:relative;border-radius:18px;overflow:hidden;background:#0b1a3a;box-shadow:0 18px 40px rgba(10,40,100,.18);transition:box-shadow .25s ease}
 .car-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
 .car-track::-webkit-scrollbar{display:none}
 .car-track img{flex:0 0 100%;width:100%;aspect-ratio:4/3;object-fit:cover;scroll-snap-align:start;max-width:100%}
@@ -518,7 +523,19 @@ legend{font-family:var(--display);font-size:1.3rem;padding:0;margin-bottom:4px;c
 .car-btn:disabled{opacity:0;pointer-events:none}
 .car-btn.prev{left:12px}.car-btn.next{right:12px}
 .car-count{position:absolute;right:12px;bottom:12px;font-size:.78rem;font-weight:800;color:#fff;background:rgba(0,0,0,.45);padding:4px 10px;border-radius:999px}
-@media (max-width:760px){.tl::before{left:0}.tl-item{grid-template-columns:1fr;padding-left:22px}.tl-item::before{top:10px}.car-btn{width:44px;height:44px}}
+@media (max-width:760px){
+  .tl::before{left:8px}
+  .tl-item{grid-template-columns:1fr;gap:16px;padding-left:28px}
+  .tl-item.flip .tl-media{order:0}
+  .tl-item::before{left:8px;top:14px}
+  .tl-text{padding:14px 16px}
+}
+/* abas de mês */
+.mtabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.mtab{min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:700 .95rem var(--body);cursor:pointer}
+.mtab[aria-selected="true"]{background:var(--sky);border-color:var(--sky);color:#fff}
+.vm-note{font-size:.85rem;color:#dbe6ff;margin:0}
+.prof-copy h1{color:var(--sun)}
 
 /* idiomas */
 .langs{display:flex;gap:2px}
@@ -560,6 +577,34 @@ body.home.at-top::before{background:transparent}
 .addr{font-weight:700;font-size:1.05rem;user-select:all;word-break:break-all}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+.propa-h{padding:20px 24px 4px}
+.ldd{position:relative;color:#fff;flex:none}
+.ldd summary{list-style:none;display:flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.4);cursor:pointer;font:700 .8rem var(--body);letter-spacing:.06em;user-select:none}
+.ldd summary::-webkit-details-marker{display:none}
+.ldd summary:hover{background:rgba(255,255,255,.12)}
+.ldd summary svg{width:16px;height:16px}
+.ldd summary .chev{width:14px;height:14px;transition:transform .2s ease}
+.ldd[open] summary .chev{transform:rotate(180deg)}
+.ldd-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:180px;display:grid;gap:2px;padding:6px;background:#fff;color:#0d2a5c;border-radius:14px;box-shadow:0 16px 36px rgba(0,0,0,.25);z-index:80}
+.ldd-menu button{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 12px;border:0;border-radius:10px;background:none;color:inherit;font:600 .95rem var(--body);text-align:left;cursor:pointer}
+.ldd-menu button b{width:24px;font-size:.75rem;letter-spacing:.06em;opacity:.55}
+.ldd-menu button:hover{background:#eef3fb}
+.ldd-menu button[aria-current="true"]{background:var(--sun);color:var(--sun-ink)}
+.ldd-menu button[aria-current="true"] b{opacity:.8}
+.ldd.in-foot{color:#c9d6f2;display:inline-block}
+.ldd.in-foot .ldd-menu{top:auto;bottom:calc(100% + 8px)}
+.ldd.in-foot .ldd-menu,.ldd.in-links .ldd-menu{right:auto;left:50%;transform:translateX(-50%)}
+.ldd.in-links{display:inline-block}
+@media (max-width:768px){.ldd.in-top summary{padding:0 10px;min-height:40px}.ldd.in-top summary svg:first-child{display:none}}
+.hub-f{justify-content:center;margin-bottom:22px}
+.hub-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1000px){.hub-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:700px){.hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pcard[hidden]{display:none}
+.join h2{margin-bottom:6px}.join>p{margin:0 0 18px;opacity:.85}
+.join-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+@media (max-width:620px){.join-row{grid-template-columns:1fr}}
 </style>
 
 <div class="bgfx" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -567,7 +612,7 @@ body.home.at-top::before{background:transparent}
 <div id="layer"></div>
 
 <script>
-const IMG={logo:"/assets/logo.webp",duo:"/assets/duo.webp",bill:"/assets/bill.webp",patrick:"/assets/patrick.webp",pipo:"/assets/pipo.webp",zuca:"/assets/zuca.png",tl_rai1:"/assets/tl_rai1.webp",tl_rai2:"/assets/tl_rai2.webp",tl_rai3:"/assets/tl_rai3.webp",tl_rai4:"/assets/tl_rai4.webp",tl_rai5:"/assets/tl_rai5.webp",tl_mad1:"/assets/tl_mad1.webp",tl_mad2:"/assets/tl_mad2.webp",tl_mad3:"/assets/tl_mad3.webp",tl_mng1:"/assets/tl_mng1.webp",tl_mng2:"/assets/tl_mng2.webp",tl_mng3:"/assets/tl_mng3.webp",gabriel_face:"/assets/gabriel_face.webp",gabriel_am:"/assets/gabriel_am.webp",abner_face:"/assets/abner_face.webp",abner_am:"/assets/abner_am.webp",patrick_am:"/assets/patrick_am.webp",pipo_am:"/assets/pipo_am.webp",poster_s:"/assets/poster_s.webp",live_pipo:"/assets/live_pipo.webp",fl2604:"/assets/fl2604.webp",fl1806:"/assets/fl1806.webp",g_jump:"/assets/g_jump.webp",ground:"/assets/hero_ground.webp",patrick_face:"/assets/patrick_face.webp",pipo_face:"/assets/pipo_face.webp",chirigota:"/assets/logo_chirigota.png",chandrio:"/assets/logo_chandrio.png"};
+const IMG={logo:"/assets/logo.webp",duo:"/assets/duo.webp",bill:"/assets/bill.webp",patrick:"/assets/patrick.webp",pipo:"/assets/pipo.webp",zuca:"/assets/zuca.png",tl_rai1:"/assets/tl_rai1.webp",tl_rai2:"/assets/tl_rai2.webp",tl_rai3:"/assets/tl_rai3.webp",tl_rai4:"/assets/tl_rai4.webp",tl_rai5:"/assets/tl_rai5.webp",tl_mad1:"/assets/tl_mad1.webp",tl_mad2:"/assets/tl_mad2.webp",tl_mad3:"/assets/tl_mad3.webp",tl_mng1:"/assets/tl_mng1.webp",tl_mng2:"/assets/tl_mng2.webp",tl_mng3:"/assets/tl_mng3.webp",gabriel_face:"/assets/gabriel_face.webp",gabriel_am:"/assets/gabriel_am.webp",abner_face:"/assets/abner_face.webp",abner_am:"/assets/abner_am.webp",patrick_am:"/assets/patrick_am.webp",pipo_am:"/assets/pipo_am.webp",poster_s:"/assets/poster_s.webp",live_pipo:"/assets/live_pipo.webp",fl2604:"/assets/fl2604.webp",fl1806:"/assets/fl1806.webp",g_jump:"/assets/g_jump.webp",ground:"/assets/hero_ground.webp",patrick_face:"/assets/patrick_face.webp",abner_face:"/assets/abner_face.webp",abner_am:"/assets/abner_am.webp",gabriel_face:"/assets/gabriel_face.webp",gabriel_am:"/assets/gabriel_am.webp",pipo_face:"/assets/pipo_face.webp",chirigota:"/assets/logo_chirigota.png",chandrio:"/assets/logo_chandrio.png"};
 
 /* ---------- idioma ---------- */
 const LANGS=[["pt","PT","Português"],["en","EN","English"],["es","ES","Español"],["ca","CA","Català"]];
@@ -705,22 +750,58 @@ const T={
   waitH:"Exhaurit. T'apuntes a la llista d'espera?",waitP:"Si s'obre una sessió extra, qui és a la llista compra abans.",waitBtn:"Apuntar-me a la llista",waitDone:"Ja ets a la llista.",close:"Tancar",
   week:"Cada dimecres",tlH:"Línia del temps"}
 };
+Object.assign(T.pt,{heroH:"Show de comédia em <em>português/portunhol</em>",heroSub:"Toda quarta no Bar La Chirigota às 19:30",
+  waD:"Um e-mail por show, e só. A gente não vai encher o seu saco.",waTitle:"Avisos de shows",name:"Seu nome",email:"Seu e-mail",notify:"Quero receber",
+  consent:'Aceito receber e-mails da Brasileuros. Saio com um clique. <a href="#privacidade">Privacidade</a>',errVip:"Coloque seu nome e um e-mail válido.",vipDone:n=>`Prontinho, ${n}. Você recebe um e-mail quando tiver show novo.`,
+  agendaP:"As datas do mês. Ingressos pela Eventbrite.",bizP:"Show fechado, mestre de cerimônias ou stand-up sob medida. Conte o que você precisa e a produção responde.",
+  evt:"Sobre o evento",evtPh:"Data, cidade, número de pessoas e o que você imagina",sendQuote:"Enviar",errQuote:"Preencha nome, e-mail e um pouco sobre o evento."});
+Object.assign(T.en,{heroH:"Comedy show in <em>Portuguese/Portuñol</em>",heroSub:"Every Wednesday at Bar La Chirigota, 7:30 pm",
+  waD:"One email per show, that's it. We won't flood your inbox.",waTitle:"Show alerts",name:"Your name",email:"Your email",notify:"Sign me up",
+  consent:'I agree to receive Brasileuros emails. One click to leave. <a href="#privacidade">Privacy</a>',errVip:"Add your name and a valid email.",vipDone:n=>`All set, ${n}. You'll get an email when there's a new show.`,
+  agendaP:"This month's dates. Tickets on Eventbrite.",bizP:"Private show, host or tailor-made stand-up. Tell us what you need and the team will reply.",
+  evt:"About the event",evtPh:"Date, city, number of people and what you have in mind",sendQuote:"Send",errQuote:"Fill in name, email and a few words about the event."});
+Object.assign(T.es,{heroH:"Show de comedia en <em>portugués/portuñol</em>",heroSub:"Todos los miércoles en el Bar La Chirigota a las 19:30",
+  waD:"Un email por show y ya. No te vamos a dar la lata.",waTitle:"Avisos de shows",name:"Tu nombre",email:"Tu email",notify:"Apuntarme",
+  consent:'Acepto recibir emails de Brasileuros. Me doy de baja con un clic. <a href="#privacidade">Privacidad</a>',errVip:"Pon tu nombre y un email válido.",vipDone:n=>`Listo, ${n}. Te escribimos cuando haya un show nuevo.`,
+  agendaP:"Las fechas del mes. Entradas en Eventbrite.",bizP:"Show privado, maestro de ceremonias o stand-up a medida. Cuéntanos qué necesitas y la producción te responde.",
+  evt:"Sobre el evento",evtPh:"Fecha, ciudad, número de personas y lo que tienes en mente",sendQuote:"Enviar",errQuote:"Rellena nombre, email y algo sobre el evento."});
+Object.assign(T.ca,{heroH:"Espectacle de comèdia en <em>portuguès/portunyol</em>",heroSub:"Cada dimecres al Bar La Chirigota a les 19.30",
+  waD:"Un correu per espectacle i prou. No et donarem la llauna.",waTitle:"Avisos d'espectacles",name:"El teu nom",email:"El teu correu",notify:"Apunta-m'hi",
+  consent:'Accepto rebre correus de Brasileuros. Em dono de baixa amb un clic. <a href="#privacidade">Privacitat</a>',errVip:"Posa el teu nom i un correu vàlid.",vipDone:n=>`Fet, ${n}. T'escriurem quan hi hagi un espectacle nou.`,
+  agendaP:"Les dates del mes. Entrades a Eventbrite.",bizP:"Espectacle privat, mestre de cerimònies o stand-up a mida. Explica'ns què necessites i la producció et respon.",
+  evt:"Sobre l'esdeveniment",evtPh:"Data, ciutat, nombre de persones i què tens al cap",sendQuote:"Enviar",errQuote:"Omple nom, correu i alguna cosa sobre l'esdeveniment."});
+Object.assign(T.pt,{hubH:"Comediantes brasileiros na Europa",hubP:"Um hub de quem faz stand-up brasileiro e mora na Europa. Encontre quem se apresenta perto de você.",allCities:"Todas as cidades",joinH:"Você é comediante brasileiro e mora na Europa?",joinP:"Entre para o hub. Mande seu nome, cidade e um link do seu trabalho e a produção fala com você.",joinCity:"Cidade onde você mora",joinLink:"Instagram ou vídeo (link)",joinBtn:"Quero entrar no hub",errJoin:"Preencha nome, cidade e um e-mail válido.",joinDone:n=>`Recebido, ${n}. A produção vai falar com você.`});
+Object.assign(T.en,{hubH:"Brazilian comedians in Europe",hubP:"A hub for Brazilian stand-up comedians living in Europe. Find who's performing near you.",allCities:"All cities",joinH:"Are you a Brazilian comedian living in Europe?",joinP:"Join the hub. Send your name, city and a link to your work and the team will get in touch.",joinCity:"City you live in",joinLink:"Instagram or video (link)",joinBtn:"Join the hub",errJoin:"Fill in name, city and a valid email.",joinDone:n=>`Got it, ${n}. The team will get in touch.`});
+Object.assign(T.es,{hubH:"Cómicos brasileños en Europa",hubP:"Un hub de cómicos brasileños que viven en Europa. Encuentra quién actúa cerca de ti.",allCities:"Todas las ciudades",joinH:"¿Eres cómico brasileño y vives en Europa?",joinP:"Únete al hub. Envía tu nombre, ciudad y un enlace a tu trabajo y la producción te escribe.",joinCity:"Ciudad donde vives",joinLink:"Instagram o vídeo (enlace)",joinBtn:"Quiero unirme",errJoin:"Rellena nombre, ciudad y un email válido.",joinDone:n=>`Recibido, ${n}. La producción te escribirá.`});
+Object.assign(T.ca,{hubH:"Còmics brasilers a Europa",hubP:"Un hub de còmics brasilers que viuen a Europa. Troba qui actua a prop teu.",allCities:"Totes les ciutats",joinH:"Ets còmic brasiler i vius a Europa?",joinP:"Uneix-te al hub. Envia el teu nom, ciutat i un enllaç a la teva feina i la producció et contactarà.",joinCity:"Ciutat on vius",joinLink:"Instagram o vídeo (enllaç)",joinBtn:"Vull unir-me",errJoin:"Omple nom, ciutat i un correu vàlid.",joinDone:n=>`Rebut, ${n}. La producció et contactarà.`});
 const t=k=>T[LANG][k]??T.pt[k];
 
 /* ---------- dados ---------- */
 const COMEDIANS=[
- {slug:"patrick-barbosa",name:"Patrick Barbosa",first:"Patrick",img:"patrick",
+ {slug:"patrick-barbosa",cast:true,city:"Barcelona",name:"Patrick Barbosa",first:"Patrick",img:"patrick",social:{instagram:"https://www.instagram.com/opatrickbarbosa/",youtube:"https://www.youtube.com/@opatrickbarbosa",tiktok:"https://www.tiktok.com/@opatriquin"},
   loc:{pt:"Barcelona, Espanha",en:"Barcelona, Spain",es:"Barcelona, España",ca:"Barcelona"},
-  short:{pt:"Patrick Barbosa é comediante e produtor brasileiro radicado em Barcelona. Comanda noites de stand-up em La Chirigota, criou o projeto Brasileuros e o quadro audiovisual Barcelouca.",
-   en:"Patrick Barbosa is a Brazilian comedian and producer based in Barcelona. He runs stand-up nights at La Chirigota, created Brasileuros and the video series Barcelouca.",
-   es:"Patrick Barbosa es cómico y productor brasileño afincado en Barcelona. Dirige noches de stand-up en La Chirigota, creó el proyecto Brasileuros y la serie audiovisual Barcelouca.",
-   ca:"Patrick Barbosa és còmic i productor brasiler establert a Barcelona. Dirigeix nits de stand-up a La Chirigota i va crear el projecte Brasileuros i la sèrie audiovisual Barcelouca."}},
- {slug:"pipo-marquetti",name:"Pipo Marquetti",first:"Pipo",img:"pipo",social:{instagram:"https://www.instagram.com/pipomarquetti/",youtube:"https://www.youtube.com/@pipomarquetti",tiktok:"https://www.tiktok.com/@pipomarquetti"},
+  short:{pt:"Patrick Barbosa é de Mauá, São Paulo, e faz stand-up desde 2022. Em Barcelona, também se apresenta em inglês com o Laughin American Social Club, toda quinta às 20:30 no Bar AlgoRitmo.",
+   en:"Patrick Barbosa is from Mauá, São Paulo, and has been doing stand-up since 2022. In Barcelona he also performs in English with Laughin American Social Club, every Thursday at 8:30 pm at Bar AlgoRitmo.",
+   es:"Patrick Barbosa es de Mauá, São Paulo, y hace stand-up desde 2022. En Barcelona también actúa en inglés con Laughin American Social Club, todos los jueves a las 20:30 en el Bar AlgoRitmo.",
+   ca:"Patrick Barbosa és de Mauá, São Paulo, i fa stand-up des del 2022. A Barcelona també actua en anglès amb Laughin American Social Club, cada dijous a les 20.30 al Bar AlgoRitmo."}},
+ {slug:"pipo-marquetti",cast:true,city:"Barcelona",name:"Pipo Marquetti",first:"Pipo",img:"pipo",social:{instagram:"https://www.instagram.com/pipomarquetti/",youtube:"https://www.youtube.com/@pipomarquetti",tiktok:"https://www.tiktok.com/@pipomarquetti"},
   loc:{pt:"Barcelona, Espanha",en:"Barcelona, Spain",es:"Barcelona, España",ca:"Barcelona"},
   short:{pt:"Pipo Marquetti atua no circuito de comédia da Espanha desde 2017. Brasileiro barcelonês por insistência, transita com fluência entre plateias de língua portuguesa e espanhola.",
    en:"Pipo Marquetti has been on the Spanish comedy circuit since 2017. A Brazilian who became a Barcelona local through sheer insistence, he moves easily between Portuguese- and Spanish-speaking crowds.",
    es:"Pipo Marquetti actúa en el circuito de comedia de España desde 2017. Brasileño barcelonés por insistencia, se mueve con soltura entre públicos de habla portuguesa y española.",
-   ca:"Pipo Marquetti actua al circuit de comèdia d'Espanya des del 2017. Brasiler barceloní per insistència, es mou amb facilitat entre públics de parla portuguesa i castellana."}}
+   ca:"Pipo Marquetti actua al circuit de comèdia d'Espanya des del 2017. Brasiler barceloní per insistència, es mou amb facilitat entre públics de parla portuguesa i castellana."}},
+ {slug:"abner-muzel",city:"Madrid",name:"Abner Müzel",first:"Abner",img:"abner",social:{instagram:"https://www.instagram.com/abnermuzel/"},
+  loc:{pt:"Madri, Espanha",en:"Madrid, Spain",es:"Madrid, España",ca:"Madrid"},
+  short:{pt:"Abner Müzel é comediante brasileiro radicado em Madri e o primeiro a ter um espetáculo de comédia bilíngue, em espanhol e português.",
+   en:"Abner Müzel is a Brazilian comedian based in Madrid and the first to create a bilingual comedy show, in Spanish and Portuguese.",
+   es:"Abner Müzel es un cómico brasileño afincado en Madrid y el primero en tener un espectáculo de comedia bilingüe, en español y portugués.",
+   ca:"Abner Müzel és un humorista brasiler establert a Madrid i el primer a tenir un espectacle de comèdia bilingüe, en castellà i portuguès."}},
+ {slug:"gabriel-zubek",city:"Madrid",name:"Gabriel Zubek",first:"Gabriel",img:"gabriel",social:{instagram:"https://www.instagram.com/gabrielzubek/"},
+  loc:{pt:"Madri, Espanha",en:"Madrid, Spain",es:"Madrid, España",ca:"Madrid"},
+  short:{pt:"Gabriel Zubek é ator e comediante brasileiro, com trabalhos entre Brasil, Espanha e Estados Unidos. Divide com Abner Müzel o show Brazil com S.",
+   en:"Gabriel Zubek is a Brazilian actor and comedian who has worked in Brazil, Spain and the United States. He shares the show Brazil com S with Abner Müzel.",
+   es:"Gabriel Zubek es actor y cómico brasileño, con trabajos entre Brasil, España y Estados Unidos. Comparte con Abner Müzel el show Brazil com S.",
+   ca:"Gabriel Zubek és actor i humorista brasiler, amb feina entre el Brasil, Espanya i els Estats Units. Comparteix amb Abner Müzel l'espectacle Brazil com S."}}
 ];
 const C=Object.fromEntries(COMEDIANS.map(c=>[c.slug,c]));
 const ICON={
@@ -734,9 +815,13 @@ function socialIcons(c){const S=c.social||BRAND_SOCIAL;return `<div class="socia
 
 const TICKETS="https://brasileuros.eventbrite.com";
 const SEASON=["2026-11-04","2026-11-11","2026-11-18","2026-11-25","2026-12-02","2026-12-09","2026-12-16","2026-12-23","2026-12-30"];
+function weekly(dow,from,to){const out=[];const x=new Date(from+"T12:00:00");while(x.getDay()!==dow)x.setDate(x.getDate()+1);const end=new Date(to+"T12:00:00");
+  while(x<=end){out.push(x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0"));x.setDate(x.getDate()+7)}return out}
+const LASC_THU=weekly(4,"2026-11-01","2026-12-31");
 const NEVER=["2026-11-02","2026-11-09","2026-11-16","2026-11-23","2026-11-30","2026-12-07","2026-12-14"];
 const SHOWS=[
  ...SEASON.map((dd,i)=>({id:"bcn-"+dd.slice(5).replace("-",""),titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:dd,hora:"19:30",cidade:"Barcelona",sala:"Bar La Chirigota",status:"AUTO",url:TICKETS,premiere:i===0})),
+ ...LASC_THU.map(dd=>({id:"las-"+dd.slice(5).replace("-",""),titulo:"Laughin American Social Club",artistas:["patrick-barbosa"],data:dd,hora:"20:30",cidade:"Barcelona",sala:"Bar AlgoRitmo",status:"INFO",own:true,lang:"EN"})),
  ...NEVER.map(dd=>({id:"nev-"+dd.slice(5).replace("-",""),titulo:"La NEVERita · humor fresco",artistas:["pipo-marquetti"],data:dd,hora:"20:45",cidade:"Barcelona",sala:"Coctelería Never",status:"AUTO",url:"https://www.atrapalo.com/entradas/la-neverita-humor-fresco_e4931062",own:true}))
 ].sort((a,b)=>a.data.localeCompare(b.data));
 const CITIES=["Barcelona","Madrid","Lisboa","Porto","Paris","London","Berlin","Dublin"];
@@ -747,7 +832,7 @@ function d(s){const[y,m,dd]=s.data.split("-").map(Number);return new Date(y,m-1,
 function todayStr(){const x=new Date();return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")}
 function upcoming(all){const x=todayStr();return SHOWS.filter(s=>s.data>=x&&s.status!=="CANCELADO"&&(all||!s.own))}
 function daysTo(s){const x=new Date();x.setHours(0,0,0,0);return Math.round((d(s)-x)/864e5)}
-function st(s){if(s.status!=="AUTO")return s.status;return daysTo(s)<=4?"ULTIMOS_INGRESSOS":"DISPONIVEL"}
+function st(s){if(s.status==="INFO")return "INFO";if(s.status!=="AUTO")return s.status;return daysTo(s)<=4?"ULTIMOS_INGRESSOS":"DISPONIVEL"}
 const fmt=(o,dt)=>new Intl.DateTimeFormat(LOCALE[LANG],o).format(dt).replace(".","");
 function ticketUrl(s){const bio=/^(entradas|links)$/.test(curRoute());
   const u=new URL(s.url);u.searchParams.set("utm_source",bio?"instagram":"brasileuros");u.searchParams.set("utm_medium",bio?"bio":"site");u.searchParams.set("utm_campaign",bio?"produtora":"agenda");u.searchParams.set("utm_content",s.id);return u.toString()}
@@ -769,29 +854,31 @@ function statusBadge(s){
   if(x==="ESGOTADO")b.push(`<span class="badge sold">${t("sold")}</span>`);
   return b.join("")}
 function buyBtn(s,extra=""){
+  if(!s.url)return "";
   if(st(s)==="ESGOTADO")return `<button class="btn btn-wait ${extra}" data-wait="${s.id}">${t("waitlist")}</button>`;
   return `<a class="btn btn-ok ${extra}" href="${ticketUrl(s)}" target="_blank" rel="noopener">${st(s)==="ULTIMOS_INGRESSOS"?t("buyNow"):t("buy")}</a>`}
 function showCard(s,mini){const dt=d(s);
   return `<article class="show ${mini?"mini":""}">
     <div class="date tnum" aria-label="${fmt({weekday:"long",day:"numeric",month:"long"},dt)}"><span class="wd">${fmt({weekday:"short"},dt)}</span><span class="d">${dt.getDate()}</span><span class="m">${fmt({month:"short"},dt)}</span></div>
-    <div class="show-info"><div class="badges">${statusBadge(s)}</div>${mini&&!s.own?"":`<h3>${esc(s.titulo)}</h3>`}
+    <div class="show-info"><div class="badges">${statusBadge(s)}${s.lang?`<span class="badge">${s.lang==="EN"?"English":s.lang}</span>`:""}</div>${mini&&!s.own?"":`<h3>${esc(s.titulo)}</h3>`}
       <div class="show-meta tnum"><span><b>${s.hora}</b> · ${esc(s.sala)}${mini?"":", "+esc(s.cidade)}</span></div></div>
     <div class="show-act">${buyBtn(s,"btn-sm")}</div></article>`}
 function memberCard(c){
-  return `<a class="pcard" href="#${c.slug}"><div class="pc-img" data-par="0.07"><img src="${IMG[c.img+"_face"]}" alt="${esc(c.name)}" loading="lazy"></div><div class="pc-cap"><span class="pc-loc">${PIN}${esc(L(c.loc))}</span><h3>${esc(c.name)}</h3></div></a>`}
+  return `<a class="pcard" data-city="${c.city}" href="#${c.slug}"><div class="pc-img" data-par="0.07"><img src="${IMG[c.img+"_face"]}" alt="${esc(c.name)}" loading="lazy"></div><div class="pc-cap"><span class="pc-loc">${PIN}${esc(L(c.loc))}</span><h3>${esc(c.name)}</h3></div></a>`}
 const PIN='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg>';
 function vipForm(id){
   return `<form class="vipmini" data-vip="${id}" novalidate>
     <div class="vm-row">
-      <select name="ddi" aria-label="+"><option>+34</option><option>+351</option><option>+33</option><option>+44</option><option>+49</option><option>+353</option><option>+31</option><option>+55</option></select>
-      <input name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="${t("phone")}" aria-label="WhatsApp">
-      <input name="cidade" list="${id}-dl" placeholder="${t("city")}" aria-label="${t("cityL")}" autocomplete="address-level2">
-      <datalist id="${id}-dl">${CITIES.map(c=>`<option value="${c}"></option>`).join("")}</datalist>
+      <input name="nome" autocomplete="given-name" placeholder="${t("name")}" aria-label="${t("name")}">
+      <input name="mail" type="email" inputmode="email" autocomplete="email" placeholder="${t("email")}" aria-label="${t("email")}">
       <button class="btn btn-sun btn-sm" type="submit">${t("notify")}</button>
     </div>
+    <p class="vm-note">${t("waD")}</p>
     <label class="vm-ok"><input type="checkbox" name="ok"><span>${t("consent")}</span></label>
     <p class="err" hidden></p></form>`}
-function langSwitch(cls){return `<div class="langs ${cls||""}" role="group" aria-label="${t("lang")}">${LANGS.map(([k,c,n])=>`<button type="button" data-lang="${k}" lang="${k}" aria-pressed="${k===LANG}" title="${n}">${c}</button>`).join("")}</div>`}
+function langSwitch(cls){const cur=LANGS.find(l=>l[0]===LANG)||LANGS[0];
+  return `<details class="ldd ${cls||""}"><summary aria-label="${t("lang")}: ${cur[2]}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>${cur[1]}</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></summary>
+  <div class="ldd-menu">${LANGS.map(([k,c,n])=>`<button type="button" data-lang="${k}" lang="${k}" aria-current="${k===LANG}"><b>${c}</b>${n}</button>`).join("")}</div></details>`}
 
 /* ---------- páginas ---------- */
 function header(route){
@@ -800,7 +887,7 @@ function header(route){
   return `<header class="top"><div class="wrap">
     <a class="brand" href="#" aria-label="Brasileuros"><img src="${IMG.logo}" alt="Brasileuros"></a>
     <nav class="nav" aria-label="Menu">${keys.map((h,i)=>`<a href="#${h}"${cur===h?' aria-current="page"':""}>${t("nav")[i]}</a>`).join("")}
-      <div class="nav-foot">${langSwitch("in-menu")}<button class="nav-close" type="button">${t("closeMenu")}</button></div></nav>
+      <div class="nav-foot"><button class="nav-close" type="button">${t("closeMenu")}</button></div></nav>
     ${langSwitch("in-top")}
     <a class="btn btn-sun btn-sm cta" href="#agenda">${t("tickets")}</a>
     <button class="menu-btn" type="button" aria-label="${t("openMenu")}" aria-expanded="false"><span></span></button>
@@ -809,7 +896,7 @@ function footer(){
   const keys=["agenda","comediantes","corporativo","ficha-tecnica","sobre","contato","entradas","privacidade"];
   return `<footer class="foot"><div class="foot-in">
     <img class="foot-logo" src="${IMG.logo}" alt="Brasileuros">
-    <details class="propa"><summary><span class="propa-t"><span class="propa-ic wa" aria-hidden="true">${WA_ICON}</span>${t("waT")}</span><span class="propa-d">${t("waD")}</span></summary>${vipForm("foot")}</details>
+    <div class="propa"><div class="propa-h"><span class="propa-t"><span class="propa-ic wa" aria-hidden="true">${WA_ICON}</span>${t("waT")}</span></div>${vipForm("foot")}</div>
     <div class="foot-soc">${socialIcons({name:"Brasileuros"})}</div>
     <nav class="foot-links" aria-label="Footer">${keys.map((h,i)=>`<a href="#${h}">${t("foot")[i]}</a>`).join("")}</nav>
     ${langSwitch("in-foot")}
@@ -842,7 +929,7 @@ function pHome(){
   </div></section>
   <section class="section" style="padding-top:0"><div class="wrap">
     <div class="section-head"><div><p class="eyebrow">${t("cast")}</p><h2>${t("castH")}</h2></div></div>
-    <div class="cast duo-cast">${COMEDIANS.map(memberCard).join("")}</div>
+    <div class="cast duo-cast">${COMEDIANS.filter(c=>c.cast).map(memberCard).join("")}</div>
   </div></section>`}
 
 function pLinks(){
@@ -864,20 +951,41 @@ function pLinks(){
     ${langSwitch("in-links")}
   </div></div>`}
 
-function pAgenda(){return phero(t("agendaH"),t("agendaP"))+`<section class="section" style="padding-top:28px"><div class="wrap"><div class="shows">${upcoming().map(s=>showCard(s)).join("")||`<div class="empty">${t("noDates")}</div>`}</div></div></section>`}
-function pCast(){return phero(t("castH"),t("castPageP"))+`<section class="section" style="padding-top:28px"><div class="wrap"><div class="cast duo-cast">${COMEDIANS.map(memberCard).join("")}</div></div></section>`}
+function monthTabs(list,id,mini){
+  const months=[...new Set(list.map(s=>s.data.slice(0,7)))];
+  if(!months.length)return `<div class="empty">${t("noDates")}</div>`;
+  const lab=m=>{const[y,mm]=m.split("-").map(Number);const x=fmt({month:"long"},new Date(y,mm-1,1));return x.charAt(0).toUpperCase()+x.slice(1)};
+  return `<div class="mtabs" role="tablist">${months.map((m,i)=>`<button type="button" role="tab" class="mtab" data-mtab="${id}:${m}" aria-selected="${i===0}">${lab(m)}</button>`).join("")}</div>
+    ${months.map((m,i)=>`<div class="shows" data-mpanel="${id}:${m}"${i?" hidden":""}>${list.filter(s=>s.data.startsWith(m)).map(s=>showCard(s,mini)).join("")}</div>`).join("")}`}
+function pAgenda(){return phero(t("agendaH"),t("agendaP"))+`<section class="section" style="padding-top:28px"><div class="wrap">${monthTabs(upcoming(),"ag")}</div></section>`}
+function _oldAgenda(){return phero(t("agendaH"),t("agendaP"))+`<section class="section" style="padding-top:28px"><div class="wrap"><div class="shows">${upcoming().map(s=>showCard(s)).join("")||`<div class="empty">${t("noDates")}</div>`}</div></div></section>`}
+function pCast(){
+  const cities=[...new Set(COMEDIANS.map(c=>c.city))];
+  return phero(t("hubH"),t("hubP"))+`<section class="section" style="padding-top:28px"><div class="wrap">
+    <div class="mtabs hub-f" role="tablist">${["*",...cities].map((x,i)=>`<button type="button" role="tab" class="mtab" data-city-f="${x}" aria-selected="${i===0}">${x==="*"?t("allCities"):esc(x)}</button>`).join("")}</div>
+    <div class="cast hub-grid">${COMEDIANS.map(memberCard).join("")}</div>
+  </div></section>
+  <section class="section" style="padding-top:0"><div class="wrap" style="max-width:760px">
+    <div class="panel join"><h2>${t("joinH")}</h2><p>${t("joinP")}</p>
+    <form id="join" class="form" novalidate><div class="join-row">
+      <input name="nome" autocomplete="name" placeholder="${t("name")}" aria-label="${t("name")}">
+      <input name="cid" autocomplete="address-level2" placeholder="${t("joinCity")}" aria-label="${t("joinCity")}">
+      <input name="mail" type="email" inputmode="email" autocomplete="email" placeholder="${t("email")}" aria-label="${t("email")}">
+      <input name="link" type="url" inputmode="url" placeholder="${t("joinLink")}" aria-label="${t("joinLink")}">
+    </div><button class="btn btn-sun" type="submit">${t("joinBtn")}</button><p class="err" hidden></p></form></div>
+  </div></section>`}
 
 function pProfile(c){
   const shows=upcoming(true).filter(s=>s.artistas.includes(c.slug));
   return `<section class="phero"><div class="phero-bg" data-par="0.15"></div><div class="wrap" style="padding-block:28px 0">
     <div class="prof"><div class="prof-photo"><img src="${IMG[c.img+"_am"]}" alt="${esc(c.name)}"></div>
       <div class="prof-copy"><h1>${esc(c.name)}</h1><p class="story">${esc(L(c.short))}</p>${socialIcons(c)}
-        <div class="hero-ctas"><a class="btn btn-sun" href="#agenda-${c.slug}">${t("seeDates")}</a><a class="btn btn-ghost" href="#corporativo">${t("hire")(c.first)}</a></div>
+        <div class="hero-ctas">${shows.length?`<a class="btn btn-sun" href="#agenda-${c.slug}">${t("seeDates")}</a>`:""}<a class="btn btn-ghost" href="#corporativo">${t("hire")(c.first)}</a></div>
       </div></div></div></section>
-  <section class="section" style="padding-top:32px"><div class="wrap" style="max-width:860px">
+  ${shows.length?`<section class="section" style="padding-top:32px"><div class="wrap" style="max-width:860px">
     <div class="panel" id="agenda-${c.slug}"><h2>${t("nextDates")}</h2>
-      ${shows.length?`<div class="shows">${shows.slice(0,8).map(s=>showCard(s,true)).join("")}</div>${shows.length>8?`<a class="more-dates" href="#agenda">${t("allDates")(shows.length)}</a>`:""}`:`<div class="empty">${t("noDates")}</div>`}</div>
-  </div></section>`}
+      ${monthTabs(shows,"pf",true)}</div>
+  </div></section>`:`<div style="height:48px"></div>`}`}
 
 function pFicha(){
   return phero(t("techH"),t("techP"))+`<section class="section"><div class="wrap grid2">
@@ -886,36 +994,17 @@ function pFicha(){
   </div></section>`}
 
 function pCorp(){
-  const F=t("F");
-  return phero(t("bizH"),t("bizP"),`<div class="hero-ctas"><a class="btn btn-sun" href="#corp-form">${t("askQuote")}</a></div>`)+`
-  <section class="section" style="padding-top:32px"><div class="wrap">
-    <div class="section-head"><div><p class="eyebrow">${t("formats")}</p><h2>${t("formatsH")}</h2></div></div>
-    <div class="formats">${F.map(([a,b,c])=>`<div class="format"><span class="tag">${a}</span><h3>${b}</h3><p>${c}</p></div>`).join("")}</div>
-  </div></section>
-  <section class="section" style="padding-top:0" id="corp-form"><div class="wrap grid2">
+  return phero(t("bizH"),t("bizP"))+`
+  <section class="section" style="padding-top:32px"><div class="wrap" style="max-width:640px">
     <form class="panel form" id="b2b" novalidate>
-      <h2>${t("quoteH")}</h2>
-      <fieldset><legend>${t("you")}</legend>
-        <div class="field"><label for="b-nome">${t("fName")}</label><input id="b-nome" name="nome" autocomplete="name"></div>
-        <div class="row"><div class="field"><label for="b-mail">${t("fMail")}</label><input id="b-mail" name="mail" type="email" autocomplete="email" placeholder="nome@empresa.com"></div>
-        <div class="field"><label for="b-tel">${t("fTel")}</label><input id="b-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+34 612 345 678"></div></div></fieldset>
-      <fieldset><legend>${t("company")}</legend>
-        <div class="row"><div class="field"><label for="b-emp">${t("fComp")}</label><input id="b-emp" name="emp" autocomplete="organization"></div>
-        <div class="field"><label for="b-site">${t("fSite")}</label><input id="b-site" name="site" type="url" placeholder="https://"></div></div>
-        <div class="row"><div class="field"><label for="b-cargo">${t("fRole")}</label><input id="b-cargo" name="cargo" autocomplete="organization-title"></div>
-        <div class="field"><label for="b-setor">${t("fSector")}</label><select id="b-setor" name="setor">${t("sectors").map(o=>`<option>${o}</option>`).join("")}</select></div></div></fieldset>
-      <fieldset><legend>${t("event")}</legend>
-        <div class="checks">${t("types").map((o,i)=>`<label class="check" for="b-t${i}"><input type="checkbox" id="b-t${i}" name="tipo" value="${o}"><span>${o}</span></label>`).join("")}</div>
-        <div class="row"><div class="field"><label for="b-local">${t("fPlace")}</label><input id="b-local" name="local" placeholder="${t("fPlacePh")}"></div>
-        <div class="field"><label for="b-data">${t("fDate")}</label><input id="b-data" name="data" placeholder="${t("fDatePh")}"></div></div>
-        <div class="row"><div class="field"><label for="b-lang">${t("fLang")}</label><select id="b-lang" name="lang">${t("showLangs").map(o=>`<option>${o}</option>`).join("")}</select></div>
-        <div class="field"><label for="b-inv">${t("fBudget")}</label><select id="b-inv" name="inv"><option value="">${t("select")}</option>${t("budgets").map(o=>`<option>${o}</option>`).join("")}</select></div></div></fieldset>
+      <div class="field"><label for="b-nome">${t("fName")}</label><input id="b-nome" name="nome" autocomplete="name"></div>
+      <div class="row"><div class="field"><label for="b-mail">E-mail</label><input id="b-mail" name="mail" type="email" inputmode="email" autocomplete="email"></div>
+      <div class="field"><label for="b-tel">WhatsApp</label><input id="b-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+34 612 345 678"></div></div>
+      <div class="field"><label for="b-evt">${t("evt")}</label><textarea id="b-evt" name="evt" rows="4" placeholder="${t("evtPh")}"></textarea></div>
       <p class="err" hidden></p>
       <button class="btn btn-sun" type="submit">${t("sendQuote")}</button>
     </form>
-    <div class="panel"><h2>${t("next")}</h2><div class="route">${t("steps").map((s,i)=>`<div><i>${i+1}</i><span>${s}</span></div>`).join("")}</div></div>
   </div></section>`}
-
 const CHAPS=[
  {when:"2025",img:"poster_s",fit:"wide",
   tag:{pt:"O começo",en:"The start",es:"El comienzo",ca:"El començament"},
@@ -944,7 +1033,7 @@ const VENUES=[
    en:"The show leaves Barcelona for the first time. Abner Müzel joins as guest, a caipirinha comes with the ticket and flyers go round the city's Brazilian shops.",
    es:"El show sale de Barcelona por primera vez. Abner Müzel se suma como invitado, la caipiriña viene con la entrada y los flyers recorren los locales brasileños de la ciudad.",
    ca:"L'espectacle surt de Barcelona per primera vegada. Abner Müzel s'hi suma com a convidat, la caipirinha ve amb l'entrada i els flyers corren pels locals brasilers de la ciutat."}},
- {when:{pt:"18 de junho de 2025",en:"18 June 2025",es:"18 de junio de 2025",ca:"18 de juny de 2025"},place:"Restaurante Manga Rosa",city:"Barcelona",imgs:["tl_mng1","tl_mng2","tl_mng3"],
+ {when:{pt:"18 de junho de 2025",en:"18 June 2025",es:"18 de junio de 2025",ca:"18 de juny de 2025"},place:"Restaurante Manga Rosa",city:"Barcelona",imgs:["tl_mng2","tl_mng3","tl_mng1"],
   title:{pt:"De volta a Barcelona, com caipirinha",en:"Back in Barcelona, with caipirinha",es:"De vuelta a Barcelona, con caipiriña",ca:"De tornada a Barcelona, amb caipirinha"},
   txt:{pt:"Uma noite num restaurante brasileiro, com convidados no palco, ukulele e a primeira caipirinha por conta da casa.",
    en:"A night at a Brazilian restaurant, with guests on stage, a ukulele and the first caipirinha on the house.",
@@ -956,8 +1045,8 @@ function carousel(imgs,label){
     <button class="car-btn prev" type="button" data-dir="-1" aria-label="‹">‹</button><button class="car-btn next" type="button" data-dir="1" aria-label="›">›</button>
     <span class="car-count tnum">1 / ${imgs.length}</span></div>`}
 function timeline(){
-  return `<div class="tl">${VENUES.map(v=>`<article class="tl-item">
-    <div class="tl-media">${carousel(v.imgs,v.place)}</div>
+  return `<div class="tl">${VENUES.map((v,i)=>`<article class="tl-item ${i%2?"flip":""}">
+    <div class="tl-media" data-par="0.08">${carousel(v.imgs,v.place)}</div>
     <div class="tl-text"><p class="tl-when tnum">${esc(L(v.when))}</p><h3>${esc(L(v.title))}</h3><p class="place">${esc(v.place)} · ${esc(v.city)}</p><p>${esc(L(v.txt))}</p></div>
   </article>`).join("")}</div>`}
 function pSobre(){
@@ -966,7 +1055,7 @@ function pSobre(){
     <div class="chap-text glass"><span class="chap-when tnum">${ch.when}</span><h3>${esc(L(ch.title))}</h3><p class="place">${esc(ch.place)}</p>${L(ch.txt).map(x=>`<p>${esc(x)}</p>`).join("")}</div></article>`;
   return phero(t("aboutH"),t("aboutP"))+`
   <section class="section tl-sec"><div class="wrap"><div class="section-head"><div><p class="eyebrow">2025</p><h2>${t("tlH")}</h2></div></div>${timeline()}</div></section>
-  <section class="section"><div class="wrap story">${CHAPS.slice(1).map(chap).join("")}</div></section>`;
+  <section class="section"><div class="wrap story">${CHAPS.slice(2).map(chap).join("")}</div></section>`;
 }
 function _oldSobre(){
   return phero(t("aboutH"),t("aboutP"))+`<section class="section"><div class="wrap story">${CHAPS.map(ch=>`<article class="chap">
@@ -994,7 +1083,10 @@ function openWait(s){
 }
 document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("layer").innerHTML=""});
 document.addEventListener("click",e=>{
+  const mt=e.target.closest("[data-mtab]"); if(mt){const [id]=mt.dataset.mtab.split(":");document.querySelectorAll(`[data-mtab^="${id}:"]`).forEach(b=>b.setAttribute("aria-selected",b===mt));document.querySelectorAll(`[data-mpanel^="${id}:"]`).forEach(p=>p.hidden=p.dataset.mpanel!==mt.dataset.mtab);return}
   const cb=e.target.closest(".car-btn"); if(cb){const tr=cb.parentElement.querySelector(".car-track");tr.scrollBy({left:tr.clientWidth*parseInt(cb.dataset.dir),behavior:RM.matches?"auto":"smooth"});return}
+  document.querySelectorAll("details.ldd[open]").forEach(d=>{if(!d.contains(e.target))d.open=false});
+  const cf=e.target.closest("[data-city-f]"); if(cf){const v=cf.dataset.cityF;document.querySelectorAll("[data-city-f]").forEach(b=>b.setAttribute("aria-selected",b===cf));document.querySelectorAll(".hub-grid .pcard").forEach(p=>{p.hidden=v!=="*"&&p.dataset.city!==v});return}
   const lg=e.target.closest("[data-lang]"); if(lg){setLang(lg.dataset.lang);return}
   const w=e.target.closest("[data-wait]"); if(w){openWait(SHOWS.find(x=>x.id===w.dataset.wait));return}
 });
@@ -1007,16 +1099,16 @@ async function submitTo(f,subject,data,doneHtml){
 document.addEventListener("submit",e=>{
   const f=e.target;e.preventDefault();const err=f.querySelector(".err");const bad=m=>{err.textContent=m;err.hidden=false};
   if(f.dataset.vip){
-    const tel=f.tel.value.replace(/\D/g,""),cid=f.cidade.value.trim();
-    if(tel.length<6||!cid)return bad(t("errVip"));
+    const nome=f.nome.value.trim(),mail=f.mail.value.trim();
+    if(!nome||!/^\S+@\S+\.\S+$/.test(mail))return bad(t("errVip"));
     if(!f.ok.checked)return bad(t("errOk"));
-    return submitTo(f,"Brasileuros · aviso WhatsApp",{whatsapp:f.ddi.value+" "+f.tel.value,cidade:cid,idioma:LANG,origem:f.dataset.vip},`<p class="vm-done">${esc(t("vipDone")(cid))}</p>`)}
+    return submitTo(f,"Brasileuros · avisos de shows",{nome,email:mail,idioma:LANG,origem:f.dataset.vip,_replyto:mail},`<p class="vm-done">${esc(t("vipDone")(nome.split(" ")[0]))}</p>`)}
   if(f.id==="b2b"){
-    if(["nome","mail","tel","emp","local","inv"].some(n=>!f[n].value.trim()))return bad(t("errQuote"));
-    if(/@(gmail|hotmail|outlook|yahoo|icloud|live)\./i.test(f.mail.value))return bad(t("errCorp"));
-    const tipos=[...f.querySelectorAll("input[name=tipo]:checked")].map(x=>x.value);if(!tipos.length)return bad(t("errType"));
-    const data={nome:f.nome.value,email:f.mail.value,telefone:f.tel.value,empresa:f.emp.value,site:f.site.value,cargo:f.cargo.value,setor:f.setor.value,formato:tipos.join(", "),local:f.local.value,data:f.data.value,idioma_show:f.lang.value,investimento:f.inv.value,_replyto:f.mail.value};
-    return submitTo(f,"Brasileuros · pedido de proposta · "+f.emp.value,data,`<h2>${t("quoteOk")}</h2><div class="done"><b>${esc(t("quoteDone")(f.nome.value.split(" ")[0]))}</b></div>`)}
+    if(!f.nome.value.trim()||!/^\S+@\S+\.\S+$/.test(f.mail.value)||!f.evt.value.trim())return bad(t("errQuote"));
+    return submitTo(f,"Brasileuros · pedido de proposta · "+f.nome.value,{nome:f.nome.value,email:f.mail.value,whatsapp:f.tel.value,evento:f.evt.value,idioma:LANG,_replyto:f.mail.value},`<h2>${t("quoteOk")}</h2><div class="done"><b>${esc(t("quoteDone")(f.nome.value.split(" ")[0]))}</b></div>`)}
+  if(f.id==="join"){
+    if(!f.nome.value.trim()||!f.cid.value.trim()||!/^\S+@\S+\.\S+$/.test(f.mail.value))return bad(t("errJoin"));
+    return submitTo(f,"Brasileuros · hub de comediantes · "+f.nome.value,{nome:f.nome.value,cidade:f.cid.value,email:f.mail.value,link:f.link.value,idioma:LANG,_replyto:f.mail.value},`<div class="done"><b>${esc(t("joinDone")(f.nome.value.split(" ")[0]))}</b></div>`)}
   if(f.id==="contact"){
     if(!f.nome.value.trim()||!/^\S+@\S+\.\S+$/.test(f.mail.value)||!f.msg.value.trim())return bad(t("errContact"));
     return submitTo(f,"Brasileuros · contato · "+f.topic.value,{nome:f.nome.value,email:f.mail.value,assunto:f.topic.value,mensagem:f.msg.value,_replyto:f.mail.value},`<div class="done"><b>${t("contactDone")}</b></div>`)}
@@ -1053,7 +1145,6 @@ function route(){
   else if(C[r])body=pProfile(C[r]);
   else if(r.startsWith("agenda-")&&C[r.slice(7)]){body=pProfile(C[r.slice(7)]);target=r}
   else if(r==="corporativo")body=pCorp();
-  else if(r==="corp-form"){body=pCorp();target=r}
   else if(r==="sobre")body=pSobre();
   else if(r==="contato")body=pContato();
   else if(r==="privacidade")body=pPriv();
