@@ -648,7 +648,7 @@ const LOCALE={pt:"pt-BR",en:"en-GB",es:"es-ES",ca:"ca-ES"};
 function pickLang(){let s=null;try{s=localStorage.getItem("bx-lang")}catch(_){}
   if(s&&LOCALE[s])return s;const n=(navigator.language||"pt").slice(0,2).toLowerCase();return LOCALE[n]?n:"pt"}
 let LANG=pickLang();
-function setLang(l){LANG=l;try{localStorage.setItem("bx-lang",l)}catch(_){}document.documentElement.lang=LOCALE[l];route();onScroll()}
+function setLang(l){if(window.gtag&&l!==LANG)gtag("event","switch_language",{selected_language:l});LANG=l;try{localStorage.setItem("bx-lang",l)}catch(_){}document.documentElement.lang=LOCALE[l];route();onScroll()}
 const L=o=>o[LANG]??o.pt;
 
 const T={
@@ -1155,6 +1155,7 @@ document.addEventListener("submit",e=>{
 document.addEventListener("click",e=>{
   const tk=e.target.closest('a[href*="eventbrite."]');
   if(tk&&window.gtag)gtag("event","comprar_entradas",{link_url:tk.href,pagina:curRoute()||"inicio",transport_type:"beacon"});
+  const wa=e.target.closest('a[href*="wa.me"],a[href*="whatsapp.com"]');if(wa&&window.gtag)gtag("event","whatsapp_click",{link_url:wa.href,pagina:curRoute()||"inicio",transport_type:"beacon"});
   const cr=e.target.closest("[data-cookie-reset]");
   if(cr){try{localStorage.removeItem("bx-consent")}catch(_){}if(window.gtag)gtag("consent","update",{analytics_storage:"denied"});location.reload()}
 },true);
