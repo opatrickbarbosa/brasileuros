@@ -3,6 +3,13 @@
 <head>
 <title>Brasileuros</title>
 <meta charset="utf-8">
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+var bxc=null;try{bxc=localStorage.getItem("bx-consent")}catch(e){}
+gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:bxc==="yes"?"granted":"denied",wait_for_update:500});
+gtag("js",new Date());gtag("config","G-7GCP6QP5CH");
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7GCP6QP5CH"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Brasileuros: stand-up brasileiro com Patrick Barbosa e Pipo Marquetti. Toda quarta, 19:30, no Bar La Chirigota, Barcelona.">
 <meta name="theme-color" content="#1453c4">
@@ -607,6 +614,9 @@ body.home.at-top::before{background:transparent}
 .join h2{margin-bottom:6px}.join>p{margin:0 0 18px;opacity:.85}
 .join-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 @media (max-width:620px){.join-row{grid-template-columns:1fr}}
+
+.phero h1,.prof-copy h1{color:var(--sun)}
+@media (max-width:768px){.top .cta{order:2}.ldd.in-top{order:3}.top .menu-btn{order:4}}
 </style>
 
 <div class="bgfx" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -979,15 +989,6 @@ function pCast(){
   return phero(t("hubH"),t("hubP"))+`<section class="section" style="padding-top:28px"><div class="wrap">
     <div class="mtabs hub-f" role="tablist">${["*",...cities].map((x,i)=>`<button type="button" role="tab" class="mtab" data-city-f="${x}" aria-selected="${i===0}">${x==="*"?t("allCities"):esc(x)}</button>`).join("")}</div>
     <div class="cast hub-grid">${COMEDIANS.map(memberCard).join("")}</div>
-  </div></section>
-  <section class="section" style="padding-top:0"><div class="wrap" style="max-width:760px">
-    <div class="panel join"><h2>${t("joinH")}</h2><p>${t("joinP")}</p>
-    <form id="join" class="form" novalidate><div class="join-row">
-      <input name="nome" autocomplete="name" placeholder="${t("name")}" aria-label="${t("name")}">
-      <input name="cid" autocomplete="address-level2" placeholder="${t("joinCity")}" aria-label="${t("joinCity")}">
-      <input name="mail" type="email" inputmode="email" autocomplete="email" placeholder="${t("email")}" aria-label="${t("email")}">
-      <input name="link" type="url" inputmode="url" placeholder="${t("joinLink")}" aria-label="${t("joinLink")}">
-    </div><button class="btn btn-sun" type="submit">${t("joinBtn")}</button><p class="err" hidden></p></form></div>
   </div></section>`}
 
 function pProfile(c){
@@ -1216,5 +1217,16 @@ addEventListener("resize",onScroll);
 route(); decorate(); onScroll();
 </script>
 
+<div id="bx-cookie" hidden style="position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;max-width:560px;margin:0 auto;background:#0b1f4d;color:#f3f6fb;border-radius:18px;padding:18px 20px;box-shadow:0 14px 40px rgba(0,0,0,.35);font:500 15px/1.45 Figtree,system-ui,sans-serif">
+<p id="bx-cookie-t" style="margin:0 0 14px"></p>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><button id="bx-cookie-y" type="button" style="min-height:44px;padding:0 20px;border:0;border-radius:999px;background:#ffd400;color:#0b1f4d;font:800 15px Figtree,system-ui,sans-serif;cursor:pointer"></button><button id="bx-cookie-n" type="button" style="min-height:44px;padding:0 20px;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:transparent;color:#f3f6fb;font:700 15px Figtree,system-ui,sans-serif;cursor:pointer"></button></div>
+</div>
+<script>
+(function(){var c=null,l="pt";try{c=localStorage.getItem("bx-consent");l=localStorage.getItem("bx-lang")||(navigator.language||"pt").slice(0,2)}catch(e){}
+if(c)return;var T={pt:["Usamos cookies de análise (Google Analytics) para saber quantas pessoas visitam o site. Nada de anúncios.","Aceitar","Recusar"],en:["We use analytics cookies (Google Analytics) to count visits to the site. No ads.","Accept","Decline"],es:["Usamos cookies de análisis (Google Analytics) para saber cuántas personas visitan la web. Nada de anuncios.","Aceptar","Rechazar"],ca:["Fem servir galetes d'anàlisi (Google Analytics) per saber quantes persones visiten el web. Res d'anuncis.","Acceptar","Rebutjar"]};
+var t=T[l]||T.pt,b=document.getElementById("bx-cookie");document.getElementById("bx-cookie-t").textContent=t[0];document.getElementById("bx-cookie-y").textContent=t[1];document.getElementById("bx-cookie-n").textContent=t[2];b.hidden=false;
+function s(v){try{localStorage.setItem("bx-consent",v)}catch(e){}if(v==="yes")gtag("consent","update",{analytics_storage:"granted"});b.hidden=true}
+document.getElementById("bx-cookie-y").onclick=function(){s("yes")};document.getElementById("bx-cookie-n").onclick=function(){s("no")};})();
+</script>
 </body>
 </html>
