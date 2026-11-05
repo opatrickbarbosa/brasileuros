@@ -7,15 +7,29 @@
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
 var bxc=null;try{bxc=localStorage.getItem("bx-consent")}catch(e){}
 gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:bxc==="yes"?"granted":"denied",wait_for_update:500});
-gtag("js",new Date());gtag("config","G-7GCP6QP5CH");
+gtag("js",new Date());gtag("config","G-7GCP6QP5CH",{send_page_view:false});
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7GCP6QP5CH"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Brasileuros: stand-up brasileiro com Patrick Barbosa e Pipo Marquetti. Toda quarta, 19:30, no Bar La Chirigota, Barcelona.">
 <meta name="theme-color" content="#1453c4">
+<link rel="canonical" href="https://www.brasileuros.com/">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e74b8'/%3E%3Ctext x='32' y='47' font-family='Arial Black,Arial,sans-serif' font-weight='900' font-size='40' text-anchor='middle' fill='%23ffd400'%3EB%E2%82%AC%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Brasileuros">
+<meta property="og:url" content="https://www.brasileuros.com/">
+<meta property="og:locale" content="pt_BR">
 <meta property="og:title" content="Brasileuros · Comédia do Nosso Jeitinho">
-<meta property="og:description" content="Stand-up brasileiro toda quarta no Bar La Chirigota, Barcelona.">
-<meta property="og:image" content="/assets/duo.webp">
+<meta property="og:description" content="Stand-up em português/portunhol toda quarta, 19:30, no Bar La Chirigota, Barcelona.">
+<meta property="og:image" content="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1195323472%2F3011147323691%2F1%2Foriginal.20261007-222528?crop=focalpoint&amp;fit=crop&amp;w=940&amp;auto=format%2Ccompress&amp;q=75&amp;sharp=10&amp;fp-x=0.5&amp;fp-y=0.5&amp;s=6895f7a0039537a01098f9e2772b9312">
+<meta property="og:image:width" content="940">
+<meta property="og:image:height" content="470">
+<meta property="og:image:alt" content="Banner do Brasileuros – Comédia do Nosso Jeitinho, toda quarta às 19:30">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1195323472%2F3011147323691%2F1%2Foriginal.20261007-222528?crop=focalpoint&amp;fit=crop&amp;w=940&amp;auto=format%2Ccompress&amp;q=75&amp;sharp=10&amp;fp-x=0.5&amp;fp-y=0.5&amp;s=6895f7a0039537a01098f9e2772b9312">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.brasileuros.com/#org","name":"Brasileuros","alternateName":"Brasileuros – Comédia do Nosso Jeitinho","url":"https://www.brasileuros.com/","logo":"https://www.brasileuros.com/assets/apple-touch-icon.png","sameAs":["https://www.instagram.com/osbrasileuros/","https://www.youtube.com/@osbrasileuros","https://www.tiktok.com/@osbrasileuros"]},{"@type":"WebSite","@id":"https://www.brasileuros.com/#site","url":"https://www.brasileuros.com/","name":"Brasileuros","inLanguage":["pt-BR","en","es","ca"],"publisher":{"@id":"https://www.brasileuros.com/#org"}}]}</script>
 <style>html,body{margin:0}body{min-height:100%}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 </head>
 <body>
@@ -581,6 +595,8 @@ body.home.at-top::before{background:transparent}
 .prose{max-width:68ch;display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
 .prose h2{font-size:1.8rem;margin-top:14px}
 .prose ul{margin:0;padding-left:1.2em;display:grid;gap:6px}
+.prose a{color:inherit;text-decoration:underline}
+.soon{max-width:640px;margin:0 auto;text-align:center;background:#0b1f4d;color:#f3f6fb;border:0}.soon h2{margin:0 0 8px;color:#ffd400}.soon>p{margin:0 0 18px;color:#c9d6f2}
 .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 @media (max-width:820px){.contact-grid{grid-template-columns:1fr}}
 .addr{font-weight:700;font-size:1.05rem;user-select:all;word-break:break-all}
@@ -786,6 +802,10 @@ Object.assign(T.pt,{hubH:"Comediantes brasileiros na Europa",hubP:"Um hub de que
 Object.assign(T.en,{hubH:"Brazilian comedians in Europe",hubP:"A hub for Brazilian stand-up comedians living in Europe. Find who's performing near you.",allCities:"All cities",joinH:"Are you a Brazilian comedian living in Europe?",joinP:"Join the hub. Send your name, city and a link to your work and the team will get in touch.",joinCity:"City you live in",joinLink:"Instagram or video (link)",joinBtn:"Join the hub",errJoin:"Fill in name, city and a valid email.",joinDone:n=>`Got it, ${n}. The team will get in touch.`});
 Object.assign(T.es,{hubH:"Cómicos brasileños en Europa",hubP:"Un hub de cómicos brasileños que viven en Europa. Encuentra quién actúa cerca de ti.",allCities:"Todas las ciudades",joinH:"¿Eres cómico brasileño y vives en Europa?",joinP:"Únete al hub. Envía tu nombre, ciudad y un enlace a tu trabajo y la producción te escribe.",joinCity:"Ciudad donde vives",joinLink:"Instagram o vídeo (enlace)",joinBtn:"Quiero unirme",errJoin:"Rellena nombre, ciudad y un email válido.",joinDone:n=>`Recibido, ${n}. La producción te escribirá.`});
 Object.assign(T.ca,{hubH:"Còmics brasilers a Europa",hubP:"Un hub de còmics brasilers que viuen a Europa. Troba qui actua a prop teu.",allCities:"Totes les ciutats",joinH:"Ets còmic brasiler i vius a Europa?",joinP:"Uneix-te al hub. Envia el teu nom, ciutat i un enllaç a la teva feina i la producció et contactarà.",joinCity:"Ciutat on vius",joinLink:"Instagram o vídeo (enllaç)",joinBtn:"Vull unir-me",errJoin:"Omple nom, ciutat i un correu vàlid.",joinDone:n=>`Rebut, ${n}. La producció et contactarà.`});
+Object.assign(T.pt,{"privH": "Privacidade, cookies e aviso legal", "privP": "Como tratamos os seus dados, conforme o RGPD e a LOPDGDD.", "cookieBtn": "Alterar minha escolha de cookies", "metaHome": "Brasileuros · Stand-up brasileiro em Barcelona", "metaDesc": "Show de comédia em português/portunhol toda quarta, 19:30, no Bar La Chirigota, Barcelona. Com Patrick Barbosa e Pipo Marquetti.", "nfH": "Página não encontrada", "nfP": "Esse endereço não existe ou o show já passou.", "nfHome": "Ir para o início", "nfAgenda": "Ver a agenda", "soonH": "Nova temporada em breve", "soonP": "Deixe seu e-mail e a gente avisa quando as novas datas abrirem.", "priv": [["Quem é o responsável", "O site brasileuros.com e o show Brasileuros são da <b>Zuca Produções</b> (Zuca Producciones), em Barcelona, Espanha. Para qualquer pedido sobre os seus dados, use o <a href=\"#contato\">formulário de contato</a> e escolha o assunto que preferir, escrevendo “Privacidade” na mensagem."], ["Que dados usamos e para quê", "<ul><li><b>Avisos de shows:</b> nome e e-mail, para mandar um e-mail quando abrir show novo. Base legal: o seu consentimento.</li><li><b>Contato e propostas para empresas:</b> nome, e-mail, WhatsApp (se você informar) e o que escrever, para responder ao seu pedido. Base legal: medidas pré-contratuais e o nosso interesse legítimo em responder.</li><li><b>Medição de audiência (Google Analytics):</b> páginas vistas e origem da visita, de forma estatística, só se você aceitar os cookies de análise. Base legal: o seu consentimento.</li><li><b>Ingressos:</b> a compra acontece no Eventbrite, que trata os seus dados conforme a política de privacidade dele.</li></ul>"], ["Com quem compartilhamos", "Não vendemos nem cedemos dados. Usamos fornecedores que tratam dados em nosso nome: Web3Forms (entrega dos formulários por e-mail), Google (planilha da lista de avisos e Google Analytics) e Vercel (hospedagem do site). Alguns ficam fora da União Europeia; nesses casos a transferência se apoia nas cláusulas contratuais tipo da Comissão Europeia ou no EU-US Data Privacy Framework."], ["Por quanto tempo", "Lista de avisos: até você pedir para sair. Contato e propostas: o tempo necessário para responder e, se virar contrato, os prazos que a lei exigir. Dados de medição no nível de usuário: 2 meses no Google Analytics."], ["Os seus direitos", "Você pode pedir acesso, correção, exclusão, oposição, limitação e portabilidade dos seus dados, e retirar o consentimento a qualquer momento, pelo <a href=\"#contato\">formulário de contato</a>. Se achar que não respeitamos os seus direitos, pode reclamar na Agencia Española de Protección de Datos (<a href=\"https://www.aepd.es\" target=\"_blank\" rel=\"noopener\">aepd.es</a>)."], ["Cookies", "<ul><li><b>Necessários:</b> guardamos no seu navegador o idioma escolhido e a sua resposta ao aviso de cookies. Não servem para rastrear você.</li><li><b>Análise (só com o seu aceite):</b> cookies _ga e _ga_* do Google Analytics, com duração de até 2 anos, para contar visitas e páginas vistas.</li></ul>Não usamos cookies de publicidade."], ["Aviso legal", "Titular do site: Zuca Produções (Zuca Producciones), Barcelona, Espanha. Contato pelo <a href=\"#contato\">formulário do site</a>. Os textos, fotos e marcas do site pertencem aos seus autores e não podem ser usados sem autorização."]]});
+Object.assign(T.en,{"privH": "Privacy, cookies and legal notice", "privP": "How we handle your data under the GDPR.", "cookieBtn": "Change my cookie choice", "metaHome": "Brasileuros · Brazilian stand-up comedy in Barcelona", "metaDesc": "Comedy in Portuguese/Portuñol every Wednesday, 7:30 pm, at Bar La Chirigota, Barcelona. With Patrick Barbosa and Pipo Marquetti.", "nfH": "Page not found", "nfP": "This address doesn't exist or the show has already happened.", "nfHome": "Go to the home page", "nfAgenda": "See the shows", "soonH": "New season coming soon", "soonP": "Leave your email and we'll let you know when new dates open.", "priv": [["Who is responsible", "The website brasileuros.com and the Brasileuros show belong to <b>Zuca Produções</b> (Zuca Producciones), Barcelona, Spain. For any request about your data, use the <a href=\"#contato\">contact form</a> and write “Privacy” in your message."], ["What data we use and why", "<ul><li><b>Show alerts:</b> name and email, to send you an email when a new show opens. Legal basis: your consent.</li><li><b>Contact and company quotes:</b> name, email, WhatsApp (if you give it) and what you write, to answer your request. Legal basis: pre-contractual steps and our legitimate interest in replying.</li><li><b>Audience measurement (Google Analytics):</b> pages viewed and where the visit came from, as statistics, only if you accept analytics cookies. Legal basis: your consent.</li><li><b>Tickets:</b> purchases happen on Eventbrite, which handles your data under its own privacy policy.</li></ul>"], ["Who we share it with", "We never sell or give away data. We use providers that process data on our behalf: Web3Forms (delivers the forms by email), Google (the alerts spreadsheet and Google Analytics) and Vercel (website hosting). Some are outside the European Union; those transfers rely on the European Commission’s standard contractual clauses or the EU-US Data Privacy Framework."], ["How long we keep it", "Alerts list: until you ask to leave. Contact and quotes: as long as needed to reply and, if it becomes a contract, the periods required by law. User-level measurement data: 2 months in Google Analytics."], ["Your rights", "You can ask to access, correct, delete, object to, restrict or port your data, and withdraw consent at any time, through the <a href=\"#contato\">contact form</a>. You can also complain to the Spanish Data Protection Agency (<a href=\"https://www.aepd.es\" target=\"_blank\" rel=\"noopener\">aepd.es</a>)."], ["Cookies", "<ul><li><b>Necessary:</b> your browser stores the language you chose and your answer to the cookie notice. They are not used to track you.</li><li><b>Analytics (only if you accept):</b> Google Analytics cookies _ga and _ga_*, lasting up to 2 years, to count visits and page views.</li></ul>We do not use advertising cookies."], ["Legal notice", "Website owner: Zuca Produções (Zuca Producciones), Barcelona, Spain. Contact through the <a href=\"#contato\">website form</a>. Texts, photos and brands on this site belong to their authors and may not be used without permission."]]});
+Object.assign(T.es,{"privH": "Privacidad, cookies y aviso legal", "privP": "Cómo tratamos tus datos según el RGPD y la LOPDGDD.", "cookieBtn": "Cambiar mi elección de cookies", "metaHome": "Brasileuros · Stand-up brasileño en Barcelona", "metaDesc": "Comedia en portugués/portuñol todos los miércoles, 19:30, en el Bar La Chirigota, Barcelona. Con Patrick Barbosa y Pipo Marquetti.", "nfH": "Página no encontrada", "nfP": "Esta dirección no existe o el show ya pasó.", "nfHome": "Ir al inicio", "nfAgenda": "Ver la agenda", "soonH": "Nueva temporada muy pronto", "soonP": "Déjanos tu email y te avisamos cuando abran las nuevas fechas.", "priv": [["Responsable", "La web brasileuros.com y el show Brasileuros son de <b>Zuca Producciones</b>, en Barcelona, España. Para cualquier solicitud sobre tus datos, usa el <a href=\"#contato\">formulario de contacto</a> y escribe “Privacidad” en el mensaje."], ["Qué datos usamos y para qué", "<ul><li><b>Avisos de shows:</b> nombre y email, para enviarte un email cuando haya un show nuevo. Base legal: tu consentimiento.</li><li><b>Contacto y presupuestos para empresas:</b> nombre, email, WhatsApp (si lo indicas) y lo que escribas, para responder a tu solicitud. Base legal: medidas precontractuales y nuestro interés legítimo en responder.</li><li><b>Medición de audiencia (Google Analytics):</b> páginas vistas y origen de la visita, de forma estadística, solo si aceptas las cookies de análisis. Base legal: tu consentimiento.</li><li><b>Entradas:</b> la compra se hace en Eventbrite, que trata tus datos según su propia política de privacidad.</li></ul>"], ["Con quién los compartimos", "No vendemos ni cedemos datos. Usamos proveedores que tratan datos por cuenta nuestra: Web3Forms (entrega de los formularios por email), Google (hoja de cálculo de la lista de avisos y Google Analytics) y Vercel (alojamiento de la web). Algunos están fuera de la Unión Europea; en esos casos la transferencia se basa en las cláusulas contractuales tipo de la Comisión Europea o en el EU-US Data Privacy Framework."], ["Cuánto tiempo", "Lista de avisos: hasta que pidas la baja. Contacto y presupuestos: el tiempo necesario para responder y, si se convierte en contrato, los plazos legales. Datos de medición a nivel de usuario: 2 meses en Google Analytics."], ["Tus derechos", "Puedes solicitar el acceso, rectificación, supresión, oposición, limitación y portabilidad de tus datos, y retirar el consentimiento en cualquier momento, desde el <a href=\"#contato\">formulario de contacto</a>. También puedes reclamar ante la Agencia Española de Protección de Datos (<a href=\"https://www.aepd.es\" target=\"_blank\" rel=\"noopener\">aepd.es</a>)."], ["Cookies", "<ul><li><b>Necesarias:</b> tu navegador guarda el idioma elegido y tu respuesta al aviso de cookies. No sirven para rastrearte.</li><li><b>Análisis (solo si aceptas):</b> cookies _ga y _ga_* de Google Analytics, con duración de hasta 2 años, para contar visitas y páginas vistas.</li></ul>No usamos cookies publicitarias."], ["Aviso legal", "Titular de la web: Zuca Producciones, Barcelona, España. Contacto desde el <a href=\"#contato\">formulario de la web</a>. Los textos, fotos y marcas de la web pertenecen a sus autores y no pueden usarse sin autorización."]]});
+Object.assign(T.ca,{"privH": "Privacitat, galetes i avís legal", "privP": "Com tractem les teves dades segons el RGPD i la LOPDGDD.", "cookieBtn": "Canviar la meva elecció de galetes", "metaHome": "Brasileuros · Stand-up brasiler a Barcelona", "metaDesc": "Comèdia en portuguès/portunyol cada dimecres, 19.30, al Bar La Chirigota, Barcelona. Amb Patrick Barbosa i Pipo Marquetti.", "nfH": "Pàgina no trobada", "nfP": "Aquesta adreça no existeix o el show ja ha passat.", "nfHome": "Anar a l'inici", "nfAgenda": "Veure l'agenda", "soonH": "Nova temporada molt aviat", "soonP": "Deixa'ns el teu correu i t'avisem quan s'obrin les noves dates.", "priv": [["Responsable", "El web brasileuros.com i el show Brasileuros són de <b>Zuca Producciones</b>, a Barcelona. Per a qualsevol sol·licitud sobre les teves dades, fes servir el <a href=\"#contato\">formulari de contacte</a> i escriu “Privacitat” al missatge."], ["Quines dades fem servir i per a què", "<ul><li><b>Avisos de shows:</b> nom i correu, per enviar-te un correu quan hi hagi un show nou. Base legal: el teu consentiment.</li><li><b>Contacte i pressupostos per a empreses:</b> nom, correu, WhatsApp (si l’indiques) i el que escriguis, per respondre la teva sol·licitud. Base legal: mesures precontractuals i el nostre interès legítim a respondre.</li><li><b>Mesura d’audiència (Google Analytics):</b> pàgines vistes i origen de la visita, de manera estadística, només si acceptes les galetes d’anàlisi. Base legal: el teu consentiment.</li><li><b>Entrades:</b> la compra es fa a Eventbrite, que tracta les teves dades segons la seva pròpia política de privacitat.</li></ul>"], ["Amb qui les compartim", "No venem ni cedim dades. Fem servir proveïdors que tracten dades per compte nostre: Web3Forms (lliurament dels formularis per correu), Google (full de càlcul de la llista d’avisos i Google Analytics) i Vercel (allotjament del web). Alguns són fora de la Unió Europea; en aquests casos la transferència es basa en les clàusules contractuals tipus de la Comissió Europea o en l’EU-US Data Privacy Framework."], ["Quant de temps", "Llista d’avisos: fins que demanis la baixa. Contacte i pressupostos: el temps necessari per respondre i, si esdevé contracte, els terminis legals. Dades de mesura a nivell d’usuari: 2 mesos a Google Analytics."], ["Els teus drets", "Pots demanar l’accés, rectificació, supressió, oposició, limitació i portabilitat de les teves dades, i retirar el consentiment en qualsevol moment, des del <a href=\"#contato\">formulari de contacte</a>. També pots reclamar a l’Agencia Española de Protección de Datos (<a href=\"https://www.aepd.es\" target=\"_blank\" rel=\"noopener\">aepd.es</a>)."], ["Galetes", "<ul><li><b>Necessàries:</b> el teu navegador guarda l’idioma triat i la teva resposta a l’avís de galetes. No serveixen per rastrejar-te.</li><li><b>Anàlisi (només si acceptes):</b> galetes _ga i _ga_* de Google Analytics, amb una durada de fins a 2 anys, per comptar visites i pàgines vistes.</li></ul>No fem servir galetes publicitàries."], ["Avís legal", "Titular del web: Zuca Producciones, Barcelona. Contacte des del <a href=\"#contato\">formulari del web</a>. Els textos, fotos i marques del web pertanyen als seus autors i no es poden fer servir sense autorització."]]});
 const t=k=>T[LANG][k]??T.pt[k];
 
 /* ---------- dados ---------- */
@@ -950,7 +970,7 @@ function pHome(){
   <div class="ticker" aria-hidden="true"><div class="ticker-track">${[...t("ticker"),...t("ticker")].map(c=>`<span>${c}</span>`).join("")}</div></div>
   <section class="section" id="home-shows"><div class="wrap">
     <div class="section-head"><div><p class="eyebrow">${t("onStage")}</p><h2>${t("nextShows")}</h2></div><a class="link-more" href="#agenda">${t("fullAgenda")}</a></div>
-    <div class="shows">${up.slice(0,3).map(s=>showCard(s)).join("")}</div>
+    ${up.length?`<div class="shows">${up.slice(0,3).map(s=>showCard(s)).join("")}</div>`:soonBlock()}
   </div></section>
   <section class="section" style="padding-top:0"><div class="wrap">
     <div class="section-head"><div><p class="eyebrow">${t("cast")}</p><h2>${t("castH")}</h2></div></div>
@@ -982,7 +1002,7 @@ function monthTabs(list,id,mini){
   const lab=m=>{const[y,mm]=m.split("-").map(Number);const x=fmt({month:"long"},new Date(y,mm-1,1));return x.charAt(0).toUpperCase()+x.slice(1)};
   return `<div class="mtabs" role="tablist">${months.map((m,i)=>`<button type="button" role="tab" class="mtab" data-mtab="${id}:${m}" aria-selected="${i===0}">${lab(m)}</button>`).join("")}</div>
     ${months.map((m,i)=>`<div class="shows" data-mpanel="${id}:${m}"${i?" hidden":""}>${list.filter(s=>s.data.startsWith(m)).map(s=>showCard(s,mini)).join("")}</div>`).join("")}`}
-function pAgenda(){return phero(t("agendaH"),t("agendaP"))+`<section class="section" style="padding-top:28px"><div class="wrap">${monthTabs(upcoming(),"ag")}</div></section>`}
+function pAgenda(){const up=upcoming();return phero(t("agendaH"),t("agendaP"))+`<section class="section" style="padding-top:28px"><div class="wrap">${up.length?monthTabs(up,"ag"):soonBlock()}</div></section>`}
 function _oldAgenda(){return phero(t("agendaH"),t("agendaP"))+`<section class="section" style="padding-top:28px"><div class="wrap"><div class="shows">${upcoming().map(s=>showCard(s)).join("")||`<div class="empty">${t("noDates")}</div>`}</div></div></section>`}
 function pCast(){
   const cities=[...new Set(COMEDIANS.map(c=>c.city))];
@@ -1088,7 +1108,9 @@ function pContato(){
       <p class="err" hidden></p><button class="btn btn-sun" type="submit">${t("send")}</button>
     </form></div></section>`}
 
-function pPriv(){return phero(t("privH"),t("privP"))+`<section class="section"><div class="wrap"><div class="prose">${t("priv").map(([h,p])=>`<h2>${h}</h2><p>${p}</p>`).join("")}</div></div></section>`}
+function pPriv(){return phero(t("privH"),t("privP"))+`<section class="section"><div class="wrap"><div class="prose">${t("priv").map(([h,p])=>`<h2>${h}</h2>${p.startsWith("<ul>")?p:`<p>${p}</p>`}`).join("")}<p><button type="button" class="btn btn-sun" data-cookie-reset>${t("cookieBtn")}</button></p></div></div></section>`}
+function p404(){return phero(t("nfH"),t("nfP"),`<div class="hero-ctas" style="margin-top:22px"><a class="btn btn-sun" href="#agenda">${t("nfAgenda")}</a> <a class="btn" href="#">${t("nfHome")}</a></div>`)}
+function soonBlock(){return `<div class="panel soon"><h2>${t("soonH")}</h2><p>${t("soonP")}</p>${vipForm("soon")}</div>`}
 
 /* ---------- interações ---------- */
 function openWait(s){
@@ -1109,7 +1131,7 @@ document.addEventListener("click",e=>{
 async function submitTo(f,subject,data,doneHtml){
   const btn=f.querySelector("button[type=submit]"),err=f.querySelector(".err"),label=btn.textContent;
   btn.disabled=true;btn.textContent=t("sending");err.hidden=true;
-  try{await sendForm(subject,data);f.innerHTML=doneHtml}
+  try{await sendForm(subject,data);f.innerHTML=doneHtml;if(window.gtag)gtag("event","generate_lead",{formulario:(subject.split(" · ")[1]||subject)})}
   catch(_){err.textContent=t("sendFail");err.hidden=false;btn.disabled=false;btn.textContent=label}
 }
 document.addEventListener("submit",e=>{
@@ -1130,6 +1152,12 @@ document.addEventListener("submit",e=>{
     return submitTo(f,"Brasileuros · contato · "+f.topic.value,{nome:f.nome.value,email:f.mail.value,assunto:f.topic.value,mensagem:f.msg.value,_replyto:f.mail.value},`<div class="done"><b>${t("contactDone")}</b></div>`)}
 });
 
+document.addEventListener("click",e=>{
+  const tk=e.target.closest('a[href*="eventbrite."]');
+  if(tk&&window.gtag)gtag("event","comprar_entradas",{link_url:tk.href,pagina:curRoute()||"inicio",transport_type:"beacon"});
+  const cr=e.target.closest("[data-cookie-reset]");
+  if(cr){try{localStorage.removeItem("bx-consent")}catch(_){}if(window.gtag)gtag("consent","update",{analytics_storage:"denied"});location.reload()}
+},true);
 /* ---------- rotas (endereços limpos, sem #) ---------- */
 const ROUTES=["agenda","comediantes","corporativo","sobre","contato","privacidade","ficha-tecnica","entradas","links"];
 const BASE=(()=>{let p=location.pathname.replace(/index\.html$/,"");const parts=p.split("/");const last=parts[parts.length-1]||parts[parts.length-2]||"";
@@ -1154,7 +1182,7 @@ function route(){
   document.body.classList.toggle("home",r==="");
   document.documentElement.lang=LOCALE[LANG];
   const app=document.getElementById("app");document.getElementById("layer").innerHTML="";
-  if(r==="entradas"||r==="links"){app.innerHTML=pLinks();fixLinks();scrollTo(0,0);return}
+  if(r==="entradas"||r==="links"){app.innerHTML=pLinks();fixLinks();scrollTo(0,0);setMeta(r);return}
   let body,target=null;
   if(r==="agenda")body=pAgenda();
   else if(r==="comediantes")body=pCast();
@@ -1165,12 +1193,42 @@ function route(){
   else if(r==="contato")body=pContato();
   else if(r==="privacidade")body=pPriv();
   else if(r==="ficha-tecnica")body=pFicha();
-  else body=pHome();
+  else if(r==="")body=pHome();
+  else body=p404();
   const nr=target?(target.startsWith("agenda-")?target.slice(7):"corporativo"):r;
   app.innerHTML=header(nr)+`<main>${body}</main>`+footer();fixLinks();
   if(target){const el=document.getElementById(target);if(el)scrollTo(0,el.getBoundingClientRect().top+scrollY-90)}else scrollTo(0,0);
-  decorate();
+  decorate();setMeta(r);
 }
+function setMeta(r){
+  const known=r===""||ROUTES.includes(r)||C[r]||(r.startsWith("agenda-")&&C[r.slice(7)]);
+  const page=(r.startsWith("agenda-")&&C[r.slice(7)])?r.slice(7):(r==="links"?"entradas":r);
+  const h1=document.querySelector("main .phero h1, main .prof-copy h1");
+  const name=r===""?"":(r==="entradas"||r==="links")?t("short"):(h1?h1.textContent.trim():"");
+  document.title=r===""?t("metaHome"):(name?name+" · Brasileuros":"Brasileuros");
+  const pe=document.querySelector("main .phero p, main .prof-copy p");
+  let desc=(r!==""&&pe&&pe.textContent.trim().length>40)?pe.textContent.trim():t("metaDesc");
+  if(desc.length>158)desc=desc.slice(0,155).replace(/\s+\S*$/,"")+"…";
+  const m=(sel,attr,val)=>{let el=document.head.querySelector(sel);if(!el){el=document.createElement(sel.startsWith("link")?"link":"meta");const k=sel.match(/\[(\w+)="([^"]+)"\]/);el.setAttribute(k[1],k[2]);document.head.appendChild(el)}el.setAttribute(attr,val)};
+  m('meta[name="description"]',"content",desc);
+  m('link[rel="canonical"]',"href","https://www.brasileuros.com/"+(known?page:""));
+  m('meta[name="robots"]',"content",known?"index,follow":"noindex,follow");
+  m('meta[property="og:title"]',"content",document.title);
+  m('meta[property="og:description"]',"content",desc);
+  m('meta[property="og:url"]',"content","https://www.brasileuros.com/"+(known?page:""));
+  if(window.gtag&&window._bxLastPv!==location.pathname){window._bxLastPv=location.pathname;gtag("event","page_view",{page_title:document.title,page_location:location.href,page_path:location.pathname,language:LANG})}
+  if(!document.getElementById("ld-events"))eventsLD();
+}
+function eventsLD(){
+  const PLACE={"Bar La Chirigota":{"@type":"Place",name:"La Chirigota",address:{"@type":"PostalAddress",streetAddress:"Carrer de Mallorca, 272",postalCode:"08037",addressLocality:"Barcelona",addressRegion:"Catalunya",addressCountry:"ES"}}};
+  const ev=upcoming().filter(s=>!s.own&&s.url&&PLACE[s.sala]&&s.status!=="CANCELADO").map(s=>{const[hh,mm]=s.hora.split(":").map(Number);const end=String(hh+1+(mm+30>=60?1:0)).padStart(2,"0")+":"+String((mm+30)%60).padStart(2,"0");
+    return {"@context":"https://schema.org","@type":"ComedyEvent",name:s.titulo,description:"Stand-up em português/portunhol sobre a vida de brasileiro na Europa. "+s.sala+", "+s.cidade+".",
+      startDate:s.data+"T"+s.hora+":00+01:00",endDate:s.data+"T"+end+":00+01:00",eventStatus:"https://schema.org/EventScheduled",eventAttendanceMode:"https://schema.org/OfflineEventAttendanceMode",
+      inLanguage:"pt-BR",location:PLACE[s.sala],image:[IMG.ebcover],url:"https://www.brasileuros.com/agenda",
+      performer:s.artistas.map(a=>({"@type":"Person",name:C[a]?C[a].name:a})),
+      organizer:{"@type":"Organization",name:"Zuca Produções",url:"https://www.brasileuros.com/"},
+      offers:{"@type":"Offer",url:s.url,price:"9.10",priceCurrency:"EUR",availability:st(s)==="ESGOTADO"?"https://schema.org/SoldOut":"https://schema.org/InStock",validFrom:"2026-08-24T00:00:00+02:00"}}});
+  if(!ev.length)return;const sc=document.createElement("script");sc.type="application/ld+json";sc.id="ld-events";sc.textContent=JSON.stringify(ev);document.head.appendChild(sc)}
 function decorate(){
   document.querySelectorAll("[data-car]").forEach(c=>{const tr=c.querySelector(".car-track"),n=tr.children.length,cnt=c.querySelector(".car-count");
     const upd=()=>{const i=Math.round(tr.scrollLeft/tr.clientWidth);cnt.textContent=(i+1)+" / "+n;c.querySelector(".prev").disabled=i<=0;c.querySelector(".next").disabled=i>=n-1};
@@ -1224,7 +1282,7 @@ route(); decorate(); onScroll();
 <script>
 (function(){var c=null,l="pt";try{c=localStorage.getItem("bx-consent");l=localStorage.getItem("bx-lang")||(navigator.language||"pt").slice(0,2)}catch(e){}
 if(c)return;var T={pt:["Usamos cookies de análise (Google Analytics) para saber quantas pessoas visitam o site. Nada de anúncios.","Aceitar","Recusar"],en:["We use analytics cookies (Google Analytics) to count visits to the site. No ads.","Accept","Decline"],es:["Usamos cookies de análisis (Google Analytics) para saber cuántas personas visitan la web. Nada de anuncios.","Aceptar","Rechazar"],ca:["Fem servir galetes d'anàlisi (Google Analytics) per saber quantes persones visiten el web. Res d'anuncis.","Acceptar","Rebutjar"]};
-var t=T[l]||T.pt,b=document.getElementById("bx-cookie");document.getElementById("bx-cookie-t").textContent=t[0];document.getElementById("bx-cookie-y").textContent=t[1];document.getElementById("bx-cookie-n").textContent=t[2];b.hidden=false;
+var t=T[l]||T.pt,b=document.getElementById("bx-cookie");document.getElementById("bx-cookie-t").innerHTML=t[0]+' <a href="/privacidade" style="color:#ffd400;text-decoration:underline">'+({pt:"Saiba mais",en:"Learn more",es:"Más información",ca:"Més informació"}[l]||"Saiba mais")+'</a>';document.getElementById("bx-cookie-y").textContent=t[1];document.getElementById("bx-cookie-n").textContent=t[2];b.hidden=false;
 function s(v){try{localStorage.setItem("bx-consent",v)}catch(e){}if(v==="yes")gtag("consent","update",{analytics_storage:"granted"});b.hidden=true}
 document.getElementById("bx-cookie-y").onclick=function(){s("yes")};document.getElementById("bx-cookie-n").onclick=function(){s("no")};})();
 </script>
