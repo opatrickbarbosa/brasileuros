@@ -813,14 +813,21 @@ const NETS=[["instagram","Instagram"],["youtube","YouTube"],["tiktok","TikTok"]]
 const BRAND_SOCIAL={instagram:"https://www.instagram.com/osbrasileuros/",youtube:"https://www.youtube.com/@osbrasileuros",tiktok:"https://www.tiktok.com/@osbrasileuros"};
 function socialIcons(c){const S=c.social||BRAND_SOCIAL;return `<div class="socials">${NETS.filter(([k])=>S[k]).map(([k,l])=>`<a class="soc" href="${S[k]}" target="_blank" rel="noopener" aria-label="${l} ${esc(c.name||"Brasileuros")}">${ICON[k]}</a>`).join("")}</div>`}
 
-const TICKETS="https://brasileuros.eventbrite.com";
-const SEASON=["2026-11-04","2026-11-11","2026-11-18","2026-11-25","2026-12-02","2026-12-09","2026-12-16","2026-12-23","2026-12-30"];
+const TICKETS="https://www.eventbrite.com/cc/brasileuros-comedia-do-nosso-jeitinho-4888238";
+const SEASON=["2026-11-04","2026-11-11","2026-11-18","2026-11-25","2026-12-02","2026-12-09","2026-12-16"];
+const EB={"2026-11-04":"https://www.eventbrite.com/e/brasileuros-comedia-do-nosso-jeitinho-tickets-1998371145892",
+ "2026-11-11":"https://www.eventbrite.com/e/brasileuros-comedia-do-nosso-jeitinho-11-de-novembro-tickets-2004419905896",
+ "2026-11-18":"https://www.eventbrite.com/e/brasileuros-comedia-do-nosso-jeitinho-18-de-novembro-tickets-2004425030223",
+ "2026-11-25":"https://www.eventbrite.com/e/brasileuros-comedia-do-nosso-jeitinho-25-de-novembro-tickets-2004425057304",
+ "2026-12-02":"https://www.eventbrite.com/e/brasileuros-comedia-do-nosso-jeitinho-2-de-dezembro-tickets-2004425076361",
+ "2026-12-09":"https://www.eventbrite.com/e/brasileuros-comedia-do-nosso-jeitinho-9-de-dezembro-tickets-2004425082379",
+ "2026-12-16":"https://www.eventbrite.com/e/brasileuros-comedia-do-nosso-jeitinho-16-de-dezembro-tickets-2004425092409"};
 function weekly(dow,from,to){const out=[];const x=new Date(from+"T12:00:00");while(x.getDay()!==dow)x.setDate(x.getDate()+1);const end=new Date(to+"T12:00:00");
   while(x<=end){out.push(x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0"));x.setDate(x.getDate()+7)}return out}
 const LASC_THU=weekly(4,"2026-11-01","2026-12-31");
 const NEVER=["2026-11-02","2026-11-09","2026-11-16","2026-11-23","2026-11-30","2026-12-07","2026-12-14"];
 const SHOWS=[
- ...SEASON.map((dd,i)=>({id:"bcn-"+dd.slice(5).replace("-",""),titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:dd,hora:"19:30",cidade:"Barcelona",sala:"Bar La Chirigota",status:"AUTO",url:TICKETS,premiere:i===0})),
+ ...SEASON.map((dd,i)=>({id:"bcn-"+dd.slice(5).replace("-",""),titulo:"Brasileuros – Comédia do Nosso Jeitinho",artistas:["patrick-barbosa","pipo-marquetti"],data:dd,hora:"19:30",cidade:"Barcelona",sala:"Bar La Chirigota",status:"AUTO",url:EB[dd]||TICKETS,premiere:i===0})),
  ...LASC_THU.map(dd=>({id:"las-"+dd.slice(5).replace("-",""),titulo:"Laughin American Social Club",artistas:["patrick-barbosa"],data:dd,hora:"20:30",cidade:"Barcelona",sala:"Bar AlgoRitmo",status:"INFO",own:true,lang:"EN"})),
  ...NEVER.map(dd=>({id:"nev-"+dd.slice(5).replace("-",""),titulo:"La NEVERita · humor fresco",artistas:["pipo-marquetti"],data:dd,hora:"20:45",cidade:"Barcelona",sala:"Coctelería Never",status:"AUTO",url:"https://www.atrapalo.com/entradas/la-neverita-humor-fresco_e4931062",own:true}))
 ].sort((a,b)=>a.data.localeCompare(b.data));
@@ -1018,7 +1025,7 @@ const CHAPS=[
   txt:{pt:["O show ganha nome, identidade e fotos novas: Brasileuros, Comédia do Nosso Jeitinho. Brasil e euro no mesmo nome, porque é exatamente essa a vida de quem mora aqui."],en:["The show gets a new name, look and photos: Brasileuros, Comédia do Nosso Jeitinho. Brazil and euro in one word, because that's exactly life for Brazilians here."],es:["El show estrena nombre, identidad y fotos: Brasileuros, Comédia do Nosso Jeitinho. Brasil y euro en un mismo nombre, porque esa es la vida de quien vive aquí."],ca:["L'espectacle estrena nom, identitat i fotos: Brasileuros, Comédia do Nosso Jeitinho. Brasil i euro en un mateix nom, perquè aquesta és la vida de qui viu aquí."]}},
  {when:"04.11.2026",img:"duo",contain:true,tag:{pt:"Temporada",en:"Season",es:"Temporada",ca:"Temporada"},
   title:{pt:"Toda quarta no Bar La Chirigota",en:"Every Wednesday at Bar La Chirigota",es:"Todos los miércoles en el Bar La Chirigota",ca:"Cada dimecres al Bar La Chirigota"},place:"Bar La Chirigota, Barcelona",
-  txt:{pt:["Começa a primeira temporada fixa: toda quarta às 19:30, até o fim do ano. Realização de La Chirigota, Zuca Producciones e El Chandrío."],en:["The first regular season begins: every Wednesday at 7:30 pm until the end of the year. Produced by La Chirigota, Zuca Producciones and El Chandrío."],es:["Empieza la primera temporada fija: todos los miércoles a las 19:30, hasta final de año. Producción de La Chirigota, Zuca Producciones y El Chandrío."],ca:["Comença la primera temporada fixa: cada dimecres a les 19.30, fins a final d'any. Producció de La Chirigota, Zuca Producciones i El Chandrío."]}}
+  txt:{pt:["Começa a primeira temporada fixa: toda quarta às 19:30, até 16 de dezembro. Realização de La Chirigota, Zuca Producciones e El Chandrío."],en:["The first regular season begins: every Wednesday at 7:30 pm until 16 December. Produced by La Chirigota, Zuca Producciones and El Chandrío."],es:["Empieza la primera temporada fija: todos los miércoles a las 19:30, hasta el 16 de diciembre. Producción de La Chirigota, Zuca Producciones y El Chandrío."],ca:["Comença la primera temporada fixa: cada dimecres a les 19.30, fins al 16 de desembre. Producció de La Chirigota, Zuca Producciones i El Chandrío."]}}
 ];
 const VENUES=[
  {when:{pt:"19 de março de 2025",en:"19 March 2025",es:"19 de marzo de 2025",ca:"19 de març de 2025"},place:"Associació RAI",city:"Barcelona",imgs:["tl_rai1","tl_rai2","tl_rai3","tl_rai4","tl_rai5"],
