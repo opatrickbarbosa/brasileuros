@@ -405,6 +405,8 @@ legend{font-family:var(--display);font-size:1.3rem;padding:0;margin-bottom:4px;c
 .next-banner .duo{position:absolute;right:6px;bottom:-60px;height:230px;width:auto;max-width:none}
 .next-banner .bill{position:absolute;left:12px;top:30px;width:120px;transform:rotate(-10deg)}
 .next-banner .badge{position:absolute;left:12px;top:12px}
+.next-banner.cover{height:auto;aspect-ratio:2/1;background:var(--sky-deep)}
+.next-banner .ebcover{display:block;width:100%;height:100%;object-fit:cover}
 .next-body{padding:16px 18px 18px;display:grid;gap:8px}
 .next-body .eyebrow{color:var(--sky-2)}
 .next-body h2{font-size:1.6rem}
@@ -612,7 +614,7 @@ body.home.at-top::before{background:transparent}
 <div id="layer"></div>
 
 <script>
-const IMG={logo:"/assets/logo.webp",duo:"/assets/duo.webp",bill:"/assets/bill.webp",patrick:"/assets/patrick.webp",pipo:"/assets/pipo.webp",zuca:"/assets/zuca.png",tl_rai1:"/assets/tl_rai1.webp",tl_rai2:"/assets/tl_rai2.webp",tl_rai3:"/assets/tl_rai3.webp",tl_rai4:"/assets/tl_rai4.webp",tl_rai5:"/assets/tl_rai5.webp",tl_mad1:"/assets/tl_mad1.webp",tl_mad2:"/assets/tl_mad2.webp",tl_mad3:"/assets/tl_mad3.webp",tl_mng1:"/assets/tl_mng1.webp",tl_mng2:"/assets/tl_mng2.webp",tl_mng3:"/assets/tl_mng3.webp",gabriel_face:"/assets/gabriel_face.webp",gabriel_am:"/assets/gabriel_am.webp",abner_face:"/assets/abner_face.webp",abner_am:"/assets/abner_am.webp",patrick_am:"/assets/patrick_am.webp",pipo_am:"/assets/pipo_am.webp",poster_s:"/assets/poster_s.webp",live_pipo:"/assets/live_pipo.webp",fl2604:"/assets/fl2604.webp",fl1806:"/assets/fl1806.webp",g_jump:"/assets/g_jump.webp",ground:"/assets/hero_ground.webp",patrick_face:"/assets/patrick_face.webp",abner_face:"/assets/abner_face.webp",abner_am:"/assets/abner_am.webp",gabriel_face:"/assets/gabriel_face.webp",gabriel_am:"/assets/gabriel_am.webp",pipo_face:"/assets/pipo_face.webp",chirigota:"/assets/logo_chirigota.png",chandrio:"/assets/logo_chandrio.png"};
+const IMG={ebcover:"https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1195323472%2F3011147323691%2F1%2Foriginal.20261007-222528?crop=focalpoint&fit=crop&w=940&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=6895f7a0039537a01098f9e2772b9312",logo:"/assets/logo.webp",duo:"/assets/duo.webp",bill:"/assets/bill.webp",patrick:"/assets/patrick.webp",pipo:"/assets/pipo.webp",zuca:"/assets/zuca.png",tl_rai1:"/assets/tl_rai1.webp",tl_rai2:"/assets/tl_rai2.webp",tl_rai3:"/assets/tl_rai3.webp",tl_rai4:"/assets/tl_rai4.webp",tl_rai5:"/assets/tl_rai5.webp",tl_mad1:"/assets/tl_mad1.webp",tl_mad2:"/assets/tl_mad2.webp",tl_mad3:"/assets/tl_mad3.webp",tl_mng1:"/assets/tl_mng1.webp",tl_mng2:"/assets/tl_mng2.webp",tl_mng3:"/assets/tl_mng3.webp",gabriel_face:"/assets/gabriel_face.webp",gabriel_am:"/assets/gabriel_am.webp",abner_face:"/assets/abner_face.webp",abner_am:"/assets/abner_am.webp",patrick_am:"/assets/patrick_am.webp",pipo_am:"/assets/pipo_am.webp",poster_s:"/assets/poster_s.webp",live_pipo:"/assets/live_pipo.webp",fl2604:"/assets/fl2604.webp",fl1806:"/assets/fl1806.webp",g_jump:"/assets/g_jump.webp",ground:"/assets/hero_ground.webp",patrick_face:"/assets/patrick_face.webp",abner_face:"/assets/abner_face.webp",abner_am:"/assets/abner_am.webp",gabriel_face:"/assets/gabriel_face.webp",gabriel_am:"/assets/gabriel_am.webp",pipo_face:"/assets/pipo_face.webp",chirigota:"/assets/logo_chirigota.png",chandrio:"/assets/logo_chandrio.png"};
 
 /* ---------- idioma ---------- */
 const LANGS=[["pt","PT","Português"],["en","EN","English"],["es","ES","Español"],["ca","CA","Català"]];
@@ -950,7 +952,7 @@ function pLinks(){
   return `<div class="links-page"><div class="lw">
     <div class="links-head"><img src="${IMG.logo}" alt="Brasileuros"><p>${t("linksSub")}</p></div>
     ${next?`<article class="next">
-      <div class="next-banner"><img class="bill" src="${IMG.bill}" alt=""><img class="duo" src="${IMG.duo}" alt="">${next.premiere?`<span class="badge real">${t("premiere")}</span>`:""}</div>
+      <div class="next-banner cover"><img class="ebcover" src="${IMG.ebcover}" alt="Brasileuros – Comédia do Nosso Jeitinho" width="940" height="470" loading="eager">${next.premiere?`<span class="badge real">${t("premiere")}</span>`:""}</div>
       <div class="next-body"><p class="eyebrow">${t("nextShow")}</p><h2>${esc(next.titulo.replace("Brasileuros – ",""))}</h2>
         <p class="when tnum">${fmt({weekday:"long",day:"numeric",month:"long"},nd)} · ${next.hora}</p>
         <p class="where">${esc(next.sala)}, ${esc(next.cidade)}</p>
