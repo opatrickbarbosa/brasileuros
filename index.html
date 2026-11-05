@@ -844,11 +844,13 @@ const fmt=(o,dt)=>new Intl.DateTimeFormat(LOCALE[LANG],o).format(dt).replace("."
 function ticketUrl(s){const bio=/^(entradas|links)$/.test(curRoute());
   const u=new URL(s.url);u.searchParams.set("utm_source",bio?"instagram":"brasileuros");u.searchParams.set("utm_medium",bio?"bio":"site");u.searchParams.set("utm_campaign",bio?"produtora":"agenda");u.searchParams.set("utm_content",s.id);return u.toString()}
 
-/* envio de formulários: destino da produção guardado codificado, nunca exibido */
-const DEST=atob("enVjYXByb2R1Y2Npb25lc0BnbWFpbC5jb20=");
+/* envio de formulários: Web3Forms entrega na caixa da produção */
+const W3F_KEY="fca24820-a244-4164-835b-04a2b443891d";
 async function sendForm(subject,data){
-  const r=await fetch("https://formsubmit.co/ajax/"+DEST,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({_subject:subject,_template:"table",_captcha:"false",...data})});
-  if(!r.ok)throw new Error("send");return r.json()}
+  const {_replyto,...fields}=data;
+  const r=await fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({access_key:W3F_KEY,subject,from_name:"Site Brasileuros",...fields})});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok||!j.success)throw new Error("send");return j}
 
 /* ---------- componentes ---------- */
 function statusBadge(s){
