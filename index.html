@@ -852,6 +852,10 @@ async function sendForm(subject,data){
   const j=await r.json().catch(()=>({}));
   if(!r.ok||!j.success)throw new Error("send");return j}
 
+/* cadastros de "avisos de shows" também vão para a planilha da lista (Google Sheets) */
+const LIST_URL="https://script.google.com/macros/s/AKfycbw1kR9Vv7aGpL35RuZZTpol5A30AFyGWgGZnEzZA1-Jbdz0meijm2CmAKcVaIZO95bs/exec";
+function toList(d){try{fetch(LIST_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)}).catch(()=>{})}catch(_){}}
+
 /* ---------- componentes ---------- */
 function statusBadge(s){
   const b=[],x=st(s),n=daysTo(s);
@@ -1111,7 +1115,7 @@ document.addEventListener("submit",e=>{
     const nome=f.nome.value.trim(),mail=f.mail.value.trim();
     if(!nome||!/^\S+@\S+\.\S+$/.test(mail))return bad(t("errVip"));
     if(!f.ok.checked)return bad(t("errOk"));
-    return submitTo(f,"Brasileuros · avisos de shows",{nome,email:mail,idioma:LANG,origem:f.dataset.vip,_replyto:mail},`<p class="vm-done">${esc(t("vipDone")(nome.split(" ")[0]))}</p>`)}
+    return toList({nome,email:mail,idioma:LANG,origem:f.dataset.vip});submitTo(f,"Brasileuros · avisos de shows",{nome,email:mail,idioma:LANG,origem:f.dataset.vip,_replyto:mail},`<p class="vm-done">${esc(t("vipDone")(nome.split(" ")[0]))}</p>`)}
   if(f.id==="b2b"){
     if(!f.nome.value.trim()||!/^\S+@\S+\.\S+$/.test(f.mail.value)||!f.evt.value.trim())return bad(t("errQuote"));
     return submitTo(f,"Brasileuros · pedido de proposta · "+f.nome.value,{nome:f.nome.value,email:f.mail.value,whatsapp:f.tel.value,evento:f.evt.value,idioma:LANG,_replyto:f.mail.value},`<h2>${t("quoteOk")}</h2><div class="done"><b>${esc(t("quoteDone")(f.nome.value.split(" ")[0]))}</b></div>`)}
