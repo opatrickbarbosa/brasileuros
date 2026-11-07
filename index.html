@@ -1288,5 +1288,27 @@ var t=T[l]||T.pt,b=document.getElementById("bx-cookie");document.getElementById(
 function s(v){try{localStorage.setItem("bx-consent",v)}catch(e){}if(v==="yes")gtag("consent","update",{analytics_storage:"granted"});b.hidden=true}
 document.getElementById("bx-cookie-y").onclick=function(){s("yes")};document.getElementById("bx-cookie-n").onclick=function(){s("no")};})();
 </script>
+<script>
+/* confirmação de inscrição (double opt-in): link do e-mail abre /?confirmar=TOKEN */
+(function(){var q=new URLSearchParams(location.search),tk=q.get("confirmar");if(!tk)return;
+tk=tk.replace(/[^0-9a-fA-F-]/g,"").slice(0,64);
+try{q.delete("confirmar");history.replaceState(null,"",location.pathname+(q.toString()?"?"+q:"")+location.hash)}catch(_){}
+var o=document.createElement("div");o.id="bx-conf";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");
+o.innerHTML='<style>#bx-conf{position:fixed;inset:0;z-index:10000;background:rgba(5,14,38,.82);display:flex;align-items:center;justify-content:center;padding:16px;font-family:Figtree,Arial,sans-serif}#bx-conf .c{width:100%;max-width:440px;background:#102a63;border-radius:20px;overflow:hidden;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.45);color:#fff}#bx-conf .h{background:#1e74b8;border-bottom:6px solid #ffd400}#bx-conf .h img{display:block;width:100%;height:auto}#bx-conf .b{padding:26px 22px 28px}#bx-conf h2{margin:0 0 10px;font-size:1.6rem;line-height:1.2;color:#ffd400}#bx-conf p{margin:0 0 12px;line-height:1.5;color:#fff}#bx-conf .k{display:inline-block;margin:4px 0 16px;padding:10px 16px;border:2px dashed #ffd400;border-radius:12px;font:700 1.5rem "Courier New",monospace;color:#ffd400;letter-spacing:2px}#bx-conf .bt{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 28px;margin-top:4px;border:0;border-radius:999px;background:#ffd400;color:#0b1f4d;font:800 1rem Figtree,Arial,sans-serif;text-decoration:none;cursor:pointer}#bx-conf .x{display:block;margin:14px auto 0;background:none;border:0;color:#c9d6ea;text-decoration:underline;font:500 .9rem Figtree,Arial,sans-serif;cursor:pointer}#bx-conf .sp{width:34px;height:34px;margin:6px auto 14px;border:4px solid rgba(255,255,255,.25);border-top-color:#ffd400;border-radius:50%;animation:bxr 1s linear infinite}@keyframes bxr{to{transform:rotate(360deg)}}</style><div class="c"><div class="h"><img src="/assets/email-header.png" alt="Brasileuros – Comédia do Nosso Jeitinho"></div><div class="b" id="bx-conf-b"><div class="sp"></div><p>Confirmando sua inscrição...</p></div></div>';
+document.body.appendChild(o);
+function fecha(){o.remove()}
+o.addEventListener("click",function(e){if(e.target===o||e.target.classList.contains("x"))fecha()});
+function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function show(r){var b=document.getElementById("bx-conf-b"),n=r&&r.nome?", "+esc(String(r.nome).trim().split(/\s+/)[0]):"";
+if(r&&(r.estado==="ok"||r.estado==="ja")){
+b.innerHTML='<h2>'+(r.estado==="ok"?"Inscrição confirmada":"Você já está na lista")+n+'!</h2><p>'+(r.estado==="ok"?"Seu cupom já está a caminho do seu e&#8209;mail:":"Seu cupom de desconto é:")+'</p><div class="k">CHORINHO10</div><p>10% de desconto na sua primeira compra no Eventbrite.</p><a class="bt" href="/agenda">Escolher meu show</a><button class="x" type="button">Fechar</button>';
+try{if(r.estado==="ok")gtag("event","sign_up",{method:"email_confirmado"})}catch(_){}
+b.querySelector("a.bt").addEventListener("click",fecha);
+}else{
+b.innerHTML='<h2>Link inválido</h2><p>Esse link de confirmação não funciona mais. Faça a inscrição de novo no formulário do site que a gente te manda outro.</p><button class="bt" type="button" id="bx-conf-f">Fechar</button>';b.querySelector("#bx-conf-f").addEventListener("click",fecha);}
+}
+fetch("https://script.google.com/macros/s/AKfycbw1kR9Vv7aGpL35RuZZTpol5A30AFyGWgGZnEzZA1-Jbdz0meijm2CmAKcVaIZO95bs/exec",{method:"POST",body:new URLSearchParams({acao:"confirmar",c:tk})}).then(function(r){return r.json()}).then(show).catch(function(){show(null)});
+})();
+</script>
 </body>
 </html>
