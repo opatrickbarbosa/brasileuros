@@ -1307,7 +1307,7 @@ b.querySelector("a.bt").addEventListener("click",fecha);
 }else{
 b.innerHTML='<h2>Link inválido</h2><p>Esse link de confirmação não funciona mais. Faça a inscrição de novo no formulário do site que a gente te manda outro.</p><button class="bt" type="button" id="bx-conf-f">Fechar</button>';b.querySelector("#bx-conf-f").addEventListener("click",fecha);}
 }
-fetch("https://script.google.com/macros/s/AKfycbw1kR9Vv7aGpL35RuZZTpol5A30AFyGWgGZnEzZA1-Jbdz0meijm2CmAKcVaIZO95bs/exec",{method:"POST",body:new URLSearchParams({acao:"confirmar",c:tk})}).then(function(r){return r.json()}).then(show).catch(function(){show(null)});
+fetch("https://script.google.com/macros/s/AKfycbw1kR9Vv7aGpL35RuZZTpol5A30AFyGWgGZnEzZA1-Jbdz0meijm2CmAKcVaIZO95bs/exec?acao=confirmar&t="+encodeURIComponent(tk)).then(function(r){return r.json()}).then(show).catch(function(){show(null)});
 })();
 </script>
 </body>
