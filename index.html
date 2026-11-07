@@ -846,7 +846,7 @@ const BRAND_SOCIAL={instagram:"https://www.instagram.com/osbrasileuros/",youtube
 function socialIcons(c){const S=c.social||BRAND_SOCIAL;return `<div class="socials">${NETS.filter(([k])=>S[k]).map(([k,l])=>`<a class="soc" href="${S[k]}" target="_blank" rel="noopener" aria-label="${l} ${esc(c.name||"Brasileuros")}">${ICON[k]}</a>`).join("")}</div>`}
 
 const TICKETS="https://www.eventbrite.com/cc/brasileuros-comedia-do-nosso-jeitinho-4888238";
-const SEASON=["2026-11-04","2026-11-11","2026-11-18","2026-11-25","2026-12-02","2026-12-09","2026-12-16"];
+const SEASON=["2026-11-04","2026-11-18","2026-11-25","2026-12-02","2026-12-09","2026-12-16"];
 const EB={"2026-11-04":"https://www.eventbrite.com/e/brasileuros-comedia-do-nosso-jeitinho-tickets-1998371145892",
  "2026-11-11":"https://www.eventbrite.com/e/brasileuros-comedia-do-nosso-jeitinho-11-de-novembro-tickets-2004419905896",
  "2026-11-18":"https://www.eventbrite.com/e/brasileuros-comedia-do-nosso-jeitinho-18-de-novembro-tickets-2004425030223",
@@ -1228,7 +1228,7 @@ function eventsLD(){
       inLanguage:"pt-BR",location:PLACE[s.sala],image:[IMG.ebcover],url:"https://www.brasileuros.com/agenda",
       performer:s.artistas.map(a=>({"@type":"Person",name:C[a]?C[a].name:a})),
       organizer:{"@type":"Organization",name:"Zuca Produções",url:"https://www.brasileuros.com/"},
-      offers:{"@type":"Offer",url:s.url,price:"9.10",priceCurrency:"EUR",availability:st(s)==="ESGOTADO"?"https://schema.org/SoldOut":"https://schema.org/InStock",validFrom:"2026-08-24T00:00:00+02:00"}}});
+      offers:{"@type":"Offer",url:s.url,price:"8.00",priceCurrency:"EUR",availability:st(s)==="ESGOTADO"?"https://schema.org/SoldOut":"https://schema.org/InStock",validFrom:"2026-08-24T00:00:00+02:00"}}});
   if(!ev.length)return;const sc=document.createElement("script");sc.type="application/ld+json";sc.id="ld-events";sc.textContent=JSON.stringify(ev);document.head.appendChild(sc)}
 function decorate(){
   document.querySelectorAll("[data-car]").forEach(c=>{const tr=c.querySelector(".car-track"),n=tr.children.length,cnt=c.querySelector(".car-count");
