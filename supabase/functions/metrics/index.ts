@@ -57,46 +57,51 @@ const notBots = { notExpression: { orGroup: { expressions: [
 ] } } };
 const andF = (...f: any[]) => ({ andGroup: { expressions: f } });
 const eq = (fieldName: string, value: string) => ({ filter: { fieldName, stringFilter: { value, matchType: "EXACT" } } });
-// o GA4 aceita poucas consultas simultâneas por propriedade: fila com no máximo 2 ao mesmo tempo (e nova tentativa se recusar)
-let gaActive = 0; const gaQueue: (() => void)[] = [];
-const gaSlot = () => new Promise<void>((res) => { if (gaActive < 2) { gaActive++; res(); } else gaQueue.push(() => { gaActive++; res(); }); });
-const gaFree = () => { gaActive--; const n = gaQueue.shift(); if (n) n(); };
-async function ga(token: string, body: any) {
-  await gaSlot();
-  try {
-    for (let i = 0; ; i++) { try { return await gaRaw(token, body); } catch (e) { if (i < 3 && /concurrent/i.test(String((e as Error).message))) { await new Promise((r) => setTimeout(r, 800 * (i + 1))); continue; } throw e; } }
-  } finally { gaFree(); }
-}
-async function gaRaw(token: string, body: any) {
-  const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${env("GA4_PROPERTY_ID")}:runReport`, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ dateRanges: [{ startDate: RANGE.start, endDate: RANGE.end }], ...body }) });
-  const j = await r.json();
-  if (j.error) throw new Error("GA4: " + j.error.message);
-  return (j.rows || []).map((row: any) => [...(row.dimensionValues || []).map((v: any) => v.value), ...(row.metricValues || []).map((v: any) => Number(v.value))]);
+// GA4: as consultas vão agrupadas (até 5 por chamada, uma chamada de cada vez) para não estourar o limite de simultaneidade
+const rowsOf = (j: any) => (j.rows || []).map((row: any) => [...(row.dimensionValues || []).map((v: any) => v.value), ...(row.metricValues || []).map((v: any) => Number(v.value))]);
+async function gaBatch(token: string, bodies: any[]) {
+  const out: any[] = [];
+  for (let i = 0; i < bodies.length; i += 5) {
+    const requests = bodies.slice(i, i + 5).map((b) => ({ dateRanges: [{ startDate: RANGE.start, endDate: RANGE.end }], ...b }));
+    let j: any = null;
+    for (let t = 0; t < 3; t++) {
+      const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${env("GA4_PROPERTY_ID")}:batchRunReports`, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ requests }), signal: AbortSignal.timeout(20000) });
+      const txt = await r.text();
+      try { j = JSON.parse(txt); } catch { j = { error: { message: `resposta inválida (${r.status})` } }; }
+      if (j.error && /concurrent|quota|unavailable|resposta inválida/i.test(j.error.message) && t < 2) { await new Promise((res) => setTimeout(res, 1500 * (t + 1))); continue; }
+      break;
+    }
+    if (j.error) throw new Error("GA4: " + j.error.message);
+    (j.reports || []).forEach((rep: any) => out.push(rowsOf(rep)));
+  }
+  return out;
 }
 async function gaBlock(token: string) {
-  const users = async (extra?: any) => { const r = await ga(token, { metrics: [{ name: "totalUsers" }, { name: "eventCount" }], dimensionFilter: extra ? andF(notBots, extra) : notBots }); return { users: r[0]?.[0] || 0, events: r[0]?.[1] || 0 }; };
-  // tudo em paralelo para o painel responder rápido
-  const [site, entradas, buy, eb, checkout, signups, leads, wa, dailyR, ch, chBuy, landingR, devicesR, hoursR] = await Promise.all([
-    users(eq("hostName", "www.brasileuros.com")),
-    users(andF(eq("hostName", "www.brasileuros.com"), eq("pagePath", "/entradas"))),
-    users(eq("eventName", "comprar_entradas")),
-    users(eq("hostName", "www.eventbrite.com")),
-    users(andF(eq("hostName", "www.eventbrite.com"), eq("pagePath", "/checkout-external"))),
-    users(eq("eventName", "sign_up")),
-    users(eq("eventName", "generate_lead")),
-    users(eq("eventName", "whatsapp_click")),
-    ga(token, { dimensions: [{ name: "date" }], metrics: [{ name: "sessions" }, { name: "totalUsers" }], dimensionFilter: notBots, orderBys: [{ dimension: { dimensionName: "date" } }] }),
-    ga(token, { dimensions: [{ name: "sessionSourceMedium" }], metrics: [{ name: "sessions" }, { name: "totalUsers" }, { name: "averageSessionDuration" }], dimensionFilter: notBots, limit: 12, orderBys: [{ metric: { metricName: "sessions" }, desc: true }] }),
-    ga(token, { dimensions: [{ name: "sessionSourceMedium" }], metrics: [{ name: "eventCount" }, { name: "totalUsers" }], dimensionFilter: andF(notBots, eq("eventName", "comprar_entradas")) }),
-    ga(token, { dimensions: [{ name: "landingPage" }], metrics: [{ name: "sessions" }, { name: "engagedSessions" }], dimensionFilter: andF(notBots, eq("hostName", "www.brasileuros.com")), limit: 8, orderBys: [{ metric: { metricName: "sessions" }, desc: true }] }),
-    ga(token, { dimensions: [{ name: "deviceCategory" }], metrics: [{ name: "totalUsers" }], dimensionFilter: notBots }),
-    ga(token, { dimensions: [{ name: "hour" }], metrics: [{ name: "sessions" }], dimensionFilter: notBots }),
+  const u = (extra?: any) => ({ metrics: [{ name: "totalUsers" }, { name: "eventCount" }], dimensionFilter: extra ? andF(notBots, extra) : notBots });
+  const R_ = await gaBatch(token, [
+    u(eq("hostName", "www.brasileuros.com")),
+    u(andF(eq("hostName", "www.brasileuros.com"), eq("pagePath", "/entradas"))),
+    u(eq("eventName", "comprar_entradas")),
+    u(eq("hostName", "www.eventbrite.com")),
+    u(andF(eq("hostName", "www.eventbrite.com"), eq("pagePath", "/checkout-external"))),
+    u(eq("eventName", "sign_up")),
+    u(eq("eventName", "generate_lead")),
+    u(eq("eventName", "whatsapp_click")),
+    { dimensions: [{ name: "date" }], metrics: [{ name: "sessions" }, { name: "totalUsers" }], dimensionFilter: notBots, orderBys: [{ dimension: { dimensionName: "date" } }] },
+    { dimensions: [{ name: "sessionSourceMedium" }], metrics: [{ name: "sessions" }, { name: "totalUsers" }, { name: "averageSessionDuration" }], dimensionFilter: notBots, limit: 12, orderBys: [{ metric: { metricName: "sessions" }, desc: true }] },
+    { dimensions: [{ name: "sessionSourceMedium" }], metrics: [{ name: "eventCount" }, { name: "totalUsers" }], dimensionFilter: andF(notBots, eq("eventName", "comprar_entradas")) },
+    { dimensions: [{ name: "landingPage" }], metrics: [{ name: "sessions" }, { name: "engagedSessions" }], dimensionFilter: andF(notBots, eq("hostName", "www.brasileuros.com")), limit: 8, orderBys: [{ metric: { metricName: "sessions" }, desc: true }] },
+    { dimensions: [{ name: "deviceCategory" }], metrics: [{ name: "totalUsers" }], dimensionFilter: notBots },
+    { dimensions: [{ name: "hour" }], metrics: [{ name: "sessions" }], dimensionFilter: notBots },
   ]);
-  const daily = dailyR.map(([d, s, u]: any[]) => ({ date: `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}`, sessions: s, users: u }));
-  const channels = ch.map(([src, s, u, dur]: any[]) => { const b = chBuy.find((x: any[]) => x[0] === src); return { src, sessions: s, users: u, dur: Math.round(dur), buy_clicks: b?.[1] || 0, buy_users: b?.[2] || 0 }; });
-  const landing = landingR.map(([path, s, e]: any[]) => ({ path, sessions: s, engaged: e }));
-  const devices = devicesR.map(([d, u]: any[]) => ({ device: d, users: u }));
-  const hours = hoursR.map(([h, s]: any[]) => ({ hour: Number(h), sessions: s }));
+  const one = (rows: any[]) => ({ users: rows?.[0]?.[0] || 0, events: rows?.[0]?.[1] || 0 });
+  const [site, entradas, buy, eb, checkout, signups, leads, wa] = R_.slice(0, 8).map(one);
+  const [dailyR, ch, chBuy, landingR, devicesR, hoursR] = R_.slice(8);
+  const daily = (dailyR || []).map(([d, s, u]: any[]) => ({ date: `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}`, sessions: s, users: u }));
+  const channels = (ch || []).map(([src, s, u, dur]: any[]) => { const b = (chBuy || []).find((x: any[]) => x[0] === src); return { src, sessions: s, users: u, dur: Math.round(dur), buy_clicks: b?.[1] || 0, buy_users: b?.[2] || 0 }; });
+  const landing = (landingR || []).map(([path, s, e]: any[]) => ({ path, sessions: s, engaged: e }));
+  const devices = (devicesR || []).map(([d, u]: any[]) => ({ device: d, users: u }));
+  const hours = (hoursR || []).map(([h, s]: any[]) => ({ hour: Number(h), sessions: s }));
   return { site_users: site.users, entradas_users: entradas.users, buy_users: buy.users, buy_clicks: buy.events, eb_users: eb.users, checkout_users: checkout.users, signups: signups.users, leads: leads.users, wa_users: wa.users, daily, channels, landing, devices, hours };
 }
 
@@ -115,7 +120,7 @@ async function gscBlock(token: string) {
 async function graph(path: string, params: Record<string, string> = {}) {
   const u = new URL(`https://${env("GRAPH_HOST") || "graph.facebook.com"}/v21.0/${path}`);
   Object.entries({ ...params, access_token: env("META_TOKEN") }).forEach(([k, v]) => u.searchParams.set(k, v));
-  const r = await fetch(u); const j = await r.json().catch(() => ({}));
+  const r = await fetch(u, { signal: AbortSignal.timeout(20000) }); const j = await r.json().catch(() => ({}));
   if (!r.ok || j.error) throw new Error(`Meta: ${j.error?.message || r.status}`);
   return j;
 }
