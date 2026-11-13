@@ -285,3 +285,20 @@ create table if not exists public.insights (
 alter table public.insights enable row level security;
 drop policy if exists staff_all on public.insights;
 create policy staff_all on public.insights for all to authenticated using (public.is_staff()) with check (public.is_staff());
+-- e-mail marketing
+create table if not exists public.campaigns (
+  id text primary key,
+  created_at timestamptz not null default now(),
+  subject text, preheader text, title text, body text, image text,
+  cta_text text, cta_url text, show_id text references public.shows(id) on delete set null,
+  audience text default 'all', html text,
+  status text default 'draft', sent_count int default 0, sent_at timestamptz
+);
+alter table public.campaigns enable row level security;
+drop policy if exists staff_all on public.campaigns;
+create policy staff_all on public.campaigns for all to authenticated using (public.is_staff()) with check (public.is_staff());
+
+-- imagens enviadas pela aba de e-mail (públicas para aparecerem no e-mail)
+insert into storage.buckets (id, name, public) values ('email', 'email', true) on conflict (id) do nothing;
+drop policy if exists email_staff_upload on storage.objects;
+create policy email_staff_upload on storage.objects for insert to authenticated with check (bucket_id = 'email' and public.is_staff());

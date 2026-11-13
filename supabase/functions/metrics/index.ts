@@ -1,5 +1,6 @@
-// metrics: cruza Google Analytics 4, Search Console, Instagram e Meta Ads num resumo de 28 dias
-// e grava em public.insights (1 linha por execução, id = data/hora). O painel lê a mais recente.
+// metrics: cruza Google Analytics 4, Search Console, Instagram e Meta Ads.
+// Sem corpo: resumo dos últimos 28 dias gravado em public.insights (o painel lê o mais recente).
+// Com { start, end } (AAAA-MM-DD): devolve o resumo daquele período sem gravar (seletor de período do painel).
 // Segredos: GOOGLE_SERVICE_ACCOUNT (JSON da conta de serviço com acesso de leitor ao GA4 e ao Search Console)
 //           GA4_PROPERTY_ID (562750879) · GSC_SITE (https://www.brasileuros.com/)
 //           META_TOKEN + IG_USER_ID (Instagram) · META_AD_ACCOUNT_ID opcional (act_… dos anúncios)
@@ -18,6 +19,8 @@ const env = (k: string) => Deno.env.get(k) || "";
 const BOT_CITIES = ["Singapore", "Springfield", "Ashburn"]; // padrões de robô vistos no GA4 do site
 const BOT_COUNTRIES = ["China"];
 const day = (n = 0) => new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
+let RANGE = { start: day(-28), end: day() }; // período pedido (padrão: últimos 28 dias)
+const ts = (d: string, end = false) => Math.floor(new Date(d + (end ? "T23:59:59Z" : "T00:00:00Z")).getTime() / 1000);
 
 /* ---------- Google: token da conta de serviço ---------- */
 const b64url = (b: ArrayBuffer | string) => btoa(typeof b === "string" ? b : String.fromCharCode(...new Uint8Array(b))).replace(/=+$/, "").replace(/\+/g, "-").replace(/\//g, "_");
@@ -43,7 +46,7 @@ const notBots = { notExpression: { orGroup: { expressions: [
 const andF = (...f: any[]) => ({ andGroup: { expressions: f } });
 const eq = (fieldName: string, value: string) => ({ filter: { fieldName, stringFilter: { value, matchType: "EXACT" } } });
 async function ga(token: string, body: any) {
-  const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${env("GA4_PROPERTY_ID")}:runReport`, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ dateRanges: [{ startDate: "28daysAgo", endDate: "today" }], ...body }) });
+  const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${env("GA4_PROPERTY_ID")}:runReport`, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ dateRanges: [{ startDate: RANGE.start, endDate: RANGE.end }], ...body }) });
   const j = await r.json();
   if (j.error) throw new Error("GA4: " + j.error.message);
   return (j.rows || []).map((row: any) => [...(row.dimensionValues || []).map((v: any) => v.value), ...(row.metricValues || []).map((v: any) => Number(v.value))]);
@@ -73,7 +76,7 @@ async function gaBlock(token: string) {
 /* ---------- Search Console ---------- */
 async function gscBlock(token: string) {
   const call = async (body: any) => {
-    const r = await fetch(`https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(env("GSC_SITE"))}/searchAnalytics/query`, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ startDate: day(-28), endDate: day(), ...body }) });
+    const r = await fetch(`https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(env("GSC_SITE"))}/searchAnalytics/query`, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ startDate: RANGE.start, endDate: RANGE.end, ...body }) });
     const j = await r.json(); if (j.error) throw new Error("Search Console: " + j.error.message); return j.rows || [];
   };
   const tot = (await call({}))[0] || {};
@@ -91,13 +94,20 @@ async function graph(path: string, params: Record<string, string> = {}) {
 }
 async function igBlock() {
   const ig = env("IG_USER_ID");
-  const since = String(Math.floor(Date.now() / 1000) - 28 * 86400), until = String(Math.floor(Date.now() / 1000));
-  const tv = async (metric: string) => { try { const r = await graph(`${ig}/insights`, { metric, period: "day", metric_type: "total_value", since, until }); return r.data?.[0]?.total_value?.value ?? null; } catch { return null; } };
+  // a Meta aceita no máximo 30 dias por consulta: soma em blocos
+  const tv = async (metric: string) => {
+    let total: number | null = null;
+    for (let a = ts(RANGE.start); a <= ts(RANGE.end, true); a += 30 * 86400) {
+      const b = Math.min(a + 30 * 86400, ts(RANGE.end, true));
+      try { const r = await graph(`${ig}/insights`, { metric, period: "day", metric_type: "total_value", since: String(a), until: String(b) }); const v = r.data?.[0]?.total_value?.value; if (v != null) total = (total || 0) + Number(v); } catch { /* métrica indisponível */ }
+    }
+    return total;
+  };
   const [reach, profile_visits, link_taps, views] = [await tv("reach"), await tv("profile_views"), await tv("profile_links_taps"), await tv("views")];
-  const media = await graph(`${ig}/media`, { fields: "id,caption,permalink,timestamp,media_type,media_product_type", limit: "25" });
+  const media = await graph(`${ig}/media`, { fields: "id,caption,permalink,timestamp,media_type,media_product_type", limit: "50" });
   const posts: any[] = [];
   for (const m of media.data || []) {
-    if (new Date(m.timestamp).getTime() < Date.now() - 45 * 864e5) continue;
+    const d = String(m.timestamp).slice(0, 10); if (d < RANGE.start || d > RANGE.end) continue;
     let ins: any = {};
     for (const metrics of ["reach,shares,saved,profile_visits,follows,total_interactions", "reach,shares,saved,total_interactions"]) {
       try { const r = await graph(`${m.id}/insights`, { metric: metrics }); (r.data || []).forEach((x: any) => ins[x.name] = x.values?.[0]?.value ?? x.total_value?.value ?? 0); break; } catch { /* reels não aceitam algumas métricas */ }
@@ -108,14 +118,14 @@ async function igBlock() {
 }
 async function adsBlock() {
   const acc = env("META_AD_ACCOUNT_ID"); if (!acc) return null;
-  const r = await graph(`${acc.startsWith("act_") ? acc : "act_" + acc}/insights`, { fields: "spend,impressions,reach,clicks,inline_link_clicks,actions", date_preset: "last_28d", time_increment: "1", limit: "60" });
+  const r = await graph(`${acc.startsWith("act_") ? acc : "act_" + acc}/insights`, { fields: "spend,impressions,reach,clicks,inline_link_clicks,actions", time_range: JSON.stringify({ since: RANGE.start, until: RANGE.end }), time_increment: "1", limit: "400" });
   const daily = (r.data || []).map((x: any) => ({ date: x.date_start, spend: Number(x.spend || 0), clicks: Number(x.inline_link_clicks || 0), impressions: Number(x.impressions || 0) }));
   const s = (k: string) => daily.reduce((a: number, x: any) => a + x[k], 0);
   return { spend: Math.round(s("spend") * 100) / 100, link_clicks: s("clicks"), impressions: s("impressions"), daily };
 }
 
-async function collect() {
-  const data: any = { period: "28d", errors: [] as string[] };
+async function collect(save = true) {
+  const data: any = { period: "28d", start: RANGE.start, end: RANGE.end, errors: [] as string[] };
   const safe = async (k: string, fn: () => Promise<any>) => { try { data[k] = await fn(); } catch (e) { data.errors.push(String((e as Error).message || e)); } };
   if (env("GOOGLE_SERVICE_ACCOUNT")) {
     let token = ""; try { token = await googleToken(); } catch (e) { data.errors.push(String((e as Error).message)); }
@@ -125,6 +135,7 @@ async function collect() {
   if (env("META_TOKEN") && env("IG_USER_ID")) await safe("ig", igBlock); else data.errors.push("Instagram ainda não conectado (falta META_TOKEN)");
   if (env("META_AD_ACCOUNT_ID") && env("META_TOKEN")) await safe("ads", adsBlock);
   const at = new Date().toISOString();
+  if (!save) return { ok: true, at, data };
   await db.from("insights").upsert({ id: at.slice(0, 13), at, data });
   await db.from("insights").delete().lt("at", new Date(Date.now() - 14 * 864e5).toISOString());
   return { ok: true, at, errors: data.errors, has: Object.keys(data).filter((k) => !["period", "errors"].includes(k)) };
@@ -145,6 +156,10 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   try {
     if (!(await authorized(req))) return json({ error: "Not allowed" }, 401);
+    const body = await req.json().catch(() => ({}));
+    const okDate = (x: unknown) => typeof x === "string" && /^\d{4}-\d{2}-\d{2}$/.test(x);
+    if (okDate(body.start) && okDate(body.end) && body.start <= body.end) { RANGE = { start: body.start, end: body.end }; return json(await collect(false)); }
+    RANGE = { start: day(-28), end: day() };
     return json(await collect());
   } catch (e) {
     return json({ error: String((e as Error).message || e) }, 500);

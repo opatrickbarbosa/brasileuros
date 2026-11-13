@@ -32,4 +32,5 @@ supabase secrets set EVENTBRITE_TOKEN=... META_TOKEN=... IG_USER_ID=178414767043
 - **Eventbrite:** sincroniza vendas e pedidos a cada 30 minutos e faz uma conferência completa às 03:15 UTC. Shows novos no Eventbrite com "Brasileuros" no nome aparecem sozinhos no painel, já com o checklist.
 - **Instagram:** salva seguidores, alcance e visitas ao perfil todo dia às 06:00 UTC.
 - **Cruzamento (a cada 3 h):** a função `metrics` junta GA4 (sem robôs), Search Console, Instagram e anúncios da Meta e monta o funil da primeira tela. Segredos: `GOOGLE_SERVICE_ACCOUNT` (JSON da conta de serviço com leitura no GA4 e no Search Console), `GA4_PROPERTY_ID`, `GSC_SITE` e, se houver anúncios, `META_AD_ACCOUNT_ID`.
+- **E-mail marketing:** a aba E-mail monta a campanha no visual do Brasileuros e envia pela função `send-email`, usando o Gmail de contato@patrickbarbosa.com.br (precisa do segredo `SMTP_PASSWORD`). O link de descadastro é atendido pela função `unsubscribe`. Só recebe quem aceitou ser contatado.
 - **Resumo diário:** um e-mail às 07:30 UTC para cada pessoa com tarefas para o dia.

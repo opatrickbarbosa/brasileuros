@@ -256,7 +256,7 @@ td.num,th.num{text-align:right}
   .mtop img{height:28px}
   .demo-bar{position:static}
   .has-demo .mtop{top:0}
-  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+  .tabbar{display:grid;grid-template-columns:repeat(6,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
   .tabbar button{height:54px;border:0;background:none;display:grid;place-items:center;color:var(--text);cursor:pointer}
   .tabbar button span{display:none}
   .tabbar button.on .ic{stroke-width:2.6}
@@ -291,6 +291,33 @@ a.fi.post{color:var(--text);text-decoration:none}
 .pcap{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13px}
 .fi-v small{font-weight:500;color:var(--muted);font-size:11px}
 @media (max-width:767px){.fsteps{grid-template-columns:repeat(3,1fr)}.fs{min-height:170px}.fs b{font-size:19px}}
+
+/* período */
+.pbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:-4px 0 18px}
+.pchips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;max-width:100%}
+.pchips::-webkit-scrollbar{display:none}
+.pchip{flex:none;height:32px;padding:0 13px;border-radius:999px;border:1px solid var(--line2);background:var(--panel);cursor:pointer;font-weight:600;font-size:13px;color:var(--text)}
+.pchip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.pcustom{display:flex;align-items:center;gap:8px}
+.pcustom input{width:150px;height:32px}
+.k-per{margin-top:auto;padding-top:8px;border-top:1px solid rgba(255,255,255,.18)}
+.k-per b{color:#FDD929}
+.flow.is-loading .fsteps{opacity:.45}
+
+/* e-mail marketing */
+.em{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start}
+.em-ed form{display:grid;gap:12px}
+.em-imgs{display:flex;flex-wrap:wrap;gap:8px}
+.em-img{width:64px;height:64px;border-radius:10px;border:2px solid var(--line);padding:0;overflow:hidden;background:var(--panel2);cursor:pointer;display:grid;place-items:center;font-weight:700;color:var(--muted)}
+.em-img img{width:100%;height:100%;object-fit:cover;display:block}
+.em-img.on{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)}
+.em-img.up{font-size:26px}
+.em-prev{position:sticky;top:20px}
+.em-phone{border:1px solid var(--line);border-radius:28px;background:var(--panel);overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.em-mail-h{display:grid;gap:2px;padding:14px 16px;border-bottom:1px solid var(--line);font-size:13px}
+.em-mail-h span{font-weight:600}.em-mail-h small{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#em-frame{width:100%;height:640px;border:0;background:#dfe9f5;display:block}
+@media (max-width:1100px){.em{grid-template-columns:1fr}.em-prev{position:static}}
 </style>
 </head>
 <body>
@@ -360,10 +387,10 @@ function toast(m) { const t = document.createElement("div"); t.className = "toas
 const uid = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random()).replace(/-/g, "").slice(0, 12);
 
 /* ---------------- state ---------------- */
-const TABLES = ["shows", "tasks", "lineup", "comedians", "coupons", "ads", "expenses", "payments", "instagram", "ig_stats", "orders", "signups", "settings", "profiles"];
+const TABLES = ["shows", "tasks", "lineup", "comedians", "coupons", "ads", "expenses", "payments", "instagram", "ig_stats", "orders", "signups", "settings", "profiles", "campaigns"];
 let S = Object.fromEntries(TABLES.map(t => [t, []]));
 let ME = null, PROFILE = null;
-let R = { view: "home", showId: null, tab: "overview", weekStart: null, mine: false };
+let R = { view: "home", showId: null, tab: "overview", weekStart: null, mine: false, period: (() => { try { return JSON.parse(localStorage.getItem("bxe-period")) || { k: "28d" }; } catch (e) { return { k: "28d" }; } })() };
 
 async function loadAll() {
   const res = await Promise.all(TABLES.map(t => sb.from(t).select("*")));
@@ -503,13 +530,14 @@ const IC = {
   team: '<circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4.2 4-6.5 8-6.5s7.2 2.3 8 6.5"/>',
   plus: '<rect x="3" y="3" width="18" height="18" rx="5"/><path d="M12 8v8M8 12h8"/>',
   more: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  email: '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/>',
   sync: '<path d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0 0 14.3 4.9L20 16M20 20v-4h-4"/>',
 };
 const icon = (k, cls = "") => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[k] || ""}</svg>`;
-const NAV = [["home", "Início", "Home"], ["shows", "Shows", "Shows"], ["publico", "Público", "Audience"], ["fin", "Financeiro", "Finance"], ["team", "Equipe", "Team"]];
+const NAV = [["home", "Início", "Home"], ["shows", "Shows", "Shows"], ["publico", "Público", "Audience"], ["email", "E-mail", "Email"], ["fin", "Financeiro", "Finance"], ["team", "Equipe", "Team"]];
 function themeIcon() { const t = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); return t === "dark" ? L("Tema claro", "Light theme") : L("Tema escuro", "Dark theme"); }
 function render() {
-  const main = { home: vHome, shows: vShows, show: vShow, fin: vFin, publico: vCoupons, team: vTeam }[R.view] || vHome;
+  const main = { home: vHome, shows: vShows, show: vShow, fin: vFin, publico: vCoupons, email: vEmail, team: vTeam }[R.view] || vHome;
   const on = k => R.view === k || (k === "shows" && R.view === "show");
   const navBtn = ([k, pt, en]) => `<button data-nav="${k}" class="${on(k) ? "on" : ""}" aria-label="${L(pt, en)}">${icon(k)}<span>${L(pt, en)}</span></button>`;
   $("#app").innerHTML = `
@@ -545,9 +573,52 @@ function render() {
   $("#theme").onclick = () => { const cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); const nx = cur === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = nx; localStorage.setItem("bxe-theme", nx); render(); };
   const dOff = $("#demo-off"); if (dOff) dOff.onclick = leaveDemo;
   wireLang(); wireCommon();
-  ({ home: wireHome, shows: wireShows, show: wireShow, fin: wireFin, publico: wireCoupons, team: wireTeam }[R.view] || (() => {}))();
+  ({ home: wireHome, shows: wireShows, show: wireShow, fin: wireFin, publico: wireCoupons, email: wireEmail, team: wireTeam }[R.view] || (() => {}))();
 }
 function go(patch) { R = { ...R, ...patch }; if (patch.view && patch.view !== "show") R.showId = null; const h = R.view === "show" ? "#show/" + R.showId + "/" + R.tab : "#" + R.view; history.replaceState(null, "", h); render(); scrollTo(0, 0); }
+
+/* ---------------- período ---------------- */
+const PERIODS = () => [["7d", L("7 dias", "7 days")], ["week", L("Semana", "Week")], ["28d", L("28 dias", "28 days")], ["month", L("Mês", "Month")], ["3m", L("3 meses", "3 months")], ["6m", L("6 meses", "6 months")], ["year", L("Ano", "Year")], ["custom", L("Escolher", "Custom")]];
+function periodRange() {
+  const t0 = today(), p = R.period || { k: "28d" };
+  const monday = weekStart(t0);
+  const r = { "7d": [addDays(t0, -6), t0], week: [monday, t0], "28d": [addDays(t0, -27), t0], month: [t0.slice(0, 8) + "01", t0], "3m": [addDays(t0, -89), t0], "6m": [addDays(t0, -181), t0], year: [t0.slice(0, 5) + "01-01", t0], custom: [p.start || addDays(t0, -27), p.end || t0] }[p.k] || [addDays(t0, -27), t0];
+  return { k: p.k, start: r[0] <= r[1] ? r[0] : r[1], end: r[0] <= r[1] ? r[1] : r[0] };
+}
+const inRange = (d, g) => d >= g.start && d <= g.end;
+const rangeLabel = g => `${fdate(g.start, { day: "numeric", month: "short" })} – ${fdate(g.end, { day: "numeric", month: "short", year: g.start.slice(0, 4) !== g.end.slice(0, 4) ? "numeric" : undefined })}`;
+const rangeDays = g => Math.round((pd(g.end) - pd(g.start)) / 864e5) + 1;
+const PINS = {}; // resumos cruzados por período (consultados sob demanda)
+function periodIns() {
+  const g = periodRange();
+  if (g.k === "28d" && (!INS?.data?.start || INS.data.end === g.end)) return { ins: INS, loading: false };
+  const key = g.start + "_" + g.end;
+  if (PINS[key]) return { ins: PINS[key], loading: false };
+  if (DEMO) { const d = demoInsights(), f = rangeDays(g) / 28; ["reach_28d", "profile_visits_28d", "link_taps_28d"].forEach(k => d.data.ig[k] = Math.round(d.data.ig[k] * f)); ["site_users", "buy_users", "checkout_users", "eb_users", "signups", "leads"].forEach(k => d.data.ga[k] = Math.round(d.data.ga[k] * Math.min(f, 6))); PINS[key] = d; return { ins: d, loading: false }; }
+  if (!PINS["loading_" + key]) {
+    PINS["loading_" + key] = true;
+    fnCall("metrics", { start: g.start, end: g.end }).then(r => { PINS[key] = { at: r.at, data: r.data }; }).catch(e => { PINS[key] = { at: null, data: { errors: [e.message] } }; }).finally(() => { if (R.view === "home") render(); });
+  }
+  return { ins: INS, loading: true };
+}
+function periodBar() {
+  const g = periodRange();
+  return `<div class="pbar"><div class="pchips">${PERIODS().map(([k, l]) => `<button class="pchip ${g.k === k ? "on" : ""}" data-period="${k}">${l}</button>`).join("")}</div>
+    ${g.k === "custom" ? `<div class="pcustom"><input type="date" id="pstart" value="${g.start}" max="${today()}"><span class="muted">${L("até", "to")}</span><input type="date" id="pend" value="${g.end}" max="${today()}"></div>` : `<span class="muted small">${rangeLabel(g)}</span>`}</div>`;
+}
+function wirePeriod() {
+  document.querySelectorAll("[data-period]").forEach(b => b.onclick = () => { const k = b.dataset.period; const g = periodRange(); R.period = k === "custom" ? { k, start: g.start, end: g.end } : { k }; try { localStorage.setItem("bxe-period", JSON.stringify(R.period)); } catch (e) {} render(); });
+  const s = $("#pstart"), e = $("#pend");
+  if (s && e) [s, e].forEach(el => el.onchange = () => { if (!s.value || !e.value) return; R.period = { k: "custom", start: s.value, end: e.value }; try { localStorage.setItem("bxe-period", JSON.stringify(R.period)); } catch (er) {} render(); });
+}
+function buckets(g) {
+  const n = rangeDays(g), unit = n > 400 ? "month" : n > 62 ? "week" : "day";
+  const out = [];
+  if (unit === "day") for (let i = 0; i < n; i++) { const d = addDays(g.start, i); out.push({ a: d, b: d, lab: fdate(d, { day: "numeric" }), tip: fdate(d, { day: "numeric", month: "short" }) }); }
+  else if (unit === "week") for (let a = weekStart(g.start); a <= g.end; a = addDays(a, 7)) { const b = addDays(a, 6); out.push({ a, b, lab: fdate(a, { day: "numeric", month: "numeric" }), tip: L("semana de ", "week of ") + fdate(a, { day: "numeric", month: "short" }) }); }
+  else { let d = pd(g.start.slice(0, 8) + "01"); while (ymd(d) <= g.end) { const a = ymd(d); const e = new Date(d.getFullYear(), d.getMonth() + 1, 0); out.push({ a, b: ymd(e), lab: fdate(a, { month: "short" }), tip: fdate(a, { month: "long", year: "numeric" }) }); d = new Date(d.getFullYear(), d.getMonth() + 1, 1); } }
+  return { unit, out };
+}
 
 /* ---------------- início: painel de métricas ---------------- */
 const madrid = iso => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Madrid" }).format(new Date(iso));
@@ -576,23 +647,27 @@ function spark(vals, w = 160, h = 40) {
   const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
   return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><path d="${d} L${w - 2} ${h} L2 ${h} Z" fill="var(--brand-soft)"/><path d="${d}" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linejoin="round"/></svg>`;
 }
-function salesBars(days) {
-  const data = days.map(d => ({ d, q: sum(ordersOn(d), o => o.quantity), v: sum(ordersOn(d), o => o.net) }));
-  const mx = Math.max(1, ...data.map(x => x.q));
-  return `<div class="bars" role="img" aria-label="${L("Ingressos vendidos por dia", "Tickets sold per day")}">${data.map(x => `<div class="bcol ${x.d === today() ? "now" : ""}" title="${fdate(x.d, { day: "numeric", month: "short" })}: ${x.q} ${L("ingressos", "tickets")} · ${eur(x.v)}">
-    <span class="bq">${x.q || ""}</span><i style="height:${Math.max(x.q ? 6 : 2, x.q / mx * 100)}%"></i><span class="bd">${fdate(x.d, { day: "numeric" })}</span></div>`).join("")}</div>`;
+function salesBars(g) {
+  const { unit, out } = buckets(g);
+  const ords = S.orders.filter(o => o.created_at);
+  const data = out.map(x => { const os = ords.filter(o => { const d = madrid(o.created_at); return d >= x.a && d <= x.b; }); return { ...x, q: sum(os, o => o.quantity), v: sum(os, o => o.net), now: today() >= x.a && today() <= x.b }; });
+  const mx = Math.max(1, ...data.map(x => x.q)), every = Math.ceil(data.length / 16);
+  return `<div class="bars" style="grid-template-columns:repeat(${data.length},minmax(0,1fr))" role="img" aria-label="${L("Ingressos vendidos", "Tickets sold")}">${data.map((x, i) => `<div class="bcol ${x.now ? "now" : ""}" title="${esc(x.tip)}: ${x.q} ${L("ingressos", "tickets")} · ${eur(x.v)}">
+    <span class="bq">${data.length <= 31 && x.q ? x.q : ""}</span><i style="height:${Math.max(x.q ? 6 : 2, x.q / mx * 100)}%"></i><span class="bd">${i % every === 0 ? esc(x.lab) : ""}</span></div>`).join("")}</div>`;
 }
 function vHome() {
   const nx = nextShow(), t0 = today(), t1 = addDays(t0, -1);
   const oT = ordersOn(t0), oY = ordersOn(t1);
   const qT = sum(oT, o => o.quantity), vT = sum(oT, o => o.net), qY = sum(oY, o => o.quantity);
-  const ig = igRows(), last = ig.at(-1), wk = ig.filter(r => r.date >= addDays(t0, -7));
-  const fNow = last ? num(last.followers) : null, f7 = ig.find(r => r.date >= addDays(t0, -7));
-  const fDelta = fNow != null && f7 ? fNow - num(f7.followers) : null;
+  const G = periodRange();
+  const ig = igRows(), last = ig.at(-1), wk = ig.filter(r => inRange(r.date, G));
+  const fNow = last ? num(last.followers) : null, f7 = wk[0] || null, fEnd = wk.at(-1) || null;
+  const fDelta = f7 && fEnd ? num(fEnd.followers) - num(f7.followers) : null;
   const reach7 = sum(wk, r => r.reach);
+  const oP = S.orders.filter(o => o.created_at && inRange(madrid(o.created_at), G));
+  const qP = sum(oP, o => o.quantity), vP = sum(oP, o => o.net);
   const up = shows().filter(s => s.date >= t0 && s.status !== "cancelled").slice(0, 10);
-  const days14 = Array.from({ length: 14 }, (_, i) => addDays(t0, i - 13));
-  const q14 = sum(S.orders.filter(o => o.created_at && madrid(o.created_at) >= days14[0]), o => o.quantity);
+  const unitL = { day: L("por dia", "per day"), week: L("por semana", "per week"), month: L("por mês", "per month") }[buckets(G).unit];
   const feed = S.orders.filter(o => o.created_at).sort((a, b) => b.created_at.localeCompare(a.created_at)).slice(0, 8);
   const me = String(PROFILE?.name || "").toLowerCase();
   const todo = S.tasks.filter(t => !t.done && t.due && t.due <= t0).sort((a, b) => a.due.localeCompare(b.due)).slice(0, 8);
@@ -603,18 +678,19 @@ function vHome() {
   <div class="home-main">
     <div class="hello"><div><h1>${L("Olá", "Hi")}, ${esc(String(PROFILE?.name || "").split(" ")[0] || "time")}</h1><p class="muted">${fdate(t0, { weekday: "long", day: "numeric", month: "long" })}</p></div>
       <button class="btn" id="syncall">${icon("sync")} ${L("Atualizar", "Refresh")}</button></div>
+    ${periodBar()}
     <div class="stories" aria-label="${L("Próximos shows", "Upcoming shows")}">
       ${up.map(s => { const p = tickets(s) / cap(s); return `<button class="story ${nx && s.id === nx.id ? "next" : ""}" data-open="${s.id}" style="--p:${Math.min(100, p * 100)}%"><span class="st-ring"><span class="st-in"><b>${pd(s.date).getDate()}</b><small>${fdate(s.date, { month: "short" })}</small></span></span><span class="st-l">${fdate(s.date, { weekday: "short" })} · ${tickets(s)}/${cap(s)}</span></button>`; }).join("")}
       <button class="story add" id="addshow"><span class="st-ring"><span class="st-in">${icon("plus")}</span></span><span class="st-l">${L("Novo", "New")}</span></button>
     </div>
     <div class="kgrid">
-      <div class="card k k-sales"><span class="k-l">${L("Vendas hoje", "Sales today")}</span><b class="k-v">${qT}<small> ${L("ingressos", "tickets")}</small></b><span class="k-s">${eur(vT)} ${L("líquido", "net")} · ${L("ontem", "yesterday")} ${qY}</span></div>
+      <div class="card k k-sales"><span class="k-l">${L("Vendas hoje", "Sales today")}</span><b class="k-v">${qT}<small> ${L("ingressos", "tickets")}</small></b><span class="k-s">${eur(vT)} ${L("líquido", "net")} · ${L("ontem", "yesterday")} ${qY}</span><span class="k-s k-per">${L("No período", "In period")}: <b>${qP}</b> ${L("ingressos", "tickets")} · ${eur(vP)}</span></div>
       <div class="card k k-next">${nx ? `${ring(sold / cap(nx), 92, 10, L("Ocupação do próximo show", "Next show fill"))}<div><span class="k-l">${L("Próximo show", "Next show")}</span><b class="k-v2">${fdate(nx.date, { weekday: "short", day: "numeric", month: "short" })}</b><span class="k-s">${sold}/${cap(nx)} ${L("ingressos", "tickets")} · ${daysTo(nx.date) === 0 ? L("é hoje", "tonight") : L("faltam ", "in ") + daysTo(nx.date) + L(" dias", " days")}</span></div>` : `<span class="k-l">${L("Próximo show", "Next show")}</span><span class="k-s">${L("Nenhum show marcado", "No show booked")}</span>`}</div>
-      <div class="card k"><span class="k-l">${L("Seguidores", "Followers")} · @osbrasileuros</span><b class="k-v">${fNow != null ? fNow.toLocaleString(LANG === "en" ? "en-GB" : "pt-BR") : "—"}</b><span class="k-s ${fDelta > 0 ? "up" : fDelta < 0 ? "down" : ""}">${fDelta != null ? (fDelta > 0 ? "+" : "") + fDelta + L(" em 7 dias", " in 7 days") : L("Conecte o Instagram", "Connect Instagram")}</span>${spark(ig.slice(-30).map(r => num(r.followers)))}</div>
-      <div class="card k"><span class="k-l">${L("Alcance 7 dias", "Reach 7 days")}</span><b class="k-v">${wk.length ? reach7.toLocaleString(LANG === "en" ? "en-GB" : "pt-BR") : "—"}</b><span class="k-s">${last?.profile_visits != null ? num(last.profile_visits) + L(" visitas ao perfil ontem", " profile visits yesterday") : L("contas alcançadas", "accounts reached")}</span>${spark(ig.slice(-30).map(r => num(r.reach)))}</div>
+      <div class="card k"><span class="k-l">${L("Seguidores", "Followers")} · @osbrasileuros</span><b class="k-v">${fNow != null ? fNow.toLocaleString(LANG === "en" ? "en-GB" : "pt-BR") : "—"}</b><span class="k-s ${fDelta > 0 ? "up" : fDelta < 0 ? "down" : ""}">${fDelta != null ? (fDelta > 0 ? "+" : "") + fDelta + L(" no período", " in period") : ig.length ? L("Sem histórico no período", "No history in period") : L("Conecte o Instagram", "Connect Instagram")}</span>${spark(wk.map(r => num(r.followers)))}</div>
+      <div class="card k"><span class="k-l">${L("Alcance no período", "Reach in period")}</span><b class="k-v">${wk.length ? reach7.toLocaleString(LANG === "en" ? "en-GB" : "pt-BR") : "—"}</b><span class="k-s">${last?.profile_visits != null ? num(last.profile_visits) + L(" visitas ao perfil ontem", " profile visits yesterday") : L("contas alcançadas", "accounts reached")}</span>${spark(wk.map(r => num(r.reach)))}</div>
     </div>
     ${flowBlock()}
-    <div class="card pad sec2"><div class="sec-h"><h2 class="grow">${L("Ingressos vendidos por dia", "Tickets sold per day")}</h2><span class="muted small">${q14} ${L("em 14 dias", "in 14 days")}</span></div>${salesBars(days14)}
+    <div class="card pad sec2"><div class="sec-h"><h2 class="grow">${L("Ingressos vendidos", "Tickets sold")} ${unitL}</h2><span class="muted small">${qP} ${L("no período", "in period")}</span></div>${salesBars(G)}
       <p class="faint small" style="margin:8px 0 0">${ebSync?.at ? L("Eventbrite sincronizado ", "Eventbrite synced ") + ago(ebSync.at) + ". " : ""}${L("Atualiza sozinho a cada 30 minutos.", "Updates on its own every 30 minutes.")}</p></div>
     <div class="cols sec2">
       <div class="card pad"><h2 style="margin-bottom:10px">${L("Últimas vendas", "Latest sales")}</h2>
@@ -632,6 +708,7 @@ function vHome() {
   </aside></div>`;
 }
 function wireHome() {
+  wirePeriod();
   document.querySelectorAll("[data-open]").forEach(c => c.onclick = () => go({ view: "show", showId: c.dataset.open, tab: "overview" }));
   $("#addshow").onclick = newShow;
   $("#syncall").onclick = async () => {
@@ -667,11 +744,10 @@ const FLOW_TIP = {
   checkout: () => L("Gente clica em comprar e desiste no Eventbrite antes do pagamento. Absorva a taxa para o preço não mudar e teste o checkout embutido no site.", "People click buy and quit on Eventbrite before paying. Absorb the fee so the price doesn't change and try the embedded checkout."),
   paid: () => L("Chegam ao pagamento e não concluem. Ofereça Bizum/Apple Pay no Eventbrite e mande o cupom de 10% para quem abandonou.", "They reach payment and don't finish. Offer Bizum/Apple Pay and send the 10% coupon to abandoners."),
 };
-function flowSteps() {
-  const d = INS?.data || {}, ga = d.ga || {}, ig = d.ig || {};
-  const since = addDays(today(), -28);
-  const orders28 = S.orders.filter(o => o.created_at && madrid(o.created_at) >= since);
-  const igReach = ig.reach_28d ?? (S.ig_stats.length ? sum(S.ig_stats.filter(r => r.date >= since), r => r.reach) : null);
+function flowSteps(PI) {
+  const G = periodRange(), d = PI?.data || {}, ga = d.ga || {}, ig = d.ig || {};
+  const orders28 = S.orders.filter(o => o.created_at && inRange(madrid(o.created_at), G));
+  const igReach = ig.reach_28d ?? (S.ig_stats.length ? sum(S.ig_stats.filter(r => inRange(r.date, G)), r => r.reach) : null);
   const steps = [
     { k: "reach", l: L("Alcance no Instagram", "Instagram reach"), v: igReach, src: "Instagram" },
     { k: "profile", l: L("Visitas ao perfil", "Profile visits"), v: ig.profile_visits_28d ?? null, src: "Instagram" },
@@ -687,16 +763,17 @@ function flowSteps() {
   return { steps, worst: worst && worst.score < 1 ? worst : null };
 }
 function flowBlock() {
-  const { steps, worst } = flowSteps(), d = INS?.data || {}, ga = d.ga, gsc = d.gsc, ig = d.ig, ads = d.ads;
+  const P = periodIns(), PI = P.ins, G = periodRange();
+  const { steps, worst } = flowSteps(PI), d = PI?.data || {}, ga = d.ga, gsc = d.gsc, ig = d.ig, ads = d.ads;
   const mx = Math.max(1, ...steps.map(s => num(s.v)));
-  const since = addDays(today(), -28), t28 = sum(S.orders.filter(o => o.created_at && madrid(o.created_at) >= since), o => o.quantity);
+  const t28 = sum(S.orders.filter(o => o.created_at && inRange(madrid(o.created_at), G)), o => o.quantity);
   const bestHour = ga?.hours?.length ? ga.hours.reduce((a, b) => b.sessions > a.sessions ? b : a) : null;
   const mob = ga?.devices?.length ? pct(sum(ga.devices.filter(x => x.device === "mobile"), x => x.users), sum(ga.devices, x => x.users)) : null;
   const posts = (ig?.posts || []).slice().sort((a, b) => num(b.profile_visits) - num(a.profile_visits) || num(b.reach) - num(a.reach)).slice(0, 5);
   const missing = (d.errors || []);
   return `
-  <div class="card pad sec2 flow">
-    <div class="sec-h wrap"><h2 class="grow">${L("Do Instagram ao ingresso · 28 dias", "From Instagram to ticket · 28 days")}</h2><span class="muted small">${INS?.at ? L("cruzado ", "merged ") + ago(INS.at) : L("aguardando a primeira coleta", "waiting for the first run")}</span></div>
+  <div class="card pad sec2 flow ${P.loading ? "is-loading" : ""}">
+    <div class="sec-h wrap"><h2 class="grow">${L("Do Instagram ao ingresso", "From Instagram to ticket")} · ${rangeLabel(G)}</h2><span class="muted small">${P.loading ? L("buscando o período…", "loading period…") : PI?.at ? L("cruzado ", "merged ") + ago(PI.at) : L("aguardando a primeira coleta", "waiting for the first run")}</span></div>
     <div class="fsteps">${steps.map((s, i) => `<div class="fs ${worst && worst.k === s.k ? "worst" : ""}">
       ${i ? `<span class="fr ${s.rate == null ? "" : s.score != null && s.score < 1 ? "bad" : "ok"}">${s.over ? ">100%" : s.rate == null ? "·" : s.rate + "%"}</span>` : ""}
       <div class="fbar"><i style="height:${s.v == null ? 0 : Math.max(4, Math.sqrt(num(s.v) / mx) * 100)}%"></i></div>
@@ -734,6 +811,155 @@ function demoInsights() {
       { permalink: "https://www.instagram.com/p/DfZ62yCDDV5/", caption: "Obrigado a todo mundo que colou na estreia!", ts: addDays(t0, -7), type: "FEED", reach: 950, shares: 6, profile_visits: 5, follows: 0 }] } } };
 }
 
+/* ---------------- e-mail marketing ---------------- */
+const SITE = "https://www.brasileuros.com";
+// imagens em JPG porque alguns programas de e-mail (Outlook) não mostram WebP
+const EMAIL_IMAGES = [["/assets/email-duo.jpg", "Patrick e Pipo"], ["/assets/og.jpg", "Capa do site"], ["/assets/email-poster.jpg", "Pôster"], ["/assets/email-flyer.jpg", "Flyer"], ["/assets/email-jump.jpg", "Pulo"], ["/assets/email-bill.jpg", "Nota de 50"]];
+const UNSUB_URL = () => SUPABASE_URL ? SUPABASE_URL + "/functions/v1/unsubscribe?id={{ID}}" : "#";
+function utm(url, slug) { try { const u = new URL(url, SITE); u.searchParams.set("utm_source", "email"); u.searchParams.set("utm_medium", "email"); u.searchParams.set("utm_campaign", slug || "newsletter"); return u.toString(); } catch (e) { return url; } }
+const slugify = t => String(t || "email").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "email";
+function emailDefaults() {
+  const nx = nextShow();
+  return { id: "m" + uid(), status: "draft", subject: nx ? L("Quarta tem Brasileuros: ", "Brasileuros on Wednesday: ") + fdate(nx.date, { day: "numeric", month: "numeric" }) : "Brasileuros", preheader: L("Stand-up em português no La Chirigota. Ingresso a 7 €.", "Stand-up in Portuguese at La Chirigota. €7 tickets."),
+    title: L("Bora rir em português?", "Up for a laugh in Portuguese?"), body: L("Oi, {{NOME}}!\n\nNesta quarta tem Brasileuros – Comédia do Nosso Jeitinho no Bar La Chirigota. Patrick, Pipo e um convidado especial do Barcelouca contando os perrengues de ser brasileiro em Barcelona.\n\nCerveja a 2 € a partir das 18:30. Os lugares são poucos.", "Hi {{NOME}}!\n\nThis Wednesday it's Brasileuros at Bar La Chirigota."),
+    image: SITE + "/assets/email-duo.jpg", cta_text: L("Quero meu lugar · 7 €", "Save my seat · €7"), cta_url: nx?.eb_url || SITE + "/entradas", show_id: nx?.id || null, audience: "all" };
+}
+function emailHTML(c) {
+  const s = c.show_id ? showById(c.show_id) : null, slug = slugify(c.subject);
+  const p = String(c.body || "").split(/\n{2,}/).map(x => `<p style="margin:0 0 16px;font:16px/1.55 Arial,Helvetica,sans-serif;color:#1d2b44">${esc(x).replace(/\n/g, "<br>").replace(/\{\{NOME\}\}/g, "{{NOME}}")}</p>`).join("");
+  const info = s ? `<tr><td style="padding:0 32px 8px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef4fb;border-radius:12px"><tr>
+      <td style="padding:14px 16px;font:700 15px/1.4 Arial,Helvetica,sans-serif;color:#1f74b9">${esc(fdate(s.date, { weekday: "long", day: "numeric", month: "long" }))}<br><span style="font-weight:400;color:#1d2b44">${esc(s.time || "19:30")} · ${esc(s.venue || "Bar La Chirigota")} · Barcelona</span></td>
+      <td align="right" style="padding:14px 16px;font:800 22px Arial,Helvetica,sans-serif;color:#1d2b44;white-space:nowrap">7&nbsp;€</td></tr></table></td></tr>` : "";
+  const img = c.image ? `<tr><td style="padding:0"><img src="${esc(c.image.startsWith("http") ? c.image : SITE + c.image)}" width="600" alt="" style="display:block;width:100%;max-width:600px;height:auto;border:0"></td></tr>` : "";
+  return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>${esc(c.subject)}</title></head>
+<body style="margin:0;padding:0;background:#dfe9f5">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0">${esc(c.preheader || "")}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#dfe9f5"><tr><td align="center" style="padding:24px 10px">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#ffffff;border-radius:18px;overflow:hidden">
+  <tr><td style="background:#1f74b9;padding:0"><a href="${SITE}/?utm_source=email&utm_medium=email&utm_campaign=${slug}"><img src="${SITE}/assets/email-header.png" width="600" alt="Brasileuros – Comédia do Nosso Jeitinho" style="display:block;width:100%;max-width:600px;height:auto;border:0"></a></td></tr>
+  ${img}
+  <tr><td style="padding:28px 32px 6px;font:900 28px/1.15 'Arial Black',Arial,Helvetica,sans-serif;color:#1f74b9">${esc(c.title || "")}</td></tr>
+  <tr><td style="padding:10px 32px 4px">${p}</td></tr>
+  ${info}
+  ${c.cta_text ? `<tr><td align="center" style="padding:18px 32px 30px"><a href="${esc(utm(c.cta_url || SITE + "/entradas", slug))}" style="display:inline-block;background:#FDD929;color:#0f1e3b;text-decoration:none;font:800 17px Arial,Helvetica,sans-serif;padding:16px 34px;border-radius:999px;border-bottom:4px solid #c9a600">${esc(c.cta_text)}</a></td></tr>` : ""}
+  <tr><td style="background:#1f74b9;padding:22px 32px;text-align:center;font:13px/1.6 Arial,Helvetica,sans-serif;color:#d8e6f6">
+    <a href="https://www.instagram.com/osbrasileuros/" style="color:#FDD929;text-decoration:none;font-weight:700">Instagram</a> &nbsp;·&nbsp; <a href="https://www.tiktok.com/@osbrasileuros" style="color:#FDD929;text-decoration:none;font-weight:700">TikTok</a> &nbsp;·&nbsp; <a href="https://www.youtube.com/@osbrasileuros" style="color:#FDD929;text-decoration:none;font-weight:700">YouTube</a><br>
+    Brasileuros – Comédia do Nosso Jeitinho · Bar La Chirigota, Carrer de Mallorca 272, Barcelona<br>
+    <span style="color:#a9c3e3">${L("Você recebe este e-mail porque se cadastrou para receber avisos do Brasileuros.", "You get this e-mail because you signed up for Brasileuros alerts.")} <a href="{{DESCADASTRO}}" style="color:#ffffff">${L("Descadastrar", "Unsubscribe")}</a></span>
+  </td></tr>
+</table></td></tr></table></body></html>`;
+}
+const audienceList = a => S.signups.filter(x => x.consent && !x.unsubscribed && (a === "all" || (x.lang || "pt") === a));
+let ED = null; // campanha em edição
+function vEmail() {
+  const camps = S.campaigns.slice().sort((a, b) => String(b.created_at || "").localeCompare(String(a.created_at || "")));
+  if (!ED) ED = camps.find(c => c.status === "draft") ? { ...camps.find(c => c.status === "draft") } : emailDefaults();
+  const sent = ED.status === "sent", n = audienceList(ED.audience || "all").length;
+  const upShows = shows().filter(s => s.date >= today() && s.status !== "cancelled");
+  return `<div class="row wrap"><h1 class="grow">${L("E-mail marketing", "Email marketing")}</h1><button class="btn" id="em-new">+ ${L("Nova campanha", "New campaign")}</button><button class="btn" id="em-import">${L("Importar contatos", "Import contacts")}</button></div>
+  <div class="kpis sec">
+    <div class="card kpi"><span class="muted small">${L("Na lista (com consentimento)", "On the list (opted in)")}</span><b>${audienceList("all").length}</b></div>
+    <div class="card kpi"><span class="muted small">${L("Descadastrados", "Unsubscribed")}</span><b>${S.signups.filter(x => x.unsubscribed).length}</b></div>
+    <div class="card kpi"><span class="muted small">${L("Campanhas enviadas", "Campaigns sent")}</span><b>${camps.filter(c => c.status === "sent").length}</b></div>
+  </div>
+  <div class="em sec">
+    <div class="em-ed card pad">
+      <form id="emf">
+        <div class="row wrap" style="margin-bottom:6px"><h2 class="grow">${sent ? L("Campanha enviada", "Sent campaign") : L("Editar campanha", "Edit campaign")}</h2>${sent ? `<span class="chip ok">${L("Enviada para ", "Sent to ")}${num(ED.sent_count)}</span>` : `<span class="chip">${L("Rascunho", "Draft")}</span>`}</div>
+        <label class="f"><span>${L("Assunto", "Subject")}</span><input type="text" name="subject" value="${esc(ED.subject)}" maxlength="90" ${sent ? "disabled" : ""}></label>
+        <label class="f"><span>${L("Pré-visualização (texto que aparece ao lado do assunto)", "Preheader")}</span><input type="text" name="preheader" value="${esc(ED.preheader)}" maxlength="140" ${sent ? "disabled" : ""}></label>
+        <label class="f"><span>${L("Título", "Headline")}</span><input type="text" name="title" value="${esc(ED.title)}" maxlength="80" ${sent ? "disabled" : ""}></label>
+        <label class="f"><span>${L("Texto (use {{NOME}} para o primeiro nome; linha em branco separa parágrafos)", "Text ({{NOME}} = first name; blank line = new paragraph)")}</span><textarea name="body" rows="8" ${sent ? "disabled" : ""}>${esc(ED.body)}</textarea></label>
+        <div class="f"><span class="muted small" style="display:block;margin-bottom:6px;font-weight:500">${L("Imagem principal", "Main image")}</span>
+          <div class="em-imgs">${EMAIL_IMAGES.map(([src, l]) => `<button type="button" class="em-img ${ED.image === SITE + src ? "on" : ""}" data-img="${SITE + src}" title="${esc(l)}" ${sent ? "disabled" : ""}><img src="${src}" alt="${esc(l)}"></button>`).join("")}
+            <label class="em-img up" title="${L("Enviar imagem", "Upload image")}"><input type="file" accept="image/*" id="em-file" hidden ${sent ? "disabled" : ""}>+</label>
+            <button type="button" class="em-img none ${!ED.image ? "on" : ""}" data-img="" ${sent ? "disabled" : ""}>${L("sem", "none")}</button></div>
+          <input type="url" name="image" value="${esc(ED.image || "")}" placeholder="https://…" style="margin-top:8px" ${sent ? "disabled" : ""}></div>
+        <div class="grid2">
+          <label class="f"><span>${L("Texto do botão", "Button text")}</span><input type="text" name="cta_text" value="${esc(ED.cta_text)}" maxlength="40" ${sent ? "disabled" : ""}></label>
+          <label class="f"><span>${L("Link do botão", "Button link")}</span><input type="url" name="cta_url" value="${esc(ED.cta_url)}" ${sent ? "disabled" : ""}></label>
+          <label class="f"><span>${L("Show em destaque", "Featured show")}</span><select name="show_id" ${sent ? "disabled" : ""}><option value="">${L("Nenhum", "None")}</option>${upShows.map(s => `<option value="${s.id}" ${ED.show_id === s.id ? "selected" : ""}>${fdate(s.date, { weekday: "short", day: "numeric", month: "short" })}</option>`).join("")}</select></label>
+          <label class="f"><span>${L("Para quem", "Audience")}</span><select name="audience" ${sent ? "disabled" : ""}>${[["all", L("Toda a lista", "Whole list")], ["pt", L("Quem se cadastrou em português", "Signed up in Portuguese")], ["es", L("Em espanhol", "In Spanish")], ["en", L("Em inglês", "In English")]].map(([v, l]) => `<option value="${v}" ${ED.audience === v ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+        </div>
+        <p class="faint small" style="margin:2px 0 0">${L("O link do botão leva UTM de e-mail automaticamente, então as visitas aparecem como \"email\" no painel.", "The button link gets e-mail UTMs automatically.")}</p>
+        ${sent ? "" : `<div class="row wrap" style="margin-top:14px;gap:8px"><button type="button" class="btn" id="em-save">${L("Salvar rascunho", "Save draft")}</button><button type="button" class="btn" id="em-test">${L("Enviar teste para mim", "Send me a test")}</button><div class="grow"></div><button type="button" class="btn primary" id="em-send" ${n ? "" : "disabled"}>${L("Enviar para ", "Send to ")}${n} ${n === 1 ? L("pessoa", "person") : L("pessoas", "people")}</button></div>`}
+        <div class="row wrap" style="margin-top:10px;gap:8px"><button type="button" class="btn sm ghost" id="em-copy">${L("Copiar HTML", "Copy HTML")}</button>${sent ? `<button type="button" class="btn sm" id="em-dup">${L("Duplicar como rascunho", "Duplicate as draft")}</button>` : ""}</div>
+      </form>
+    </div>
+    <div class="em-prev"><div class="em-phone"><div class="em-mail-h"><b>Brasileuros</b><span>${esc(ED.subject)}</span><small>${esc(ED.preheader)}</small></div><iframe id="em-frame" title="${L("Prévia do e-mail", "Email preview")}"></iframe></div></div>
+  </div>
+  ${camps.length ? `<div class="sec"><h2 style="margin-bottom:10px">${L("Campanhas", "Campaigns")}</h2><div class="card pad"><div class="tablewrap"><table><tr><th>${L("Assunto", "Subject")}</th><th>Status</th><th class="num">${L("Enviados", "Sent")}</th><th>${L("Data", "Date")}</th><th></th></tr>${camps.map(c => `<tr><td><b>${esc(c.subject)}</b></td><td><span class="chip ${c.status === "sent" ? "ok" : ""}">${c.status === "sent" ? L("Enviada", "Sent") : c.status === "sending" ? L("Enviando", "Sending") : L("Rascunho", "Draft")}</span></td><td class="num">${num(c.sent_count)}</td><td>${fdate(String(c.sent_at || c.created_at || "").slice(0, 10), { day: "numeric", month: "short" })}</td><td class="num"><button class="btn ghost sm" data-camp="${c.id}">${L("Abrir", "Open")}</button></td></tr>`).join("")}</table></div></div></div>` : ""}`;
+}
+function emailRead() {
+  const f = $("#emf"); if (!f) return ED;
+  const fd = new FormData(f);
+  ["subject", "preheader", "title", "body", "image", "cta_text", "cta_url", "show_id", "audience"].forEach(k => { if (fd.has(k)) ED[k] = fd.get(k); });
+  ED.show_id = ED.show_id || null;
+  return ED;
+}
+function emailPreview() {
+  const fr = $("#em-frame"); if (!fr) return;
+  const name = String(PROFILE?.name || "Patrick").split(" ")[0];
+  fr.srcdoc = emailHTML(ED).replace(/\{\{NOME\}\}/g, esc(name)).replace(/\{\{DESCADASTRO\}\}/g, "#");
+  const h = document.querySelector(".em-mail-h"); if (h) { h.children[1].textContent = ED.subject; h.children[2].textContent = ED.preheader; }
+}
+async function emailSave(status) {
+  emailRead();
+  const row = { id: ED.id, subject: ED.subject, preheader: ED.preheader, title: ED.title, body: ED.body, image: ED.image || null, cta_text: ED.cta_text, cta_url: ED.cta_url, show_id: ED.show_id, audience: ED.audience, html: emailHTML(ED), status: status || ED.status || "draft" };
+  ED = { ...ED, ...(await save("campaigns", row)) };
+  return ED;
+}
+function wireEmail() {
+  emailPreview();
+  const f = $("#emf");
+  if (f) f.addEventListener("input", () => { emailRead(); emailPreview(); });
+  document.querySelectorAll("[data-img]").forEach(b => b.onclick = () => { ED.image = b.dataset.img; f.image.value = ED.image; document.querySelectorAll(".em-img").forEach(x => x.classList.toggle("on", x === b)); emailPreview(); });
+  const file = $("#em-file");
+  if (file) file.onchange = async () => {
+    const fl = file.files[0]; if (!fl) return;
+    if (DEMO) { toast(L("Na demonstração o upload fica desligado", "Uploads are off in demo mode")); return; }
+    const path = Date.now() + "-" + slugify(fl.name.replace(/\.[^.]+$/, "")) + "." + (fl.name.split(".").pop() || "jpg").toLowerCase();
+    const { error } = await sb.storage.from("email").upload(path, fl, { contentType: fl.type, upsert: false });
+    if (error) { toast(error.message); return; }
+    ED.image = sb.storage.from("email").getPublicUrl(path).data.publicUrl; render();
+  };
+  const on = (id, fn) => { const el = $(id); if (el) el.onclick = fn; };
+  on("#em-new", () => { ED = emailDefaults(); render(); });
+  on("#em-dup", () => { ED = { ...ED, id: "m" + uid(), status: "draft", sent_count: 0, sent_at: null, created_at: null }; render(); });
+  on("#em-save", async () => { await emailSave("draft"); toast(L("Rascunho salvo", "Draft saved")); render(); });
+  on("#em-copy", () => { navigator.clipboard.writeText(emailHTML(emailRead())); toast(L("HTML copiado", "HTML copied")); });
+  on("#em-test", async () => {
+    if (DEMO) { toast(L("Na demonstração nada é enviado", "Nothing is sent in demo mode")); return; }
+    const b = $("#em-test"); b.disabled = true;
+    try { await emailSave("draft"); const r = await fnCall("send-email", { campaign_id: ED.id, test_to: ME.email }); toast(L("Teste enviado para ", "Test sent to ") + (r.to || ME.email)); }
+    catch (e) { toast(e.message); } b.disabled = false;
+  });
+  on("#em-send", async () => {
+    emailRead(); const n = audienceList(ED.audience).length;
+    if (!confirm(L(`Enviar "${ED.subject}" para ${n} pessoas agora? Não dá para desfazer.`, `Send "${ED.subject}" to ${n} people now? This can't be undone.`))) return;
+    if (DEMO) { toast(L("Na demonstração nada é enviado", "Nothing is sent in demo mode")); return; }
+    const b = $("#em-send"); b.disabled = true; b.textContent = L("Enviando...", "Sending...");
+    try { await emailSave("draft"); let r; do { r = await fnCall("send-email", { campaign_id: ED.id }); b.textContent = L("Enviados ", "Sent ") + r.sent_total; } while (r.remaining > 0);
+      await refresh("campaigns"); ED = { ...S.campaigns.find(c => c.id === ED.id) }; toast(L("Campanha enviada para ", "Campaign sent to ") + r.sent_total); }
+    catch (e) { toast(e.message); }
+    render();
+  });
+  on("#em-import", () => modal(L("Importar contatos", "Import contacts"), [
+    { k: "list", l: L("Um contato por linha: e-mail, nome, idioma (pt/es/en). Dá para colar da planilha.", "One per line: email, name, language (pt/es/en)."), t: "area" },
+    { k: "consent", l: L("Essas pessoas aceitaram receber e-mails do Brasileuros", "These people agreed to receive Brasileuros e-mails"), t: "check" },
+  ], {}, async r => {
+    if (!r.consent) throw new Error(L("Só dá para importar quem aceitou receber e-mails.", "Only import people who opted in."));
+    const rows = String(r.list || "").split(/\n+/).map(l => l.split(/[,;\t]/).map(x => x.trim())).filter(x => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x[0] || "")).map(([email, name, lang]) => ({ email: email.toLowerCase(), name: name || null, lang: /^(pt|es|en|ca)$/i.test(lang || "") ? lang.toLowerCase() : "pt", source: "import", consent: true }));
+    if (!rows.length) throw new Error(L("Nenhum e-mail válido.", "No valid e-mail."));
+    if (DEMO) { rows.forEach(x => S.signups.push({ ...x, id: uid(), created_at: new Date().toISOString(), unsubscribed: false })); return; }
+    const known = new Set(S.signups.map(x => String(x.email).toLowerCase()));
+    const fresh = rows.filter(x => !known.has(x.email));
+    if (fresh.length) { const { error } = await sb.from("signups").insert(fresh); if (error) throw error; }
+    await refresh("signups"); toast(fresh.length + L(" contatos novos importados", " new contacts imported"));
+  }));
+  document.querySelectorAll("[data-camp]").forEach(b => b.onclick = () => { ED = { ...S.campaigns.find(c => c.id === b.dataset.camp) }; render(); scrollTo(0, 0); });
+}
+
 /* ---------------- modo demonstração ---------------- */
 function demoData() {
   const t0 = today(), wd = (pd(t0).getDay() + 4) % 7; // dias até quarta
@@ -748,7 +974,7 @@ function demoData() {
   const ig_stats = Array.from({ length: 30 }, (_, i) => ({ id: "ig" + i, date: addDays(t0, i - 30), followers: 62 + Math.round(i * 1.05 + (i > 25 ? 6 : 0)), reach: Math.round(40 + rnd() * 120 + (i % 7 === 2 ? 900 : 0)), profile_visits: Math.round(3 + rnd() * 10) }));
   const lineup = [{ id: "lu1", show_id: shows[2].id, artist: "Convidado(a) Barcelouca", payment: "Confirmed", spot: "guest", fee: 0 }];
   const tasks = shows.filter(s => s.date >= t0).flatMap(s => template().map(t => ({ id: s.id + ":" + t.key, show_id: s.id, template_key: t.key, title: t.title, sector: t.sector, due: addDays(s.date, t.offset), done: addDays(s.date, t.offset) < t0 })));
-  return { shows, orders, ig_stats, lineup, tasks, comedians: [], coupons: [{ id: "c1", code: "PATRICK10", percent: 10, status: "Active", uses: 4 }], ads: [], expenses: [], payments: [], instagram: [], signups: [], settings: [{ key: "task_template", value: DEFAULT_TEMPLATE }], profiles: [{ id: "demo", name: "Patrick", email: "demo@brasileuros.com", role: "admin", active: true }] };
+  return { shows, orders, ig_stats, lineup, tasks, comedians: [], coupons: [{ id: "c1", code: "PATRICK10", percent: 10, status: "Active", uses: 4 }], ads: [], expenses: [], payments: [], instagram: [], campaigns: [], signups: names.map((n, i) => ({ id: "su" + i, created_at: new Date(Date.now() - i * 864e5 * 2).toISOString(), name: n, email: n.toLowerCase().replace(/[^a-z]+/g, ".") + "@exemplo.com", lang: i % 4 === 0 ? "es" : "pt", consent: true, unsubscribed: i === 5 })), settings: [{ key: "task_template", value: DEFAULT_TEMPLATE }], profiles: [{ id: "demo", name: "Patrick", email: "demo@brasileuros.com", role: "admin", active: true }] };
 }
 function enterDemo() { DEMO = true; ME = { id: "demo", email: "demo@brasileuros.com" }; PROFILE = { id: "demo", name: "Patrick", role: "admin", active: true }; S = { ...S, ...{ settings: [{ key: "task_template", value: DEFAULT_TEMPLATE }] } }; S = { ...S, ...demoData() }; INS = demoInsights(); readHashRoute(); render(); }
 function leaveDemo() { DEMO = false; history.replaceState(null, "", location.pathname); location.reload(); }
