@@ -192,9 +192,19 @@ body.dr-open{overflow:hidden}
 .side-nav button.on{font-weight:700}
 .side-nav button.on .ic{stroke-width:2.6}
 .side-more{margin-top:auto;position:relative}
-.more-menu{position:absolute;left:0;bottom:56px;width:230px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);padding:8px;display:grid;gap:2px;z-index:60}
-.more-menu button{height:42px;border:0;background:none;text-align:left;padding:0 12px;border-radius:8px;cursor:pointer}
-.more-menu button:hover{background:var(--panel2)}
+.more-menu{position:fixed;left:12px;bottom:72px;width:250px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);padding:8px;display:grid;gap:2px;z-index:60}
+.more-menu>button{height:44px;border:0;background:none;text-align:left;padding:0 12px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:12px;color:var(--text);font-size:14.5px}
+.more-menu>button:hover{background:var(--panel2)}
+.more-menu>button .ic{width:20px;height:20px}
+.mm-row{display:flex;align-items:center;gap:10px;padding:6px 12px;font-size:13px;color:var(--muted)}
+.mm-row>span{flex:1}
+.mm-seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.mm-seg button{height:30px;min-width:44px;padding:0 12px;border:0;border-radius:999px;background:none;color:var(--muted);font-weight:600;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.mm-seg button .ic{width:16px;height:16px}
+.mm-seg button.on{background:#3772B4;color:#fff}
+.mm-sep{height:1px;background:var(--line);margin:4px 0}
+.mm-grab{display:none}
+.mm-scrim{display:none}
 .mm-who{padding:8px 12px;color:var(--muted);font-size:12.5px;border-bottom:1px solid var(--line);margin-bottom:4px}
 .mtop,.tabbar{display:none}
 .more-menu[hidden]{display:none}
@@ -272,9 +282,14 @@ body.dr-open{overflow:hidden}
   .tabbar button{height:54px;border:0;background:none;display:grid;place-items:center;color:var(--text);cursor:pointer}
   .tabbar button span{display:none}
   .tabbar button.on .ic{stroke-width:2.6}
+  .tabbar .tb-new .ic{color:#3772B4}
+  .mtop{justify-content:center}
+  .more-menu{left:0;right:0;bottom:0;width:auto;border-radius:20px 20px 0 0;padding:8px 12px calc(14px + 54px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 40px rgba(0,0,0,.2);z-index:29}
+  .mm-grab{display:block;width:40px;height:4px;border-radius:4px;background:var(--line2);margin:4px auto 8px}
+  .mm-scrim:not([hidden]){display:block;position:fixed;inset:0;background:rgba(10,20,40,.35);z-index:28}
+  .more-menu>button{height:50px;font-size:15.5px}
+  .mm-row{padding:10px 12px;font-size:14.5px}
   .ig .main{margin:0;padding:16px 14px 90px}
-  .more-menu{position:fixed;right:12px;left:auto;top:58px;bottom:auto}
-  .side-more{position:static}
   .kgrid{grid-template-columns:1fr 1fr;gap:10px}
   .k{padding:14px;min-height:130px}
   .k-v{font-size:30px}.k-sales .k-v{font-size:36px}
@@ -622,13 +637,16 @@ a.fi.post{color:var(--text);text-decoration:none}
 .pg-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
 .pg-i:hover .pg-img img{transform:scale(1.05)}
 .pg-ph{display:grid;place-items:center;height:100%;color:var(--muted)}
-.pg-type{position:absolute;top:6px;right:8px;color:#fff;font-size:13px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.pg-type{position:absolute;top:7px;right:7px;width:22px;height:22px;border-radius:50%;background:rgba(15,30,59,.55);display:grid;place-items:center;color:#fff}
+.pg-type .ic{width:12px;height:12px;fill:currentColor;stroke-width:1.5}
 .pg-top{position:absolute;top:6px;left:6px;background:#FDD929;color:#0f1e3b;font-size:10px;font-weight:800;border-radius:999px;padding:2px 7px;text-transform:uppercase}
 .pg-over{position:absolute;left:0;right:0;bottom:0;padding:18px 8px 7px;background:linear-gradient(to top,rgba(0,0,0,.75),transparent);color:#fff;display:grid}
 .pg-over b{font-size:18px;line-height:1}.pg-over small{font-size:10px;opacity:.85}
-.pg-st{display:flex;gap:8px;font-size:11.5px;color:var(--muted);flex-wrap:wrap}
+.pg-st{display:flex;gap:10px;font-size:11.5px;color:var(--muted);flex-wrap:wrap;font-variant-numeric:tabular-nums}
+.pg-st>span{display:inline-flex;align-items:center;gap:4px}
+.pg-st .ic{width:14px;height:14px;stroke-width:2;color:#3772B4}
 .pg-d{font-size:11px;color:var(--faint,var(--muted))}
-@media (max-width:767px){.pgal{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:767px){.pgal{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.pg-st .pg-x{display:none}.pg-over b{font-size:16px}}
 @media (max-width:767px){.ff-row{grid-template-columns:96px 1fr 52px}.fl-row{grid-template-columns:1fr;gap:4px}.fl-v{text-align:left}}
 </style>
 </head>
@@ -862,10 +880,18 @@ const IC = {
   edit: '<path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
   send: '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>',
   back: '<path d="M15 5l-7 7 7 7"/>',
+  eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
+  share: '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>',
+  save: '<path d="M6.5 3.5h11a1 1 0 0 1 1 1V21l-6.5-4.5L5.5 21V4.5a1 1 0 0 1 1-1z"/>',
+  play: '<path d="M8 5.5v13l10.5-6.5z"/>',
+  globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3z"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>',
+  moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+  out: '<path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4M10 16l-4-4 4-4M6 12h10"/>',
 };
 const icon = (k, cls = "") => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[k] || ""}</svg>`;
 const NAV = [["home", "Início", "Home"], ["publico", "Público", "Audience"], ["fin", "Financeiro", "Finance"], ["team", "Equipe", "Team"]];
-function themeIcon() { const t = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); return t === "dark" ? L("Tema claro", "Light theme") : L("Tema escuro", "Dark theme"); }
+const curTheme = () => document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 function render() {
   const main = { home: vHome, shows: vShows, show: vShow, newshow: vNewShow, post: vPost, fin: vFin, publico: vCoupons, email: vEmail, team: vTeam }[R.view] || vHome;
   const on = k => R.view === k || (k === "home" && ["show", "newshow", "shows", "post"].includes(R.view)) || (k === "publico" && R.view === "email");
@@ -880,27 +906,32 @@ function render() {
       </nav>
       <div class="side-more">
         <button id="more" aria-label="${L("Mais", "More")}">${icon("more")}<span>${L("Mais", "More")}</span></button>
-        <div class="more-menu" id="moremenu" hidden>
-          <div class="mm-who">${esc(PROFILE?.name || ME?.email || "")}</div>
-          <button data-lang>${LANG === "en" ? "Português" : "English"}</button>
-          <button id="theme">${themeIcon()}</button>
-          <button id="out">${L("Sair", "Sign out")}</button>
-        </div>
       </div>
     </aside>
-    <header class="mtop"><img src="/assets/logo.webp" alt="Brasileuros"><div class="grow"></div><button class="btn ghost sm" id="mnew" aria-label="${L("Novo show", "New show")}">${icon("plus")}</button><button class="btn ghost sm" id="mmore" aria-label="${L("Mais", "More")}">${icon("more")}</button></header>
+    <header class="mtop"><img src="/assets/logo.webp" alt="Brasileuros"></header>
     <main class="main"><div class="page ${pageAnim()}">${main()}</div></main>
-    <nav class="tabbar">${NAV.map(navBtn).join("")}</nav>
+    <nav class="tabbar">${NAV.slice(0, 2).map(navBtn).join("")}<button class="tb-new" id="mnew" aria-label="${L("Novo show", "New show")}">${icon("plus")}</button>${NAV.slice(2).map(navBtn).join("")}<button id="mmore" aria-label="${L("Mais", "More")}">${icon("more")}</button></nav>
+    <div class="mm-scrim" id="mmscrim" hidden></div>
+    <div class="more-menu" id="moremenu" role="menu" hidden>
+      <span class="mm-grab"></span>
+      <div class="mm-who">${esc(PROFILE?.name || ME?.email || "")}</div>
+      <div class="mm-row">${icon("globe")}<span>${L("Idioma", "Language")}</span><div class="mm-seg">${[["pt", "PT"], ["en", "EN"]].map(([k, l]) => `<button data-setlang="${k}" class="${LANG === k ? "on" : ""}">${l}</button>`).join("")}</div></div>
+      <div class="mm-row">${icon(curTheme() === "dark" ? "moon" : "sun")}<span>${L("Tema", "Theme")}</span><div class="mm-seg">${[["light", "sun", L("Claro", "Light")], ["dark", "moon", L("Escuro", "Dark")]].map(([k, ic, l]) => `<button data-settheme="${k}" class="${curTheme() === k ? "on" : ""}" aria-label="${l}" title="${l}">${icon(ic)}</button>`).join("")}</div></div>
+      <div class="mm-sep"></div>
+      <button id="out">${icon("out")}${L("Sair", "Sign out")}</button>
+    </div>
   </div>`;
   document.querySelectorAll("[data-nav]").forEach(b => b.onclick = () => go({ view: b.dataset.nav }));
   $("#homelogo").onclick = e => { e.preventDefault(); go({ view: "home" }); };
-  const mm = $("#moremenu");
-  $("#more").onclick = e => { e.stopPropagation(); mm.hidden = !mm.hidden; };
-  $("#mmore").onclick = e => { e.stopPropagation(); mm.hidden = !mm.hidden; };
-  document.addEventListener("click", ev => { if (mm && !mm.hidden && !mm.contains(ev.target)) mm.hidden = true; }, { once: true });
+  const mm = $("#moremenu"), scrim = $("#mmscrim");
+  const setMenu = open => { mm.hidden = !open; scrim.hidden = !open; };
+  const toggleMenu = e => { e.stopPropagation(); setMenu(mm.hidden); };
+  $("#more").onclick = toggleMenu; $("#mmore").onclick = toggleMenu; scrim.onclick = () => setMenu(false);
+  document.addEventListener("click", function close(ev) { if (!document.body.contains(mm)) return document.removeEventListener("click", close); if (!mm.hidden && !mm.contains(ev.target)) setMenu(false); });
+  mm.querySelectorAll("[data-setlang]").forEach(b => b.onclick = e => { e.stopPropagation(); LANG = b.dataset.setlang; localStorage.setItem("bxe-lang", LANG); render(); $("#moremenu").hidden = false; $("#mmscrim").hidden = false; });
+  mm.querySelectorAll("[data-settheme]").forEach(b => b.onclick = e => { e.stopPropagation(); document.documentElement.dataset.theme = b.dataset.settheme; localStorage.setItem("bxe-theme", b.dataset.settheme); render(); $("#moremenu").hidden = false; $("#mmscrim").hidden = false; });
   $("#newshow-side").onclick = newShow; $("#mnew").onclick = newShow;
   $("#out").onclick = async () => { if (DEMO) { leaveDemo(); return; } await sb.auth.signOut(); location.reload(); };
-  $("#theme").onclick = () => { const cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); const nx = cur === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = nx; localStorage.setItem("bxe-theme", nx); render(); };
   const dOff = $("#demo-off"); if (dOff) dOff.onclick = leaveDemo;
   wireLang(); wireCommon();
   ({ home: wireHome, shows: wireShows, show: wireShow, newshow: wireNewShow, post: wirePost, fin: wireFin, publico: wireCoupons, email: wireEmail, team: wireTeam }[R.view] || (() => {}))();
@@ -1167,9 +1198,9 @@ function flowBlock() {
   </div>
   <div class="card pad sec2"><div class="sec-h"><h2 class="grow">${L("Posts que levam ao perfil", "Posts that drive profile visits")}</h2><span class="muted small">${rangeLabel(G)}</span></div>
     ${posts.length ? `<div class="pgal">${posts.map((p, i) => `<a class="pg-i" href="${esc(p.permalink)}" target="_blank" rel="noopener">
-      <span class="pg-img">${p.thumb ? `<img src="${esc(p.thumb)}" alt="" loading="lazy">` : `<span class="pg-ph">${icon("ig")}</span>`}${p.type === "REELS" || p.type === "VIDEO" ? `<span class="pg-type">▶</span>` : ""}${i === 0 && num(p.profile_visits) ? `<span class="pg-top">${L("top", "top")}</span>` : ""}
+      <span class="pg-img">${p.thumb ? `<img src="${esc(p.thumb)}" alt="" loading="lazy">` : `<span class="pg-ph">${icon("ig")}</span>`}${p.type === "REELS" || p.type === "VIDEO" ? `<span class="pg-type">${icon("play")}</span>` : ""}${i === 0 && num(p.profile_visits) ? `<span class="pg-top">${L("top", "top")}</span>` : ""}
         <span class="pg-over"><b>${p.profile_visits != null ? nf(p.profile_visits) : "—"}</b><small>${L("visitas ao perfil", "profile visits")}</small></span></span>
-      <span class="pg-st"><span title="${L("alcance", "reach")}">👁 ${nf(p.reach)}</span><span title="${L("compartilhamentos", "shares")}">↗ ${nf(p.shares)}</span>${p.saved != null ? `<span title="${L("salvos", "saves")}">🔖 ${nf(p.saved)}</span>` : ""}</span>
+      <span class="pg-st"><span title="${L("alcance", "reach")}">${icon("eye")}${nf(p.reach)}</span><span class="pg-x" title="${L("compartilhamentos", "shares")}">${icon("share")}${nf(p.shares)}</span>${p.saved != null ? `<span class="pg-x" title="${L("salvos", "saves")}">${icon("save")}${nf(p.saved)}</span>` : ""}</span>
       <span class="pg-d">${fdate(String(p.ts).slice(0, 10), { day: "numeric", month: "short" })}</span></a>`).join("")}</div>` : `<div class="empty">${L("Liga o Instagram para ver os posts.", "Connect Instagram to see posts.")}</div>`}
   </div>
   <div class="cols sec2">
