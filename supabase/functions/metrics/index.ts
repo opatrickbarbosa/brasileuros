@@ -65,7 +65,7 @@ async function gaBatch(token: string, bodies: any[]) {
     const requests = bodies.slice(i, i + 5).map((b) => ({ dateRanges: [{ startDate: RANGE.start, endDate: RANGE.end }], ...b }));
     let j: any = null;
     for (let t = 0; t < 3; t++) {
-      const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${env("GA4_PROPERTY_ID")}:batchRunReports`, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ requests }), signal: AbortSignal.timeout(20000) });
+      const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${env("GA4_PROPERTY_ID")}:batchRunReports`, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ requests }), signal: AbortSignal.timeout(45000) });
       const txt = await r.text();
       try { j = JSON.parse(txt); } catch { j = { error: { message: `resposta inválida (${r.status})` } }; }
       if (j.error && /concurrent|quota|unavailable|resposta inválida/i.test(j.error.message) && t < 2) { await new Promise((res) => setTimeout(res, 1500 * (t + 1))); continue; }
