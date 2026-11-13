@@ -85,9 +85,20 @@ async function gaProbe() {
   const prop = env("GA4_PROPERTY_ID");
   const post = async (path: string, body: any) => { const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${prop}:${path}`, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify(body), signal: AbortSignal.timeout(20000) }); return { status: r.status, body: (await r.text()).slice(0, 300) }; };
   await t("metadata", async () => { const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${prop}/metadata`, { headers: { Authorization: "Bearer " + token }, signal: AbortSignal.timeout(20000) }); return { status: r.status, body: (await r.text()).slice(0, 200) }; });
-  await t("runReport simples", () => post("runReport", { dateRanges: [{ startDate: "7daysAgo", endDate: "today" }], metrics: [{ name: "totalUsers" }] }));
-  await t("runReport com filtro", () => post("runReport", { dateRanges: [{ startDate: "7daysAgo", endDate: "today" }], metrics: [{ name: "totalUsers" }], dimensionFilter: notBots }));
-  await t("batch 1", () => post("batchRunReports", { requests: [{ dateRanges: [{ startDate: "7daysAgo", endDate: "today" }], metrics: [{ name: "totalUsers" }] }] }));
+  const simple = { dateRanges: [{ startDate: "7daysAgo", endDate: "today" }], metrics: [{ name: "totalUsers" }] };
+  const raw = async (url: string, init: RequestInit) => { const r = await fetch(url, { ...init, signal: AbortSignal.timeout(12000) }); return { status: r.status, body: (await r.text()).slice(0, 200) }; };
+  const H = { Authorization: "Bearer " + token, "Content-Type": "application/json" };
+  const base = `https://analyticsdata.googleapis.com/v1beta/properties/${prop}`;
+  const bytes = new TextEncoder().encode(JSON.stringify(simple));
+  await Promise.all([
+    t("runReport (texto)", () => raw(base + ":runReport", { method: "POST", headers: H, body: JSON.stringify(simple) })),
+    t("runReport (bytes + length)", () => raw(base + ":runReport", { method: "POST", headers: { ...H, "Content-Length": String(bytes.length) }, body: bytes })),
+    t("runReport www.googleapis", () => raw(`https://www.googleapis.com/analyticsdata/v1beta/properties/${prop}:runReport`, { method: "POST", headers: H, body: JSON.stringify(simple) })),
+    t("realtime", () => raw(base + ":runRealtimeReport", { method: "POST", headers: H, body: JSON.stringify({ metrics: [{ name: "activeUsers" }] }) })),
+    t("checkCompatibility", () => raw(base + ":checkCompatibility", { method: "POST", headers: H, body: JSON.stringify({ metrics: [{ name: "totalUsers" }] }) })),
+    t("v1alpha runReport", () => raw(`https://analyticsdata.googleapis.com/v1alpha/properties/${prop}:runReport`, { method: "POST", headers: H, body: JSON.stringify(simple) })),
+    t("admin api property", () => raw(`https://analyticsadmin.googleapis.com/v1beta/properties/${prop}`, { headers: H })),
+  ]);
   return { prop, out };
 }
 async function gaBlock(token: string) {
