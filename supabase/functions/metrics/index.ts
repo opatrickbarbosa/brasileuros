@@ -57,13 +57,15 @@ const notBots = { notExpression: { orGroup: { expressions: [
 ] } } };
 const andF = (...f: any[]) => ({ andGroup: { expressions: f } });
 const eq = (fieldName: string, value: string) => ({ filter: { fieldName, stringFilter: { value, matchType: "EXACT" } } });
-// o GA4 aceita poucas consultas simultâneas por propriedade: fila com no máximo 4 ao mesmo tempo
+// o GA4 aceita poucas consultas simultâneas por propriedade: fila com no máximo 2 ao mesmo tempo (e nova tentativa se recusar)
 let gaActive = 0; const gaQueue: (() => void)[] = [];
-const gaSlot = () => new Promise<void>((res) => { if (gaActive < 4) { gaActive++; res(); } else gaQueue.push(() => { gaActive++; res(); }); });
+const gaSlot = () => new Promise<void>((res) => { if (gaActive < 2) { gaActive++; res(); } else gaQueue.push(() => { gaActive++; res(); }); });
 const gaFree = () => { gaActive--; const n = gaQueue.shift(); if (n) n(); };
 async function ga(token: string, body: any) {
   await gaSlot();
-  try { return await gaRaw(token, body); } finally { gaFree(); }
+  try {
+    for (let i = 0; ; i++) { try { return await gaRaw(token, body); } catch (e) { if (i < 3 && /concurrent/i.test(String((e as Error).message))) { await new Promise((r) => setTimeout(r, 800 * (i + 1))); continue; } throw e; } }
+  } finally { gaFree(); }
 }
 async function gaRaw(token: string, body: any) {
   const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${env("GA4_PROPERTY_ID")}:runReport`, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ dateRanges: [{ startDate: RANGE.start, endDate: RANGE.end }], ...body }) });
