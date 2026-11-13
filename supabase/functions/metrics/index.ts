@@ -65,23 +65,28 @@ async function ga(token: string, body: any) {
 }
 async function gaBlock(token: string) {
   const users = async (extra?: any) => { const r = await ga(token, { metrics: [{ name: "totalUsers" }, { name: "eventCount" }], dimensionFilter: extra ? andF(notBots, extra) : notBots }); return { users: r[0]?.[0] || 0, events: r[0]?.[1] || 0 }; };
-  const site = await users(eq("hostName", "www.brasileuros.com"));
-  const entradas = await users(andF(eq("hostName", "www.brasileuros.com"), eq("pagePath", "/entradas")));
-  const buy = await users(eq("eventName", "comprar_entradas"));
-  const eb = await users(eq("hostName", "www.eventbrite.com"));
-  const checkout = await users(andF(eq("hostName", "www.eventbrite.com"), eq("pagePath", "/checkout-external")));
-  const signups = await users(eq("eventName", "sign_up"));
-  const leads = await users(eq("eventName", "generate_lead"));
-  const wa = await users(eq("eventName", "whatsapp_click"));
-  const daily = (await ga(token, { dimensions: [{ name: "date" }], metrics: [{ name: "sessions" }, { name: "totalUsers" }], dimensionFilter: notBots, orderBys: [{ dimension: { dimensionName: "date" } }] }))
-    .map(([d, s, u]: any[]) => ({ date: `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}`, sessions: s, users: u }));
-  const ch = await ga(token, { dimensions: [{ name: "sessionSourceMedium" }], metrics: [{ name: "sessions" }, { name: "totalUsers" }, { name: "averageSessionDuration" }], dimensionFilter: notBots, limit: 12, orderBys: [{ metric: { metricName: "sessions" }, desc: true }] });
-  const chBuy = await ga(token, { dimensions: [{ name: "sessionSourceMedium" }], metrics: [{ name: "eventCount" }, { name: "totalUsers" }], dimensionFilter: andF(notBots, eq("eventName", "comprar_entradas")) });
+  // tudo em paralelo para o painel responder rápido
+  const [site, entradas, buy, eb, checkout, signups, leads, wa, dailyR, ch, chBuy, landingR, devicesR, hoursR] = await Promise.all([
+    users(eq("hostName", "www.brasileuros.com")),
+    users(andF(eq("hostName", "www.brasileuros.com"), eq("pagePath", "/entradas"))),
+    users(eq("eventName", "comprar_entradas")),
+    users(eq("hostName", "www.eventbrite.com")),
+    users(andF(eq("hostName", "www.eventbrite.com"), eq("pagePath", "/checkout-external"))),
+    users(eq("eventName", "sign_up")),
+    users(eq("eventName", "generate_lead")),
+    users(eq("eventName", "whatsapp_click")),
+    ga(token, { dimensions: [{ name: "date" }], metrics: [{ name: "sessions" }, { name: "totalUsers" }], dimensionFilter: notBots, orderBys: [{ dimension: { dimensionName: "date" } }] }),
+    ga(token, { dimensions: [{ name: "sessionSourceMedium" }], metrics: [{ name: "sessions" }, { name: "totalUsers" }, { name: "averageSessionDuration" }], dimensionFilter: notBots, limit: 12, orderBys: [{ metric: { metricName: "sessions" }, desc: true }] }),
+    ga(token, { dimensions: [{ name: "sessionSourceMedium" }], metrics: [{ name: "eventCount" }, { name: "totalUsers" }], dimensionFilter: andF(notBots, eq("eventName", "comprar_entradas")) }),
+    ga(token, { dimensions: [{ name: "landingPage" }], metrics: [{ name: "sessions" }, { name: "engagedSessions" }], dimensionFilter: andF(notBots, eq("hostName", "www.brasileuros.com")), limit: 8, orderBys: [{ metric: { metricName: "sessions" }, desc: true }] }),
+    ga(token, { dimensions: [{ name: "deviceCategory" }], metrics: [{ name: "totalUsers" }], dimensionFilter: notBots }),
+    ga(token, { dimensions: [{ name: "hour" }], metrics: [{ name: "sessions" }], dimensionFilter: notBots }),
+  ]);
+  const daily = dailyR.map(([d, s, u]: any[]) => ({ date: `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}`, sessions: s, users: u }));
   const channels = ch.map(([src, s, u, dur]: any[]) => { const b = chBuy.find((x: any[]) => x[0] === src); return { src, sessions: s, users: u, dur: Math.round(dur), buy_clicks: b?.[1] || 0, buy_users: b?.[2] || 0 }; });
-  const landing = (await ga(token, { dimensions: [{ name: "landingPage" }], metrics: [{ name: "sessions" }, { name: "engagedSessions" }], dimensionFilter: andF(notBots, eq("hostName", "www.brasileuros.com")), limit: 8, orderBys: [{ metric: { metricName: "sessions" }, desc: true }] }))
-    .map(([path, s, e]: any[]) => ({ path, sessions: s, engaged: e }));
-  const devices = (await ga(token, { dimensions: [{ name: "deviceCategory" }], metrics: [{ name: "totalUsers" }], dimensionFilter: notBots })).map(([d, u]: any[]) => ({ device: d, users: u }));
-  const hours = (await ga(token, { dimensions: [{ name: "hour" }], metrics: [{ name: "sessions" }], dimensionFilter: notBots })).map(([h, s]: any[]) => ({ hour: Number(h), sessions: s }));
+  const landing = landingR.map(([path, s, e]: any[]) => ({ path, sessions: s, engaged: e }));
+  const devices = devicesR.map(([d, u]: any[]) => ({ device: d, users: u }));
+  const hours = hoursR.map(([h, s]: any[]) => ({ hour: Number(h), sessions: s }));
   return { site_users: site.users, entradas_users: entradas.users, buy_users: buy.users, buy_clicks: buy.events, eb_users: eb.users, checkout_users: checkout.users, signups: signups.users, leads: leads.users, wa_users: wa.users, daily, channels, landing, devices, hours };
 }
 
@@ -115,17 +120,16 @@ async function igBlock() {
     }
     return total;
   };
-  const [reach, profile_visits, link_taps, views] = [await tv("reach"), await tv("profile_views"), await tv("profile_links_taps"), await tv("views")];
+  const [reach, profile_visits, link_taps, views] = await Promise.all([tv("reach"), tv("profile_views"), tv("profile_links_taps"), tv("views")]);
   const media = await graph(`${ig}/media`, { fields: "id,caption,permalink,timestamp,media_type,media_product_type,media_url,thumbnail_url", limit: "50" });
-  const posts: any[] = [];
-  for (const m of media.data || []) {
-    const d = String(m.timestamp).slice(0, 10); if (d < RANGE.start || d > RANGE.end) continue;
+  const inRange = (media.data || []).filter((m: any) => { const d = String(m.timestamp).slice(0, 10); return d >= RANGE.start && d <= RANGE.end; });
+  const posts = await Promise.all(inRange.map(async (m: any) => {
     let ins: any = {};
     for (const metrics of ["reach,shares,saved,profile_visits,follows,total_interactions", "reach,shares,saved,total_interactions"]) {
       try { const r = await graph(`${m.id}/insights`, { metric: metrics }); (r.data || []).forEach((x: any) => ins[x.name] = x.values?.[0]?.value ?? x.total_value?.value ?? 0); break; } catch { /* reels não aceitam algumas métricas */ }
     }
-    posts.push({ permalink: m.permalink, caption: String(m.caption || "").slice(0, 140), ts: m.timestamp, type: m.media_product_type || m.media_type, thumb: m.thumbnail_url || (m.media_type === "VIDEO" ? null : m.media_url) || null, ...ins });
-  }
+    return { permalink: m.permalink, caption: String(m.caption || "").slice(0, 140), ts: m.timestamp, type: m.media_product_type || m.media_type, thumb: m.thumbnail_url || (m.media_type === "VIDEO" ? null : m.media_url) || null, ...ins };
+  }));
   return { reach_28d: reach, profile_visits_28d: profile_visits, link_taps_28d: link_taps, views_28d: views, posts };
 }
 /* ---------- Página do Facebook (Graph API, mesmo META_TOKEN) ---------- */
@@ -146,9 +150,7 @@ async function fbBlock() {
     }
     return total;
   };
-  out.reach = await pg("page_impressions_unique");
-  out.engagement = await pg("page_post_engagements");
-  out.views = await pg("page_views_total");
+  [out.reach, out.engagement, out.views] = await Promise.all([pg("page_impressions_unique"), pg("page_post_engagements"), pg("page_views_total")]);
   return out;
 }
 
@@ -219,16 +221,21 @@ async function adsBlock() {
 async function collect(save = true) {
   const data: any = { period: "28d", start: RANGE.start, end: RANGE.end, errors: [] as string[] };
   const safe = async (k: string, fn: () => Promise<any>) => { try { data[k] = await fn(); } catch (e) { data.errors.push(String((e as Error).message || e)); } };
-  {
+  const google = (async () => {
     let token = ""; try { token = await googleToken(); } catch (e) { data.errors.push(String((e as Error).message)); }
-    if (token && env("GA4_PROPERTY_ID")) await safe("ga", () => gaBlock(token));
-    if (token && env("GSC_SITE")) await safe("gsc", () => gscBlock(token));
-    if (token) await safe("emails", () => emailsBlock(token, save));
-  }
-  if (env("META_TOKEN")) await safe("fb", fbBlock);
-  if (env("TIKTOK_CLIENT_KEY")) await safe("tiktok", tiktokBlock); else data.errors.push("TikTok ainda não conectado");
-  if (env("META_TOKEN") && env("IG_USER_ID")) await safe("ig", igBlock); else data.errors.push("Instagram ainda não conectado (falta META_TOKEN)");
-  if (env("META_AD_ACCOUNT_ID") && env("META_TOKEN")) await safe("ads", adsBlock);
+    if (!token) return;
+    await Promise.all([
+      env("GA4_PROPERTY_ID") ? safe("ga", () => gaBlock(token)) : null,
+      env("GSC_SITE") ? safe("gsc", () => gscBlock(token)) : null,
+      safe("emails", () => emailsBlock(token, save)),
+    ]);
+  })();
+  const jobs = [google];
+  if (env("META_TOKEN") && env("IG_USER_ID")) jobs.push(safe("ig", igBlock)); else data.errors.push("Instagram ainda não conectado (falta META_TOKEN)");
+  if (env("META_TOKEN")) jobs.push(safe("fb", fbBlock));
+  if (env("TIKTOK_CLIENT_KEY")) jobs.push(safe("tiktok", tiktokBlock)); else data.errors.push("TikTok ainda não conectado");
+  if (env("META_AD_ACCOUNT_ID") && env("META_TOKEN")) jobs.push(safe("ads", adsBlock));
+  await Promise.all(jobs);
   const at = new Date().toISOString();
   if (!save) return { ok: true, at, data };
   await db.from("insights").upsert({ id: at.slice(0, 13), at, data });
