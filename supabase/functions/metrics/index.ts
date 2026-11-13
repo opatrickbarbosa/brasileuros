@@ -76,6 +76,20 @@ async function gaBatch(token: string, bodies: any[]) {
   }
   return out;
 }
+// diagnóstico: mede cada tipo de chamada ao GA4 separadamente
+async function gaProbe() {
+  const out: any[] = [];
+  const t = async (label: string, fn: () => Promise<any>) => { const t0 = Date.now(); try { const r = await fn(); out.push({ label, ms: Date.now() - t0, ok: true, r }); } catch (e) { out.push({ label, ms: Date.now() - t0, ok: false, err: String((e as Error).message || e) }); } };
+  let token = "";
+  await t("token", async () => { token = await googleToken(); return token ? "ok" : "vazio"; });
+  const prop = env("GA4_PROPERTY_ID");
+  const post = async (path: string, body: any) => { const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${prop}:${path}`, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify(body), signal: AbortSignal.timeout(20000) }); return { status: r.status, body: (await r.text()).slice(0, 300) }; };
+  await t("metadata", async () => { const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${prop}/metadata`, { headers: { Authorization: "Bearer " + token }, signal: AbortSignal.timeout(20000) }); return { status: r.status, body: (await r.text()).slice(0, 200) }; });
+  await t("runReport simples", () => post("runReport", { dateRanges: [{ startDate: "7daysAgo", endDate: "today" }], metrics: [{ name: "totalUsers" }] }));
+  await t("runReport com filtro", () => post("runReport", { dateRanges: [{ startDate: "7daysAgo", endDate: "today" }], metrics: [{ name: "totalUsers" }], dimensionFilter: notBots }));
+  await t("batch 1", () => post("batchRunReports", { requests: [{ dateRanges: [{ startDate: "7daysAgo", endDate: "today" }], metrics: [{ name: "totalUsers" }] }] }));
+  return { prop, out };
+}
 async function gaBlock(token: string) {
   const u = (extra?: any) => ({ metrics: [{ name: "totalUsers" }, { name: "eventCount" }], dimensionFilter: extra ? andF(notBots, extra) : notBots });
   const R_ = await gaBatch(token, [
@@ -275,6 +289,7 @@ Deno.serve(async (req) => {
     if (!(await authorized(req))) return json({ error: "Not allowed" }, 401);
     const body = await req.json().catch(() => ({}));
     const okDate = (x: unknown) => typeof x === "string" && /^\d{4}-\d{2}-\d{2}$/.test(x);
+    if (body.action === "ga_probe") return json(await gaProbe());
     if (okDate(body.start) && okDate(body.end) && body.start <= body.end) { RANGE = { start: body.start, end: body.end }; return json(await collect(false)); }
     RANGE = { start: day(-28), end: day() };
     return json(await collect());
