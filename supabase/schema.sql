@@ -275,3 +275,13 @@ alter table public.shows add column if not exists capacity int default 50;
 -- checklist padrão criado a cada show novo (dias em relação à data do show)
 insert into public.settings (key, value) values ('task_template', '[{"key": "eb", "title": "Evento aberto no Eventbrite", "sector": "Ingressos", "offset": -14}, {"key": "guest", "title": "Fechar convidado(a) do Barcelouca", "sector": "Show", "offset": -6}, {"key": "flyer", "title": "Arte do show pronta", "sector": "Instagram", "offset": -7}, {"key": "ad_live", "title": "Anúncio rodando", "sector": "Anuncios", "offset": -6}, {"key": "ig_post", "title": "Post de humor com data e preço", "sector": "Instagram", "offset": -5}, {"key": "wa", "title": "Aviso na lista de WhatsApp", "sector": "Ingressos", "offset": -3}, {"key": "st2", "title": "Stories D-2 com link", "sector": "Instagram", "offset": -2}, {"key": "st1", "title": "Stories D-1 com link", "sector": "Instagram", "offset": -1}, {"key": "st0", "title": "Stories no dia + contagem", "sector": "Instagram", "offset": 0}, {"key": "cash", "title": "Fechar o caixa da noite", "sector": "Financeiro", "offset": 0}, {"key": "clips", "title": "Postar cortes do show", "sector": "Instagram", "offset": 2}, {"key": "barcelouca", "title": "Editar e postar o Barcelouca", "sector": "Instagram", "offset": 4}]'::jsonb)
 on conflict (key) do nothing;
+
+-- resumo cruzado (GA4 + Search Console + Instagram + Meta), gravado pela função metrics
+create table if not exists public.insights (
+  id text primary key,
+  at timestamptz not null default now(),
+  data jsonb
+);
+alter table public.insights enable row level security;
+drop policy if exists staff_all on public.insights;
+create policy staff_all on public.insights for all to authenticated using (public.is_staff()) with check (public.is_staff());

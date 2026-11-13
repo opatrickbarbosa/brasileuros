@@ -28,10 +28,12 @@ end $$;
 revoke all on function private.call_fn(text, jsonb) from public, anon, authenticated;
 
 -- times are UTC: 07:30 UTC = 08:30 in Barcelona (winter), 09:30 in summer
-select cron.unschedule(jobname) from cron.job where jobname in ('eb-sync','eb-sync-full','daily-digest','ig-stats');
+select cron.unschedule(jobname) from cron.job where jobname in ('eb-sync','eb-sync-full','daily-digest','ig-stats','metrics');
 select cron.schedule('eb-sync', '*/30 * * * *', $$select private.call_fn('eventbrite', '{"action":"sync"}')$$);
 select cron.schedule('eb-sync-full', '15 3 * * *', $$select private.call_fn('eventbrite', '{"action":"sync","full":true}')$$);
 select cron.schedule('daily-digest', '30 7 * * *', $$select private.call_fn('daily-digest', '{}')$$);
 -- seguidores e alcance do Instagram: todo dia às 06:00 UTC
 select cron.schedule('ig-stats', '0 6 * * *', $$select private.call_fn('instagram', '{}')$$);
+-- cruzamento GA4 + Search Console + Instagram + Meta: a cada 3 horas
+select cron.schedule('metrics', '20 */3 * * *', $$select private.call_fn('metrics', '{}')$$);
 select jobname, schedule from cron.job order by jobname;

@@ -270,6 +270,27 @@ td.num,th.num{text-align:right}
   .bars{gap:3px;height:150px}
   .hello h1{font-size:22px}
 }
+
+/* funil cruzado */
+.fsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px;margin-top:6px}
+.fs{position:relative;display:grid;gap:3px;align-content:end;padding:10px 8px 8px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);min-height:190px}
+.fs.worst{border-color:var(--danger);box-shadow:0 0 0 1px var(--danger)}
+.fs b{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.fl{font-size:12px;font-weight:600;line-height:1.25}
+.fsrc{font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.04em}
+.fbar{height:70px;display:flex;align-items:flex-end}
+.fbar i{display:block;width:100%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#FDD929,#3772B4)}
+.fr{position:absolute;top:8px;left:8px;font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--panel);border:1px solid var(--line)}
+.fr.bad{color:var(--danger);background:var(--danger-soft);border-color:transparent}
+.fr.ok{color:var(--ok);background:var(--ok-soft);border-color:transparent}
+.tip{margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--accent-soft);font-size:13.5px;line-height:1.45}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mini span{display:grid;gap:2px;padding:10px;border-radius:10px;background:var(--panel2)}
+.mini b{font-size:20px;font-weight:800}.mini small{font-size:11.5px;color:var(--muted)}
+a.fi.post{color:var(--text);text-decoration:none}
+.pcap{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13px}
+.fi-v small{font-weight:500;color:var(--muted);font-size:11px}
+@media (max-width:767px){.fsteps{grid-template-columns:repeat(3,1fr)}.fs{min-height:170px}.fs b{font-size:19px}}
 </style>
 </head>
 <body>
@@ -347,6 +368,8 @@ let R = { view: "home", showId: null, tab: "overview", weekStart: null, mine: fa
 async function loadAll() {
   const res = await Promise.all(TABLES.map(t => sb.from(t).select("*")));
   res.forEach((r, i) => { if (r.error) throw r.error; S[TABLES[i]] = r.data || []; });
+  const ins = await sb.from("insights").select("*").order("at", { ascending: false }).limit(1);
+  INS = ins.data?.[0] || null;
 }
 async function save(table, row) {
   if (DEMO) { const key = table === "settings" ? "key" : "id"; const i = S[table].findIndex(x => x[key] === row[key]); if (i >= 0) S[table][i] = row; else S[table].push(row); return row; }
@@ -590,6 +613,7 @@ function vHome() {
       <div class="card k"><span class="k-l">${L("Seguidores", "Followers")} · @osbrasileuros</span><b class="k-v">${fNow != null ? fNow.toLocaleString(LANG === "en" ? "en-GB" : "pt-BR") : "—"}</b><span class="k-s ${fDelta > 0 ? "up" : fDelta < 0 ? "down" : ""}">${fDelta != null ? (fDelta > 0 ? "+" : "") + fDelta + L(" em 7 dias", " in 7 days") : L("Conecte o Instagram", "Connect Instagram")}</span>${spark(ig.slice(-30).map(r => num(r.followers)))}</div>
       <div class="card k"><span class="k-l">${L("Alcance 7 dias", "Reach 7 days")}</span><b class="k-v">${wk.length ? reach7.toLocaleString(LANG === "en" ? "en-GB" : "pt-BR") : "—"}</b><span class="k-s">${last?.profile_visits != null ? num(last.profile_visits) + L(" visitas ao perfil ontem", " profile visits yesterday") : L("contas alcançadas", "accounts reached")}</span>${spark(ig.slice(-30).map(r => num(r.reach)))}</div>
     </div>
+    ${flowBlock()}
     <div class="card pad sec2"><div class="sec-h"><h2 class="grow">${L("Ingressos vendidos por dia", "Tickets sold per day")}</h2><span class="muted small">${q14} ${L("em 14 dias", "in 14 days")}</span></div>${salesBars(days14)}
       <p class="faint small" style="margin:8px 0 0">${ebSync?.at ? L("Eventbrite sincronizado ", "Eventbrite synced ") + ago(ebSync.at) + ". " : ""}${L("Atualiza sozinho a cada 30 minutos.", "Updates on its own every 30 minutes.")}</p></div>
     <div class="cols sec2">
@@ -616,7 +640,9 @@ function wireHome() {
     const errs = [];
     await ebCall({ action: "sync" }).catch(e => errs.push("Eventbrite: " + e.message));
     await fnCall("instagram", {}).catch(e => errs.push("Instagram: " + e.message));
+    await fnCall("metrics", {}).catch(e => errs.push(L("Cruzamento: ", "Merge: ") + e.message));
     await Promise.all(["shows", "orders", "ig_stats", "settings"].map(refresh));
+    const ins = await sb.from("insights").select("*").order("at", { ascending: false }).limit(1); INS = ins.data?.[0] || INS;
     toast(errs.length ? errs.join(" · ") : L("Tudo atualizado", "All up to date")); render();
   };
 }
@@ -625,6 +651,87 @@ async function fnCall(name, body) {
   if (error) { let msg = error.message; try { const j = await error.context.json(); msg = j.error || msg; } catch (e) {} throw new Error(msg); }
   if (data?.error) throw new Error(data.error);
   return data;
+}
+
+/* ---------------- funil cruzado (GA4 + Search Console + Instagram + Meta + Eventbrite) ---------------- */
+let INS = null; // última linha de public.insights
+const nf = v => v == null ? "—" : Number(v).toLocaleString(LANG === "en" ? "en-GB" : "pt-BR");
+const pct = (a, b) => b ? Math.round(a / b * 1000) / 10 : null;
+// metas de referência para apontar o gargalo (ajuste aqui se quiser outra régua)
+const FLOW_REF = { profile: 2, link: 15, site: 60, buy: 30, checkout: 50, paid: 60 };
+const FLOW_TIP = {
+  profile: () => L("Pouca gente do alcance visita o perfil. Termine cada post com uma chamada clara (data, preço, \"link na bio\") e use collab com os dois comediantes.", "Few people reached visit the profile. End each post with a clear call (date, price, link in bio) and collab with both comedians."),
+  link: () => L("Muita visita ao perfil e pouco toque no link. Deixe a bio só com o próximo show e use sticker de link nos stories.", "Many profile visits, few link taps. Keep the bio about the next show only and use link stickers in stories."),
+  site: () => L("Os toques no link não viram visitas registradas. Confira se o link da bio tem UTM e se o aviso de cookies não está espantando.", "Link taps are not becoming visits. Check the bio link UTM and the cookie banner."),
+  buy: () => L("Quem chega ao site não clica em comprar. Teste outra foto/vídeo no topo de /entradas e destaque a data e o preço.", "Visitors don't click buy. Test another hero photo/video on /entradas and highlight date and price."),
+  checkout: () => L("Gente clica em comprar e desiste no Eventbrite antes do pagamento. Absorva a taxa para o preço não mudar e teste o checkout embutido no site.", "People click buy and quit on Eventbrite before paying. Absorb the fee so the price doesn't change and try the embedded checkout."),
+  paid: () => L("Chegam ao pagamento e não concluem. Ofereça Bizum/Apple Pay no Eventbrite e mande o cupom de 10% para quem abandonou.", "They reach payment and don't finish. Offer Bizum/Apple Pay and send the 10% coupon to abandoners."),
+};
+function flowSteps() {
+  const d = INS?.data || {}, ga = d.ga || {}, ig = d.ig || {};
+  const since = addDays(today(), -28);
+  const orders28 = S.orders.filter(o => o.created_at && madrid(o.created_at) >= since);
+  const igReach = ig.reach_28d ?? (S.ig_stats.length ? sum(S.ig_stats.filter(r => r.date >= since), r => r.reach) : null);
+  const steps = [
+    { k: "reach", l: L("Alcance no Instagram", "Instagram reach"), v: igReach, src: "Instagram" },
+    { k: "profile", l: L("Visitas ao perfil", "Profile visits"), v: ig.profile_visits_28d ?? null, src: "Instagram" },
+    ...(ig.link_taps_28d != null ? [{ k: "link", l: L("Toques no link da bio", "Bio link taps"), v: ig.link_taps_28d, src: "Instagram" }] : []),
+    { k: "site", l: L("Pessoas no site", "People on the site"), v: ga.site_users ?? null, src: "GA4" },
+    { k: "buy", l: L("Clicaram em comprar", "Clicked buy"), v: ga.buy_users ?? null, src: "GA4" },
+    { k: "checkout", l: L("Abriram o pagamento", "Opened checkout"), v: ga.checkout_users ?? null, src: "GA4 · Eventbrite" },
+    { k: "paid", l: L("Compraram", "Bought"), v: orders28.length, sub: sum(orders28, o => o.quantity) + " " + L("ingressos", "tickets"), src: "Eventbrite" },
+  ];
+  steps.forEach((s, i) => { const p = steps[i - 1]; s.rate = p && p.v && s.v != null ? pct(s.v, p.v) : null; if (s.rate != null && s.rate > 100) { s.over = true; s.rate = null; } s.score = s.rate != null && FLOW_REF[s.k] ? s.rate / FLOW_REF[s.k] : null; });
+  const scored = steps.filter(s => s.score != null);
+  const worst = scored.length ? scored.reduce((a, b) => b.score < a.score ? b : a) : null;
+  return { steps, worst: worst && worst.score < 1 ? worst : null };
+}
+function flowBlock() {
+  const { steps, worst } = flowSteps(), d = INS?.data || {}, ga = d.ga, gsc = d.gsc, ig = d.ig, ads = d.ads;
+  const mx = Math.max(1, ...steps.map(s => num(s.v)));
+  const since = addDays(today(), -28), t28 = sum(S.orders.filter(o => o.created_at && madrid(o.created_at) >= since), o => o.quantity);
+  const bestHour = ga?.hours?.length ? ga.hours.reduce((a, b) => b.sessions > a.sessions ? b : a) : null;
+  const mob = ga?.devices?.length ? pct(sum(ga.devices.filter(x => x.device === "mobile"), x => x.users), sum(ga.devices, x => x.users)) : null;
+  const posts = (ig?.posts || []).slice().sort((a, b) => num(b.profile_visits) - num(a.profile_visits) || num(b.reach) - num(a.reach)).slice(0, 5);
+  const missing = (d.errors || []);
+  return `
+  <div class="card pad sec2 flow">
+    <div class="sec-h wrap"><h2 class="grow">${L("Do Instagram ao ingresso · 28 dias", "From Instagram to ticket · 28 days")}</h2><span class="muted small">${INS?.at ? L("cruzado ", "merged ") + ago(INS.at) : L("aguardando a primeira coleta", "waiting for the first run")}</span></div>
+    <div class="fsteps">${steps.map((s, i) => `<div class="fs ${worst && worst.k === s.k ? "worst" : ""}">
+      ${i ? `<span class="fr ${s.rate == null ? "" : s.score != null && s.score < 1 ? "bad" : "ok"}">${s.over ? ">100%" : s.rate == null ? "·" : s.rate + "%"}</span>` : ""}
+      <div class="fbar"><i style="height:${s.v == null ? 0 : Math.max(4, Math.sqrt(num(s.v) / mx) * 100)}%"></i></div>
+      <b>${nf(s.v)}</b><span class="fl">${esc(s.l)}</span>${s.sub ? `<span class="faint small">${esc(s.sub)}</span>` : ""}<span class="fsrc">${esc(s.src)}</span></div>`).join("")}</div>
+    ${worst ? `<div class="tip"><b>${L("Gargalo agora", "Bottleneck now")}: ${esc(worst.l)}</b> — ${worst.rate}% ${L("da etapa anterior (referência", "of the previous step (reference")} ${FLOW_REF[worst.k]}%). ${FLOW_TIP[worst.k]()}</div>` : ""}
+    <p class="faint small" style="margin:10px 0 0">${L("Cada etapa vem de uma fonte diferente, então as taxas são aproximadas. O site conta só quem aceitou cookies e já exclui robôs.", "Each step comes from a different source, so rates are approximate. The site counts only cookie-accepting visitors and excludes bots.")}</p>
+    ${missing.length ? `<p class="faint small" style="margin:6px 0 0">${missing.map(esc).join(" · ")}</p>` : ""}
+  </div>
+  <div class="cols sec2">
+    <div class="card pad"><h2 style="margin-bottom:10px">${L("De onde vem quem compra", "Where buyers come from")}</h2>
+      ${ga?.channels?.length ? `<div class="tablewrap"><table><tr><th>${L("Origem", "Source")}</th><th class="num">${L("Pessoas", "People")}</th><th class="num">${L("Clicaram comprar", "Clicked buy")}</th><th class="num">%</th></tr>${ga.channels.map(c => `<tr><td>${esc(c.src)}</td><td class="num">${nf(c.users)}</td><td class="num">${nf(c.buy_users)}</td><td class="num">${c.users ? pct(c.buy_users, c.users) + "%" : "—"}</td></tr>`).join("")}</table></div>
+      <p class="faint small" style="margin:10px 0 0">${mob != null ? mob + L("% pelo celular", "% on mobile") + " · " : ""}${bestHour ? L("mais visitas às ", "most visits at ") + bestHour.hour + "h" : ""}</p>` : `<div class="empty">${L("Liga o Google Analytics para ver as origens.", "Connect Google Analytics to see sources.")}</div>`}</div>
+    <div class="card pad"><h2 style="margin-bottom:10px">${L("Posts que levam ao perfil", "Posts that drive profile visits")}</h2>
+      ${posts.length ? `<div class="feed">${posts.map(p => `<a class="fi post" href="${esc(p.permalink)}" target="_blank" rel="noopener"><span class="av">${p.type === "REELS" ? "▶" : "▦"}</span><div class="grow"><span class="pcap">${esc(p.caption || "")}</span><div class="faint small">${fdate(String(p.ts).slice(0, 10), { day: "numeric", month: "short" })} · ${nf(p.reach)} ${L("alcance", "reach")} · ${nf(p.shares)} ${L("compart.", "shares")}</div></div><span class="fi-v">${p.profile_visits != null ? nf(p.profile_visits) + "<small> " + L("perfil", "profile") + "</small>" : ""}</span></a>`).join("")}</div>` : `<div class="empty">${L("Liga o Instagram para ver os posts.", "Connect Instagram to see posts.")}</div>`}</div>
+  </div>
+  <div class="cols sec2">
+    <div class="card pad"><h2 style="margin-bottom:10px">${L("Busca no Google", "Google Search")}</h2>
+      ${gsc ? `<div class="mini"><span><b>${nf(gsc.impressions)}</b><small>${L("aparições", "impressions")}</small></span><span><b>${nf(gsc.clicks)}</b><small>${L("cliques", "clicks")}</small></span><span><b>${gsc.position ?? "—"}</b><small>${L("posição média", "avg position")}</small></span></div>
+      ${gsc.queries.length ? `<div class="tablewrap" style="margin-top:10px"><table><tr><th>${L("Busca", "Query")}</th><th class="num">${L("Apar.", "Impr.")}</th><th class="num">${L("Pos.", "Pos.")}</th></tr>${gsc.queries.map(q => `<tr><td>${esc(q.q)}</td><td class="num">${nf(q.impressions)}</td><td class="num">${q.position}</td></tr>`).join("")}</table></div>` : `<p class="faint small">${L("Ainda sem buscas registradas.", "No searches yet.")}</p>`}` : `<div class="empty">${L("Liga o Search Console para ver as buscas.", "Connect Search Console to see searches.")}</div>`}</div>
+    <div class="card pad"><h2 style="margin-bottom:10px">${L("Anúncios (Meta)", "Ads (Meta)")}</h2>
+      ${ads ? `<div class="mini"><span><b>${eur(ads.spend)}</b><small>${L("investido", "spent")}</small></span><span><b>${nf(ads.link_clicks)}</b><small>${L("cliques no link", "link clicks")}</small></span><span><b>${t28 ? eur(ads.spend / t28) : "—"}</b><small>${L("por ingresso vendido", "per ticket sold")}</small></span></div>` : `<div class="empty">${L("Sem conta de anúncios ligada. Quando anunciar, informe o ID act_… e o custo por ingresso aparece aqui.", "No ad account linked yet. Add the act_… ID and cost per ticket shows here.")}</div>`}
+      ${ga ? `<div class="mini" style="margin-top:14px"><span><b>${nf(ga.signups)}</b><small>${L("cadastros", "sign-ups")}</small></span><span><b>${nf(ga.leads)}</b><small>${L("formulários", "forms")}</small></span><span><b>${nf(ga.wa_users)}</b><small>WhatsApp</small></span></div>` : ""}</div>
+  </div>`;
+}
+function demoInsights() {
+  const t0 = today();
+  return { at: new Date(Date.now() - 42 * 6e4).toISOString(), data: { period: "28d", errors: [],
+    ga: { site_users: 15, entradas_users: 6, buy_users: 8, buy_clicks: 24, eb_users: 6, checkout_users: 2, signups: 4, leads: 3, wa_users: 0,
+      channels: [{ src: "(direct) / (none)", sessions: 38, users: 10, dur: 180, buy_clicks: 8, buy_users: 3 }, { src: "ig / social", sessions: 15, users: 6, dur: 302, buy_clicks: 14, buy_users: 5 }, { src: "linktr.ee / referral", sessions: 2, users: 2, dur: 27, buy_clicks: 1, buy_users: 1 }, { src: "google / organic", sessions: 1, users: 1, dur: 3, buy_clicks: 0, buy_users: 0 }],
+      devices: [{ device: "mobile", users: 13 }, { device: "desktop", users: 4 }], hours: [{ hour: 11, sessions: 7 }, { hour: 17, sessions: 9 }, { hour: 22, sessions: 3 }] },
+    gsc: { clicks: 0, impressions: 13, ctr: 0, position: 34.5, queries: [{ q: "brazilian comedian", clicks: 0, impressions: 1, position: 17 }, { q: "la chirigota brazil food", clicks: 0, impressions: 1, position: 75 }] },
+    ig: { reach_28d: 9800, profile_visits_28d: 112, link_taps_28d: 21, posts: [
+      { permalink: "https://www.instagram.com/p/DfowTsNjJkF/", caption: "Se os europeus estão reclamando que tá difícil morar em Barcelona… imagina a gente", ts: addDays(t0, -1), type: "FEED", reach: 6007, shares: 132, profile_visits: 87, follows: 12 },
+      { permalink: "https://www.instagram.com/reel/DewJpEpM5qC/", caption: "Estreia 4 de novembro, todas às quartas-feiras", ts: addDays(t0, -23), type: "REELS", reach: 3455, shares: 69 },
+      { permalink: "https://www.instagram.com/p/DfZ62yCDDV5/", caption: "Obrigado a todo mundo que colou na estreia!", ts: addDays(t0, -7), type: "FEED", reach: 950, shares: 6, profile_visits: 5, follows: 0 }] } } };
 }
 
 /* ---------------- modo demonstração ---------------- */
@@ -643,7 +750,7 @@ function demoData() {
   const tasks = shows.filter(s => s.date >= t0).flatMap(s => template().map(t => ({ id: s.id + ":" + t.key, show_id: s.id, template_key: t.key, title: t.title, sector: t.sector, due: addDays(s.date, t.offset), done: addDays(s.date, t.offset) < t0 })));
   return { shows, orders, ig_stats, lineup, tasks, comedians: [], coupons: [{ id: "c1", code: "PATRICK10", percent: 10, status: "Active", uses: 4 }], ads: [], expenses: [], payments: [], instagram: [], signups: [], settings: [{ key: "task_template", value: DEFAULT_TEMPLATE }], profiles: [{ id: "demo", name: "Patrick", email: "demo@brasileuros.com", role: "admin", active: true }] };
 }
-function enterDemo() { DEMO = true; ME = { id: "demo", email: "demo@brasileuros.com" }; PROFILE = { id: "demo", name: "Patrick", role: "admin", active: true }; S = { ...S, ...{ settings: [{ key: "task_template", value: DEFAULT_TEMPLATE }] } }; S = { ...S, ...demoData() }; readHashRoute(); render(); }
+function enterDemo() { DEMO = true; ME = { id: "demo", email: "demo@brasileuros.com" }; PROFILE = { id: "demo", name: "Patrick", role: "admin", active: true }; S = { ...S, ...{ settings: [{ key: "task_template", value: DEFAULT_TEMPLATE }] } }; S = { ...S, ...demoData() }; INS = demoInsights(); readHashRoute(); render(); }
 function leaveDemo() { DEMO = false; history.replaceState(null, "", location.pathname); location.reload(); }
 
 /* ---------------- shared bits ---------------- */
