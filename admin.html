@@ -255,12 +255,12 @@ body.dr-open{overflow:hidden}
 .switch span::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
 .switch input:checked+span{background:#3772B4}.switch input:checked+span::after{transform:translateX(18px)}
 .switch input:focus-visible+span{outline:2px solid #3772B4;outline-offset:2px}
-.sxw{display:grid;grid-template-columns:repeat(var(--n),minmax(104px,1fr));gap:8px;overflow-x:auto;padding-bottom:4px}
+.sxw{display:grid;grid-template-columns:repeat(var(--n),minmax(124px,1fr));gap:8px;overflow-x:auto;padding-bottom:4px}
 .sxw-d{display:grid;align-content:start;gap:6px;padding:10px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);min-height:120px}
 .sxw-d.show{background:var(--accent-soft);border-color:#FDD929}
 .sxw-h{font-size:11.5px;font-weight:700;text-transform:capitalize;color:var(--muted)}
 .sxw-d.show .sxw-h{color:var(--text)}
-.sxw-d{min-width:0}.sxw-i>span{min-width:0;overflow-wrap:anywhere}
+.sxw-d{min-width:0}.sxw-i>span{min-width:0;overflow-wrap:break-word;hyphens:auto}
 .sxw-i{display:flex;gap:7px;align-items:flex-start;padding:7px 8px;border-radius:9px;background:var(--panel);border:1px solid var(--line);font-size:12px;line-height:1.3}
 .sxw-i .ic{width:15px;height:15px;margin-top:1px;flex:none}
 .sxw-i b{display:block;font-weight:600}.sxw-i small{display:block;color:var(--muted);font-size:11px}
@@ -2108,7 +2108,9 @@ function contentTitle(r) {
   const ct = CONTENT_TYPES().find(c => c[0] === r.type) || CONTENT_TYPES()[0];
   return (ct[0] === "carousel" ? ct[2] : `${ct[1]}: ${ct[2]}`) + (r.note ? " · " + r.note : "");
 }
-function compileStrategy(st) {
+/* as tarefas ficam sempre em português (o e-mail da manhã é em português), seja qual for o idioma de quem aplica */
+function compileStrategy(st) { const o = LANG; LANG = "pt"; try { return compileStrategyPT(st); } finally { LANG = o; } }
+function compileStrategyPT(st) {
   if (!st) return [];
   const out = [], F = st.flyer || {};
   FLYER_STEPS().forEach(([k, t]) => { const x = F[k]; if (x?.on) out.push({ key: "sx_fl_" + k, title: t, sector: "Show", offset: num(x.day), owner: x.owner || null }); });
