@@ -553,14 +553,23 @@ a.fi.post{color:var(--text);text-decoration:none}
 
 /* ---- linha do tempo das tarefas ---- */
 .tl-wrap{overflow-x:auto;overflow-y:hidden;margin:0 -4px;padding:0 4px 6px;scrollbar-width:thin}
-.tk-axis{display:grid;min-height:240px;position:relative}
+.tk-axis{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));position:relative}
+.tl-nav{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.tl-nav .iconbtn .ic{width:16px;height:16px}
+.tl-head{font-size:14px}.tl-head::first-letter{text-transform:uppercase}
+.tl-late{cursor:pointer;border:0}
+.tl-dayview{display:flex;flex-wrap:wrap;gap:10px;padding:4px 0}
+.tl-it.big{grid-auto-flow:column;grid-template-columns:auto 1fr;justify-items:start;align-items:center;gap:10px;width:auto;max-width:100%;padding:8px 14px 8px 8px;border-radius:999px;background:var(--panel2);border:1px solid var(--line)}
+.tl-it.big .tl-l{max-width:none;text-align:left;font-size:13.5px;font-weight:600;-webkit-line-clamp:1;display:grid}
+.tl-it.big .tl-l small{font-weight:400;color:var(--muted);font-size:11.5px}
+.tl-day{border:0;background:none;cursor:pointer;color:var(--text);width:100%}
 .tl-col{display:flex;flex-direction:column;justify-content:flex-end;position:relative;padding:0;border-left:1px dashed var(--line)}
 .tl-col:first-child{border-left:0}
 .tl-col.past .tl-it:not(.late){opacity:.75}
 .tl-col.today{background:linear-gradient(to bottom,transparent,rgba(253,217,41,.22));border-left:2px solid #FDD929}
 .tl-col.show{background:linear-gradient(to bottom,transparent,var(--brand-soft));border-left:2px solid var(--brand)}
-.tl-stack{display:flex;flex-direction:column-reverse;align-items:center;gap:6px;padding:10px 0 8px}
-.tl-it{display:grid;justify-items:center;gap:3px;border:0;background:none;cursor:pointer;padding:0;width:62px;color:var(--text);animation:tlUp .35s cubic-bezier(.2,.7,.2,1) both}
+.tl-stack{display:flex;flex-direction:column-reverse;align-items:center;gap:6px;padding:8px 0 8px;min-height:64px}
+.tl-it{display:grid;justify-items:center;gap:3px;border:0;background:none;cursor:pointer;padding:0;width:100%;max-width:84px;color:var(--text);animation:tlUp .35s cubic-bezier(.2,.7,.2,1) both}
 .tl-it:nth-child(2){animation-delay:.04s}.tl-it:nth-child(3){animation-delay:.08s}.tl-it:nth-child(4){animation-delay:.12s}
 @keyframes tlUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .tl-ic{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--sc);color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.12);overflow:hidden;transition:transform .15s}
@@ -571,7 +580,7 @@ a.fi.post{color:var(--text);text-decoration:none}
 .tl-it.done .tl-l{color:var(--faint,var(--muted));text-decoration:line-through}
 .tl-it.late .tl-ic{box-shadow:0 0 0 3px var(--danger)}
 .tl-it.late .tl-l{color:var(--danger);font-weight:600}
-.tl-l{font-size:10.5px;line-height:1.2;text-align:center;max-width:62px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tl-l{font-size:10.5px;line-height:1.2;text-align:center;max-width:84px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tl-day{position:relative;display:grid;justify-items:center;gap:1px;padding:8px 0 4px;border-top:2px solid var(--line2)}
 .tl-day b{font-size:15px}.tl-day small{font-size:10.5px;color:var(--muted);text-transform:uppercase}
 .tl-col.today .tl-day b{background:#FDD929;color:#0f1e3b;border-radius:999px;padding:0 8px}
@@ -1500,39 +1509,44 @@ function cardHead(s, sec, title) {
     <div class="grow ch-t"><h3>${title}</h3><span class="ch-sub ${late ? "late" : ""}">${ts.length ? `<b>${done}/${ts.length}</b> · ` : ""}${sub}</span></div>`;
 }
 /* página do show: perfil estilo Instagram, tudo numa tela (sem abas) */
+function tlItems(s, d) {
+  const t0 = today(), FMT = { Stories: "Stories", Post: "Post", Reel: "Reel", Carrossel: L("Carrossel", "Carousel") };
+  const ts = tasksOf(s.id).filter(t => t.due === d).sort((x, y) => x.done - y.done);
+  const ps = S.instagram.filter(p => p.show_id === s.id && p.date === d);
+  return [
+    ...ts.map(t => ({ k: "task", id: t.id, done: t.done, late: !t.done && d < t0, sc: SECTOR_COLOR(t.sector), ic: t.done ? icon("check") : icon(SECTOR_ICON[t.sector] || "check"), l: taskTitle(t), sub: SECTOR_NAME(t.sector) })),
+    ...ps.map(p => ({ k: "post", id: p.id, done: p.status === "Published", late: false, sc: SECTOR_COLOR("Instagram"), ic: (p.media || [])[0] && p.media[0].type !== "video" ? `<img src="${esc(p.media[0].url)}" alt="">` : icon("ig"), l: (FMT[p.format] || p.format) + (p.time ? " " + p.time : ""), sub: L("post agendado", "scheduled post") })),
+  ];
+}
+function tlBtn(it, big) {
+  return `<button class="tl-it ${big ? "big" : ""} ${it.k === "post" ? "post" : ""} ${it.done ? "done" : ""} ${it.late ? "late" : ""}" ${it.k === "task" ? `data-tl-task="${esc(it.id)}"` : `data-tl-post="${esc(it.id)}"`} style="--sc:${it.sc}" title="${esc(it.l)}"><span class="tl-ic">${it.ic}</span><span class="tl-l">${esc(it.l)}${big ? `<small>${esc(it.sub)}</small>` : ""}</span></button>`;
+}
 function taskTimeline(s) {
-  const t0 = today(), ts = tasksOf(s.id).filter(t => t.due), posts = S.instagram.filter(p => p.show_id === s.id && p.date);
-  const dues = [...ts.map(t => t.due), ...posts.map(p => p.date)];
-  let a = addDays(s.date, -14), b = addDays(s.date, 4);
-  dues.forEach(d => { if (d < a) a = d; if (d > b) b = d; });
-  if (t0 < a && daysTo(a) < 10) a = t0; if (t0 > b && -daysTo(b) < 10) b = t0;
-  const days = []; for (let d = a; d <= b; d = addDays(d, 1)) days.push(d);
-  const FMT = { Stories: "Stories", Post: "Post", Reel: "Reel", Carrossel: L("Carrossel", "Carousel") };
-  const col = d => {
-    const items = [
-      ...ts.filter(t => t.due === d).sort((x, y) => x.done - y.done).map(t => { const late = !t.done && d < t0; return `<button class="tl-it ${t.done ? "done" : ""} ${late ? "late" : ""}" data-tl-task="${esc(t.id)}" style="--sc:${SECTOR_COLOR(t.sector)}" title="${esc(taskTitle(t))}${t.done ? " ✓" : ""}"><span class="tl-ic">${t.done ? icon("check") : icon(SECTOR_ICON[t.sector] || "check")}</span><span class="tl-l">${esc(taskTitle(t))}</span></button>`; }),
-      ...posts.filter(p => p.date === d).map(p => `<button class="tl-it post ${p.status === "Published" ? "done" : ""}" data-tl-post="${esc(p.id)}" style="--sc:${SECTOR_COLOR("Instagram")}" title="${esc(FMT[p.format] || p.format)} ${esc(p.time || "")}"><span class="tl-ic">${(p.media || [])[0] && (p.media[0].type !== "video") ? `<img src="${esc(p.media[0].url)}" alt="">` : icon("ig")}</span><span class="tl-l">${esc(FMT[p.format] || p.format)}${p.time ? " " + esc(p.time) : ""}</span></button>`),
-    ];
-    const isShow = d === s.date, isToday = d === t0;
-    return `<div class="tl-col ${isToday ? "today" : ""} ${isShow ? "show" : ""} ${d < t0 ? "past" : ""}" ${isToday ? 'id="tl-today"' : ""}>
-      <div class="tl-stack">${items.join("")}</div>
-      <div class="tl-day"><b>${pd(d).getDate()}</b><small>${isToday ? L("hoje", "today") : isShow ? "show" : fdate(d, { weekday: "short" })}</small></div></div>`;
-  };
-  return `<div class="tl-wrap" id="tlwrap"><div class="tk-axis" style="grid-template-columns:repeat(${days.length},minmax(68px,1fr))">${days.map(col).join("")}</div></div>
-    <div class="tl-leg">${SECTORS.filter(([k]) => ts.some(t => t.sector === k)).map(([k]) => `<span><i style="background:${SECTOR_COLOR(k)}"></i>${SECTOR_NAME(k)}</span>`).join("")}<span><i class="late"></i>${L("atrasada", "late")}</span></div>`;
+  const t0 = today(), mode = R.tlMode || "week", anchor = R.tlAnchor || t0;
+  const late = tasksOf(s.id).filter(t => !t.done && t.due && t.due < t0 && t.due < (mode === "week" ? weekStart(anchor) : anchor)).sort((a, b) => a.due.localeCompare(b.due));
+  let head, body;
+  if (mode === "week") {
+    const ws = weekStart(anchor), days = Array.from({ length: 7 }, (_, i) => addDays(ws, i));
+    head = `${fdate(ws, { day: "numeric", month: "short" })} – ${fdate(days[6], { day: "numeric", month: "short" })}`;
+    body = `<div class="tk-axis">${days.map(d => { const its = tlItems(s, d); return `<div class="tl-col ${d === t0 ? "today" : ""} ${d === s.date ? "show" : ""} ${d < t0 ? "past" : ""}">
+      <div class="tl-stack">${its.map(it => tlBtn(it)).join("")}</div>
+      <button class="tl-day" data-tl-day="${d}"><b>${pd(d).getDate()}</b><small>${d === t0 ? L("hoje", "today") : d === s.date ? "show" : fdate(d, { weekday: "short" })}</small></button></div>`; }).join("")}</div>`;
+  } else {
+    const its = tlItems(s, anchor);
+    head = `${anchor === t0 ? L("Hoje", "Today") + " · " : ""}${fdate(anchor, { weekday: "long", day: "numeric", month: "short" })}${anchor === s.date ? " · SHOW" : ""}`;
+    body = `<div class="tl-dayview">${its.map(it => tlBtn(it, true)).join("") || `<div class="empty">${L("Nada neste dia", "Nothing this day")}</div>`}</div>`;
+  }
+  return `<div class="tl-nav"><button class="iconbtn" data-tl-move="-1" aria-label="${L("Anterior", "Previous")}">${icon("back")}</button><b class="tl-head">${head}</b><button class="iconbtn" data-tl-move="1" aria-label="${L("Próximo", "Next")}">${icon("back", "flip")}</button>
+    ${anchor !== t0 ? `<button class="btn sm ghost" data-tl-today>${L("Hoje", "Today")}</button>` : ""}<span class="grow"></span>
+    ${late.length ? `<button class="chip bad tl-late" data-tl-goto="${late[0].due}">${late.length} ${L(late.length > 1 ? "atrasadas" : "atrasada", "late")}</button>` : ""}</div>
+    ${body}`;
 }
 function showTasks(s) {
-  const t0 = today(), wkEnd = addDays(t0, 6), mode = R.tview || "tl", f = R.tfilter || "day";
-  const open = tasksOf(s.id).filter(t => !t.done).sort((a, b) => (a.due || "9").localeCompare(b.due || "9"));
-  const late = open.filter(t => t.due && t.due < t0).length;
-  const list = open.filter(t => t.due && (f === "day" ? t.due <= t0 : t.due <= wkEnd));
-  const nextUp = open.find(t => t.due && t.due > (f === "day" ? t0 : wkEnd));
-  const doneToday = tasksOf(s.id).filter(t => t.done && t.done_at && madrid(t.done_at) === t0);
+  const open = tasksOf(s.id).filter(t => !t.done), t0 = today(), late = open.filter(t => t.due && t.due < t0).length, mode = R.tlMode || "week";
   return `<div class="card pad ptasks">
     <div class="sec-h ch"><span class="ch-ic todo"><span>${icon("check")}</span></span><div class="grow ch-t"><h3>${L("O que fazer", "To do")}</h3><span class="ch-sub ${late ? "late" : ""}">${open.length} ${L("pendentes", "pending")}${late ? ` · ${late} ${L("atrasadas", "late")}` : ""}</span></div>
-      <div class="seg" role="tablist"><button role="tab" data-tv="tl" class="${mode === "tl" ? "on" : ""}">${L("Linha do tempo", "Timeline")}</button><button role="tab" data-tv="day" class="${mode !== "tl" && f === "day" ? "on" : ""}">${L("Hoje", "Today")}</button><button role="tab" data-tv="week" class="${mode !== "tl" && f === "week" ? "on" : ""}">${L("Semana", "Week")}</button></div></div>
-    ${mode === "tl" ? taskTimeline(s) : `<div class="list">${list.map(t => taskItem(t, { sector: true, due: t.due !== t0, edit: true })).join("") || `<div class="empty">${f === "day" ? L("Nada para hoje", "Nothing for today") : L("Nada nesta semana", "Nothing this week")}${nextUp ? ` · ${L("próxima", "next")}: <b>${esc(taskTitle(nextUp))}</b> ${L("em", "on")} ${fdate(nextUp.due, { day: "numeric", month: "short" })}` : ""}</div>`}</div>
-    ${doneToday.length ? `<p class="faint small" style="margin:10px 0 0">${icon("check")} ${doneToday.length} ${L("feita(s) hoje", "done today")}</p>` : ""}`}
+      <div class="seg" role="tablist"><button role="tab" data-tlm="week" class="${mode === "week" ? "on" : ""}">${L("Semana", "Week")}</button><button role="tab" data-tlm="day" class="${mode === "day" ? "on" : ""}">${L("Dia", "Day")}</button></div></div>
+    ${taskTimeline(s)}
   </div>`;
 }
 function vShow() {
@@ -1703,10 +1717,14 @@ function wireShow() {
   const jump = dir => { const t = list[i + dir]; if (!t) return; R.navDir = dir; go({ view: "show", showId: t.id }); };
   const pv = $("#prevshow"), nx = $("#nextshow"); if (pv) pv.onclick = () => jump(-1); if (nx) nx.onclick = () => jump(1);
   document.onkeydown = e => { if (R.view !== "show" || /input|textarea|select/i.test(e.target.tagName) || document.querySelector(".ov")) return; if (e.key === "ArrowRight") jump(1); if (e.key === "ArrowLeft") jump(-1); };
-  document.querySelectorAll("[data-tv]").forEach(b => b.onclick = () => { const v = b.dataset.tv; if (v === "tl") R.tview = "tl"; else { R.tview = "list"; R.tfilter = v; } const y = scrollY; render(); scrollTo(0, y); });
+  const rr = () => { const y = scrollY; render(); scrollTo(0, y); };
+  document.querySelectorAll("[data-tlm]").forEach(b => b.onclick = () => { R.tlMode = b.dataset.tlm; rr(); });
+  document.querySelectorAll("[data-tl-move]").forEach(b => b.onclick = () => { R.tlAnchor = addDays(R.tlAnchor || today(), Number(b.dataset.tlMove) * ((R.tlMode || "week") === "week" ? 7 : 1)); rr(); });
+  document.querySelectorAll("[data-tl-today]").forEach(b => b.onclick = () => { R.tlAnchor = null; rr(); });
+  document.querySelectorAll("[data-tl-goto]").forEach(b => b.onclick = () => { R.tlAnchor = b.dataset.tlGoto; rr(); });
+  document.querySelectorAll("[data-tl-day]").forEach(b => b.onclick = () => { R.tlAnchor = b.dataset.tlDay; R.tlMode = "day"; rr(); });
   document.querySelectorAll("[data-tl-task]").forEach(b => b.onclick = () => editTask(S.tasks.find(t => t.id === b.dataset.tlTask)));
   document.querySelectorAll("[data-tl-post]").forEach(b => b.onclick = () => newPost(s, S.instagram.find(p => p.id === b.dataset.tlPost)));
-  const tw = $("#tlwrap"), td = $("#tl-today"); if (tw) { const target = td || tw.querySelector(".tl-col.show"); if (target) tw.scrollLeft = Math.max(0, target.offsetLeft - tw.clientWidth * .35); }
   document.querySelectorAll("[data-jump]").forEach(a => a.onclick = e => { e.preventDefault(); const el = document.getElementById(a.dataset.jump); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); } });
   $("#editshow").onclick = () => modal(L("Editar show", "Edit show"), SHOW_FIELDS(), s, async row => {
     const moved = row.date !== s.date; await save("shows", row);
