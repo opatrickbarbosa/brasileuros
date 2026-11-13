@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Brasileuros · Gestão</title>
+<link rel="icon" href="/assets/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#3772B4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  (function(){try{var t=localStorage.getItem("bxe-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}})();
+</script>
+<style>
+:root{
+  --bg:#f5f5f2;--panel:#ffffff;--panel2:#fafaf8;--line:#e3e3de;--line2:#d4d4ce;
+  --text:#151515;--muted:#6a6a64;--faint:#9a9a93;
+  --accent:#FDD929;--accent-ink:#0f1e3b;--accent-text:#2f63a8;--accent-soft:#fff6c7;--brand:#3772B4;--brand-soft:rgba(55,114,180,.14);
+  --danger:#c8240d;--danger-soft:#fde7e3;--ok:#23824a;--ok-soft:#e1f3e7;
+  --track:#ecece7;--shadow:0 1px 2px rgba(0,0,0,.04),0 2px 8px rgba(0,0,0,.04);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1011;--panel:#17181a;--panel2:#1c1d20;--line:#2a2c2f;--line2:#36383c;
+  --text:#f1f1ee;--muted:#a2a29c;--faint:#6f6f6a;
+  --accent:#FDD929;--accent-ink:#0f1e3b;--accent-text:#8fb8ea;--accent-soft:#3a3410;--brand:#6fa3e0;--brand-soft:rgba(111,163,224,.18);
+  --danger:#ff6a52;--danger-soft:#3b1a14;--ok:#7fd49a;--ok-soft:#183226;
+  --track:#26282b;--shadow:none;color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0f1011;--panel:#17181a;--panel2:#1c1d20;--line:#2a2c2f;--line2:#36383c;
+  --text:#f1f1ee;--muted:#a2a29c;--faint:#6f6f6a;
+  --accent:#FDD929;--accent-ink:#0f1e3b;--accent-text:#8fb8ea;--accent-soft:#3a3410;--brand:#6fa3e0;--brand-soft:rgba(111,163,224,.18);
+  --danger:#ff6a52;--danger-soft:#3b1a14;--ok:#7fd49a;--ok-soft:#183226;
+  --track:#26282b;--shadow:none;color-scheme:dark;}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-feature-settings:"tnum" 1,"cv11" 1;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-text)}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em}
+h1{font-size:22px}h2{font-size:17px}h3{font-size:14px}
+.muted{color:var(--muted)}.faint{color:var(--faint)}.small{font-size:12.5px}
+.row{display:flex;align-items:center;gap:8px}.grow{flex:1}.wrap{flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:8px;border:1px solid var(--line2);background:var(--panel);cursor:pointer;font-weight:500;white-space:nowrap}
+.btn:hover{border-color:var(--faint)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(.96)}
+.btn.ghost{background:transparent;border-color:transparent}
+.btn.ghost:hover{background:var(--panel2)}
+.btn.danger{color:var(--danger)}
+.btn.sm{height:28px;padding:0 10px;font-size:12.5px}
+.btn:disabled{opacity:.55;cursor:default}
+.chip{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:999px;font-size:12px;font-weight:500;background:var(--panel2);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip.ok{background:var(--ok-soft);border-color:transparent;color:var(--ok)}
+.chip.warn{background:var(--accent-soft);border-color:transparent;color:var(--accent-text)}
+.chip.bad{background:var(--danger-soft);border-color:transparent;color:var(--danger)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+.pad{padding:16px}
+input[type=text],input[type=email],input[type=password],input[type=date],input[type=time],input[type=number],input[type=url],select,textarea{width:100%;height:36px;padding:0 10px;border:1px solid var(--line2);border-radius:8px;background:var(--panel);outline:none}
+textarea{height:auto;min-height:72px;padding:8px 10px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+label.f{display:block;font-size:12.5px;color:var(--muted);font-weight:500}
+label.f>span{display:block;margin-bottom:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.full{grid-column:1/-1}
+.bar{height:6px;border-radius:99px;background:var(--track);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.bar.done>i{background:var(--ok)}
+table{width:100%;border-collapse:collapse}
+th{font-size:12px;font-weight:500;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right}
+.tablewrap{overflow-x:auto}
+/* auth */
+.auth{min-height:100vh;display:grid;place-items:center;padding:24px}
+.auth .card{width:100%;max-width:380px;padding:28px}
+.logo{display:inline-flex;align-items:center;flex:0 0 auto;cursor:pointer;border:0;background:none;padding:0}
+.logo img{height:36px;width:auto;display:block}
+.logo .l-light{display:none}
+:root[data-theme="dark"] .logo .l-light{display:block}:root[data-theme="dark"] .logo .l-ink{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo .l-light{display:block}:root:not([data-theme="light"]) .logo .l-ink{display:none}}
+.auth .logo img{height:64px}
+.auth h1{margin:18px 0 4px}
+.auth form{display:grid;gap:12px;margin-top:18px}
+.msg{font-size:13px;padding:8px 10px;border-radius:8px}
+.msg.err{background:var(--danger-soft);color:var(--danger)}
+.msg.ok{background:var(--ok-soft);color:var(--ok)}
+/* shell */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1280px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:16px}
+.nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav button{height:32px;padding:0 12px;border:0;background:transparent;border-radius:8px;color:var(--muted);font-weight:500;cursor:pointer;white-space:nowrap}
+.nav button:hover{color:var(--text);background:var(--panel2)}
+.nav button.on{color:var(--text);background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.main{max-width:1280px;margin:0 auto;padding:20px 20px 80px}
+.sec{margin-top:28px}
+.sec-h{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+/* timeline */
+.tl{position:relative;display:flex;gap:14px;overflow-x:auto;padding:30px 2px 14px;scroll-snap-type:x proximity;scrollbar-width:thin}
+.tl-axis{position:absolute;left:0;top:14px;height:1px;background:var(--line2)}
+.tl-today{position:relative;flex:0 0 28px;scroll-snap-align:start;display:flex;justify-content:center}
+.tl-today:before{content:"";width:2px;border-radius:2px;background:var(--accent)}
+.tl-today span{position:absolute;top:-24px;left:50%;transform:translateX(-50%);font-size:11.5px;font-weight:600;color:var(--accent-text);white-space:nowrap}
+.sc{flex:0 0 248px;scroll-snap-align:start;cursor:pointer;padding:14px;display:flex;flex-direction:column;gap:10px;transition:border-color .15s,transform .15s}
+.sc:hover{border-color:var(--faint)}
+.sc.next{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.sc.past{opacity:.6}
+.sc-date b{display:block;font-size:20px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.sc-date span{display:block;margin-top:2px}
+.sc-title{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-rows{display:grid;gap:7px}
+.sc-row{display:grid;grid-template-columns:78px 1fr 34px;align-items:center;gap:8px;font-size:12.5px}
+.sc-row em{font-style:normal;color:var(--faint);text-align:right;font-size:11.5px}
+.sc-foot{display:flex;gap:6px;flex-wrap:wrap}
+.tl-add{flex:0 0 140px;display:grid;place-items:center;border:1px dashed var(--line2);border-radius:12px;color:var(--muted);cursor:pointer;background:transparent}
+.tl-add:hover{color:var(--text);border-color:var(--faint)}
+/* week */
+.week{display:grid;grid-template-columns:repeat(7,minmax(150px,1fr));gap:10px;overflow-x:auto}
+.day{background:var(--panel);border:1px solid var(--line);border-radius:12px;min-height:150px;display:flex;flex-direction:column}
+.day.today{border-color:var(--accent)}
+.day-h{padding:10px 12px;border-bottom:1px solid var(--line);font-size:12.5px;font-weight:600;display:flex;justify-content:space-between}
+.day-b{padding:8px;display:grid;gap:6px;align-content:start}
+.task{display:flex;gap:8px;align-items:flex-start;padding:7px 8px;border-radius:8px;background:var(--panel2);font-size:12.5px;line-height:1.35}
+.task input{margin:2px 0 0;accent-color:var(--ok);width:15px;height:15px;flex:0 0 auto;cursor:pointer}
+.task .t-sub{display:block;color:var(--faint);font-size:11.5px;margin-top:2px}
+.task.done .t-main{text-decoration:line-through;color:var(--faint)}
+.task.late{background:var(--danger-soft)}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:1px}
+/* event */
+.ev-head{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin:20px 0 18px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{border:0;background:none;padding:10px 12px;color:var(--muted);font-weight:500;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs button.on{color:var(--text);border-bottom-color:var(--accent)}
+.tabs button .chip{margin-left:6px;height:18px;padding:0 6px;font-size:11px}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.list{display:grid;gap:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{padding:14px}
+.kpi b{display:block;font-size:20px;font-weight:700;letter-spacing:-.02em;margin-top:2px}
+.sectors{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.sector{padding:12px;cursor:pointer}
+.sector:hover{border-color:var(--faint)}
+.empty{padding:18px;text-align:center;color:var(--faint);font-size:13px}
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:16px;z-index:50}
+.modal{width:100%;max-width:520px;max-height:90vh;overflow:auto;padding:20px}
+.modal form{display:grid;gap:12px;margin-top:14px}
+.modal .acts{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:9px 14px;border-radius:8px;font-size:13px;z-index:60}
+.loading{min-height:60vh;display:grid;place-items:center;color:var(--muted)}
+@media (max-width:760px){
+  .top-in{padding:10px 14px;gap:10px;flex-wrap:wrap}
+  .top-in .nav{order:3;width:100%}
+  .main{padding:14px 14px 80px}
+  .cols,.grid2{grid-template-columns:1fr}
+  .sc{flex-basis:78vw}
+  .week{grid-template-columns:repeat(7,78vw);scroll-snap-type:x mandatory}
+  .day{scroll-snap-align:start}
+  .hide-m{display:none}
+}
+
+/* ===== layout Instagram web ===== */
+.ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.btn .ic{width:18px;height:18px}
+.demo-bar{position:sticky;top:0;z-index:40;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:13px;padding:8px 16px;display:flex;gap:10px;align-items:center;justify-content:center}
+.ig{min-height:100vh}
+.side{position:fixed;inset:0 auto 0 0;width:244px;border-right:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;padding:22px 12px 16px;z-index:30}
+.has-demo .side{top:37px}
+.side-logo{display:flex;align-items:center;height:56px;padding:0 12px;margin-bottom:18px}
+.side-logo img{height:34px;width:auto}
+.side-logo b{display:none;font:800 22px/1 Inter,sans-serif;color:var(--brand)}
+.side-nav{display:grid;gap:4px}
+.side-nav button,.side-more>button{display:flex;align-items:center;gap:16px;height:48px;padding:0 12px;border:0;background:none;border-radius:10px;cursor:pointer;font-size:16px;color:var(--text);text-align:left;width:100%}
+.side-nav button:hover,.side-more>button:hover{background:var(--panel2)}
+.side-nav button.on{font-weight:700}
+.side-nav button.on .ic{stroke-width:2.6}
+.side-more{margin-top:auto;position:relative}
+.more-menu{position:absolute;left:0;bottom:56px;width:230px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);padding:8px;display:grid;gap:2px;z-index:60}
+.more-menu button{height:42px;border:0;background:none;text-align:left;padding:0 12px;border-radius:8px;cursor:pointer}
+.more-menu button:hover{background:var(--panel2)}
+.mm-who{padding:8px 12px;color:var(--muted);font-size:12.5px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.mtop,.tabbar{display:none}
+.more-menu[hidden]{display:none}
+.k-next>div{display:grid;gap:3px;min-width:0}
+.hello p::first-letter,.rail-i b::first-letter,.k-v2::first-letter{text-transform:uppercase}
+.ig .main{max-width:none;margin:0 0 0 244px;padding:28px 32px 80px}
+.home{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:48px;max-width:1120px;margin:0 auto}
+.home-main{min-width:0}
+.hello{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px}
+.hello h1{font-size:26px}
+.hello p{margin:2px 0 0}
+.stories{display:flex;gap:16px;overflow-x:auto;padding:4px 2px 14px;scrollbar-width:none;border-bottom:1px solid var(--line);margin-bottom:22px}
+.stories::-webkit-scrollbar{display:none}
+.story{flex:none;display:grid;justify-items:center;gap:6px;border:0;background:none;cursor:pointer;width:76px;color:var(--text)}
+.st-ring{width:70px;height:70px;border-radius:50%;padding:3px;background:conic-gradient(#FDD929 0 var(--p,0%),#3772B4 var(--p,0%) 100%);display:grid}
+.story.next .st-ring{box-shadow:0 0 0 2px var(--panel),0 0 0 4px #FDD929}
+.st-in{border-radius:50%;background:var(--panel);border:3px solid var(--panel);display:grid;place-items:center;align-content:center;line-height:1}
+.st-in b{font-size:22px;font-weight:800}
+.st-in small{font-size:11px;color:var(--muted);text-transform:uppercase}
+.story.add .st-ring{background:var(--line2)}
+.story.add .st-in{color:var(--muted)}
+.st-l{font-size:11.5px;color:var(--muted);white-space:nowrap;text-transform:capitalize}
+.kgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.k{padding:18px;display:flex;flex-direction:column;gap:4px;min-height:150px;position:relative;overflow:hidden}
+.k-l{font-size:12.5px;color:var(--muted);font-weight:500}
+.k-v{font-size:38px;font-weight:800;letter-spacing:-.03em;line-height:1.05}
+.k-v small{font-size:15px;font-weight:600;color:var(--muted);letter-spacing:0}
+.k-v2{font-size:22px;font-weight:800}
+.k-s{font-size:12.5px;color:var(--muted)}
+.k-s.up{color:var(--ok);font-weight:600}.k-s.down{color:var(--danger);font-weight:600}
+.k-sales{background:linear-gradient(135deg,#3772B4,#25558f);color:#fff;border:0}
+.k-sales .k-l,.k-sales .k-s,.k-sales .k-v small{color:rgba(255,255,255,.82)}
+.k-sales .k-v{color:#FDD929;font-size:46px}
+.k-next{flex-direction:row;align-items:center;gap:16px}
+.ring-t{font:800 18px Inter,sans-serif;fill:var(--text)}
+.spark{width:100%;height:40px;margin-top:auto}
+.spark-empty{margin-top:auto}
+.sec2{margin-top:18px}
+.bars{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:6px;align-items:end;height:170px;padding-top:6px}
+.bcol{display:grid;grid-template-rows:18px 1fr 18px;height:100%;text-align:center;font-size:11px;color:var(--muted)}
+.bcol i{align-self:end;display:block;width:100%;border-radius:6px 6px 2px 2px;background:var(--brand)}
+.bcol.now i{background:var(--accent)}
+.bcol.now .bd{color:var(--text);font-weight:700}
+.bq{font-weight:600;color:var(--text)}
+.feed{display:grid;gap:12px}
+.fi{display:flex;gap:10px;align-items:flex-start;font-size:13.5px}
+.av{width:36px;height:36px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:700;font-size:12.5px;color:#0f1e3b;background:linear-gradient(135deg,#FDD929,#f2b705)}
+.av.lg{width:52px;height:52px;font-size:16px;color:#fff;background:linear-gradient(135deg,#3772B4,#25558f)}
+.fi-v{font-weight:600;white-space:nowrap}
+.rail{position:sticky;top:28px;align-self:start;display:grid;gap:10px}
+.me{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.rail-h{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;margin-top:10px}
+.link{border:0;background:none;color:var(--text);font-weight:600;cursor:pointer;font-size:12.5px;padding:0}
+.rail-i{display:flex;gap:12px;align-items:center;border:0;background:none;text-align:left;cursor:pointer;padding:4px 0;color:var(--text)}
+.rail-i b{font-size:13.5px;display:block}
+.rd{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;align-content:center;line-height:1;background:var(--panel2);border:1px solid var(--line)}
+.rd b{font-size:15px}.rd small{font-size:9.5px;color:var(--muted);text-transform:uppercase}
+.rail-links{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px}
+.rail-links a{color:var(--muted);text-decoration:none}.rail-links a:hover{text-decoration:underline}
+@media (max-width:1264px){
+  .side{width:72px;padding:22px 10px 16px}
+  .side-logo img{display:none}.side-logo b{display:block}
+  .side-nav button span,.side-more>button span{display:none}
+  .side-nav button,.side-more>button{justify-content:center;padding:0}
+  .ig .main{margin-left:72px}
+}
+@media (max-width:1100px){.home{grid-template-columns:minmax(0,1fr)}.rail{display:none}}
+@media (max-width:767px){
+  .side{display:none}
+  .mtop{display:flex;align-items:center;gap:6px;position:sticky;top:0;z-index:30;height:56px;padding:0 12px;background:var(--panel);border-bottom:1px solid var(--line)}
+  .mtop img{height:28px}
+  .demo-bar{position:static}
+  .has-demo .mtop{top:0}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+  .tabbar button{height:54px;border:0;background:none;display:grid;place-items:center;color:var(--text);cursor:pointer}
+  .tabbar button span{display:none}
+  .tabbar button.on .ic{stroke-width:2.6}
+  .ig .main{margin:0;padding:16px 14px 90px}
+  .more-menu{position:fixed;right:12px;left:auto;top:58px;bottom:auto}
+  .side-more{position:static}
+  .kgrid{grid-template-columns:1fr 1fr;gap:10px}
+  .k{padding:14px;min-height:130px}
+  .k-v{font-size:30px}.k-sales .k-v{font-size:36px}
+  .k-sales,.k-next{grid-column:1/-1}
+  .bars{gap:3px;height:150px}
+  .hello h1{font-size:22px}
+}
+</style>
+</head>
+<body>
+<div id="app"><div class="loading">Carregando...</div></div>
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+// Preencha com os dados do projeto Supabase do Brasileuros (Project Settings → API).
+const SUPABASE_URL = "";
+const SUPABASE_KEY = "";
+const PARTNERS = ["Patrick", "Pipo"];
+const SHARE = { Patrick: .5, Pipo: .5 };
+const DEFAULT_CAPACITY = 50;      // lugares na La Chirigota: ajuste em cada show
+const LINEUP_GOAL = 1;            // convidados do Barcelouca por show
+const SHOW_DEFAULTS = { time: "19:30", title: "Brasileuros – Comédia do Nosso Jeitinho", venue: "Bar La Chirigota", status: "planned", capacity: DEFAULT_CAPACITY, cash_price: 7, bizum_price: 7, sponsor: 0, headliners: 2, headliner_fee: 0, guests: 1, guest_fee: 0 };
+const DEFAULT_TEMPLATE = [
+  { key: "eb", title: "Evento aberto no Eventbrite", sector: "Ingressos", offset: -14 },
+  { key: "guest", title: "Fechar convidado(a) do Barcelouca", sector: "Show", offset: -6 },
+  { key: "flyer", title: "Arte do show pronta", sector: "Instagram", offset: -7 },
+  { key: "ad_live", title: "Anúncio rodando", sector: "Anuncios", offset: -6 },
+  { key: "ig_post", title: "Post de humor com data e preço", sector: "Instagram", offset: -5 },
+  { key: "wa", title: "Aviso na lista de WhatsApp", sector: "Ingressos", offset: -3 },
+  { key: "st2", title: "Stories D-2 com link", sector: "Instagram", offset: -2 },
+  { key: "st1", title: "Stories D-1 com link", sector: "Instagram", offset: -1 },
+  { key: "st0", title: "Stories no dia + contagem", sector: "Instagram", offset: 0 },
+  { key: "cash", title: "Fechar o caixa da noite", sector: "Financeiro", offset: 0 },
+  { key: "clips", title: "Postar cortes do show", sector: "Instagram", offset: 2 },
+  { key: "barcelouca", title: "Editar e postar o Barcelouca", sector: "Instagram", offset: 4 },
+];
+let DEMO = false;
+
+// read the auth callback type before the client consumes the URL hash
+const HASH = new URLSearchParams(location.hash.slice(1));
+let AUTH_TYPE = HASH.get("type");            // invite | recovery | signup | magiclink
+const AUTH_ERR = HASH.get("error_description");
+
+const sb = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, detectSessionInUrl: true } }) : null;
+
+/* ---------------- i18n ---------------- */
+let LANG = localStorage.getItem("bxe-lang") || ((navigator.language || "").startsWith("pt") ? "pt" : "en");
+const L = (pt, en) => LANG === "en" ? en : pt;
+const SECTORS = [
+  ["Show", "Show", "Show", "#ECC122"],
+  ["Instagram", "Instagram", "Instagram", "#d4569b"],
+  ["Anuncios", "Anúncios", "Ads", "#4c7bd9"],
+  ["Cupons", "Cupons", "Coupons", "#2f9e8f"],
+  ["Ingressos", "Ingressos", "Tickets", "#8a63d2"],
+  ["Financeiro", "Financeiro", "Finance", "#5f8f3a"],
+];
+const SECTOR_NAME = k => { const s = SECTORS.find(x => x[0] === k); return s ? L(s[1], s[2]) : (k === "Patrocinio" ? L("Patrocínio", "Sponsor") : (k || "")); };
+const SECTOR_COLOR = k => (SECTORS.find(x => x[0] === k) || [0, 0, 0, "#9a9a93"])[3];
+const TASK_EN = { eb: "Eventbrite event open", guest: "Lock the Barcelouca guest", flyer: "Show artwork ready", ad_live: "Ad running", ig_post: "Funny post with date and price", wa: "WhatsApp list alert", st2: "Stories D-2 with link", st1: "Stories D-1 with link", st0: "Stories on the day + countdown", cash: "Close the night's cash", clips: "Post show clips", barcelouca: "Edit and post Barcelouca" };
+const taskTitle = t => LANG === "en" && TASK_EN[t.template_key] ? TASK_EN[t.template_key] : t.title;
+
+/* ---------------- utils ---------------- */
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const num = v => { const n = parseFloat(v); return isFinite(n) ? n : 0; };
+const ymd = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const pd = s => { const [y, m, d] = String(s).slice(0, 10).split("-").map(Number); return new Date(y, m - 1, d); };
+const today = () => ymd(new Date());
+const addDays = (s, n) => { const d = pd(s); d.setDate(d.getDate() + n); return ymd(d); };
+const fdate = (s, o) => s ? new Intl.DateTimeFormat(LANG === "en" ? "en-GB" : "pt-BR", o || { weekday: "short", day: "numeric", month: "short" }).format(pd(s)).replace(/\./g, "") : "";
+const eur = v => new Intl.NumberFormat(LANG === "en" ? "en-GB" : "pt-BR", { style: "currency", currency: "EUR" }).format(num(v));
+const daysTo = s => Math.round((pd(s) - pd(today())) / 864e5);
+function toast(m) { const t = document.createElement("div"); t.className = "toast"; t.textContent = m; document.body.appendChild(t); setTimeout(() => t.remove(), 2600); }
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random()).replace(/-/g, "").slice(0, 12);
+
+/* ---------------- state ---------------- */
+const TABLES = ["shows", "tasks", "lineup", "comedians", "coupons", "ads", "expenses", "payments", "instagram", "ig_stats", "orders", "signups", "settings", "profiles"];
+let S = Object.fromEntries(TABLES.map(t => [t, []]));
+let ME = null, PROFILE = null;
+let R = { view: "home", showId: null, tab: "overview", weekStart: null, mine: false };
+
+async function loadAll() {
+  const res = await Promise.all(TABLES.map(t => sb.from(t).select("*")));
+  res.forEach((r, i) => { if (r.error) throw r.error; S[TABLES[i]] = r.data || []; });
+}
+async function save(table, row) {
+  if (DEMO) { const key = table === "settings" ? "key" : "id"; const i = S[table].findIndex(x => x[key] === row[key]); if (i >= 0) S[table][i] = row; else S[table].push(row); return row; }
+  const { data, error } = await sb.from(table).upsert(row).select().single();
+  if (error) { toast(L("Erro ao salvar: ", "Save error: ") + error.message); throw error; }
+  const key = table === "settings" ? "key" : "id";
+  const i = S[table].findIndex(x => x[key] === data[key]);
+  if (i >= 0) S[table][i] = data; else S[table].push(data);
+  return data;
+}
+async function del(table, id) {
+  if (DEMO) { S[table] = S[table].filter(x => x.id !== id); return; }
+  const { error } = await sb.from(table).delete().eq("id", id);
+  if (error) { toast(error.message); throw error; }
+  S[table] = S[table].filter(x => x.id !== id);
+}
+async function ebCall(body) {
+  const { data, error } = await sb.functions.invoke("eventbrite", { body });
+  if (error) { let msg = error.message; try { const j = await error.context.json(); msg = j.error || msg; } catch (e) {} throw new Error(msg); }
+  if (data?.error) throw new Error(data.error);
+  return data;
+}
+async function refresh(table) { if (DEMO) return; const { data } = await sb.from(table).select("*"); if (data) S[table] = data; }
+async function pushCoupon(c) {
+  if (!c || c.eb_discount_id === "manual") return;
+  try { const r = await ebCall({ action: "push_coupon", id: c.id }); await refresh("coupons"); toast(L("Cupom ", "Coupon ") + c.code + L(" criado no Eventbrite (", " is on Eventbrite (") + r.events + L(" evento", " event") + (r.events > 1 ? "s" : "") + ")"); }
+  catch (e) { toast("Eventbrite: " + e.message); }
+}
+function logAct(action, detail) { if (DEMO) return; sb.from("activity_log").insert({ action, detail }).then(() => {}); }
+
+/* ---------------- derived ---------------- */
+const shows = () => S.shows.slice().sort((a, b) => a.date.localeCompare(b.date));
+const showById = id => S.shows.find(s => s.id === id);
+const tasksOf = id => S.tasks.filter(t => t.show_id === id).sort((a, b) => (a.due || "").localeCompare(b.due || ""));
+const lineupOf = id => S.lineup.filter(l => l.show_id === id);
+const booked = l => /confirm|paid|pago/i.test(l.payment || "");
+const income = s => num(s.cash_tickets) * num(s.cash_price) + num(s.bizum_tickets) * num(s.bizum_price) + num(s.eb_net);
+const fees = s => num(s.headliners) * num(s.headliner_fee) + num(s.guests) * num(s.guest_fee);
+const sponsorIn = s => s.sponsor_paid ? num(s.sponsor) : 0;
+const net = s => income(s) + sponsorIn(s) - fees(s);
+const tickets = s => num(s.eb_tickets) + num(s.cash_tickets) + num(s.bizum_tickets) + num(s.free_tickets);
+const template = () => (S.settings.find(x => x.key === "task_template") || {}).value || DEFAULT_TEMPLATE;
+const nextShow = () => shows().find(s => s.date >= today() && s.status !== "cancelled");
+function progress(showId, sector) {
+  const ts = tasksOf(showId).filter(t => !sector || t.sector === sector);
+  return { done: ts.filter(t => t.done).length, total: ts.length };
+}
+function finance() {
+  const P = {}; PARTNERS.forEach(p => P[p] = { paid: 0, kept: 0, held: 0, out: 0, in: 0 });
+  let shared = 0, profit = 0;
+  S.expenses.forEach(e => { const a = num(e.amount); if (P[e.paid_by]) P[e.paid_by].paid += a; if (P[e.keeper]) P[e.keeper].kept += a; else shared += a; });
+  shows().forEach(s => { if (s.date > today() && !income(s)) return; const n = net(s); if (P[s.held_by]) { P[s.held_by].held += n; profit += n; } });
+  S.payments.forEach(t => { const a = num(t.amount); if (P[t.from_person]) P[t.from_person].out += a; if (P[t.to_person]) P[t.to_person].in += a; });
+  PARTNERS.forEach(p => { const x = P[p]; x.bal = x.paid - x.kept - shared * SHARE[p] + (profit * SHARE[p] - x.held) + x.out - x.in; });
+  const pending = shows().filter(s => s.date <= today() && s.status !== "cancelled").reduce((a, s) => a + (s.sponsor_paid ? 0 : num(s.sponsor)), 0);
+  const totIncome = shows().reduce((a, s) => a + income(s) + sponsorIn(s), 0), totFees = shows().reduce((a, s) => a + fees(s), 0), totExp = S.expenses.reduce((a, e) => a + num(e.amount), 0);
+  return { P, shared, profit, pending, totIncome, totFees, totExp };
+}
+
+/* ---------------- auth screens ---------------- */
+const LOGO = `<span class="logo"><img src="/assets/logo.webp" alt="Brasileuros"></span>`;
+function authShell(inner) {
+  return `<div class="auth"><div class="card">${LOGO}${inner}</div></div>`;
+}
+function viewLogin(note) {
+  $("#app").innerHTML = authShell(`
+    <h1>${L("Entrar", "Sign in")}</h1>
+    <p class="muted small">${L("Painel de gestão do Brasileuros", "Brasileuros management hub")}</p>
+    <form id="f">
+      ${note ? `<div class="msg ${note.ok ? "ok" : "err"}">${esc(note.text)}</div>` : ""}
+      <label class="f"><span>E-mail</span><input type="email" name="email" autocomplete="username" required></label>
+      <label class="f"><span>${L("Senha", "Password")}</span><input type="password" name="password" autocomplete="current-password" required></label>
+      <button class="btn primary" style="justify-content:center">${L("Entrar", "Sign in")}</button>
+      <button type="button" class="btn ghost" id="forgot" style="justify-content:center">${L("Esqueci a senha", "Forgot password")}</button>
+    </form>
+    <div class="row" style="margin-top:14px;justify-content:center">${langBtn()}</div>`);
+  $("#f").onsubmit = async e => {
+    e.preventDefault(); const f = new FormData(e.target), b = e.target.querySelector(".primary"); b.disabled = true;
+    const { error } = await sb.auth.signInWithPassword({ email: f.get("email").trim(), password: f.get("password") });
+    if (error) { b.disabled = false; viewLogin({ text: /invalid/i.test(error.message) ? L("E-mail ou senha incorretos.", "Wrong e-mail or password.") : error.message }); }
+  };
+  $("#forgot").onclick = viewForgot; wireLang();
+}
+function viewForgot() {
+  $("#app").innerHTML = authShell(`
+    <h1>${L("Redefinir senha", "Reset password")}</h1>
+    <p class="muted small">${L("Enviamos um link para o seu e-mail.", "We will e-mail you a link.")}</p>
+    <form id="f">
+      <label class="f"><span>E-mail</span><input type="email" name="email" required></label>
+      <button class="btn primary" style="justify-content:center">${L("Enviar link", "Send link")}</button>
+      <button type="button" class="btn ghost" id="back" style="justify-content:center">${L("Voltar", "Back")}</button>
+    </form>`);
+  $("#back").onclick = () => viewLogin();
+  $("#f").onsubmit = async e => {
+    e.preventDefault(); const b = e.target.querySelector(".primary"); b.disabled = true;
+    const { error } = await sb.auth.resetPasswordForEmail(new FormData(e.target).get("email").trim(), { redirectTo: location.origin + "/admin" });
+    viewLogin(error ? { text: error.message } : { ok: true, text: L("Se o e-mail tiver conta, o link chega em instantes. Vale 1 hora.", "If the e-mail has an account, the link arrives shortly. It is valid for 1 hour.") });
+  };
+}
+function viewSetPassword(isInvite) {
+  $("#app").innerHTML = authShell(`
+    <h1>${isInvite ? L("Criar sua senha", "Create your password") : L("Nova senha", "New password")}</h1>
+    <p class="muted small">${esc(ME?.email || "")}</p>
+    <form id="f">
+      ${isInvite ? `<label class="f"><span>${L("Seu nome", "Your name")}</span><input type="text" name="name" value="${esc(PROFILE?.name || "")}" required></label>` : ""}
+      <label class="f"><span>${L("Senha (mínimo 10 caracteres)", "Password (at least 10 characters)")}</span><input type="password" name="p1" minlength="10" autocomplete="new-password" required></label>
+      <label class="f"><span>${L("Repita a senha", "Repeat password")}</span><input type="password" name="p2" minlength="10" autocomplete="new-password" required></label>
+      <div id="err"></div>
+      <button class="btn primary" style="justify-content:center">${L("Salvar e entrar", "Save and continue")}</button>
+    </form>`);
+  $("#f").onsubmit = async e => {
+    e.preventDefault(); const f = new FormData(e.target);
+    if (f.get("p1") !== f.get("p2")) { $("#err").innerHTML = `<div class="msg err">${L("As senhas não são iguais.", "Passwords do not match.")}</div>`; return; }
+    const b = e.target.querySelector(".primary"); b.disabled = true;
+    const { error } = await sb.auth.updateUser({ password: f.get("p1") });
+    if (error) { b.disabled = false; $("#err").innerHTML = `<div class="msg err">${esc(error.message)}</div>`; return; }
+    if (isInvite && f.get("name")) { await sb.from("profiles").update({ name: f.get("name").trim() }).eq("id", ME.id); }
+    AUTH_TYPE = null; history.replaceState(null, "", location.pathname); logAct(isInvite ? "password_created" : "password_reset");
+    await boot();
+  };
+}
+const langBtn = () => `<button class="btn ghost sm" data-lang>${LANG === "en" ? "PT" : "EN"}</button>`;
+function wireLang() { document.querySelectorAll("[data-lang]").forEach(b => b.onclick = () => { LANG = LANG === "en" ? "pt" : "en"; localStorage.setItem("bxe-lang", LANG); PROFILE ? render() : (sb ? viewLogin() : viewSetup()); }); }
+
+/* ---------------- shell (layout do Instagram no navegador) ---------------- */
+const IC = {
+  home: '<path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',
+  shows: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  publico: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.3-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17.5" cy="9" r="2.6"/><path d="M16.5 14.6c2.6.1 4.5 1.8 5 4.9"/>',
+  fin: '<path d="M17 6.5A7 7 0 1 0 17 17.5M4 10h9M4 14h9"/>',
+  team: '<circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4.2 4-6.5 8-6.5s7.2 2.3 8 6.5"/>',
+  plus: '<rect x="3" y="3" width="18" height="18" rx="5"/><path d="M12 8v8M8 12h8"/>',
+  more: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  sync: '<path d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0 0 14.3 4.9L20 16M20 20v-4h-4"/>',
+};
+const icon = (k, cls = "") => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[k] || ""}</svg>`;
+const NAV = [["home", "Início", "Home"], ["shows", "Shows", "Shows"], ["publico", "Público", "Audience"], ["fin", "Financeiro", "Finance"], ["team", "Equipe", "Team"]];
+function themeIcon() { const t = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); return t === "dark" ? L("Tema claro", "Light theme") : L("Tema escuro", "Dark theme"); }
+function render() {
+  const main = { home: vHome, shows: vShows, show: vShow, fin: vFin, publico: vCoupons, team: vTeam }[R.view] || vHome;
+  const on = k => R.view === k || (k === "shows" && R.view === "show");
+  const navBtn = ([k, pt, en]) => `<button data-nav="${k}" class="${on(k) ? "on" : ""}" aria-label="${L(pt, en)}">${icon(k)}<span>${L(pt, en)}</span></button>`;
+  $("#app").innerHTML = `
+  ${DEMO ? `<div class="demo-bar">${L("Modo demonstração: números de exemplo, não são vendas reais.", "Demo mode: sample numbers, not real sales.")} <button class="btn sm" id="demo-off">${L("Sair", "Exit")}</button></div>` : ""}
+  <div class="ig ${DEMO ? "has-demo" : ""}">
+    <aside class="side">
+      <a class="side-logo" href="#home" id="homelogo" aria-label="Brasileuros"><img src="/assets/logo.webp" alt="Brasileuros"><b>B€</b></a>
+      <nav class="side-nav">${NAV.map(navBtn).join("")}
+        <button id="newshow-side" aria-label="${L("Novo show", "New show")}">${icon("plus")}<span>${L("Novo show", "New show")}</span></button>
+      </nav>
+      <div class="side-more">
+        <button id="more" aria-label="${L("Mais", "More")}">${icon("more")}<span>${L("Mais", "More")}</span></button>
+        <div class="more-menu" id="moremenu" hidden>
+          <div class="mm-who">${esc(PROFILE?.name || ME?.email || "")}</div>
+          <button data-lang>${LANG === "en" ? "Português" : "English"}</button>
+          <button id="theme">${themeIcon()}</button>
+          <button id="out">${L("Sair", "Sign out")}</button>
+        </div>
+      </div>
+    </aside>
+    <header class="mtop"><img src="/assets/logo.webp" alt="Brasileuros"><div class="grow"></div><button class="btn ghost sm" id="mnew" aria-label="${L("Novo show", "New show")}">${icon("plus")}</button><button class="btn ghost sm" id="mmore" aria-label="${L("Mais", "More")}">${icon("more")}</button></header>
+    <main class="main">${main()}</main>
+    <nav class="tabbar">${NAV.map(navBtn).join("")}</nav>
+  </div>`;
+  document.querySelectorAll("[data-nav]").forEach(b => b.onclick = () => go({ view: b.dataset.nav }));
+  $("#homelogo").onclick = e => { e.preventDefault(); go({ view: "home" }); };
+  const mm = $("#moremenu");
+  $("#more").onclick = e => { e.stopPropagation(); mm.hidden = !mm.hidden; };
+  $("#mmore").onclick = e => { e.stopPropagation(); mm.hidden = !mm.hidden; };
+  document.addEventListener("click", ev => { if (mm && !mm.hidden && !mm.contains(ev.target)) mm.hidden = true; }, { once: true });
+  $("#newshow-side").onclick = newShow; $("#mnew").onclick = newShow;
+  $("#out").onclick = async () => { if (DEMO) { leaveDemo(); return; } await sb.auth.signOut(); location.reload(); };
+  $("#theme").onclick = () => { const cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); const nx = cur === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = nx; localStorage.setItem("bxe-theme", nx); render(); };
+  const dOff = $("#demo-off"); if (dOff) dOff.onclick = leaveDemo;
+  wireLang(); wireCommon();
+  ({ home: wireHome, shows: wireShows, show: wireShow, fin: wireFin, publico: wireCoupons, team: wireTeam }[R.view] || (() => {}))();
+}
+function go(patch) { R = { ...R, ...patch }; if (patch.view && patch.view !== "show") R.showId = null; const h = R.view === "show" ? "#show/" + R.showId + "/" + R.tab : "#" + R.view; history.replaceState(null, "", h); render(); scrollTo(0, 0); }
+
+/* ---------------- início: painel de métricas ---------------- */
+const madrid = iso => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Madrid" }).format(new Date(iso));
+const ordersOn = d => S.orders.filter(o => o.created_at && madrid(o.created_at) === d);
+const sum = (a, f) => a.reduce((x, y) => x + num(f(y)), 0);
+const cap = s => num(s.capacity) || DEFAULT_CAPACITY;
+const igRows = () => S.ig_stats.slice().filter(r => r.date).sort((a, b) => a.date.localeCompare(b.date));
+function ago(iso) {
+  const m = Math.max(0, Math.round((Date.now() - new Date(iso)) / 6e4));
+  if (m < 60) return L(`há ${m} min`, `${m} min ago`);
+  const h = Math.round(m / 60); if (h < 24) return L(`há ${h} h`, `${h} h ago`);
+  const d = Math.round(h / 24); return L(`há ${d} dia${d > 1 ? "s" : ""}`, `${d} day${d > 1 ? "s" : ""} ago`);
+}
+function ring(pct, size = 92, stroke = 10, label = "") {
+  const r = (size - stroke) / 2, c = 2 * Math.PI * r, p = Math.max(0, Math.min(1, pct));
+  return `<svg class="ring" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="${esc(label)}">
+    <circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--track)" stroke-width="${stroke}"/>
+    <circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="url(#gring)" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${c * p} ${c}" transform="rotate(-90 ${size / 2} ${size / 2})"/>
+    <defs><linearGradient id="gring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FDD929"/><stop offset="1" stop-color="#3772B4"/></linearGradient></defs>
+    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" class="ring-t">${Math.round(p * 100)}%</text></svg>`;
+}
+function spark(vals, w = 160, h = 40) {
+  if (vals.length < 2) return `<div class="spark-empty faint small">${L("Sem histórico ainda", "No history yet")}</div>`;
+  const mn = Math.min(...vals), mx = Math.max(...vals), rg = mx - mn || 1;
+  const pts = vals.map((v, i) => [i / (vals.length - 1) * (w - 4) + 2, h - 3 - (v - mn) / rg * (h - 8)]);
+  const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><path d="${d} L${w - 2} ${h} L2 ${h} Z" fill="var(--brand-soft)"/><path d="${d}" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linejoin="round"/></svg>`;
+}
+function salesBars(days) {
+  const data = days.map(d => ({ d, q: sum(ordersOn(d), o => o.quantity), v: sum(ordersOn(d), o => o.net) }));
+  const mx = Math.max(1, ...data.map(x => x.q));
+  return `<div class="bars" role="img" aria-label="${L("Ingressos vendidos por dia", "Tickets sold per day")}">${data.map(x => `<div class="bcol ${x.d === today() ? "now" : ""}" title="${fdate(x.d, { day: "numeric", month: "short" })}: ${x.q} ${L("ingressos", "tickets")} · ${eur(x.v)}">
+    <span class="bq">${x.q || ""}</span><i style="height:${Math.max(x.q ? 6 : 2, x.q / mx * 100)}%"></i><span class="bd">${fdate(x.d, { day: "numeric" })}</span></div>`).join("")}</div>`;
+}
+function vHome() {
+  const nx = nextShow(), t0 = today(), t1 = addDays(t0, -1);
+  const oT = ordersOn(t0), oY = ordersOn(t1);
+  const qT = sum(oT, o => o.quantity), vT = sum(oT, o => o.net), qY = sum(oY, o => o.quantity);
+  const ig = igRows(), last = ig.at(-1), wk = ig.filter(r => r.date >= addDays(t0, -7));
+  const fNow = last ? num(last.followers) : null, f7 = ig.find(r => r.date >= addDays(t0, -7));
+  const fDelta = fNow != null && f7 ? fNow - num(f7.followers) : null;
+  const reach7 = sum(wk, r => r.reach);
+  const up = shows().filter(s => s.date >= t0 && s.status !== "cancelled").slice(0, 10);
+  const days14 = Array.from({ length: 14 }, (_, i) => addDays(t0, i - 13));
+  const q14 = sum(S.orders.filter(o => o.created_at && madrid(o.created_at) >= days14[0]), o => o.quantity);
+  const feed = S.orders.filter(o => o.created_at).sort((a, b) => b.created_at.localeCompare(a.created_at)).slice(0, 8);
+  const me = String(PROFILE?.name || "").toLowerCase();
+  const todo = S.tasks.filter(t => !t.done && t.due && t.due <= t0).sort((a, b) => a.due.localeCompare(b.due)).slice(0, 8);
+  const sold = nx ? tickets(nx) : 0;
+  const ebSync = (S.settings.find(x => x.key === "eb_last_sync") || {}).value;
+  const initials = n => String(n || "?").trim().split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase();
+  return `<div class="home">
+  <div class="home-main">
+    <div class="hello"><div><h1>${L("Olá", "Hi")}, ${esc(String(PROFILE?.name || "").split(" ")[0] || "time")}</h1><p class="muted">${fdate(t0, { weekday: "long", day: "numeric", month: "long" })}</p></div>
+      <button class="btn" id="syncall">${icon("sync")} ${L("Atualizar", "Refresh")}</button></div>
+    <div class="stories" aria-label="${L("Próximos shows", "Upcoming shows")}">
+      ${up.map(s => { const p = tickets(s) / cap(s); return `<button class="story ${nx && s.id === nx.id ? "next" : ""}" data-open="${s.id}" style="--p:${Math.min(100, p * 100)}%"><span class="st-ring"><span class="st-in"><b>${pd(s.date).getDate()}</b><small>${fdate(s.date, { month: "short" })}</small></span></span><span class="st-l">${fdate(s.date, { weekday: "short" })} · ${tickets(s)}/${cap(s)}</span></button>`; }).join("")}
+      <button class="story add" id="addshow"><span class="st-ring"><span class="st-in">${icon("plus")}</span></span><span class="st-l">${L("Novo", "New")}</span></button>
+    </div>
+    <div class="kgrid">
+      <div class="card k k-sales"><span class="k-l">${L("Vendas hoje", "Sales today")}</span><b class="k-v">${qT}<small> ${L("ingressos", "tickets")}</small></b><span class="k-s">${eur(vT)} ${L("líquido", "net")} · ${L("ontem", "yesterday")} ${qY}</span></div>
+      <div class="card k k-next">${nx ? `${ring(sold / cap(nx), 92, 10, L("Ocupação do próximo show", "Next show fill"))}<div><span class="k-l">${L("Próximo show", "Next show")}</span><b class="k-v2">${fdate(nx.date, { weekday: "short", day: "numeric", month: "short" })}</b><span class="k-s">${sold}/${cap(nx)} ${L("ingressos", "tickets")} · ${daysTo(nx.date) === 0 ? L("é hoje", "tonight") : L("faltam ", "in ") + daysTo(nx.date) + L(" dias", " days")}</span></div>` : `<span class="k-l">${L("Próximo show", "Next show")}</span><span class="k-s">${L("Nenhum show marcado", "No show booked")}</span>`}</div>
+      <div class="card k"><span class="k-l">${L("Seguidores", "Followers")} · @osbrasileuros</span><b class="k-v">${fNow != null ? fNow.toLocaleString(LANG === "en" ? "en-GB" : "pt-BR") : "—"}</b><span class="k-s ${fDelta > 0 ? "up" : fDelta < 0 ? "down" : ""}">${fDelta != null ? (fDelta > 0 ? "+" : "") + fDelta + L(" em 7 dias", " in 7 days") : L("Conecte o Instagram", "Connect Instagram")}</span>${spark(ig.slice(-30).map(r => num(r.followers)))}</div>
+      <div class="card k"><span class="k-l">${L("Alcance 7 dias", "Reach 7 days")}</span><b class="k-v">${wk.length ? reach7.toLocaleString(LANG === "en" ? "en-GB" : "pt-BR") : "—"}</b><span class="k-s">${last?.profile_visits != null ? num(last.profile_visits) + L(" visitas ao perfil ontem", " profile visits yesterday") : L("contas alcançadas", "accounts reached")}</span>${spark(ig.slice(-30).map(r => num(r.reach)))}</div>
+    </div>
+    <div class="card pad sec2"><div class="sec-h"><h2 class="grow">${L("Ingressos vendidos por dia", "Tickets sold per day")}</h2><span class="muted small">${q14} ${L("em 14 dias", "in 14 days")}</span></div>${salesBars(days14)}
+      <p class="faint small" style="margin:8px 0 0">${ebSync?.at ? L("Eventbrite sincronizado ", "Eventbrite synced ") + ago(ebSync.at) + ". " : ""}${L("Atualiza sozinho a cada 30 minutos.", "Updates on its own every 30 minutes.")}</p></div>
+    <div class="cols sec2">
+      <div class="card pad"><h2 style="margin-bottom:10px">${L("Últimas vendas", "Latest sales")}</h2>
+        <div class="feed">${feed.map(o => { const s = showById(o.show_id); return `<div class="fi"><span class="av">${esc(initials(o.buyer_name))}</span><div class="grow"><b>${esc(o.buyer_name || L("Alguém", "Someone"))}</b> ${L("comprou", "bought")} ${num(o.quantity)} ${num(o.quantity) > 1 ? L("ingressos", "tickets") : L("ingresso", "ticket")}${s ? ` · ${fdate(s.date, { weekday: "short", day: "numeric", month: "numeric" })}` : ""}${o.discount_code ? ` <span class="chip">${esc(o.discount_code)}</span>` : ""}<div class="faint small">${ago(o.created_at)}</div></div><span class="fi-v">${eur(o.net)}</span></div>`; }).join("") || `<div class="empty">${L("Nenhuma venda sincronizada ainda", "No sales synced yet")}</div>`}</div></div>
+      <div class="card pad"><h2 style="margin-bottom:10px">${L("Para hoje", "For today")}</h2><div class="list">${todo.map(t => taskItem(t, { showName: true, sector: true, due: t.due < t0 })).join("") || `<div class="empty">${L("Nada pendente hoje", "Nothing due today")}</div>`}</div></div>
+    </div>
+  </div>
+  <aside class="rail">
+    <div class="me"><span class="av lg">${esc(initials(PROFILE?.name || ME?.email))}</span><div><b>${esc(PROFILE?.name || "")}</b><div class="muted small">${esc((ROLES().find(r => r[0] === PROFILE?.role) || [0, ""])[1])}</div></div></div>
+    <div class="rail-h"><span class="muted">${L("Próximos shows", "Upcoming shows")}</span><button class="link" data-nav="shows">${L("Ver tudo", "See all")}</button></div>
+    ${up.slice(0, 5).map(s => `<button class="rail-i" data-open="${s.id}"><span class="rd"><b>${pd(s.date).getDate()}</b><small>${fdate(s.date, { month: "short" })}</small></span><span class="grow"><b>${fdate(s.date, { weekday: "long" })}</b><span class="muted small">${tickets(s)}/${cap(s)} · ${lineupOf(s.id).filter(booked).length}/${LINEUP_GOAL} Barcelouca</span></span></button>`).join("") || `<div class="empty">—</div>`}
+    <div class="rail-h"><span class="muted">${L("Atalhos", "Shortcuts")}</span></div>
+    <div class="rail-links"><a href="https://www.eventbrite.com/organizations/home" target="_blank" rel="noopener">Eventbrite</a><a href="https://www.instagram.com/osbrasileuros/" target="_blank" rel="noopener">Instagram</a><a href="https://www.brasileuros.com" target="_blank" rel="noopener">${L("Site", "Website")}</a></div>
+    <p class="faint small">Brasileuros · ${L("Painel de gestão", "Management hub")}</p>
+  </aside></div>`;
+}
+function wireHome() {
+  document.querySelectorAll("[data-open]").forEach(c => c.onclick = () => go({ view: "show", showId: c.dataset.open, tab: "overview" }));
+  $("#addshow").onclick = newShow;
+  $("#syncall").onclick = async () => {
+    const b = $("#syncall"); b.disabled = true; b.lastChild.textContent = " " + L("Atualizando...", "Refreshing...");
+    if (DEMO) { setTimeout(() => { toast(L("Na demonstração nada é sincronizado", "Nothing syncs in demo mode")); render(); }, 400); return; }
+    const errs = [];
+    await ebCall({ action: "sync" }).catch(e => errs.push("Eventbrite: " + e.message));
+    await fnCall("instagram", {}).catch(e => errs.push("Instagram: " + e.message));
+    await Promise.all(["shows", "orders", "ig_stats", "settings"].map(refresh));
+    toast(errs.length ? errs.join(" · ") : L("Tudo atualizado", "All up to date")); render();
+  };
+}
+async function fnCall(name, body) {
+  const { data, error } = await sb.functions.invoke(name, { body });
+  if (error) { let msg = error.message; try { const j = await error.context.json(); msg = j.error || msg; } catch (e) {} throw new Error(msg); }
+  if (data?.error) throw new Error(data.error);
+  return data;
+}
+
+/* ---------------- modo demonstração ---------------- */
+function demoData() {
+  const t0 = today(), wd = (pd(t0).getDay() + 4) % 7; // dias até quarta
+  const nextWed = addDays(t0, (3 - pd(t0).getDay() + 7) % 7);
+  const dates = [-14, -7, 0, 7, 14, 21, 28].map(n => addDays(nextWed, n));
+  const names = ["Ana Souza", "Bruno Lima", "Carla Dias", "Diego Rocha", "Elisa Prado", "Fábio Nunes", "Gabi Torres", "Hugo Melo", "Iara Costa", "João Pires", "Kátia Ramos", "Lucas Viana", "Marina Lopes", "Nina Alves"];
+  let k = 0; const rnd = () => { k = (k * 9301 + 49297) % 233280; return k / 233280; };
+  const shows = dates.map((d, i) => ({ id: "demo" + i, date: d, time: "19:30", title: "Brasileuros – Comédia do Nosso Jeitinho", venue: "Bar La Chirigota", status: d < t0 ? "done" : "planned", capacity: DEFAULT_CAPACITY, eb_tickets: 0, eb_net: 0, cash_tickets: d < t0 ? 6 : 0, cash_price: 7 }));
+  const orders = [];
+  shows.forEach((s, i) => { const n = s.date < t0 ? 22 + (i * 5) % 9 : Math.max(0, 16 - (i - 2) * 6); for (let j = 0; j < n; j++) { const q = rnd() < .3 ? 2 : 1; const dd = Math.floor(rnd() * 12); const when = new Date(pd(s.date).getTime() - dd * 864e5 + 9 * 36e5 + rnd() * 12 * 36e5); if (when > new Date()) continue; orders.push({ id: "o" + i + "_" + j, show_id: s.id, created_at: when.toISOString(), buyer_name: names[Math.floor(rnd() * names.length)], quantity: q, net: q * 6.1, discount_code: rnd() < .15 ? "PATRICK10" : null }); } });
+  shows.forEach(s => { const os = orders.filter(o => o.show_id === s.id); s.eb_tickets = sum(os, o => o.quantity); s.eb_net = sum(os, o => o.net); });
+  const ig_stats = Array.from({ length: 30 }, (_, i) => ({ id: "ig" + i, date: addDays(t0, i - 30), followers: 62 + Math.round(i * 1.05 + (i > 25 ? 6 : 0)), reach: Math.round(40 + rnd() * 120 + (i % 7 === 2 ? 900 : 0)), profile_visits: Math.round(3 + rnd() * 10) }));
+  const lineup = [{ id: "lu1", show_id: shows[2].id, artist: "Convidado(a) Barcelouca", payment: "Confirmed", spot: "guest", fee: 0 }];
+  const tasks = shows.filter(s => s.date >= t0).flatMap(s => template().map(t => ({ id: s.id + ":" + t.key, show_id: s.id, template_key: t.key, title: t.title, sector: t.sector, due: addDays(s.date, t.offset), done: addDays(s.date, t.offset) < t0 })));
+  return { shows, orders, ig_stats, lineup, tasks, comedians: [], coupons: [{ id: "c1", code: "PATRICK10", percent: 10, status: "Active", uses: 4 }], ads: [], expenses: [], payments: [], instagram: [], signups: [], settings: [{ key: "task_template", value: DEFAULT_TEMPLATE }], profiles: [{ id: "demo", name: "Patrick", email: "demo@brasileuros.com", role: "admin", active: true }] };
+}
+function enterDemo() { DEMO = true; ME = { id: "demo", email: "demo@brasileuros.com" }; PROFILE = { id: "demo", name: "Patrick", role: "admin", active: true }; S = { ...S, ...{ settings: [{ key: "task_template", value: DEFAULT_TEMPLATE }] } }; S = { ...S, ...demoData() }; readHashRoute(); render(); }
+function leaveDemo() { DEMO = false; history.replaceState(null, "", location.pathname); location.reload(); }
+
+/* ---------------- shared bits ---------------- */
+function taskItem(t, opts = {}) {
+  const late = !t.done && t.due && t.due < today();
+  const s = t.show_id ? showById(t.show_id) : null;
+  const sub = [opts.showName && s ? fdate(s.date, { day: "numeric", month: "short" }) : "", opts.sector ? SECTOR_NAME(t.sector) : "", opts.due && t.due ? fdate(t.due) : "", t.owner || ""].filter(Boolean).join(" · ");
+  return `<div class="task ${t.done ? "done" : ""} ${late ? "late" : ""}">
+    <input type="checkbox" data-task="${esc(t.id)}" ${t.done ? "checked" : ""} aria-label="${esc(taskTitle(t))}">
+    <div class="grow"><span class="t-main"><span class="dot" style="background:${SECTOR_COLOR(t.sector)}"></span>${esc(taskTitle(t))}</span>${sub ? `<span class="t-sub">${esc(sub)}</span>` : ""}</div>
+    ${opts.edit ? `<button class="btn ghost sm" data-edit-task="${esc(t.id)}">${L("Editar", "Edit")}</button>` : ""}
+  </div>`;
+}
+function wireCommon() {
+  document.querySelectorAll("[data-task]").forEach(c => c.onchange = async () => {
+    const t = S.tasks.find(x => x.id === c.dataset.task); if (!t) return;
+    await save("tasks", { ...t, done: c.checked, done_at: c.checked ? new Date().toISOString() : null });
+    logAct(c.checked ? "task_done" : "task_reopened", { id: t.id, by: PROFILE?.name }); render();
+  });
+  document.querySelectorAll("[data-edit-task]").forEach(b => b.onclick = () => editTask(S.tasks.find(x => x.id === b.dataset.editTask)));
+}
+function modal(title, fields, row, onSave, extra) {
+  const ov = document.createElement("div"); ov.className = "ov";
+  ov.innerHTML = `<div class="card modal"><h2>${esc(title)}</h2><form id="mf">
+    <div class="grid2">${fields.map(f => field(f, row?.[f.k])).join("")}</div>
+    <div id="merr"></div>
+    <div class="acts">${extra ? `<button type="button" class="btn danger" id="mdel" style="margin-right:auto">${L("Excluir", "Delete")}</button>` : ""}<button type="button" class="btn" id="mcancel">${L("Cancelar", "Cancel")}</button><button class="btn primary">${L("Salvar", "Save")}</button></div>
+  </form></div>`;
+  document.body.appendChild(ov);
+  const close = () => ov.remove();
+  ov.onclick = e => { if (e.target === ov) close(); };
+  ov.querySelector("#mcancel").onclick = close;
+  if (extra) ov.querySelector("#mdel").onclick = async () => { if (confirm(L("Excluir este item?", "Delete this item?"))) { await extra(); close(); render(); } };
+  ov.querySelector("#mf").onsubmit = async e => {
+    e.preventDefault(); const fd = new FormData(e.target), out = { ...(row || {}) };
+    fields.forEach(f => { let v = fd.get(f.k); if (f.t === "check") v = fd.get(f.k) === "on"; else if (f.t === "number") v = v === "" ? null : num(v); else if (v === "") v = null; out[f.k] = v; });
+    const b = e.target.querySelector(".primary"); b.disabled = true;
+    try { await onSave(out); close(); render(); } catch (err) { b.disabled = false; ov.querySelector("#merr").innerHTML = `<div class="msg err">${esc(err.message || err)}</div>`; }
+  };
+  setTimeout(() => ov.querySelector("input,select,textarea")?.focus(), 30);
+}
+function field(f, v) {
+  const cls = f.full ? "full" : "";
+  if (f.t === "select") return `<label class="f ${cls}"><span>${esc(f.l)}</span><select name="${f.k}">${f.o.map(o => { const [val, lab] = Array.isArray(o) ? o : [o, o]; return `<option value="${esc(val)}" ${String(v ?? "") === String(val) ? "selected" : ""}>${esc(lab)}</option>`; }).join("")}</select></label>`;
+  if (f.t === "check") return `<label class="f ${cls}" style="display:flex;align-items:center;gap:8px;height:36px;margin-top:18px"><input type="checkbox" name="${f.k}" ${v ? "checked" : ""}> ${esc(f.l)}</label>`;
+  if (f.t === "area") return `<label class="f full"><span>${esc(f.l)}</span><textarea name="${f.k}">${esc(v)}</textarea></label>`;
+  return `<label class="f ${cls}"><span>${esc(f.l)}</span><input type="${f.t || "text"}" name="${f.k}" value="${esc(v)}" ${f.t === "number" ? 'step="any"' : ""} ${f.req ? "required" : ""}></label>`;
+}
+const OWNERS = () => [["", "—"], ...S.profiles.filter(p => p.active).map(p => [p.name, p.name])];
+function editTask(t) {
+  const isNew = !t;
+  modal(isNew ? L("Nova tarefa", "New task") : L("Editar tarefa", "Edit task"), [
+    { k: "title", l: L("Tarefa", "Task"), full: true, req: true },
+    { k: "due", l: L("Prazo", "Due"), t: "date" },
+    { k: "owner", l: L("Responsável", "Owner"), t: "select", o: OWNERS() },
+    { k: "sector", l: L("Setor", "Sector"), t: "select", o: [...SECTORS.map(s => [s[0], L(s[1], s[2])]), ["Patrocinio", L("Patrocínio", "Sponsor")]] },
+    { k: "done", l: L("Feita", "Done"), t: "check" },
+    { k: "notes", l: L("Notas", "Notes"), t: "area" },
+  ], t || { show_id: R.showId, sector: R.tab && SECTORS.some(s => s[0] === R.tab) ? R.tab : "Show", custom: true, due: today() },
+  async row => { if (isNew) row.id = (row.show_id || "x") + ":c" + uid(); row.done_at = row.done ? (row.done_at || new Date().toISOString()) : null; await save("tasks", row); },
+  isNew ? null : async () => del("tasks", t.id));
+}
+
+/* ---------------- home: timeline + week ---------------- */
+function showCard(s, isNext) {
+  const past = s.date < today();
+  const lu = lineupOf(s.id), bk = lu.filter(booked).length;
+  const rows = SECTORS.map(([k]) => { const p = progress(s.id, k); if (!p.total) return ""; const pct = Math.round(p.done / p.total * 100); return `<div class="sc-row"><span>${SECTOR_NAME(k)}</span><div class="bar ${pct === 100 ? "done" : ""}"><i style="width:${pct}%"></i></div><em>${p.done}/${p.total}</em></div>`; }).join("");
+  const late = tasksOf(s.id).filter(t => !t.done && t.due && t.due < today()).length;
+  const d = daysTo(s.date);
+  return `<div class="card sc ${isNext ? "next" : ""} ${past ? "past" : ""}" data-open="${s.id}" ${isNext ? 'id="nextcard"' : ""}>
+    <div><div class="sc-date"><b>${fdate(s.date, { day: "numeric", month: "short" })}</b><span class="muted small">${fdate(s.date, { weekday: "long" })} · ${esc(s.time || "")}</span></div>
+    <div class="sc-title">${esc(s.title)}</div></div>
+    <div class="sc-rows">${rows}</div>
+    <div class="sc-foot">
+      ${s.status === "cancelled" ? `<span class="chip bad">${L("Cancelado", "Cancelled")}</span>` : past ? `<span class="chip">${L("Realizado", "Done")}</span>` : d === 0 ? `<span class="chip warn">${L("Hoje", "Tonight")}</span>` : `<span class="chip">${L("em", "in")} ${d} ${L("dias", "days")}</span>`}
+      <span class="chip ${bk >= LINEUP_GOAL ? "ok" : ""}">Barcelouca ${bk}/${LINEUP_GOAL}</span>
+      <span class="chip ${tickets(s) >= cap(s) ? "ok" : ""}">${tickets(s)}/${cap(s)} ${L("ingressos", "tickets")}</span>
+      ${late ? `<span class="chip bad">${late} ${L("atrasada", "late")}${late > 1 ? "s" : ""}</span>` : ""}
+    </div>
+  </div>`;
+}
+function weekStart(d) { const x = pd(d || today()); const wd = (x.getDay() + 6) % 7; x.setDate(x.getDate() - wd); return ymd(x); }
+function vShows() {
+  const list = shows(), nx = nextShow();
+  let html = "", placed = false;
+  list.forEach(s => { if (!placed && s.date >= today()) { html += `<div class="tl-today"><span>${L("hoje", "today")}</span></div>`; placed = true; } html += showCard(s, nx && s.id === nx.id); });
+  if (!placed) html += `<div class="tl-today"><span>${L("hoje", "today")}</span></div>`;
+  html += `<button class="tl-add" id="addshow">+ ${L("Novo show", "New show")}</button>`;
+  const ws = R.weekStart || weekStart();
+  const days = Array.from({ length: 7 }, (_, i) => addDays(ws, i));
+  const me = String(PROFILE?.name || "").toLowerCase();
+  const mine = t => { if (!R.mine || !t.owner) return true; const o = t.owner.toLowerCase(); return !!me && (o === me || me.startsWith(o) || o.startsWith(me)); };
+  const late = S.tasks.filter(t => !t.done && t.due && t.due < today() && t.due < ws && mine(t)).sort((a, b) => a.due.localeCompare(b.due));
+  const dayCol = d => { const ts = S.tasks.filter(t => t.due === d && mine(t)).sort((a, b) => (a.done - b.done)); return `<div class="day ${d === today() ? "today" : ""}"><div class="day-h"><span>${fdate(d, { weekday: "short", day: "numeric" })}</span><span class="faint">${ts.filter(t => !t.done).length || ""}</span></div><div class="day-b">${ts.map(t => taskItem(t, { showName: true, sector: true })).join("") || `<div class="empty">—</div>`}</div></div>`; };
+  return `
+  <div class="row wrap"><h1 class="grow">Shows</h1><span class="muted small hide-m">${L("Clique num show para abrir os setores", "Click a show to open its sectors")}</span></div>
+  <div class="tl" id="tl">${html}</div>
+  <div class="sec">
+    <div class="sec-h wrap"><h2>${L("Semana", "Week")}</h2><span class="muted small">${fdate(ws, { day: "numeric", month: "short" })} – ${fdate(addDays(ws, 6), { day: "numeric", month: "short" })}</span>
+      <div class="grow"></div>
+      <label class="small row"><input type="checkbox" id="mine" ${R.mine ? "checked" : ""}> ${L("Só as minhas", "Only mine")}</label>
+      <button class="btn sm" id="wprev">←</button><button class="btn sm" id="wnow">${L("Esta semana", "This week")}</button><button class="btn sm" id="wnext">→</button>
+      <button class="btn sm" id="addtask">+ ${L("Tarefa", "Task")}</button></div>
+    ${late.length ? `<div class="card pad" style="margin-bottom:10px"><h3 style="color:var(--danger);margin-bottom:8px">${L("Atrasadas", "Overdue")} (${late.length})</h3><div class="list">${late.map(t => taskItem(t, { showName: true, sector: true, due: true })).join("")}</div></div>` : ""}
+    <div class="week">${days.map(dayCol).join("")}</div>
+  </div>`;
+}
+function wireShows() {
+  document.querySelectorAll("[data-open]").forEach(c => c.onclick = () => go({ view: "show", showId: c.dataset.open, tab: "overview" }));
+  const tl = $("#tl"), td = tl && tl.querySelector(".tl-today"); if (tl && td) { tl.style.scrollSnapType = "none"; tl.scrollLeft = Math.max(0, td.offsetLeft - 8); requestAnimationFrame(() => tl.style.scrollSnapType = ""); }
+  $("#addshow").onclick = newShow;
+  $("#mine").onchange = e => { R.mine = e.target.checked; render(); };
+  $("#wprev").onclick = () => { R.weekStart = addDays(R.weekStart || weekStart(), -7); render(); };
+  $("#wnext").onclick = () => { R.weekStart = addDays(R.weekStart || weekStart(), 7); render(); };
+  $("#wnow").onclick = () => { R.weekStart = null; render(); };
+  $("#addtask").onclick = () => editTask(null);
+}
+const SHOW_FIELDS = () => [
+  { k: "date", l: L("Data", "Date"), t: "date", req: true }, { k: "time", l: L("Horário", "Time"), t: "time" },
+  { k: "title", l: L("Nome do show", "Show name"), full: true },
+  { k: "venue", l: L("Local", "Venue") }, { k: "capacity", l: L("Lugares", "Capacity"), t: "number" },
+  { k: "status", l: "Status", t: "select", o: [["planned", L("Planejado", "Planned")], ["done", L("Realizado", "Done")], ["cancelled", L("Cancelado", "Cancelled")]] },
+  { k: "eb_url", l: L("Link do Eventbrite", "Eventbrite link"), t: "url", full: true },
+  { k: "notes", l: L("Notas", "Notes"), t: "area" },
+];
+function newShow() {
+  const last = shows().at(-1);
+  modal(L("Novo show", "New show"), SHOW_FIELDS(), { ...SHOW_DEFAULTS, date: last ? addDays(last.date, 7) : today() }, async row => {
+    if (S.shows.some(s => s.date === row.date)) throw new Error(L("Já existe um show nessa data.", "There is already a show on that date."));
+    row.id = "s" + uid();
+    const s = await save("shows", row);
+    const tasks = template().map(t => ({ id: s.id + ":" + t.key, show_id: s.id, template_key: t.key, title: t.title, sector: t.sector, due: addDays(s.date, t.offset), done: false }));
+    const { data, error } = DEMO ? { data: tasks } : await sb.from("tasks").upsert(tasks).select(); if (error) throw error;
+    data.forEach(t => { const i = S.tasks.findIndex(x => x.id === t.id); if (i >= 0) S.tasks[i] = t; else S.tasks.push(t); });
+    logAct("show_created", { date: s.date, by: PROFILE?.name });
+    R.view = "show"; R.showId = s.id; R.tab = "overview";
+  });
+}
+
+/* ---------------- event page ---------------- */
+const TABS = () => [["overview", L("Visão geral", "Overview")], ...SECTORS.map(s => [s[0], L(s[1], s[2])])];
+function vShow() {
+  const s = showById(R.showId); if (!s) { R.view = "home"; return vHome(); }
+  const d = daysTo(s.date);
+  const tabChip = k => { if (k === "overview") return ""; const p = progress(s.id, k); return p.total ? `<span class="chip ${p.done === p.total ? "ok" : ""}">${p.done}/${p.total}</span>` : ""; };
+  const body = { overview: tOverview, Show: tLineup, Instagram: tInstagram, Anuncios: tAds, Cupons: tCoupons, Ingressos: tTickets, Financeiro: tMoney }[R.tab] || tOverview;
+  return `
+  <button class="btn ghost sm" id="back">← Shows</button>
+  <div class="ev-head" style="margin-top:10px">
+    <div class="grow"><h1>${fdate(s.date, { weekday: "long", day: "numeric", month: "long" })} · ${esc(s.time)}</h1>
+      <div class="muted" style="margin-top:4px">${esc(s.title)} · ${esc(s.venue || "")}</div>
+      <div class="row wrap" style="margin-top:10px">${s.status === "cancelled" ? `<span class="chip bad">${L("Cancelado", "Cancelled")}</span>` : d < 0 ? `<span class="chip">${L("Realizado", "Done")}</span>` : `<span class="chip warn">${d === 0 ? L("Hoje", "Tonight") : L("em ", "in ") + d + L(" dias", " days")}</span>`}
+      ${s.eb_url ? `<a class="chip" href="${esc(s.eb_url)}" target="_blank" rel="noopener">Eventbrite</a>` : `<span class="chip bad">${L("Sem link do Eventbrite", "No Eventbrite link")}</span>`}</div></div>
+    <div class="row"><button class="btn" id="editshow">${L("Editar show", "Edit show")}</button><button class="btn" id="addt">+ ${L("Tarefa", "Task")}</button></div>
+  </div>
+  <div class="tabs">${TABS().map(([k, lab]) => `<button data-tab="${k}" class="${R.tab === k ? "on" : ""}">${lab}${tabChip(k)}</button>`).join("")}</div>
+  ${body(s)}`;
+}
+function sectorTasks(s, sector) {
+  const ts = tasksOf(s.id).filter(t => t.sector === sector);
+  return `<div class="card pad"><div class="sec-h"><h3 class="grow">${L("Tarefas", "Tasks")}</h3></div><div class="list">${ts.map(t => taskItem(t, { due: true, edit: true })).join("") || `<div class="empty">${L("Nenhuma tarefa", "No tasks")}</div>`}</div></div>`;
+}
+function tOverview(s) {
+  const open = tasksOf(s.id).filter(t => !t.done);
+  return `<div class="sectors">${SECTORS.map(([k]) => { const p = progress(s.id, k); const pct = p.total ? Math.round(p.done / p.total * 100) : 0; return `<div class="card sector" data-tab="${k}"><div class="row"><span class="dot" style="background:${SECTOR_COLOR(k)}"></span><b class="grow">${SECTOR_NAME(k)}</b><span class="faint small">${p.done}/${p.total}</span></div><div class="bar ${pct === 100 ? "done" : ""}" style="margin-top:10px"><i style="width:${pct}%"></i></div></div>`; }).join("")}</div>
+  <div class="cols sec">
+    <div class="card pad"><h3 style="margin-bottom:10px">${L("Próximas tarefas", "Open tasks")} (${open.length})</h3><div class="list">${open.map(t => taskItem(t, { sector: true, due: true, edit: true })).join("") || `<div class="empty">${L("Tudo feito", "All done")}</div>`}</div></div>
+    <div class="card pad"><h3 style="margin-bottom:10px">${L("Resumo", "Summary")}</h3>
+      <table><tr><td class="muted">Barcelouca</td><td class="num">${lineupOf(s.id).filter(booked).length}/${LINEUP_GOAL}</td></tr>
+      <tr><td class="muted">${L("Ingressos", "Tickets")}</td><td class="num">${tickets(s)}</td></tr>
+      <tr><td class="muted">${L("Receita", "Income")}</td><td class="num">${eur(income(s) + sponsorIn(s))}</td></tr>
+      <tr><td class="muted">${L("Cachês", "Fees")}</td><td class="num">${eur(fees(s))}</td></tr>
+      <tr><td><b>${s.date > today() ? L("Resultado previsto", "Expected result") : L("Resultado", "Result")}</b></td><td class="num"><b>${eur(net(s))}</b></td></tr></table>
+      ${s.notes ? `<p class="muted small" style="margin:12px 0 0">${esc(s.notes)}</p>` : ""}</div>
+  </div>`;
+}
+const PAY = () => [["Invited", L("Convidado", "Invited")], ["Confirmed", L("Confirmado", "Confirmed")], ["Paid", L("Pago", "Paid")], ["Declined", L("Recusou", "Declined")]];
+function tLineup(s) {
+  const lu = lineupOf(s.id);
+  return `<div class="cols"><div class="card pad">
+    <div class="sec-h"><h3 class="grow">${L("Convidados do Barcelouca", "Barcelouca guests")} (${lu.filter(booked).length}/${LINEUP_GOAL} ${L("confirmados", "confirmed")})</h3><button class="btn sm primary" id="addlu">+ ${L("Comediante", "Comedian")}</button></div>
+    ${lu.length ? `<div class="tablewrap"><table><tr><th>${L("Nome", "Name")}</th><th>${L("Posição", "Spot")}</th><th class="num">${L("Cachê", "Fee")}</th><th>Status</th><th>${L("Cupom", "Coupon")}</th><th></th></tr>
+    ${lu.map(l => { const c = S.comedians.find(x => x.id === l.comedian_id); return `<tr><td><b>${esc(l.artist)}</b>${c?.email ? `<div class="faint small">${esc(c.email)}</div>` : ""}</td><td>${esc(l.spot === "headliner" ? "Headliner" : L("Convidado", "Guest"))}</td><td class="num">${eur(l.fee)}</td><td><span class="chip ${booked(l) ? "ok" : ""}">${esc((PAY().find(p => p[0] === l.payment) || [0, l.payment])[1])}</span></td><td>${l.coupon_code ? `<span class="chip">${esc(l.coupon_code)}</span>` : ""}</td><td class="num"><button class="btn ghost sm" data-lu="${l.id}">${L("Editar", "Edit")}</button></td></tr>`; }).join("")}</table></div>` : `<div class="empty">${L("Ninguém no lineup ainda", "No one booked yet")}</div>`}
+    <p class="faint small" style="margin:12px 0 0">${L("Ao adicionar um comediante com e-mail, o sistema cria um cupom de 10% com o nome dele.", "Adding a comedian with an e-mail creates a 10% coupon with their name.")}</p>
+  </div>${sectorTasks(s, "Show")}</div>`;
+}
+function couponCodeFor(name) {
+  const base = String(name || "").normalize("NFD").replace(/[̀-ͯ]/g, "").split(/\s+/)[0].replace(/[^A-Za-z0-9]/g, "").toUpperCase().slice(0, 12) || "AMIGO";
+  let code = base + "10", i = 2; while (S.coupons.some(c => c.code.toUpperCase() === code)) code = base + i++ + "10";
+  return code;
+}
+function editLineup(s, l) {
+  const isNew = !l; const c = l ? S.comedians.find(x => x.id === l.comedian_id) : null;
+  const known = S.comedians.slice().sort((a, b) => a.name.localeCompare(b.name));
+  modal(isNew ? L("Adicionar comediante", "Add comedian") : L("Editar comediante", "Edit comedian"), [
+    ...(isNew ? [{ k: "pick", l: L("Do banco de comediantes", "From the comedian list"), t: "select", full: true, o: [["", L("Novo comediante", "New comedian")], ...known.map(k => [k.id, k.name])] }] : []),
+    { k: "artist", l: L("Nome", "Name"), full: true },
+    { k: "email", l: "E-mail", t: "email" }, { k: "phone", l: "WhatsApp" },
+    { k: "instagram", l: "Instagram" },
+    { k: "spot", l: L("Posição", "Spot"), t: "select", o: [["guest", L("Convidado", "Guest")], ["headliner", "Headliner"]] },
+    { k: "fee", l: L("Cachê (€)", "Fee (€)"), t: "number" },
+    { k: "payment", l: "Status", t: "select", o: PAY() },
+    { k: "notes", l: L("Notas", "Notes"), t: "area" },
+  ], l ? { ...l, email: c?.email, phone: c?.phone, instagram: c?.instagram } : { spot: "guest", fee: s.guest_fee || 5, payment: "Invited" }, async row => {
+    let com = row.pick ? S.comedians.find(x => x.id === row.pick) : c;
+    const name = (row.artist || com?.name || "").trim(); if (!name) throw new Error(L("Informe o nome.", "Enter a name."));
+    com = await save("comedians", { ...(com || {}), name, email: row.email ?? com?.email ?? null, phone: row.phone ?? com?.phone ?? null, instagram: row.instagram ?? com?.instagram ?? null });
+    const lu = { id: l?.id || "l" + uid(), show_id: s.id, comedian_id: com.id, artist: name, spot: row.spot, fee: row.fee, payment: row.payment, notes: row.notes, coupon_code: l?.coupon_code || null };
+    if (!lu.coupon_code && com.email) {
+      const code = couponCodeFor(name);
+      const cp = await save("coupons", { id: "c" + uid(), code, percent: 10, scope: L("Show de ", "Show on ") + fdate(s.date, { day: "numeric", month: "short" }), comedian_id: com.id, show_id: s.id, status: "Pending", notes: L("Cupom do comediante", "Comedian coupon") });
+      lu.coupon_code = code;
+      await pushCoupon(cp);
+    }
+    await save("lineup", lu);
+    const all = lineupOf(s.id).filter(booked).length; const lt = S.tasks.find(t => t.id === s.id + ":guest");
+    if (lt && all >= LINEUP_GOAL && !lt.done) await save("tasks", { ...lt, done: true, done_at: new Date().toISOString() });
+    logAct("lineup_saved", { show: s.date, artist: name, by: PROFILE?.name });
+  }, isNew ? null : async () => del("lineup", l.id));
+}
+function tInstagram(s) {
+  const posts = S.instagram.filter(p => p.show_id === s.id).sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+  return `<div class="cols">${sectorTasks(s, "Instagram")}<div class="card pad">
+    <div class="sec-h"><h3 class="grow">${L("Posts e stories", "Posts and stories")}</h3><button class="btn sm primary" id="addpost">+ Post</button></div>
+    ${posts.length ? `<table><tr><th>${L("Data", "Date")}</th><th>${L("Formato", "Format")}</th><th>${L("Título", "Title")}</th><th>Status</th><th></th></tr>${posts.map(p => `<tr><td>${fdate(p.date)}</td><td>${esc(p.format || "")}</td><td>${esc(p.title || "")}</td><td><span class="chip ${p.status === "Published" ? "ok" : ""}">${esc(p.status || "")}</span></td><td class="num"><button class="btn ghost sm" data-post="${p.id}">${L("Editar", "Edit")}</button></td></tr>`).join("")}</table>` : `<div class="empty">${L("Nenhum post planejado", "No posts planned")}</div>`}
+  </div></div>`;
+}
+function editPost(s, p) {
+  modal(p ? L("Editar post", "Edit post") : L("Novo post", "New post"), [
+    { k: "date", l: L("Data", "Date"), t: "date" }, { k: "time", l: L("Hora", "Time"), t: "time" },
+    { k: "format", l: L("Formato", "Format"), t: "select", o: ["Reel", "Carrossel", "Post", "Stories"] },
+    { k: "status", l: "Status", t: "select", o: [["Idea", L("Ideia", "Idea")], ["Draft", L("Rascunho", "Draft")], ["Scheduled", L("Agendado", "Scheduled")], ["Published", L("Publicado", "Published")]] },
+    { k: "title", l: L("Título", "Title"), full: true }, { k: "caption", l: L("Legenda", "Caption"), t: "area" },
+    { k: "owner", l: L("Responsável", "Owner"), t: "select", o: OWNERS() }, { k: "link", l: "Link", t: "url" },
+    { k: "reach", l: L("Alcance", "Reach"), t: "number" }, { k: "likes", l: L("Curtidas", "Likes"), t: "number" },
+    { k: "saves", l: L("Salvamentos", "Saves"), t: "number" }, { k: "shares", l: L("Compartilhamentos", "Shares"), t: "number" },
+  ], p || { show_id: s.id, date: addDays(s.date, -7), status: "Idea", format: "Reel" }, async row => { row.id = row.id || "p" + uid(); row.show_id = s.id; await save("instagram", row); }, p ? async () => del("instagram", p.id) : null);
+}
+function tAds(s) {
+  const ads = S.ads.filter(a => a.show_id === s.id);
+  return `<div class="cols">${sectorTasks(s, "Anuncios")}<div class="card pad">
+    <div class="sec-h"><h3 class="grow">${L("Anúncios", "Ads")}</h3><button class="btn sm primary" id="addad">+ ${L("Anúncio", "Ad")}</button></div>
+    ${ads.length ? `<table><tr><th>${L("Período", "Period")}</th><th class="num">${L("Verba", "Budget")}</th><th class="num">${L("Gasto", "Spent")}</th><th>Status</th><th></th></tr>${ads.map(a => `<tr><td>${fdate(a.start_date, { day: "numeric", month: "short" })} – ${fdate(a.end_date, { day: "numeric", month: "short" })}</td><td class="num">${eur(a.budget)}</td><td class="num">${eur(a.spent)}</td><td><span class="chip">${esc(a.status)}</span></td><td class="num"><button class="btn ghost sm" data-ad="${a.id}">${L("Editar", "Edit")}</button></td></tr>`).join("")}</table>` : `<div class="empty">${L("Nenhum anúncio", "No ads yet")}</div>`}
+  </div></div>`;
+}
+function editAd(s, a) {
+  modal(a ? L("Editar anúncio", "Edit ad") : L("Novo anúncio", "New ad"), [
+    { k: "platform", l: L("Plataforma", "Platform"), t: "select", o: ["Meta", "Instagram", "Facebook", "TikTok", "Google"] },
+    { k: "status", l: "Status", t: "select", o: ["Draft", "Running", "Finished"] },
+    { k: "start_date", l: L("Início", "Start"), t: "date" }, { k: "end_date", l: L("Fim", "End"), t: "date" },
+    { k: "budget", l: L("Verba (€)", "Budget (€)"), t: "number" }, { k: "spent", l: L("Gasto (€)", "Spent (€)"), t: "number" },
+    { k: "results", l: L("Resultados", "Results"), full: true }, { k: "notes", l: L("Notas", "Notes"), t: "area" },
+  ], a || { show_id: s.id, platform: "Meta", status: "Draft", start_date: addDays(s.date, -10), end_date: addDays(s.date, -1) }, async row => { row.id = row.id || "a" + uid(); row.show_id = s.id; await save("ads", row); }, a ? async () => del("ads", a.id) : null);
+}
+function couponRows(list) {
+  return list.length ? `<div class="tablewrap"><table><tr><th>${L("Código", "Code")}</th><th class="num">%</th><th>${L("Validade", "Scope")}</th><th>${L("Usos", "Uses")}</th><th>Status</th><th></th></tr>${list.map(c => `<tr><td><b>${esc(c.code)}</b>${c.comedian_id ? `<div class="faint small">${esc(S.comedians.find(x => x.id === c.comedian_id)?.name || "")}</div>` : ""}</td><td class="num">${num(c.percent)}%</td><td class="small">${esc(c.scope || "")}</td><td>${num(c.uses)}${c.usage_limit ? " / " + c.usage_limit : ""}</td><td><span class="chip ${c.status === "Active" ? "ok" : c.status === "Pending" ? "warn" : c.status === "Review" ? "bad" : ""}">${esc(c.status)}</span>${c.eb_discount_id && c.eb_discount_id !== "manual" ? ` <span class="chip">Eventbrite</span>` : ""}</td><td class="num"><button class="btn ghost sm" data-coupon="${c.id}">${L("Editar", "Edit")}</button></td></tr>`).join("")}</table></div>` : `<div class="empty">${L("Nenhum cupom", "No coupons")}</div>`;
+}
+function tCoupons(s) {
+  const mine = S.coupons.filter(c => c.show_id === s.id || !c.show_id).sort((a, b) => (b.show_id === s.id) - (a.show_id === s.id) || a.code.localeCompare(b.code));
+  return `<div class="cols">${sectorTasks(s, "Cupons")}<div class="card pad"><div class="sec-h"><h3 class="grow">${L("Cupons válidos para este show", "Coupons for this show")}</h3><button class="btn sm primary" id="addcoupon">+ ${L("Cupom", "Coupon")}</button></div>${couponRows(mine)}</div></div>`;
+}
+function tTickets(s) {
+  const ords = S.orders.filter(o => o.show_id === s.id).sort((a, b) => (b.created_at || "").localeCompare(a.created_at || ""));
+  const last = (S.settings.find(x => x.key === "eb_last_sync") || {}).value;
+  const differs = s.eb_sync_at && (num(s.eb_sync_tickets) !== num(s.eb_tickets) || Math.abs(num(s.eb_sync_net) - num(s.eb_net)) > 0.009);
+  return `<div class="cols">${sectorTasks(s, "Ingressos")}<div class="card pad">
+    <div class="sec-h wrap"><h3 class="grow">${L("Ingressos", "Tickets")}</h3><button class="btn sm" id="ebsync">${L("Sincronizar agora", "Sync now")}</button><button class="btn sm" id="edittix">${L("Editar n\u00fameros", "Edit numbers")}</button></div>
+    <div class="kpis"><div class="card kpi"><span class="muted small">Eventbrite</span><b>${num(s.eb_tickets)}</b><span class="faint small">${eur(s.eb_net)} ${L("l\u00edquido", "net")}</span></div><div class="card kpi"><span class="muted small">${L("Porta (dinheiro)", "Door (cash)")}</span><b>${num(s.cash_tickets)}</b></div><div class="card kpi"><span class="muted small">Bizum</span><b>${num(s.bizum_tickets)}</b></div><div class="card kpi"><span class="muted small">${L("Cortesia", "Free")}</span><b>${num(s.free_tickets)}</b></div></div>
+    ${differs ? `<div class="msg" style="margin-top:12px;background:var(--accent-soft);color:var(--text)">${L("O Eventbrite informa ", "Eventbrite reports ")}${num(s.eb_sync_tickets)} ${L("ingressos e ", "tickets and ")}${eur(s.eb_sync_net)} ${L("l\u00edquido. O painel usa os n\u00fameros registrados por voc\u00eas.", "net. The hub uses the figures you recorded.")} <button class="btn sm" id="usesync" style="margin-left:6px">${L("Usar os do Eventbrite", "Use Eventbrite's")}</button></div>` : ""}
+    <p class="faint small" style="margin:12px 0 0">${s.eb_event_id ? L("Ligado ao evento ", "Linked to event ") + esc(s.eb_event_id) : L("Ainda sem evento do Eventbrite ligado.", "No Eventbrite event linked yet.")}${last?.at ? " \u00b7 " + L("\u00faltima sincroniza\u00e7\u00e3o ", "last sync ") + new Intl.DateTimeFormat(LANG === "en" ? "en-GB" : "pt-BR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(last.at)) : ""}. ${L("Atualiza sozinho a cada 30 minutos.", "Updates on its own every 30 minutes.")}</p>
+    ${ords.length ? `<h3 style="margin:16px 0 8px">${L("Pedidos", "Orders")} (${ords.length})</h3><div class="tablewrap"><table><tr><th>${L("Data", "Date")}</th><th>${L("Comprador", "Buyer")}</th><th class="num">${L("Qtd", "Qty")}</th><th>${L("Cupom", "Coupon")}</th><th class="num">${L("L\u00edquido", "Net")}</th></tr>${ords.map(o => `<tr><td class="small">${o.created_at ? fdate(o.created_at.slice(0, 10), { day: "numeric", month: "short" }) : ""}</td><td>${esc(o.buyer_name || "")}</td><td class="num">${num(o.quantity)}</td><td>${o.discount_code ? `<span class="chip">${esc(o.discount_code)}</span>` : ""}</td><td class="num">${eur(o.net)}</td></tr>`).join("")}</table></div>` : ""}
+  </div></div>`;
+}
+function tMoney(s) {
+  return `<div class="cols">${sectorTasks(s, "Financeiro")}<div class="card pad">
+    <div class="sec-h"><h3 class="grow">${L("Caixa do show", "Show money")}</h3><button class="btn sm" id="editmoney">${L("Editar", "Edit")}</button></div>
+    <table>
+      <tr><td class="muted">Eventbrite (${L("líquido", "net")})</td><td class="num">${eur(s.eb_net)}</td></tr>
+      <tr><td class="muted">${L("Porta", "Door")} (${num(s.cash_tickets)} × ${eur(s.cash_price)})</td><td class="num">${eur(num(s.cash_tickets) * num(s.cash_price))}</td></tr>
+      <tr><td class="muted">Bizum (${num(s.bizum_tickets)} × ${eur(s.bizum_price)})</td><td class="num">${eur(num(s.bizum_tickets) * num(s.bizum_price))}</td></tr>
+      <tr><td class="muted">${L("Patrocínio", "Sponsorship")} ${s.sponsor_paid ? "" : `<span class="chip bad">${L("a receber", "unpaid")}</span>`}</td><td class="num">${eur(s.sponsor)}</td></tr>
+      <tr><td class="muted">${L("Cachês", "Fees")} (${num(s.headliners)} × ${eur(s.headliner_fee)} + ${num(s.guests)} × ${eur(s.guest_fee)})</td><td class="num">−${eur(fees(s))}</td></tr>
+      <tr><td><b>${L("Resultado", "Result")}</b></td><td class="num"><b>${eur(net(s))}</b></td></tr>
+      <tr><td class="muted">${L("Dinheiro com", "Money held by")}</td><td class="num">${esc(s.held_by || "—")}</td></tr>
+    </table></div></div>`;
+}
+function wireShow() {
+  const s = showById(R.showId); if (!s) return;
+  $("#back").onclick = () => go({ view: "shows" });
+  document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => go({ view: "show", showId: s.id, tab: b.dataset.tab }));
+  $("#editshow").onclick = () => modal(L("Editar show", "Edit show"), SHOW_FIELDS(), s, async row => {
+    const moved = row.date !== s.date; await save("shows", row);
+    if (moved) { const off = Object.fromEntries(template().map(t => [t.key, t.offset])); const ups = tasksOf(s.id).filter(t => !t.done && off[t.template_key] !== undefined).map(t => ({ ...t, due: addDays(row.date, off[t.template_key]) })); if (ups.length) { const { data } = DEMO ? { data: ups } : await sb.from("tasks").upsert(ups).select(); (data || []).forEach(t => { const i = S.tasks.findIndex(x => x.id === t.id); S.tasks[i] = t; }); } }
+  }, async () => { await del("shows", s.id); S.tasks = S.tasks.filter(t => t.show_id !== s.id); R.view = "shows"; });
+  $("#addt").onclick = () => editTask(null);
+  const on = (id, fn) => { const el = $(id); if (el) el.onclick = fn; };
+  on("#addlu", () => editLineup(s, null));
+  document.querySelectorAll("[data-lu]").forEach(b => b.onclick = () => editLineup(s, S.lineup.find(l => l.id === b.dataset.lu)));
+  on("#addpost", () => editPost(s, null));
+  document.querySelectorAll("[data-post]").forEach(b => b.onclick = () => editPost(s, S.instagram.find(p => p.id === b.dataset.post)));
+  on("#addad", () => editAd(s, null));
+  document.querySelectorAll("[data-ad]").forEach(b => b.onclick = () => editAd(s, S.ads.find(a => a.id === b.dataset.ad)));
+  on("#addcoupon", () => editCoupon(null, s.id));
+  document.querySelectorAll("[data-coupon]").forEach(b => b.onclick = () => editCoupon(S.coupons.find(c => c.id === b.dataset.coupon)));
+  on("#ebsync", async () => { const b = $("#ebsync"); b.disabled = true; b.textContent = L("Sincronizando...", "Syncing..."); try { await ebCall({ action: "sync", full: true }); await Promise.all(["shows", "orders", "coupons", "settings"].map(refresh)); toast(L("Eventbrite sincronizado", "Eventbrite synced")); } catch (e) { toast("Eventbrite: " + e.message); } render(); });
+  on("#usesync", async () => { await save("shows", { ...s, eb_tickets: s.eb_sync_tickets, eb_net: s.eb_sync_net }); render(); });
+  on("#edittix", () => modal(L("Ingressos", "Tickets"), [
+    { k: "eb_tickets", l: "Eventbrite", t: "number" }, { k: "eb_net", l: L("Eventbrite líquido (€)", "Eventbrite net (€)"), t: "number" },
+    { k: "cash_tickets", l: L("Porta (qtd)", "Door (qty)"), t: "number" }, { k: "cash_price", l: L("Preço porta (€)", "Door price (€)"), t: "number" },
+    { k: "bizum_tickets", l: L("Bizum (qtd)", "Bizum (qty)"), t: "number" }, { k: "bizum_price", l: L("Preço Bizum (€)", "Bizum price (€)"), t: "number" },
+    { k: "free_tickets", l: L("Cortesias", "Free"), t: "number" }, { k: "eb_url", l: L("Link do Eventbrite", "Eventbrite link"), t: "url" },
+  ], s, row => save("shows", row)));
+  on("#editmoney", () => modal(L("Caixa do show", "Show money"), [
+    { k: "sponsor", l: L("Patrocínio (€)", "Sponsorship (€)"), t: "number" }, { k: "sponsor_paid", l: L("Patrocínio já pago", "Sponsorship paid"), t: "check" },
+    { k: "headliners", l: L("Comediantes da casa", "Resident comedians"), t: "number" }, { k: "headliner_fee", l: L("Cachê por comediante (€)", "Fee per comedian (€)"), t: "number" },
+    { k: "guests", l: L("Convidados Barcelouca", "Barcelouca guests"), t: "number" }, { k: "guest_fee", l: L("Cachê convidado (€)", "Guest fee (€)"), t: "number" },
+    { k: "held_by", l: L("Dinheiro com", "Money held by"), t: "select", o: [["", "—"], ...PARTNERS.map(p => [p, p])] },
+  ], s, row => save("shows", row)));
+}
+
+/* ---------------- coupons & audience ---------------- */
+function editCoupon(c, showId) {
+  modal(c ? L("Editar cupom", "Edit coupon") : L("Novo cupom", "New coupon"), [
+    { k: "code", l: L("Código", "Code"), req: true }, { k: "percent", l: L("Desconto (%)", "Discount (%)"), t: "number" },
+    { k: "scope", l: L("Validade", "Scope"), full: true },
+    { k: "usage_limit", l: L("Limite de usos", "Usage limit"), t: "number" }, { k: "uses", l: L("Usos", "Uses"), t: "number" },
+    { k: "status", l: "Status", t: "select", o: [["Active", L("Ativo", "Active")], ["Pending", L("Pendente", "Pending")], ["Review", L("Revisar", "Review")], ["Inactive", L("Inativo", "Inactive")]] },
+    { k: "notes", l: L("Notas", "Notes"), t: "area" },
+  ], c || { status: "Active", percent: 10, show_id: showId || null }, async row => {
+    row.id = row.id || "c" + uid(); row.code = String(row.code).trim().toUpperCase();
+    const saved = await save("coupons", row);
+    if (saved.status !== "Inactive") await pushCoupon(saved);
+  }, c ? async () => {
+    if (c.eb_discount_id && c.eb_discount_id !== "manual") { try { await ebCall({ action: "delete_coupon", eb_discount_id: c.eb_discount_id }); } catch (e) { toast("Eventbrite: " + e.message); } }
+    await del("coupons", c.id);
+  } : null);
+}
+function buyers() {
+  const m = new Map();
+  S.orders.forEach(o => { const k = String(o.email || o.buyer_name || o.id).toLowerCase(); const x = m.get(k) || { name: o.buyer_name, email: o.email, shows: new Set(), qty: 0, net: 0, last: "" }; x.shows.add(o.show_id); x.qty += num(o.quantity); x.net += num(o.net); if ((o.created_at || "") > x.last) x.last = o.created_at || ""; m.set(k, x); });
+  return [...m.values()].sort((a, b) => b.shows.size - a.shows.size || b.last.localeCompare(a.last));
+}
+function vCoupons() {
+  const ss = S.signups.slice().sort((a, b) => b.created_at.localeCompare(a.created_at));
+  const bs = buyers(), back = bs.filter(b => b.shows.size > 1);
+  return `<div class="row wrap"><h1 class="grow">${L("Público", "Audience")}</h1><button class="btn primary" id="addcoupon">+ ${L("Cupom", "Coupon")}</button></div>
+  <div class="kpis sec">
+    <div class="card kpi"><span class="muted small">${L("Compradores", "Buyers")}</span><b>${bs.length}</b></div>
+    <div class="card kpi"><span class="muted small">${L("Voltaram mais de uma vez", "Came back")}</span><b>${back.length}</b><span class="faint small">${bs.length ? Math.round(back.length / bs.length * 100) : 0}%</span></div>
+    <div class="card kpi"><span class="muted small">${L("Ingressos vendidos", "Tickets sold")}</span><b>${sum(S.orders, o => o.quantity)}</b></div>
+    <div class="card kpi"><span class="muted small">${L("Cadastros no site", "Site sign-ups")}</span><b>${ss.length}</b></div>
+  </div>
+  <div class="sec"><div class="sec-h"><h2 class="grow">${L("Quem compra", "Who buys")}</h2><button class="btn sm" id="copybuyers">${L("Copiar e-mails", "Copy e-mails")}</button></div>
+  <div class="card pad"><div class="tablewrap"><table><tr><th>${L("Nome", "Name")}</th><th>E-mail</th><th class="num">Shows</th><th class="num">${L("Ingressos", "Tickets")}</th><th class="num">${L("Líquido", "Net")}</th><th>${L("Última compra", "Last purchase")}</th></tr>${bs.map(b => `<tr><td><b>${esc(b.name || "")}</b>${b.shows.size > 1 ? ` <span class="chip ok">${L("fiel", "regular")}</span>` : ""}</td><td>${esc(b.email || "")}</td><td class="num">${b.shows.size}</td><td class="num">${b.qty}</td><td class="num">${eur(b.net)}</td><td>${b.last ? fdate(madrid(b.last), { day: "numeric", month: "short" }) : ""}</td></tr>`).join("") || `<tr><td colspan="6" class="empty">${L("As vendas aparecem aqui depois da primeira sincronização com o Eventbrite.", "Sales show up here after the first Eventbrite sync.")}</td></tr>`}</table></div></div></div>
+  <div class="sec"><div class="sec-h"><h2 class="grow">${L("Cupons", "Coupons")}</h2></div><div class="card pad">${couponRows(S.coupons.slice().sort((a, b) => a.code.localeCompare(b.code)))}</div></div>
+  <div class="sec"><div class="sec-h"><h2 class="grow">${L("Cadastros do site", "Site sign-ups")} (${ss.length})</h2><button class="btn sm" id="copyemails">${L("Copiar e-mails", "Copy e-mails")}</button></div>
+  <div class="card pad"><div class="tablewrap"><table><tr><th>${L("Data", "Date")}</th><th>${L("Nome", "Name")}</th><th>E-mail</th><th>${L("Idioma", "Lang")}</th><th>${L("Cupom", "Coupon")}</th></tr>${ss.map(x => `<tr><td>${fdate(x.created_at.slice(0, 10), { day: "numeric", month: "short" })}</td><td>${esc(x.name || "")}</td><td>${esc(x.email)}</td><td>${esc(x.lang || "")}</td><td>${esc(x.coupon || "")}</td></tr>`).join("") || `<tr><td colspan="5" class="empty">—</td></tr>`}</table></div></div></div>`;
+}
+function wireCoupons() {
+  $("#addcoupon").onclick = () => editCoupon(null);
+  document.querySelectorAll("[data-coupon]").forEach(b => b.onclick = () => editCoupon(S.coupons.find(c => c.id === b.dataset.coupon)));
+  $("#copybuyers").onclick = () => { navigator.clipboard.writeText(buyers().map(b => b.email).filter(Boolean).join(", ")); toast(L("E-mails copiados", "E-mails copied")); };
+  $("#copyemails").onclick = () => { navigator.clipboard.writeText(S.signups.filter(x => !x.unsubscribed).map(x => x.email).join(", ")); toast(L("E-mails copiados", "E-mails copied")); };
+}
+
+/* ---------------- finance ---------------- */
+function vFin() {
+  const F = finance(), pay = PARTNERS.find(p => F.P[p].bal < -0.005), rec = PARTNERS.find(p => F.P[p].bal > 0.005);
+  const exps = S.expenses.slice().sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  const past = shows().filter(s => s.date <= today() || income(s));
+  return `<div class="row wrap"><h1 class="grow">${L("Financeiro", "Finance")}</h1><button class="btn" id="addpay">+ ${L("Transferência", "Transfer")}</button><button class="btn primary" id="addexp">+ ${L("Despesa", "Expense")}</button></div>
+  <div class="kpis sec">
+    <div class="card kpi"><span class="muted small">${L("Receita total", "Total income")}</span><b>${eur(F.totIncome)}</b></div>
+    <div class="card kpi"><span class="muted small">${L("Cachês", "Fees")}</span><b>${eur(F.totFees)}</b></div>
+    <div class="card kpi"><span class="muted small">${L("Despesas", "Expenses")}</span><b>${eur(F.totExp)}</b></div>
+    <div class="card kpi"><span class="muted small">${L("Patrocínio a receber", "Sponsorship owed")}</span><b>${eur(F.pending)}</b></div>
+  </div>
+  <div class="card pad sec"><h2>${L("Acerto entre sócios", "Partner settlement")}</h2>
+    <p style="font-size:16px;margin:10px 0 14px">${pay && rec ? `<b>${pay}</b> ${L("deve", "owes")} <b>${rec}</b> <b style="color:var(--accent-text)">${eur(Math.abs(F.P[pay].bal))}</b>` : L("Contas zeradas.", "All square.")}</p>
+    <div class="tablewrap"><table><tr><th></th>${PARTNERS.map(p => `<th class="num">${p}</th>`).join("")}</tr>
+      <tr><td class="muted">${L("Pagou em despesas", "Paid in expenses")}</td>${PARTNERS.map(p => `<td class="num">${eur(F.P[p].paid)}</td>`).join("")}</tr>
+      <tr><td class="muted">${L("Itens que ficaram com ele", "Items they kept")}</td>${PARTNERS.map(p => `<td class="num">${eur(F.P[p].kept)}</td>`).join("")}</tr>
+      <tr><td class="muted">${L("Dinheiro de shows com ele", "Show money held")}</td>${PARTNERS.map(p => `<td class="num">${eur(F.P[p].held)}</td>`).join("")}</tr>
+      <tr><td class="muted">${L("Transferências enviadas / recebidas", "Transfers sent / received")}</td>${PARTNERS.map(p => `<td class="num">${eur(F.P[p].out)} / ${eur(F.P[p].in)}</td>`).join("")}</tr>
+      <tr><td><b>${L("Saldo", "Balance")}</b></td>${PARTNERS.map(p => `<td class="num"><b>${eur(F.P[p].bal)}</b></td>`).join("")}</tr></table></div>
+    <p class="faint small" style="margin:10px 0 0">${L("Divisão 50/50, sem fundo de caixa. Patrocínio só entra quando pago.", "50/50 split, no cash fund. Sponsorship only counts once paid.")}</p></div>
+  <div class="cols sec">
+    <div class="card pad"><h2 style="margin-bottom:10px">${L("Shows", "Shows")}</h2><div class="tablewrap"><table><tr><th>${L("Data", "Date")}</th><th class="num">${L("Receita", "Income")}</th><th class="num">${L("Cachês", "Fees")}</th><th class="num">${L("Resultado", "Result")}</th></tr>${past.map(s => `<tr data-open="${s.id}" style="cursor:pointer"><td>${fdate(s.date, { day: "numeric", month: "short", year: "2-digit" })}</td><td class="num">${eur(income(s) + sponsorIn(s))}</td><td class="num">${eur(fees(s))}</td><td class="num"><b>${eur(net(s))}</b></td></tr>`).join("")}</table></div></div>
+    <div class="card pad"><h2 style="margin-bottom:10px">${L("Despesas", "Expenses")}</h2><div class="tablewrap"><table><tr><th>${L("Item", "Item")}</th><th>${L("Pagou", "Paid by")}</th><th class="num">${L("Valor", "Amount")}</th><th></th></tr>${exps.map(e => `<tr><td>${esc(e.item)}${e.keeper && e.keeper !== "Shared" ? `<div class="faint small">${L("Fica com ", "Kept by ")}${esc(e.keeper)}</div>` : ""}</td><td>${esc(e.paid_by || "")}</td><td class="num">${eur(e.amount)}</td><td class="num"><button class="btn ghost sm" data-exp="${e.id}">${L("Editar", "Edit")}</button></td></tr>`).join("")}</table></div>
+    ${S.payments.length ? `<h3 style="margin:16px 0 8px">${L("Transferências", "Transfers")}</h3><table>${S.payments.map(p => `<tr><td>${fdate(p.date)}</td><td>${esc(p.from_person)} → ${esc(p.to_person)}</td><td class="num">${eur(p.amount)}</td><td class="num"><button class="btn ghost sm" data-paym="${p.id}">${L("Editar", "Edit")}</button></td></tr>`).join("")}</table>` : ""}</div>
+  </div>`;
+}
+function wireFin() {
+  const expF = [{ k: "item", l: "Item", full: true, req: true }, { k: "amount", l: L("Valor (€)", "Amount (€)"), t: "number", req: true }, { k: "date", l: L("Data", "Date"), t: "date" },
+    { k: "paid_by", l: L("Quem pagou", "Paid by"), t: "select", o: PARTNERS }, { k: "keeper", l: L("Fica com", "Kept by"), t: "select", o: [["Shared", L("Dos dois", "Shared")], ...PARTNERS.map(p => [p, p])] },
+    { k: "category", l: L("Categoria", "Category"), t: "select", o: ["Equipment", "Marketing", "Consumables", "Venue", "Other"] }, { k: "notes", l: L("Notas", "Notes"), t: "area" }];
+  const payF = [{ k: "date", l: L("Data", "Date"), t: "date" }, { k: "amount", l: L("Valor (€)", "Amount (€)"), t: "number", req: true }, { k: "from_person", l: L("De", "From"), t: "select", o: PARTNERS }, { k: "to_person", l: L("Para", "To"), t: "select", o: PARTNERS.slice().reverse() }, { k: "notes", l: L("Notas", "Notes"), t: "area" }];
+  $("#addexp").onclick = () => modal(L("Nova despesa", "New expense"), expF, { date: today(), paid_by: PROFILE?.name, keeper: "Shared", category: "Equipment" }, async r => { r.id = "e" + uid(); await save("expenses", r); });
+  document.querySelectorAll("[data-exp]").forEach(b => b.onclick = () => { const e = S.expenses.find(x => x.id === b.dataset.exp); modal(L("Editar despesa", "Edit expense"), expF, e, r => save("expenses", r), async () => del("expenses", e.id)); });
+  $("#addpay").onclick = () => modal(L("Nova transferência", "New transfer"), payF, { date: today() }, async r => { r.id = "t" + uid(); await save("payments", r); });
+  document.querySelectorAll("[data-paym]").forEach(b => b.onclick = () => { const p = S.payments.find(x => x.id === b.dataset.paym); modal(L("Editar transferência", "Edit transfer"), payF, p, r => save("payments", r), async () => del("payments", p.id)); });
+  document.querySelectorAll("[data-open]").forEach(c => c.onclick = () => go({ view: "show", showId: c.dataset.open, tab: "Financeiro" }));
+}
+
+/* ---------------- team ---------------- */
+const ROLES = () => [["admin", "Admin"], ["producao", L("Produção", "Production")], ["social", "Social media"]];
+function vTeam() {
+  const isAdmin = PROFILE?.role === "admin";
+  return `<div class="row wrap"><h1 class="grow">${L("Equipe", "Team")}</h1>${isAdmin ? `<button class="btn primary" id="invite">+ ${L("Convidar pessoa", "Invite someone")}</button>` : ""}</div>
+  <div class="card pad sec"><div class="tablewrap"><table><tr><th>${L("Nome", "Name")}</th><th>E-mail</th><th>${L("Papel", "Role")}</th><th>Status</th><th></th></tr>
+  ${S.profiles.map(p => `<tr><td><b>${esc(p.name)}</b>${p.id === ME.id ? ` <span class="chip">${L("você", "you")}</span>` : ""}</td><td>${esc(p.email)}</td><td>${esc((ROLES().find(r => r[0] === p.role) || [0, p.role])[1])}</td><td><span class="chip ${p.active ? "ok" : "bad"}">${p.active ? L("Ativo", "Active") : L("Desativado", "Disabled")}</span></td><td class="num">${isAdmin && p.id !== ME.id ? `<button class="btn ghost sm" data-prof="${p.id}">${L("Editar", "Edit")}</button>` : ""}</td></tr>`).join("")}</table></div>
+  <p class="faint small" style="margin:12px 0 0">${L("O convite chega por e-mail com um link para a pessoa criar a própria senha. Comediantes e convidados não têm acesso ao painel.", "The invite arrives by e-mail with a link to create a password. Comedians have no access to the hub.")}</p></div>`;
+}
+function wireTeam() {
+  const inv = $("#invite"); if (inv) inv.onclick = () => modal(L("Convidar pessoa", "Invite someone"), [
+    { k: "name", l: L("Nome", "Name"), req: true }, { k: "email", l: "E-mail", t: "email", req: true }, { k: "role", l: L("Papel", "Role"), t: "select", o: ROLES() },
+  ], { role: "admin" }, async r => {
+    if (DEMO) throw new Error(L("Na demonstração não dá para convidar.", "Invites are off in demo mode."));
+    const { data, error } = await sb.functions.invoke("invite-user", { body: { email: r.email.trim(), name: r.name.trim(), role: r.role } });
+    if (error || data?.error) throw new Error(data?.error || error.message);
+    await loadAll(); toast(L("Convite enviado para ", "Invite sent to ") + r.email); logAct("user_invited", { email: r.email, by: PROFILE?.name });
+  });
+  document.querySelectorAll("[data-prof]").forEach(b => b.onclick = () => { const p = S.profiles.find(x => x.id === b.dataset.prof); modal(L("Editar pessoa", "Edit person"), [
+    { k: "name", l: L("Nome", "Name"), req: true }, { k: "role", l: L("Papel", "Role"), t: "select", o: ROLES() }, { k: "active", l: L("Acesso ativo", "Access active"), t: "check" },
+  ], p, r => save("profiles", { id: r.id, name: r.name, role: r.role, active: r.active, email: r.email, lang: r.lang })); });
+}
+
+/* ---------------- boot ---------------- */
+function readHashRoute() {
+  const h = location.hash.slice(1); if (!h || h.includes("access_token") || h.includes("error")) return;
+  const [v, id, tab] = h.split("/");
+  if (v === "show" && id) R = { ...R, view: "show", showId: id, tab: tab || "overview" }; else if (NAV.some(n => n[0] === v)) R.view = v; else if (v === "coupons") R.view = "publico";
+}
+function viewSetup() {
+  $("#app").innerHTML = authShell(`
+    <h1>${L("Painel ainda não conectado", "Hub not connected yet")}</h1>
+    <p class="muted small">${L("Falta ligar o banco de dados (Supabase) do Brasileuros. Enquanto isso, veja como o painel fica com números de exemplo.", "The Brasileuros database (Supabase) is not linked yet. Meanwhile, see the hub with sample numbers.")}</p>
+    <div style="display:grid;gap:10px;margin-top:18px"><button class="btn primary" id="demo" style="justify-content:center">${L("Ver demonstração", "See demo")}</button></div>
+    <div class="row" style="margin-top:14px;justify-content:center">${langBtn()}</div>`);
+  $("#demo").onclick = enterDemo; wireLang();
+}
+async function boot() {
+  if (!sb) { if (location.search.includes("demo")) enterDemo(); else viewSetup(); return; }
+  const { data: { session } } = await sb.auth.getSession();
+  ME = session?.user || null;
+  if (!ME) { viewLogin(AUTH_ERR ? { text: /expired|invalid/i.test(AUTH_ERR) ? L("Este link expirou ou já foi usado. Peça um novo.", "This link has expired or was already used. Ask for a new one.") : AUTH_ERR } : null); return; }
+  const { data: prof } = await sb.from("profiles").select("*").eq("id", ME.id).maybeSingle();
+  PROFILE = prof;
+  if (!PROFILE || !PROFILE.active) { await sb.auth.signOut(); PROFILE = null; viewLogin({ text: L("Seu acesso está desativado. Fale com um admin.", "Your access is disabled. Talk to an admin.") }); return; }
+  if (AUTH_TYPE === "invite" || AUTH_TYPE === "recovery") { viewSetPassword(AUTH_TYPE === "invite"); return; }
+  $("#app").innerHTML = `<div class="loading">${L("Carregando...", "Loading...")}</div>`;
+  try { await loadAll(); } catch (e) { $("#app").innerHTML = `<div class="loading">${esc(e.message)}</div>`; return; }
+  readHashRoute(); render();
+}
+if (sb) sb.auth.onAuthStateChange((ev) => { if (ev === "PASSWORD_RECOVERY") { AUTH_TYPE = "recovery"; } if (ev === "SIGNED_IN" && !PROFILE) setTimeout(boot, 0); });
+boot();
+</script>
+</body>
+</html>
