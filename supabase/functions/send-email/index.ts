@@ -29,8 +29,35 @@ async function staff(req: Request) {
   return p?.active ? p : null;
 }
 
-// ---------- cupom do comediante ----------
+/* ---- visual padrão dos e-mails do Brasileuros (mesmo do e-mail de boas-vindas CHORINHO10) ---- */
+const BX_SITE = "https://www.brasileuros.com";
+const bxEsc = (v: unknown) => String(v ?? "").replace(/[&<>"]/g, (c: string) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" } as Record<string, string>)[c]);
+const bxT = (html: string, style?: string) => `<div class="gs"><div class="gd" style="color:#ffffff;${style || ""}">${html}</div></div>`;
+const bxBtn = (text: string, href: string) => `<table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:22px auto 0"><tr><td align="center" bgcolor="#ffd400" style="background:#ffd400;background-image:linear-gradient(#ffd400,#ffd400);border-radius:999px"><a href="${bxEsc(href)}" style="display:inline-block;padding:16px 34px;font:bold 17px Arial,Helvetica,sans-serif;color:#0b1f4d;text-decoration:none;border-radius:999px">${bxEsc(text)}</a></td></tr></table>`;
+const bxCard = (html: string) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#1e74b8" style="background:#1e74b8;background-image:linear-gradient(#1e74b8,#1e74b8);border-radius:14px"><tr><td style="padding:18px 20px">${bxT(html, "font-size:15px;line-height:1.7")}</td></tr></table>`;
+function bxShell(o: { title?: string; preheader?: string; inner: string; foot?: string }) {
+  const bg = (c: string) => `bgcolor="${c}" style="background:${c};background-image:linear-gradient(${c},${c});`;
+  return `<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark">
+<title>${bxEsc(o.title || "Brasileuros")}</title>
+<style>u+.body .gs{background:#000;mix-blend-mode:screen}u+.body .gd{background:#000;mix-blend-mode:difference}</style></head>
+<body class="body" style="margin:0;padding:0;background:#0b1f4d" bgcolor="#0b1f4d">
+<div style="display:none;max-height:0;overflow:hidden">${bxEsc(o.preheader || "")}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" ${bg("#0b1f4d")}"><tr><td align="center" style="padding:20px 10px">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;font-family:Arial,Helvetica,sans-serif">
+<tr><td align="center" ${bg("#1e74b8")}border-radius:18px 18px 0 0;overflow:hidden;font-size:0;line-height:0"><a href="${BX_SITE}/"><img src="${BX_SITE}/assets/email-header.png" width="600" alt="Brasileuros – Comédia do Nosso Jeitinho" style="display:block;width:100%;max-width:600px;height:auto;border:0"></a></td></tr>
+<tr><td ${bg("#ffd400")}height:6px;line-height:6px;font-size:0">&nbsp;</td></tr>
+<tr><td ${bg("#102a63")}padding:30px 28px 30px">${o.inner}</td></tr>
+<tr><td align="center" ${bg("#071433")}border-radius:0 0 18px 18px;padding:24px 22px">
+${bxT(`<p style="margin:0 0 12px"><a href="https://www.instagram.com/osbrasileuros/" style="color:#ffffff;text-decoration:underline;font-weight:bold">Instagram</a> &nbsp;·&nbsp; <a href="https://www.tiktok.com/@osbrasileuros" style="color:#ffffff;text-decoration:underline;font-weight:bold">TikTok</a> &nbsp;·&nbsp; <a href="https://www.youtube.com/@osbrasileuros" style="color:#ffffff;text-decoration:underline;font-weight:bold">YouTube</a> &nbsp;·&nbsp; <a href="${BX_SITE}/" style="color:#ffffff;text-decoration:underline;font-weight:bold">brasileuros.com</a></p>${o.foot ? `<p style="margin:0;color:#ffffff">${o.foot}</p>` : ""}`, "font-size:13px;line-height:1.6")}
+</td></tr>
+</table></td></tr></table></body></html>`;
+}
+
+// ---------- cupom ----------
 const fdate = (d: string) => new Date(d + "T12:00:00Z").toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Madrid" });
+const cap1 = (x: string) => x.charAt(0).toUpperCase() + x.slice(1);
 function withDiscount(url: string, code: string) { try { const u = new URL(url); u.searchParams.set("discount", code); return u.toString(); } catch { return null; } }
 async function sendCoupon(id: string, mailer: any, me: any) {
   const { data: c } = await db.from("coupons").select("*").eq("id", id).maybeSingle();
@@ -51,24 +78,20 @@ async function sendCoupon(id: string, mailer: any, me: any) {
   const link = show?.eb_url ? withDiscount(show.eb_url, c.code) : null;
   const name = first(c.owner_name || com?.name);
   const isComic = !!com;
-  const when = show?.date ? fdate(show.date) + (show.time ? " às " + String(show.time).slice(0, 5) : "") : "";
-  const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;background:#3772B4;font-family:Inter,Arial,sans-serif;color:#0f1e3b">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#3772B4"><tr><td align="center" style="padding:28px 14px">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px">
-<tr><td align="center" style="padding:0 0 20px"><img src="https://www.brasileuros.com/assets/logo.webp" alt="Brasileuros" height="44" style="height:44px"></td></tr>
-<tr><td style="background:#ffffff;border-radius:18px;padding:28px 26px">
-<p style="margin:0 0 14px;font-size:20px;font-weight:800">Oi, ${esc(name || "")}!</p>
-<p style="margin:0 0 14px;font-size:15.5px;line-height:1.55">${isComic ? `Que bom ter você no palco do Brasileuros` : `Aqui está o seu cupom do Brasileuros`}${when ? ` para <b>${esc(when)}</b>` : ""}${show?.venue ? `, no ${esc(show.venue)}` : ""}. ${isComic ? "Criamos um cupom com o seu nome para você divulgar: quem" : "Quem"} usar ganha <b>${Number(c.percent) || 10}% de desconto</b> no ingresso.</p>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:18px 0"><tr><td align="center" style="background:#0f1e3b;border-radius:14px;padding:16px">
-<div style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#cfdcf0">Seu cupom</div>
-<div style="font-size:30px;font-weight:800;letter-spacing:.04em;color:#FDD929;margin-top:4px">${esc(c.code)}</div></td></tr></table>
-${link ? `<p style="margin:0 0 10px;font-size:15.5px;line-height:1.55">Se preferir, mande direto este link: ele já abre o Eventbrite com o desconto aplicado.</p>
-<table role="presentation" cellpadding="0" cellspacing="0" style="margin:6px 0 14px"><tr><td style="background:#FDD929;border-radius:999px"><a href="${esc(link)}" style="display:inline-block;padding:13px 22px;font-weight:800;color:#0f1e3b;text-decoration:none;font-size:15px">Ingresso com ${Number(c.percent) || 10}% off</a></td></tr></table>
-<p style="margin:0 0 14px;font-size:12.5px;color:#5b6b84;word-break:break-all">${esc(link)}</p>` : ""}
-<p style="margin:0;font-size:15.5px;line-height:1.55">A pessoa pode digitar o nome do cupom no Eventbrite ou usar o link, os dois funcionam. ${isComic ? "Nos vemos no palco!" : "Nos vemos no show!"}</p>
-<p style="margin:16px 0 0;font-size:15.5px;font-weight:700">Patrick e Pipo · Brasileuros</p>
-</td></tr></table></td></tr></table></body></html>`;
+  const when = show?.date ? cap1(fdate(show.date)) + (show.time ? ", " + String(show.time).slice(0, 5).replace(":", "h") : "") : "";
+  const pct = Number(c.percent) || 10;
+  const hi = name ? `Oi, ${esc(name)}!` : "Oi!";
+  const inner = bxT(`<p style="margin:0 0 14px;font-size:24px;font-weight:bold;color:#ffffff">${hi}</p>
+    <p style="margin:0 0 20px;color:#ffffff">${isComic ? "Seu cupom pra divulgar o show:" : "Seu cupom pro Brasileuros:"}</p>`, "font-size:16px;line-height:1.55") + `
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#ffd400" style="background:#ffd400;background-image:linear-gradient(#ffd400,#ffd400);border-radius:16px"><tr><td align="center" style="padding:22px 16px">
+      <div style="font:bold 12px Arial,Helvetica,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#0b1f4d">Seu cupom</div>
+      <div style="font:900 40px/1.1 'Arial Black',Arial,Helvetica,sans-serif;letter-spacing:.04em;color:#0b1f4d;margin:6px 0 4px">${esc(c.code)}</div>
+      <div style="font:bold 15px Arial,Helvetica,sans-serif;color:#0b1f4d">${pct}% de desconto no ingresso</div>
+    </td></tr></table>
+    ${link ? bxBtn(`Comprar com ${pct}% off`, link) : ""}
+    ${bxT(`<p style="margin:16px 0 0;font-size:14px;line-height:1.55;text-align:center;color:#ffffff">${link ? "Ou digite o cupom no Eventbrite." : "Use o cupom no Eventbrite, no campo de código promocional."}</p>`)}
+    ${when ? `<div style="height:22px;line-height:22px;font-size:0">&nbsp;</div>` + bxCard(`<b style="color:#ffffff">${esc(when)}</b>${show?.venue ? `<br>${esc(show.venue)} · Barcelona` : ""}`) : ""}`;
+  const html = bxShell({ title: `Seu cupom ${c.code}`, preheader: `${pct}% de desconto no Brasileuros`, inner, foot: isComic ? "Quem usar o cupom ou o link ganha o desconto." : "Um uso por pessoa." });
   await mailer.sendMail({ from: FROM, to, subject: `Seu cupom do Brasileuros: ${c.code}`, html });
   await db.from("email_log").insert({ recipient: to, template: tpl, status: "sent", detail: { link } });
   await db.from("activity_log").insert({ user_id: me.id, action: "coupon_sent", detail: { coupon: c.code, to } });

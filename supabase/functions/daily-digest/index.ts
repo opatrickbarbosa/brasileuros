@@ -32,52 +32,54 @@ const owns = (owner: string | null, name: string) => {
   return !!me && String(owner || "").split("+").some((o) => { o = o.trim().toLowerCase(); return !!o && (o === me || o.startsWith(me) || me.startsWith(o)); });
 };
 
+/* ---- visual padrão dos e-mails do Brasileuros (mesmo do e-mail de boas-vindas CHORINHO10) ---- */
+const BX_SITE = "https://www.brasileuros.com";
+const bxEsc = (v: unknown) => String(v ?? "").replace(/[&<>"]/g, (c: string) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" } as Record<string, string>)[c]);
+const bxT = (html: string, style?: string) => `<div class="gs"><div class="gd" style="color:#ffffff;${style || ""}">${html}</div></div>`;
+const bxBtn = (text: string, href: string) => `<table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:22px auto 0"><tr><td align="center" bgcolor="#ffd400" style="background:#ffd400;background-image:linear-gradient(#ffd400,#ffd400);border-radius:999px"><a href="${bxEsc(href)}" style="display:inline-block;padding:16px 34px;font:bold 17px Arial,Helvetica,sans-serif;color:#0b1f4d;text-decoration:none;border-radius:999px">${bxEsc(text)}</a></td></tr></table>`;
+const bxCard = (html: string) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#1e74b8" style="background:#1e74b8;background-image:linear-gradient(#1e74b8,#1e74b8);border-radius:14px"><tr><td style="padding:18px 20px">${bxT(html, "font-size:15px;line-height:1.7")}</td></tr></table>`;
+function bxShell(o: { title?: string; preheader?: string; inner: string; foot?: string }) {
+  const bg = (c: string) => `bgcolor="${c}" style="background:${c};background-image:linear-gradient(${c},${c});`;
+  return `<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark">
+<title>${bxEsc(o.title || "Brasileuros")}</title>
+<style>u+.body .gs{background:#000;mix-blend-mode:screen}u+.body .gd{background:#000;mix-blend-mode:difference}</style></head>
+<body class="body" style="margin:0;padding:0;background:#0b1f4d" bgcolor="#0b1f4d">
+<div style="display:none;max-height:0;overflow:hidden">${bxEsc(o.preheader || "")}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" ${bg("#0b1f4d")}"><tr><td align="center" style="padding:20px 10px">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;font-family:Arial,Helvetica,sans-serif">
+<tr><td align="center" ${bg("#1e74b8")}border-radius:18px 18px 0 0;overflow:hidden;font-size:0;line-height:0"><a href="${BX_SITE}/"><img src="${BX_SITE}/assets/email-header.png" width="600" alt="Brasileuros – Comédia do Nosso Jeitinho" style="display:block;width:100%;max-width:600px;height:auto;border:0"></a></td></tr>
+<tr><td ${bg("#ffd400")}height:6px;line-height:6px;font-size:0">&nbsp;</td></tr>
+<tr><td ${bg("#102a63")}padding:30px 28px 30px">${o.inner}</td></tr>
+<tr><td align="center" ${bg("#071433")}border-radius:0 0 18px 18px;padding:24px 22px">
+${bxT(`<p style="margin:0 0 12px"><a href="https://www.instagram.com/osbrasileuros/" style="color:#ffffff;text-decoration:underline;font-weight:bold">Instagram</a> &nbsp;·&nbsp; <a href="https://www.tiktok.com/@osbrasileuros" style="color:#ffffff;text-decoration:underline;font-weight:bold">TikTok</a> &nbsp;·&nbsp; <a href="https://www.youtube.com/@osbrasileuros" style="color:#ffffff;text-decoration:underline;font-weight:bold">YouTube</a> &nbsp;·&nbsp; <a href="${BX_SITE}/" style="color:#ffffff;text-decoration:underline;font-weight:bold">brasileuros.com</a></p>${o.foot ? `<p style="margin:0;color:#ffffff">${o.foot}</p>` : ""}`, "font-size:13px;line-height:1.6")}
+</td></tr>
+</table></td></tr></table></body></html>`;
+}
+
 export function digestHTML(p: {
   name: string; dateLabel: string; sold: number; net: number; nextLabel: string | null; nextSold: number; nextCap: number; daysTo: number | null;
   tonight: boolean; tasks: { title: string; sub: string; color: string }[]; late: { title: string; sub: string; color: string }[];
 }) {
   const pct = p.nextCap ? Math.min(100, Math.round(p.nextSold / p.nextCap * 100)) : 0;
-  const box = (t: { title: string; sub: string; color: string }, late = false) => `
-    <tr><td style="padding:0 0 8px">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${late ? "#fdecea" : "#f4f7fb"};border-radius:12px"><tr>
-        <td width="44" valign="top" style="padding:14px 0 14px 14px"><div style="width:20px;height:20px;border:2px solid ${late ? "#c8240d" : "#3772B4"};border-radius:6px;background:#ffffff"></div></td>
-        <td style="padding:12px 14px 12px 0;font-family:Arial,Helvetica,sans-serif">
-          <div style="font-size:15px;line-height:1.35;font-weight:700;color:#0f1e3b">${esc(t.title)}</div>
-          <div style="font-size:12.5px;line-height:1.4;color:#5b6b84;margin-top:3px"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${t.color};margin-right:6px;vertical-align:middle"></span>${esc(t.sub)}</div>
-        </td></tr></table>
-    </td></tr>`;
-  return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"></head>
-<body style="margin:0;background:#3772B4;padding:0">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#3772B4"><tr><td align="center" style="padding:26px 12px">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:540px">
-  <tr><td style="padding:0 6px 18px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-    <td><img src="https://www.brasileuros.com/assets/email-logo.png" alt="Brasileuros" height="38" style="display:block;height:38px"></td>
-    <td align="right" style="font:600 13px Arial,Helvetica,sans-serif;color:#cfe0f5">${esc(p.dateLabel)}</td></tr></table></td></tr>
-  <tr><td style="background:#ffffff;border-radius:20px;padding:24px 22px 8px">
-    <div style="font:800 22px/1.25 Arial,Helvetica,sans-serif;color:#0f1e3b;margin:0 0 16px">Bom dia, ${esc(p.name)}!</div>
+  const row = (t: { title: string; sub: string }, late = false) => `<tr><td width="34" valign="top" style="padding:14px 0 14px 0"><div style="width:18px;height:18px;border:2px solid ${late ? "#ff8f80" : "#ffd400"};border-radius:5px"></div></td>
+    <td style="padding:12px 0;border-bottom:1px solid #24427f">${bxT(`<div style="font-size:16px;font-weight:bold;line-height:1.35;color:#ffffff">${esc(t.title)}</div><div style="font-size:13px;line-height:1.4;color:${late ? "#ffb4aa" : "#b9cbec"};margin-top:2px">${esc(t.sub)}</div>`)}</td></tr>`;
+  const tile = (bgc: string, label: string, big: string, sub: string, ink: string) => `<td width="50%" valign="top" style="padding:0 5px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="${bgc}" style="background:${bgc};background-image:linear-gradient(${bgc},${bgc});border-radius:14px"><tr><td style="padding:16px 16px 14px">
+    <div style="font:bold 11px Arial,Helvetica,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:${ink}">${label}</div>
+    <div style="font:900 38px/1.1 'Arial Black',Arial,Helvetica,sans-serif;color:${ink};margin-top:4px">${big}</div>
+    <div style="font:13px/1.4 Arial,Helvetica,sans-serif;color:${ink};margin-top:4px">${sub}</div></td></tr></table></td>`;
+  const inner = bxT(`<p style="margin:0 0 4px;font-size:24px;font-weight:bold;color:#ffffff">Bom dia, ${esc(p.name)}!</p><p style="margin:0 0 20px;font-size:14px;color:#b9cbec">${esc(p.dateLabel)}</p>`) + `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-      <td width="50%" valign="top" style="padding-right:6px"><div style="background:#0f1e3b;border-radius:16px;padding:16px">
-        <div style="font:600 11px Arial,Helvetica,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#cfdcf0">Vendas de ontem</div>
-        <div style="font:800 40px/1.05 Arial,Helvetica,sans-serif;color:#FDD929;margin-top:6px">${p.sold}</div>
-        <div style="font:13px Arial,Helvetica,sans-serif;color:#cfdcf0;margin-top:2px">ingresso${p.sold === 1 ? "" : "s"} · ${esc(eur(p.net))}</div>
-      </div></td>
-      <td width="50%" valign="top" style="padding-left:6px"><div style="background:#FDD929;border-radius:16px;padding:16px">
-        <div style="font:600 11px Arial,Helvetica,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#5c4a00">${p.tonight ? "Show hoje" : "Próximo show"}</div>
-        ${p.nextLabel ? `<div style="font:800 40px/1.05 Arial,Helvetica,sans-serif;color:#0f1e3b;margin-top:6px">${p.nextSold}<span style="font-size:18px;color:#5c4a00">/${p.nextCap}</span></div>
-        <div style="height:6px;border-radius:6px;background:rgba(15,30,59,.15);margin:8px 0 6px"><div style="height:6px;border-radius:6px;background:#0f1e3b;width:${pct}%"></div></div>
-        <div style="font:13px Arial,Helvetica,sans-serif;color:#3d3200">${esc(p.nextLabel)}${p.daysTo != null && p.daysTo > 0 ? ` · faltam ${p.daysTo} dia${p.daysTo === 1 ? "" : "s"}` : ""}</div>`
-        : `<div style="font:700 16px Arial,Helvetica,sans-serif;color:#0f1e3b;margin-top:10px">Nenhum show marcado</div>`}
-      </div></td></tr></table>
-    <div style="font:800 16px Arial,Helvetica,sans-serif;color:#0f1e3b;margin:24px 0 10px">Para fazer hoje <span style="display:inline-block;background:#3772B4;color:#fff;border-radius:999px;font-size:12px;padding:2px 9px;vertical-align:2px">${p.tasks.length}</span></div>
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-      ${p.tasks.length ? p.tasks.map((t) => box(t)).join("") : `<tr><td style="padding:14px;border-radius:12px;background:#eef8f0;font:14px Arial,Helvetica,sans-serif;color:#2c6b3a">Nada para hoje. Aproveite!</td></tr>`}
-    </table>
-    ${p.late.length ? `<div style="font:800 14px Arial,Helvetica,sans-serif;color:#c8240d;margin:16px 0 10px">Ficaram para trás (${p.late.length})</div>
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${p.late.map((t) => box(t, true)).join("")}</table>` : ""}
-    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:18px 0 18px"><tr><td style="background:#3772B4;border-radius:999px"><a href="${HUB}" style="display:inline-block;padding:13px 22px;font:700 14px Arial,Helvetica,sans-serif;color:#ffffff;text-decoration:none">Abrir o painel</a></td></tr></table>
-  </td></tr>
-  <tr><td style="padding:14px 8px;font:12px/1.5 Arial,Helvetica,sans-serif;color:#cfe0f5">Resumo diário do painel do Brasileuros. Para mudar horário ou quem recebe: Configurações no painel.</td></tr>
-</table></td></tr></table></body></html>`;
+      ${tile("#1e74b8", "Ontem", String(p.sold), `ingresso${p.sold === 1 ? "" : "s"} vendido${p.sold === 1 ? "" : "s"} · ${esc(eur(p.net))}`, "#ffffff")}
+      ${tile("#ffd400", p.tonight ? "Show hoje" : "Próximo show", p.nextLabel ? `${p.nextSold}<span style="font-size:18px">/${p.nextCap}</span>` : "—", p.nextLabel ? `${esc(p.nextLabel)}${p.daysTo != null && p.daysTo > 0 ? ` · em ${p.daysTo} dia${p.daysTo === 1 ? "" : "s"}` : ""}` : "Nenhum show marcado", "#0b1f4d")}
+    </tr></table>
+    ${bxT(`<p style="margin:26px 0 4px;font-size:18px;font-weight:bold;color:#ffffff">Para hoje${p.tasks.length ? ` (${p.tasks.length})` : ""}</p>`)}
+    ${p.tasks.length ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${p.tasks.map((t) => row(t)).join("")}</table>` : bxT(`<p style="margin:8px 0 0;font-size:15px;color:#b9cbec">Nada para hoje.</p>`)}
+    ${p.late.length ? bxT(`<p style="margin:22px 0 4px;font-size:15px;font-weight:bold;color:#ff8f80">Atrasadas (${p.late.length})</p>`) + `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${p.late.map((t) => row(t, true)).join("")}</table>` : ""}
+    ${bxBtn("Abrir o painel", HUB)}`;
+  void pct;
+  return bxShell({ title: "Resumo do dia", preheader: `${p.sold} venda${p.sold === 1 ? "" : "s"} ontem · ${p.tasks.length} tarefa${p.tasks.length === 1 ? "" : "s"} hoje`, inner, foot: "Resumo diário do painel. Horário e quem recebe: Configurações." });
 }
 
 async function staffFrom(req: Request) {

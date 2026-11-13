@@ -1349,30 +1349,42 @@ function emailDefaults() {
     title: L("Bora rir em português?", "Up for a laugh in Portuguese?"), body: L("Oi, {{NOME}}!\n\nNesta quarta tem Brasileuros – Comédia do Nosso Jeitinho no Bar La Chirigota. Patrick, Pipo e um convidado especial do Barcelouca contando os perrengues de ser brasileiro em Barcelona.\n\nCerveja a 2 € a partir das 18:30. Os lugares são poucos.", "Hi {{NOME}}!\n\nThis Wednesday it's Brasileuros at Bar La Chirigota."),
     image: SITE + "/assets/email-duo.jpg", cta_text: L("Quero meu lugar · 7 €", "Save my seat · €7"), cta_url: nx?.eb_url || SITE + "/entradas", show_id: nx?.id || null, audience: "all" };
 }
+/* ---- visual padrão dos e-mails do Brasileuros (mesmo do e-mail de boas-vindas CHORINHO10) ---- */
+const BX_SITE = SITE;
+const bxEsc = (v) => String(v ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const bxT = (html, style) => `<div class="gs"><div class="gd" style="color:#ffffff;${style || ""}">${html}</div></div>`;
+const bxBtn = (text, href) => `<table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:22px auto 0"><tr><td align="center" bgcolor="#ffd400" style="background:#ffd400;background-image:linear-gradient(#ffd400,#ffd400);border-radius:999px"><a href="${bxEsc(href)}" style="display:inline-block;padding:16px 34px;font:bold 17px Arial,Helvetica,sans-serif;color:#0b1f4d;text-decoration:none;border-radius:999px">${bxEsc(text)}</a></td></tr></table>`;
+const bxCard = (html) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#1e74b8" style="background:#1e74b8;background-image:linear-gradient(#1e74b8,#1e74b8);border-radius:14px"><tr><td style="padding:18px 20px">${bxT(html, "font-size:15px;line-height:1.7")}</td></tr></table>`;
+function bxShell(o) {
+  const bg = (c) => `bgcolor="${c}" style="background:${c};background-image:linear-gradient(${c},${c});`;
+  return `<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark">
+<title>${bxEsc(o.title || "Brasileuros")}</title>
+<style>u+.body .gs{background:#000;mix-blend-mode:screen}u+.body .gd{background:#000;mix-blend-mode:difference}</style></head>
+<body class="body" style="margin:0;padding:0;background:#0b1f4d" bgcolor="#0b1f4d">
+<div style="display:none;max-height:0;overflow:hidden">${bxEsc(o.preheader || "")}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" ${bg("#0b1f4d")}"><tr><td align="center" style="padding:20px 10px">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;font-family:Arial,Helvetica,sans-serif">
+<tr><td align="center" ${bg("#1e74b8")}border-radius:18px 18px 0 0;overflow:hidden;font-size:0;line-height:0"><a href="${BX_SITE}/"><img src="${BX_SITE}/assets/email-header.png" width="600" alt="Brasileuros – Comédia do Nosso Jeitinho" style="display:block;width:100%;max-width:600px;height:auto;border:0"></a></td></tr>
+<tr><td ${bg("#ffd400")}height:6px;line-height:6px;font-size:0">&nbsp;</td></tr>
+<tr><td ${bg("#102a63")}padding:30px 28px 30px">${o.inner}</td></tr>
+<tr><td align="center" ${bg("#071433")}border-radius:0 0 18px 18px;padding:24px 22px">
+${bxT(`<p style="margin:0 0 12px"><a href="https://www.instagram.com/osbrasileuros/" style="color:#ffffff;text-decoration:underline;font-weight:bold">Instagram</a> &nbsp;·&nbsp; <a href="https://www.tiktok.com/@osbrasileuros" style="color:#ffffff;text-decoration:underline;font-weight:bold">TikTok</a> &nbsp;·&nbsp; <a href="https://www.youtube.com/@osbrasileuros" style="color:#ffffff;text-decoration:underline;font-weight:bold">YouTube</a> &nbsp;·&nbsp; <a href="${BX_SITE}/" style="color:#ffffff;text-decoration:underline;font-weight:bold">brasileuros.com</a></p>${o.foot ? `<p style="margin:0;color:#ffffff">${o.foot}</p>` : ""}`, "font-size:13px;line-height:1.6")}
+</td></tr>
+</table></td></tr></table></body></html>`;
+}
+
+const cap1 = x => String(x).charAt(0).toUpperCase() + String(x).slice(1);
 function emailHTML(c) {
   const s = c.show_id ? showById(c.show_id) : null, slug = slugify(c.subject);
-  const p = String(c.body || "").split(/\n{2,}/).map(x => `<p style="margin:0 0 16px;font:16px/1.55 Arial,Helvetica,sans-serif;color:#1d2b44">${esc(x).replace(/\n/g, "<br>").replace(/\{\{NOME\}\}/g, "{{NOME}}")}</p>`).join("");
-  const info = s ? `<tr><td style="padding:0 32px 8px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef4fb;border-radius:12px"><tr>
-      <td style="padding:14px 16px;font:700 15px/1.4 Arial,Helvetica,sans-serif;color:#1f74b9">${esc(fdate(s.date, { weekday: "long", day: "numeric", month: "long" }))}<br><span style="font-weight:400;color:#1d2b44">${esc(s.time || "19:30")} · ${esc(s.venue || "Bar La Chirigota")} · Barcelona</span></td>
-      <td align="right" style="padding:14px 16px;font:800 22px Arial,Helvetica,sans-serif;color:#1d2b44;white-space:nowrap">7&nbsp;€</td></tr></table></td></tr>` : "";
-  const img = c.image ? `<tr><td style="padding:0"><img src="${esc(c.image.startsWith("http") ? c.image : SITE + c.image)}" width="600" alt="" style="display:block;width:100%;max-width:600px;height:auto;border:0"></td></tr>` : "";
-  return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>${esc(c.subject)}</title></head>
-<body style="margin:0;padding:0;background:#dfe9f5">
-<div style="display:none;max-height:0;overflow:hidden;opacity:0">${esc(c.preheader || "")}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#dfe9f5"><tr><td align="center" style="padding:24px 10px">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#ffffff;border-radius:18px;overflow:hidden">
-  <tr><td style="background:#1f74b9;padding:0"><a href="${SITE}/?utm_source=email&utm_medium=email&utm_campaign=${slug}"><img src="${SITE}/assets/email-header.png" width="600" alt="Brasileuros – Comédia do Nosso Jeitinho" style="display:block;width:100%;max-width:600px;height:auto;border:0"></a></td></tr>
-  ${img}
-  <tr><td style="padding:28px 32px 6px;font:900 28px/1.15 'Arial Black',Arial,Helvetica,sans-serif;color:#1f74b9">${esc(c.title || "")}</td></tr>
-  <tr><td style="padding:10px 32px 4px">${p}</td></tr>
-  ${info}
-  ${c.cta_text ? `<tr><td align="center" style="padding:18px 32px 30px"><a href="${esc(utm(c.cta_url || SITE + "/entradas", slug))}" style="display:inline-block;background:#FDD929;color:#0f1e3b;text-decoration:none;font:800 17px Arial,Helvetica,sans-serif;padding:16px 34px;border-radius:999px;border-bottom:4px solid #c9a600">${esc(c.cta_text)}</a></td></tr>` : ""}
-  <tr><td style="background:#1f74b9;padding:22px 32px;text-align:center;font:13px/1.6 Arial,Helvetica,sans-serif;color:#d8e6f6">
-    <a href="https://www.instagram.com/osbrasileuros/" style="color:#FDD929;text-decoration:none;font-weight:700">Instagram</a> &nbsp;·&nbsp; <a href="https://www.tiktok.com/@osbrasileuros" style="color:#FDD929;text-decoration:none;font-weight:700">TikTok</a> &nbsp;·&nbsp; <a href="https://www.youtube.com/@osbrasileuros" style="color:#FDD929;text-decoration:none;font-weight:700">YouTube</a><br>
-    Brasileuros – Comédia do Nosso Jeitinho · Bar La Chirigota, Carrer de Mallorca 272, Barcelona<br>
-    <span style="color:#a9c3e3">${L("Você recebe este e-mail porque se cadastrou para receber avisos do Brasileuros.", "You get this e-mail because you signed up for Brasileuros alerts.")} <a href="{{DESCADASTRO}}" style="color:#ffffff">${L("Descadastrar", "Unsubscribe")}</a></span>
-  </td></tr>
-</table></td></tr></table></body></html>`;
+  const paras = String(c.body || "").split(/\n{2,}/).filter(x => x.trim()).map(x => `<p style="margin:0 0 14px;color:#ffffff">${esc(x).replace(/\n/g, "<br>")}</p>`).join("");
+  const img = c.image ? `<img src="${esc(c.image.startsWith("http") ? c.image : SITE + c.image)}" width="544" alt="" style="display:block;width:100%;max-width:544px;height:auto;border:0;border-radius:14px;margin:0 auto 20px">` : "";
+  const inner = (c.title ? bxT(`<p style="margin:0 0 14px;font-size:24px;font-weight:bold;line-height:1.25;color:#ffffff">${esc(c.title)}</p>`) : "") + img
+    + bxT(paras, "font-size:16px;line-height:1.55")
+    + (s ? `<div style="height:8px;line-height:8px;font-size:0">&nbsp;</div>` + bxCard(`<b style="color:#ffffff">${esc(cap1(fdate(s.date, { weekday: "long", day: "numeric", month: "long" })))}, ${esc(String(s.time || "19:30").replace(":", "h"))}</b><br>${esc(s.venue || "Bar La Chirigota")} · Barcelona · ${eur(s.cash_price || 7)}`) : "")
+    + (c.cta_text ? bxBtn(c.cta_text, utm(c.cta_url || SITE + "/entradas", slug)) : "");
+  return bxShell({ title: c.subject, preheader: c.preheader, inner, foot: `${L("Você recebe este e-mail porque se inscreveu nos avisos de shows do site.", "You get this e-mail because you signed up for show alerts.")} <a href="{{DESCADASTRO}}" style="color:#ffffff;text-decoration:underline">${L("Descadastrar", "Unsubscribe")}</a>` });
 }
 const audienceList = a => S.signups.filter(x => x.consent && !x.unsubscribed && (a === "all" || (x.lang || "pt") === a));
 let ED = null; // campanha em edição
