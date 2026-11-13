@@ -312,3 +312,16 @@ create table if not exists public.integrations (
   at timestamptz not null default now()
 );
 alter table public.integrations enable row level security;
+
+
+-- Posts agendados: mídia, sticker de link, collab, local
+alter table public.instagram add column if not exists media jsonb not null default '[]'::jsonb;
+alter table public.instagram add column if not exists sticker_url text;
+alter table public.instagram add column if not exists sticker_text text;
+alter table public.instagram add column if not exists collab text;
+alter table public.instagram add column if not exists location text;
+insert into storage.buckets (id, name, public, file_size_limit) values ('posts', 'posts', true, 52428800) on conflict (id) do nothing;
+drop policy if exists posts_staff_upload on storage.objects;
+create policy posts_staff_upload on storage.objects for insert to authenticated with check (bucket_id = 'posts' and public.is_staff());
+drop policy if exists posts_staff_delete on storage.objects;
+create policy posts_staff_delete on storage.objects for delete to authenticated using (bucket_id = 'posts' and public.is_staff());

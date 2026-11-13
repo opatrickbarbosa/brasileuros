@@ -439,6 +439,40 @@ a.fi.post{color:var(--text);text-decoration:none}
 .fold summary{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none}
 .fold summary::-webkit-details-marker{display:none}
 @media (max-width:767px){.pub-tools .pchips{order:3;width:100%}.pub-search{max-width:none}}
+
+/* ---- agendar post ---- */
+.fmt-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.fmt{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:12px;align-items:center;text-align:left;padding:14px;border:1.5px solid var(--line2);border-radius:14px;background:var(--panel);cursor:pointer;color:var(--text)}
+.fmt b{font-size:15px}.fmt small{grid-column:2;color:var(--muted);font-size:12.5px;line-height:1.35}
+.fmt-ph{grid-row:1/3;width:34px;border-radius:6px;background:linear-gradient(160deg,#FDD929,#3772B4)}
+.fmt-ph.r916{height:60px}.fmt-ph.r45{height:42px}
+.fmt.on{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.pmedia{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.pm{position:relative;border-radius:12px;overflow:hidden;background:var(--panel2);border:1px solid var(--line)}
+.pmedia.r916 .pm{aspect-ratio:9/16}.pmedia.r45 .pm{aspect-ratio:4/5}
+.pm img,.pm video{width:100%;height:100%;object-fit:cover;display:block}
+.pm-x{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:17px;line-height:1;cursor:pointer}
+.pm-n{position:absolute;left:6px;top:6px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:2px 7px}
+.pm.add{display:grid;place-items:center;align-content:center;gap:6px;border:1.5px dashed var(--line2);cursor:pointer;color:var(--muted);text-align:center;padding:8px}
+.pm.add .ic{width:26px;height:26px}.pm.add.busy{cursor:progress}
+.spin{width:22px;height:22px;border-radius:50%;border:3px solid var(--line2);border-top-color:var(--brand);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cap-n{display:block;text-align:right;margin-top:4px}
+.pp-review{display:flex;gap:16px;align-items:flex-start;padding:14px;border-radius:14px;background:var(--panel2);border:1px solid var(--line)}
+.pp-phone{position:relative;width:120px;flex:none;border-radius:12px;overflow:hidden;background:#111}
+.pp-phone.r916{aspect-ratio:9/16}.pp-phone.r45{aspect-ratio:4/5}
+.pp-phone img,.pp-phone video{width:100%;height:100%;object-fit:cover;display:block}
+.pp-sticker{position:absolute;left:50%;bottom:22%;transform:translateX(-50%);background:#fff;color:#2f63a8;font-size:10px;font-weight:700;border-radius:6px;padding:4px 7px;display:flex;gap:3px;align-items:center;white-space:nowrap}
+.pp-sticker .ic{width:11px;height:11px}
+.pp-meta{display:grid;gap:4px;min-width:0}.pp-cap{white-space:pre-wrap;margin:4px 0 0;max-height:140px;overflow:auto}
+.plist{display:grid;gap:2px;max-height:300px;overflow:auto}
+.pl-i{display:flex;align-items:center;gap:12px;padding:8px;border:0;background:none;border-radius:10px;cursor:pointer;text-align:left;color:var(--text);width:100%}
+.pl-i:hover{background:var(--panel2)}
+.pl-th{width:44px;height:44px;border-radius:8px;overflow:hidden;background:var(--panel2);display:grid;place-items:center;flex:none;color:var(--muted)}
+.pl-th.tall{height:60px;width:36px}
+.pl-th img,.pl-th video{width:100%;height:100%;object-fit:cover}
+.pl-t{display:grid;min-width:0}.pl-cap{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:600px){.fmt-grid{grid-template-columns:1fr}.pp-review{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -675,8 +709,8 @@ const icon = (k, cls = "") => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-h
 const NAV = [["home", "Início", "Home"], ["publico", "Público", "Audience"], ["fin", "Financeiro", "Finance"], ["team", "Equipe", "Team"]];
 function themeIcon() { const t = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); return t === "dark" ? L("Tema claro", "Light theme") : L("Tema escuro", "Dark theme"); }
 function render() {
-  const main = { home: vHome, shows: vShows, show: vShow, newshow: vNewShow, fin: vFin, publico: vCoupons, email: vEmail, team: vTeam }[R.view] || vHome;
-  const on = k => R.view === k || (k === "home" && ["show", "newshow", "shows"].includes(R.view)) || (k === "publico" && R.view === "email");
+  const main = { home: vHome, shows: vShows, show: vShow, newshow: vNewShow, post: vPost, fin: vFin, publico: vCoupons, email: vEmail, team: vTeam }[R.view] || vHome;
+  const on = k => R.view === k || (k === "home" && ["show", "newshow", "shows", "post"].includes(R.view)) || (k === "publico" && R.view === "email");
   const navBtn = ([k, pt, en]) => `<button data-nav="${k}" class="${on(k) ? "on" : ""}" aria-label="${L(pt, en)}">${icon(k)}<span>${L(pt, en)}</span></button>`;
   $("#app").innerHTML = `
   ${DEMO ? `<div class="demo-bar">${L("Modo demonstração: números de exemplo, não são vendas reais.", "Demo mode: sample numbers, not real sales.")} <button class="btn sm" id="demo-off">${L("Sair", "Exit")}</button></div>` : ""}
@@ -711,7 +745,7 @@ function render() {
   $("#theme").onclick = () => { const cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); const nx = cur === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = nx; localStorage.setItem("bxe-theme", nx); render(); };
   const dOff = $("#demo-off"); if (dOff) dOff.onclick = leaveDemo;
   wireLang(); wireCommon();
-  ({ home: wireHome, shows: wireShows, show: wireShow, newshow: wireNewShow, fin: wireFin, publico: wireCoupons, email: wireEmail, team: wireTeam }[R.view] || (() => {}))();
+  ({ home: wireHome, shows: wireShows, show: wireShow, newshow: wireNewShow, post: wirePost, fin: wireFin, publico: wireCoupons, email: wireEmail, team: wireTeam }[R.view] || (() => {}))();
 }
 function go(patch) { R = { ...R, ...patch }; if (patch.view && patch.view !== "show") R.showId = null; const h = R.view === "show" ? "#show/" + R.showId : "#" + R.view; history.replaceState(null, "", h); render(); scrollTo(0, 0); }
 
@@ -1432,10 +1466,14 @@ function editLineup(s, l) {
   }, isNew ? null : async () => del("lineup", l.id));
 }
 function tInstagram(s) {
-  const posts = S.instagram.filter(p => p.show_id === s.id).sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+  const posts = S.instagram.filter(p => p.show_id === s.id).sort((a, b) => ((a.date || "") + (a.time || "")).localeCompare((b.date || "") + (b.time || "")));
+  const FMT = { Stories: "Stories", Post: "Post", Reel: "Reel", Carrossel: L("Carrossel", "Carousel") };
   return `<div class="card pad pcard" id="c-Instagram" style="--sc:${SECTOR_COLOR("Instagram")}">
-    <div class="sec-h ch">${cardHead(s, "Instagram", `${L("Posts e stories", "Posts and stories")}`)}<button class="btn sm primary" id="addpost">+ Post</button></div>
-    ${posts.length ? `<table><tr><th>${L("Data", "Date")}</th><th>${L("Formato", "Format")}</th><th>${L("Título", "Title")}</th><th>Status</th><th></th></tr>${posts.map(p => `<tr><td>${fdate(p.date)}</td><td>${esc(p.format || "")}</td><td>${esc(p.title || "")}</td><td><span class="chip ${p.status === "Published" ? "ok" : ""}">${esc(p.status || "")}</span></td><td class="num"><button class="btn ghost sm" data-post="${p.id}">${L("Editar", "Edit")}</button></td></tr>`).join("")}</table>` : `<div class="empty">${L("Nenhum post planejado", "No posts planned")}</div>`}
+    <div class="sec-h ch">${cardHead(s, "Instagram", `${L("Posts e stories", "Posts and stories")}`)}<button class="btn sm primary" id="addpost">+ ${L("Agendar", "Schedule")}</button></div>
+    ${posts.length ? `<div class="plist">${posts.map(p => { const m = (p.media || [])[0]; const done = p.status === "Published"; const late = !done && p.date && (p.date + " " + (p.time || "23:59")) < today() + " " + new Date().toTimeString().slice(0, 5); return `<button class="pl-i" data-post="${p.id}">
+      <span class="pl-th ${p.format === "Stories" || p.format === "Reel" ? "tall" : ""}">${m ? (m.type === "video" ? `<video src="${esc(m.url)}" muted preload="metadata"></video>` : `<img src="${esc(m.url)}" alt="" loading="lazy">`) : icon("ig")}</span>
+      <span class="grow pl-t"><b>${esc(FMT[p.format] || p.format || "Post")}${(p.media || []).length > 1 ? ` · ${(p.media || []).length}` : ""}</b><span class="muted small">${p.date ? fdate(p.date, { weekday: "short", day: "numeric", month: "short" }) : L("sem data", "no date")}${p.time ? " · " + esc(p.time) : ""}</span>${p.caption ? `<span class="faint small pl-cap">${esc(p.caption)}</span>` : ""}</span>
+      <span class="chip ${done ? "ok" : late ? "bad" : p.status === "Scheduled" ? "warn" : ""}">${done ? L("Postado", "Posted") : late ? L("Atrasado", "Late") : p.status === "Scheduled" ? L("Agendado", "Scheduled") : L("Rascunho", "Draft")}</span></button>`; }).join("")}</div>` : `<div class="empty">${L("Nenhum post agendado", "No posts scheduled")}</div>`}
   </div>`;
 }
 function editPost(s, p, preset) {
@@ -1507,14 +1545,14 @@ function wireShow() {
     if (moved) { const off = Object.fromEntries(template().map(t => [t.key, t.offset])); const ups = tasksOf(s.id).filter(t => !t.done && off[t.template_key] !== undefined).map(t => ({ ...t, due: addDays(row.date, off[t.template_key]) })); if (ups.length) { const { data } = DEMO ? { data: ups } : await sb.from("tasks").upsert(ups).select(); (data || []).forEach(t => { const i = S.tasks.findIndex(x => x.id === t.id); S.tasks[i] = t; }); } }
   }, async () => { await del("shows", s.id); S.tasks = S.tasks.filter(t => t.show_id !== s.id); R.view = "home"; });
   $("#addt").onclick = () => editTask(null);
-  $("#schedpost").onclick = () => editPost(s, null, { status: "Scheduled", format: "Stories", date: today() < s.date ? today() : s.date, time: "19:00" });
+  $("#schedpost").onclick = () => newPost(s);
   const cl = $("#copylink"); if (cl) cl.onclick = async () => { try { await navigator.clipboard.writeText(s.eb_url); toast(L("Link copiado", "Link copied")); } catch (e) { prompt(L("Copie o link:", "Copy the link:"), s.eb_url); } };
   const al = $("#addlink"); if (al) al.onclick = () => $("#editshow").click();
   const on = (id, fn) => { const el = $(id); if (el) el.onclick = fn; };
   on("#addlu", () => editLineup(s, null));
   document.querySelectorAll("[data-lu]").forEach(b => b.onclick = () => editLineup(s, S.lineup.find(l => l.id === b.dataset.lu)));
-  on("#addpost", () => editPost(s, null));
-  document.querySelectorAll("[data-post]").forEach(b => b.onclick = () => editPost(s, S.instagram.find(p => p.id === b.dataset.post)));
+  on("#addpost", () => newPost(s));
+  document.querySelectorAll("[data-post]").forEach(b => b.onclick = () => newPost(s, S.instagram.find(p => p.id === b.dataset.post)));
   on("#addad", () => editAd(s, null));
   document.querySelectorAll("[data-ad]").forEach(b => b.onclick = () => editAd(s, S.ads.find(a => a.id === b.dataset.ad)));
   on("#addcoupon", () => editCoupon(null, s.id));
@@ -1533,6 +1571,112 @@ function wireShow() {
     { k: "guests", l: L("Convidados Barcelouca", "Barcelouca guests"), t: "number" }, { k: "guest_fee", l: L("Cachê convidado (€)", "Guest fee (€)"), t: "number" },
     { k: "held_by", l: L("Dinheiro com", "Money held by"), t: "select", o: [["", "—"], ...PARTNERS.map(p => [p, p])] },
   ], s, row => save("shows", row)));
+}
+
+/* ---------------- agendar post ou stories (passo a passo) ---------------- */
+const PF = () => ({
+  Stories: { l: "Stories", d: L("Some em 24 h. Vertical 9:16. Dá para pôr link.", "Gone in 24 h. Vertical 9:16. Can carry a link."), max: 10, cap: false, acc: "image/*,video/*", ratio: "9:16" },
+  Post: { l: "Post", d: L("Uma foto no feed. Ideal 4:5.", "One photo on the feed. Best 4:5."), max: 1, cap: true, acc: "image/*", ratio: "4:5" },
+  Reel: { l: "Reel", d: L("Vídeo vertical 9:16 até 90 s. Mais alcance.", "Vertical 9:16 video up to 90 s. Most reach."), max: 1, cap: true, acc: "video/*", ratio: "9:16" },
+  Carrossel: { l: L("Carrossel", "Carousel"), d: L("2 a 10 fotos ou vídeos. Mais salvamentos.", "2 to 10 photos or videos. Most saves."), max: 10, cap: true, acc: "image/*,video/*", ratio: "4:5" },
+});
+const PP_STEPS = () => [["fmt", L("Formato", "Format")], ["media", L("Mídia", "Media")], ["text", L("Texto", "Text")], ["when", L("Quando", "When")]];
+function newPost(s, p) {
+  const t0 = today(), when = t0 < s.date ? t0 : s.date;
+  R.pp = { showId: s.id, step: p ? 1 : 0, dir: 1, busy: false, row: p ? { ...p, media: [...(p.media || [])] } : { id: "p" + uid(), show_id: s.id, format: "Stories", media: [], caption: "", sticker_url: s.eb_url || "", collab: "", location: s.venue || "", date: when, time: "17:00", status: "Scheduled" } };
+  go({ view: "post" });
+}
+function bestTimes(s) {
+  const t0 = today(), out = [];
+  const add = (d, l) => { if (d >= t0 && !out.some(x => x[0] === d)) out.push([d, l]); };
+  add(t0, L("Hoje", "Today")); add(addDays(t0, 1), L("Amanhã", "Tomorrow"));
+  add(addDays(s.date, -2), L("2 dias antes", "2 days before")); add(addDays(s.date, -1), L("Véspera", "Day before")); add(s.date, L("Dia do show", "Show day"));
+  return out;
+}
+function vPost() {
+  const P = R.pp; if (!P) { R.view = "home"; return vHome(); }
+  const s = showById(P.showId), r = P.row, F = PF(), f = F[r.format] || F.Post, st = PP_STEPS(), k = st[P.step][0];
+  const thumbs = r.media.map((m, i) => `<div class="pm"><${m.type === "video" ? `video src="${esc(m.url)}" muted playsinline preload="metadata"` : `img src="${esc(m.url)}" alt=""`}>${m.type === "video" ? "</video>" : ""}<button type="button" class="pm-x" data-rm="${i}" aria-label="${L("Remover", "Remove")}">×</button>${f.max > 1 ? `<span class="pm-n">${i + 1}</span>` : ""}</div>`).join("");
+  const info = s ? `${fdate(s.date, { weekday: "short", day: "numeric", month: "short" })} · ${s.time || ""} · ${s.venue || ""}` : "";
+  const snippets = s ? [[L("+ data e preço", "+ date & price"), `\n\n📅 ${fdate(s.date, { weekday: "long", day: "numeric", month: "long" })}, ${s.time || ""}\n📍 ${s.venue || ""}\n🎟️ ${eur(s.cash_price || 7)}`], [L("+ link na bio", "+ link in bio"), `\n\nIngressos no link da bio 👆`], [L("+ marcar Patrick e Pipo", "+ tag Patrick & Pipo"), ` @opatrickbarbosa @pipomarquetti`], ["+ hashtags", `\n\n#standup #comediabrasileira #barcelona #brasileirosembarcelona`]] : [];
+  const body = {
+    fmt: `<h2 class="ns-q">${L("O que você vai postar?", "What are you posting?")}</h2>
+      <div class="fmt-grid">${Object.entries(F).map(([key, v]) => `<button type="button" class="fmt ${r.format === key ? "on" : ""}" data-fmt="${key}"><span class="fmt-ph r${v.ratio.replace(":", "")}"></span><b>${v.l}</b><small>${v.d}</small></button>`).join("")}</div>`,
+    media: `<h2 class="ns-q">${r.format === "Reel" ? L("Envie o vídeo", "Upload the video") : f.max > 1 ? L("Envie as imagens ou vídeos", "Upload images or videos") : L("Envie a imagem", "Upload the image")}</h2>
+      <p class="muted small" style="margin:-8px 0 14px">${L("Formato ", "Ratio ")}${f.ratio}${f.max > 1 ? ` · ${L("até", "up to")} ${f.max}` : ""}${r.format === "Reel" ? L(" · até 90 s", " · up to 90 s") : ""}</p>
+      <div class="pmedia r${f.ratio.replace(":", "")}">${thumbs}${r.media.length < f.max ? `<label class="pm add ${P.busy ? "busy" : ""}"><input type="file" id="pp-file" accept="${f.acc}" ${f.max > 1 ? "multiple" : ""} hidden>${P.busy ? `<span class="spin"></span><small>${L("Enviando…", "Uploading…")}</small>` : `${icon("plus")}<small>${L("Escolher arquivo", "Choose file")}</small>`}</label>` : ""}</div>`,
+    text: f.cap ? `<h2 class="ns-q">${L("Legenda", "Caption")}</h2>
+      <label class="f full"><textarea name="caption" rows="7" maxlength="2200" placeholder="${L("Comece com a frase que prende. Depois data, preço e chamada.", "Open with the hook. Then date, price and call to action.")}">${esc(r.caption)}</textarea><span class="faint small cap-n">${String(r.caption || "").length}/2200</span></label>
+      <div class="ns-chips">${snippets.map(([l, v], i) => `<button type="button" class="pchip" data-snip="${i}">${l}</button>`).join("")}</div>
+      <div class="grid2"><label class="f"><span>${L("Colaborador (collab)", "Collaborator")}</span><input type="text" name="collab" value="${esc(r.collab || "")}" placeholder="@pipomarquetti"></label><label class="f"><span>${L("Local", "Location")}</span><input type="text" name="location" value="${esc(r.location || "")}"></label></div>`
+      : `<h2 class="ns-q">${L("Link e texto do stories", "Story link and text")}</h2>
+      <div class="grid2"><label class="f full"><span>${L("Sticker de link (leva para a compra)", "Link sticker (goes to checkout)")}</span><input type="url" name="sticker_url" value="${esc(r.sticker_url || "")}" placeholder="https://www.brasileuros.com/entradas"></label>
+      <label class="f full"><span>${L("Texto do sticker (opcional)", "Sticker text (optional)")}</span><input type="text" name="sticker_text" value="${esc(r.sticker_text || "")}" placeholder="${L("Garanta seu lugar", "Get your seat")}"></label>
+      <label class="f full"><span>${L("Observação para quem vai postar (opcional)", "Note for whoever posts (optional)")}</span><textarea name="caption" rows="3" placeholder="${L("Ex.: marcar @la.chirigota, pôr enquete", "E.g. tag the venue, add a poll")}">${esc(r.caption)}</textarea></label></div>`,
+    when: `<h2 class="ns-q">${L("Quando vai ao ar?", "When does it go live?")}</h2>
+      <div class="ns-chips">${s ? bestTimes(s).map(([d, l]) => `<button type="button" class="pchip ${r.date === d ? "on" : ""}" data-ppdate="${d}">${l} · ${fdate(d, { day: "numeric", month: "short" })}</button>`).join("") : ""}</div>
+      <div class="grid2"><label class="f"><span>${L("Data", "Date")}</span><input type="date" name="date" value="${esc(r.date)}" required></label><label class="f"><span>${L("Hora", "Time")}</span><input type="time" name="time" value="${esc(r.time || "17:00")}"></label></div>
+      <p class="faint small" style="margin:6px 0 16px">${L("Pelo site, a maior parte das visitas acontece por volta das 17 h.", "Most site visits happen around 5 pm.")}</p>
+      <div class="pp-review"><div class="pp-phone r${f.ratio.replace(":", "")}">${r.media[0] ? (r.media[0].type === "video" ? `<video src="${esc(r.media[0].url)}" muted playsinline autoplay loop></video>` : `<img src="${esc(r.media[0].url)}" alt="">`) : ""}${r.format === "Stories" && r.sticker_url ? `<span class="pp-sticker">${icon("link")} ${esc(r.sticker_text || L("Ingressos", "Tickets"))}</span>` : ""}</div>
+        <div class="pp-meta"><b>${f.l}${r.media.length > 1 ? ` · ${r.media.length} ${L("itens", "items")}` : ""}</b><span class="muted small">${info}</span>${r.caption ? `<p class="small pp-cap">${esc(r.caption)}</p>` : ""}</div></div>`,
+  }[k];
+  return `<div class="ns">
+    <div class="ns-top"><button class="btn ghost sm" id="pp-x">${icon("back")} ${L("Voltar ao show", "Back to show")}</button><span class="grow"></span>${r.created_at ? `<button class="btn ghost sm" id="pp-del" style="color:var(--danger)">${L("Excluir", "Delete")}</button>` : ""}<span class="muted small">${P.step + 1}/${st.length}</span></div>
+    <div class="ns-prog">${st.map((x, i) => `<span class="${i < P.step ? "done" : i === P.step ? "on" : ""}"><i></i><small>${x[1]}</small></span>`).join("")}</div>
+    <form class="card ns-card ${P.dir > 0 ? "in-r" : "in-l"}" id="ppf" novalidate>${body}
+      <div id="ns-err"></div>
+      <div class="ns-acts">${P.step ? `<button type="button" class="btn" id="pp-back">${L("Voltar", "Back")}</button>` : ""}<span class="grow"></span>${k === "when" && r.created_at && r.status !== "Published" ? `<button type="button" class="btn" id="pp-done">${icon("check")} ${L("Já postei", "Posted")}</button>` : ""}<button class="btn btn-sun" id="pp-next" ${P.busy ? "disabled" : ""}>${k === "when" ? L("Agendar", "Schedule") : L("Continuar", "Continue")}</button></div>
+    </form></div>`;
+}
+function wirePost() {
+  const P = R.pp; if (!P) return;
+  const f = $("#ppf"), r = P.row, st = PP_STEPS(), F = PF();
+  const keep = () => new FormData(f).forEach((v, k) => { r[k] = v; });
+  const err = m => { $("#ns-err").innerHTML = `<div class="msg err">${esc(m)}</div>`; };
+  const s = showById(P.showId);
+  $("#pp-x").onclick = () => { R.pp = null; go({ view: "show", showId: P.showId }); };
+  const bk = $("#pp-back"); if (bk) bk.onclick = () => { keep(); P.step--; P.dir = -1; render(); };
+  document.querySelectorAll("[data-fmt]").forEach(b => b.onclick = () => { r.format = b.dataset.fmt; r.media = r.media.slice(0, F[r.format].max); P.step = 1; P.dir = 1; render(); });
+  document.querySelectorAll("[data-ppdate]").forEach(b => b.onclick = () => { keep(); r.date = b.dataset.ppdate; f.querySelector('[name="date"]').value = r.date; document.querySelectorAll("[data-ppdate]").forEach(x => x.classList.toggle("on", x === b)); });
+  document.querySelectorAll("[data-rm]").forEach(b => b.onclick = () => { r.media.splice(Number(b.dataset.rm), 1); render(); });
+  const ta = f.querySelector('textarea[name="caption"]'), cn = f.querySelector(".cap-n");
+  if (ta && cn) ta.oninput = () => { cn.textContent = ta.value.length + "/2200"; };
+  document.querySelectorAll("[data-snip]").forEach(b => b.onclick = () => {
+    const sn = [[0, `\n\n📅 ${fdate(s.date, { weekday: "long", day: "numeric", month: "long" })}, ${s.time || ""}\n📍 ${s.venue || ""}\n🎟️ ${eur(s.cash_price || 7)}`], [1, `\n\nIngressos no link da bio 👆`], [2, ` @opatrickbarbosa @pipomarquetti`], [3, `\n\n#standup #comediabrasileira #barcelona #brasileirosembarcelona`]][Number(b.dataset.snip)][1];
+    ta.value = (ta.value + sn).replace(/^\n+/, ""); ta.dispatchEvent(new Event("input")); ta.focus();
+  });
+  const file = $("#pp-file");
+  if (file) file.onchange = async () => {
+    const fl = [...file.files].slice(0, F[r.format].max - r.media.length); if (!fl.length) return;
+    if (DEMO) { fl.forEach(x => r.media.push({ url: URL.createObjectURL(x), type: x.type.startsWith("video") ? "video" : "image" })); render(); return; }
+    const big = fl.find(x => x.size > 50 * 1024 * 1024); if (big) { err(L("Arquivo acima de 50 MB. Exporte numa qualidade menor.", "File over 50 MB. Export at a lower quality.")); return; }
+    P.busy = true; render();
+    try {
+      for (const x of fl) {
+        const ext = (x.name.split(".").pop() || "jpg").toLowerCase(), path = `${P.showId}/${Date.now()}-${uid()}.${ext}`;
+        const { error } = await sb.storage.from("posts").upload(path, x, { contentType: x.type, upsert: false }); if (error) throw error;
+        r.media.push({ url: sb.storage.from("posts").getPublicUrl(path).data.publicUrl, type: x.type.startsWith("video") ? "video" : "image", path });
+      }
+    } catch (e) { toast(e.message || String(e)); }
+    P.busy = false; render();
+  };
+  const delBtn = $("#pp-del"); if (delBtn) delBtn.onclick = async () => { if (!confirm(L("Excluir este post agendado?", "Delete this scheduled post?"))) return; await del("instagram", r.id).catch(() => {}); R.pp = null; go({ view: "show", showId: P.showId }); };
+  const persist = async status => {
+    const row = { id: r.id, show_id: r.show_id, format: r.format, media: r.media.map(({ url, type, path }) => ({ url, type, path })), caption: r.caption || null, sticker_url: r.sticker_url || null, sticker_text: r.sticker_text || null, collab: r.collab || null, location: r.location || null, date: r.date || null, time: r.time || null, status, title: (r.caption || F[r.format].l).split("\n")[0].slice(0, 80), owner: r.owner || PROFILE?.name || null };
+    await save("instagram", row);
+    if (status === "Scheduled" && !r.created_at) logAct("post_scheduled", { show: s?.date, format: r.format, by: PROFILE?.name });
+  };
+  const dn = $("#pp-done"); if (dn) dn.onclick = async () => { keep(); await persist("Published"); toast(L("Marcado como postado", "Marked as posted")); R.pp = null; go({ view: "show", showId: P.showId }); };
+  f.onsubmit = async e => {
+    e.preventDefault(); keep(); const k = st[P.step][0];
+    if (k === "media") { if (!r.media.length) return err(L("Envie pelo menos um arquivo.", "Upload at least one file.")); if (r.format === "Carrossel" && r.media.length < 2) return err(L("Carrossel precisa de pelo menos 2 itens.", "A carousel needs at least 2 items.")); }
+    if (k === "text" && F[r.format].cap && !String(r.caption || "").trim()) return err(L("Escreva a legenda.", "Write the caption."));
+    if (P.step < st.length - 1) { P.step++; P.dir = 1; render(); return; }
+    if (!r.date) return err(L("Escolha a data.", "Pick a date."));
+    const b = $("#pp-next"); b.disabled = true; b.textContent = L("Salvando…", "Saving…");
+    try { await persist("Scheduled"); toast(L("Agendado para ", "Scheduled for ") + fdate(r.date, { day: "numeric", month: "short" }) + " " + (r.time || "")); R.pp = null; go({ view: "show", showId: P.showId }); }
+    catch (x) { b.disabled = false; b.textContent = L("Agendar", "Schedule"); err(x.message || String(x)); }
+  };
 }
 
 /* ---------------- coupons & audience ---------------- */
