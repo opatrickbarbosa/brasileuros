@@ -302,3 +302,13 @@ create policy staff_all on public.campaigns for all to authenticated using (publ
 insert into storage.buckets (id, name, public) values ('email', 'email', true) on conflict (id) do nothing;
 drop policy if exists email_staff_upload on storage.objects;
 create policy email_staff_upload on storage.objects for insert to authenticated with check (bucket_id = 'email' and public.is_staff());
+
+
+-- Integrações: tokens guardados pelas funções (RLS ligado e sem políticas: só o service role lê/escreve)
+create table if not exists public.integrations (
+  key text primary key,
+  value text not null,
+  meta jsonb,
+  at timestamptz not null default now()
+);
+alter table public.integrations enable row level security;

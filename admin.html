@@ -709,6 +709,13 @@ function vHome() {
 }
 function wireHome() {
   wirePeriod();
+  const gc = $("#g-connect");
+  if (gc) gc.onclick = async () => {
+    if (DEMO) { toast(L("Na demonstração nada é conectado", "Nothing connects in demo mode")); return; }
+    gc.disabled = true;
+    try { const r = await fnCall("google-oauth", { action: "start" }); location.href = r.url; }
+    catch (e) { gc.disabled = false; toast(e.message); }
+  };
   document.querySelectorAll("[data-open]").forEach(c => c.onclick = () => go({ view: "show", showId: c.dataset.open, tab: "overview" }));
   $("#addshow").onclick = newShow;
   $("#syncall").onclick = async () => {
@@ -781,6 +788,7 @@ function flowBlock() {
     ${worst ? `<div class="tip"><b>${L("Gargalo agora", "Bottleneck now")}: ${esc(worst.l)}</b> — ${worst.rate}% ${L("da etapa anterior (referência", "of the previous step (reference")} ${FLOW_REF[worst.k]}%). ${FLOW_TIP[worst.k]()}</div>` : ""}
     <p class="faint small" style="margin:10px 0 0">${L("Cada etapa vem de uma fonte diferente, então as taxas são aproximadas. O site conta só quem aceitou cookies e já exclui robôs.", "Each step comes from a different source, so rates are approximate. The site counts only cookie-accepting visitors and excludes bots.")}</p>
     ${missing.length ? `<p class="faint small" style="margin:6px 0 0">${missing.map(esc).join(" · ")}</p>` : ""}
+    ${missing.some(m => /^Google/.test(m)) ? `<div class="tip" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="grow">${L("Ligue o Google Analytics e o Search Console com a conta que tem acesso a eles.", "Link Google Analytics and Search Console with the account that can see them.")}</span><button class="btn btn-sun" id="g-connect">${L("Conectar Google", "Connect Google")}</button></div>` : ""}
   </div>
   <div class="cols sec2">
     <div class="card pad"><h2 style="margin-bottom:10px">${L("De onde vem quem compra", "Where buyers come from")}</h2>
@@ -1431,6 +1439,12 @@ async function boot() {
   $("#app").innerHTML = `<div class="loading">${L("Carregando...", "Loading...")}</div>`;
   try { await loadAll(); } catch (e) { $("#app").innerHTML = `<div class="loading">${esc(e.message)}</div>`; return; }
   readHashRoute(); render();
+  const gq = new URLSearchParams(location.search).get("google");
+  if (gq) {
+    history.replaceState(null, "", location.pathname + location.hash);
+    if (gq === "ok") { toast(L("Google conectado. Buscando os dados…", "Google connected. Fetching data…")); for (const k in PINS) delete PINS[k]; await fnCall("metrics", {}).catch(() => {}); const ins = await sb.from("insights").select("*").order("at", { ascending: false }).limit(1); INS = ins.data?.[0] || INS; render(); toast(L("Google Analytics e Search Console ligados", "Google Analytics and Search Console linked")); }
+    else toast(L("Não deu para conectar o Google (", "Could not connect Google (") + gq + L("). Tente de novo.", "). Try again."));
+  }
 }
 if (sb) sb.auth.onAuthStateChange((ev) => { if (ev === "PASSWORD_RECOVERY") { AUTH_TYPE = "recovery"; } if (ev === "SIGNED_IN" && !PROFILE) setTimeout(boot, 0); });
 boot();

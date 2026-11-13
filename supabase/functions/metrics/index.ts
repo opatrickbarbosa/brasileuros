@@ -1,7 +1,7 @@
 // metrics: cruza Google Analytics 4, Search Console, Instagram e Meta Ads.
 // Sem corpo: resumo dos últimos 28 dias gravado em public.insights (o painel lê o mais recente).
 // Com { start, end } (AAAA-MM-DD): devolve o resumo daquele período sem gravar (seletor de período do painel).
-// Segredos: GOOGLE_SERVICE_ACCOUNT (JSON da conta de serviço com acesso de leitor ao GA4 e ao Search Console)
+// Segredos: GOOGLE_SERVICE_ACCOUNT (JSON da conta de serviço) OU GOOGLE_CLIENT_ID/SECRET + login feito pelo botão "Conectar Google" (função google-oauth)
 //           GA4_PROPERTY_ID (562750879) · GSC_SITE (https://www.brasileuros.com/)
 //           META_TOKEN + IG_USER_ID (Instagram) · META_AD_ACCOUNT_ID opcional (act_… dos anúncios)
 // Quem chama: o agendador (x-cron-secret) ou alguém da equipe logado no painel.
@@ -25,6 +25,15 @@ const ts = (d: string, end = false) => Math.floor(new Date(d + (end ? "T23:59:59
 /* ---------- Google: token da conta de serviço ---------- */
 const b64url = (b: ArrayBuffer | string) => btoa(typeof b === "string" ? b : String.fromCharCode(...new Uint8Array(b))).replace(/=+$/, "").replace(/\+/g, "-").replace(/\//g, "_");
 async function googleToken(): Promise<string> {
+  if (!env("GOOGLE_SERVICE_ACCOUNT")) {
+    // login Google da equipe (botão "Conectar Google" no painel → função google-oauth)
+    const { data: row } = await db.from("integrations").select("value").eq("key", "google_refresh_token").maybeSingle();
+    if (!row?.value) throw new Error("Google ainda não conectado");
+    const r = await fetch("https://oauth2.googleapis.com/token", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams({ grant_type: "refresh_token", refresh_token: row.value, client_id: env("GOOGLE_CLIENT_ID"), client_secret: env("GOOGLE_CLIENT_SECRET") }) });
+    const j = await r.json();
+    if (!j.access_token) throw new Error("Google: " + (j.error_description || j.error || "sem token") + " — conecte de novo");
+    return j.access_token;
+  }
   const sa = JSON.parse(env("GOOGLE_SERVICE_ACCOUNT"));
   const now = Math.floor(Date.now() / 1000);
   const head = b64url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
@@ -127,11 +136,11 @@ async function adsBlock() {
 async function collect(save = true) {
   const data: any = { period: "28d", start: RANGE.start, end: RANGE.end, errors: [] as string[] };
   const safe = async (k: string, fn: () => Promise<any>) => { try { data[k] = await fn(); } catch (e) { data.errors.push(String((e as Error).message || e)); } };
-  if (env("GOOGLE_SERVICE_ACCOUNT")) {
+  {
     let token = ""; try { token = await googleToken(); } catch (e) { data.errors.push(String((e as Error).message)); }
     if (token && env("GA4_PROPERTY_ID")) await safe("ga", () => gaBlock(token));
     if (token && env("GSC_SITE")) await safe("gsc", () => gscBlock(token));
-  } else data.errors.push("Google ainda não conectado (falta GOOGLE_SERVICE_ACCOUNT)");
+  }
   if (env("META_TOKEN") && env("IG_USER_ID")) await safe("ig", igBlock); else data.errors.push("Instagram ainda não conectado (falta META_TOKEN)");
   if (env("META_AD_ACCOUNT_ID") && env("META_TOKEN")) await safe("ads", adsBlock);
   const at = new Date().toISOString();
