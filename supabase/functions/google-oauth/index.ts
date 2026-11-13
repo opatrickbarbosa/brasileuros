@@ -1,5 +1,5 @@
 // google-oauth: liga o painel ao GA4 e ao Search Console com o login Google de alguém da equipe
-// (alternativa à chave de conta de serviço, que a organização bloqueia).
+// e à planilha de contatos (alternativa à chave de conta de serviço, que a organização bloqueia).
 // POST { action: "start" }  (equipe logada) → { url } para abrir a tela de permissão do Google
 // GET  ?code=…&state=…      (volta do Google) → troca o código, guarda o refresh token e volta ao painel
 // Segredos: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET (cliente OAuth "Aplicativo da Web" do projeto brasileuros-painel)
@@ -17,7 +17,7 @@ const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SE
 const env = (k: string) => Deno.env.get(k) || "";
 const REDIRECT = `${env("SUPABASE_URL")}/functions/v1/google-oauth`;
 const PANEL = "https://www.brasileuros.com/admin";
-const SCOPES = "https://www.googleapis.com/auth/analytics.readonly https://www.googleapis.com/auth/webmasters.readonly openid email";
+const SCOPES = "https://www.googleapis.com/auth/analytics.readonly https://www.googleapis.com/auth/webmasters.readonly https://www.googleapis.com/auth/spreadsheets.readonly openid email";
 
 const hex = (b: ArrayBuffer) => [...new Uint8Array(b)].map((x) => x.toString(16).padStart(2, "0")).join("");
 async function sign(msg: string) {

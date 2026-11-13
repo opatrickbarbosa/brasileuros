@@ -4,6 +4,7 @@
 // Segredos: GOOGLE_SERVICE_ACCOUNT (JSON da conta de serviço) OU GOOGLE_CLIENT_ID/SECRET + login feito pelo botão "Conectar Google" (função google-oauth)
 //           GA4_PROPERTY_ID (562750879) · GSC_SITE (https://www.brasileuros.com/)
 //           META_TOKEN + IG_USER_ID (Instagram) · META_AD_ACCOUNT_ID opcional (act_… dos anúncios)
+//           FB_PAGE_ID opcional · TIKTOK_CLIENT_KEY/SECRET + login pelo botão "Conectar TikTok" · CONTACTS_SHEET_ID opcional
 // Quem chama: o agendador (x-cron-secret) ou alguém da equipe logado no painel.
 import { createClient } from "npm:@supabase/supabase-js@2";
 
@@ -125,6 +126,86 @@ async function igBlock() {
   }
   return { reach_28d: reach, profile_visits_28d: profile_visits, link_taps_28d: link_taps, views_28d: views, posts };
 }
+/* ---------- Página do Facebook (Graph API, mesmo META_TOKEN) ---------- */
+async function fbBlock() {
+  const page = env("FB_PAGE_ID") || "761885047013471";
+  const p = await graph(page, { fields: "name,followers_count,fan_count,access_token,link" });
+  const out: any = { name: p.name, followers: p.followers_count ?? p.fan_count ?? null, link: p.link || null };
+  if (!p.access_token) return out;
+  // métricas da página pedem o token da própria página
+  const pg = async (metric: string) => {
+    let total: number | null = null;
+    for (let a = ts(RANGE.start); a <= ts(RANGE.end, true); a += 90 * 86400) {
+      const b = Math.min(a + 90 * 86400, ts(RANGE.end, true));
+      const u = new URL(`https://graph.facebook.com/v21.0/${page}/insights`);
+      Object.entries({ metric, period: "day", since: String(a), until: String(b), access_token: p.access_token }).forEach(([k, v]) => u.searchParams.set(k, v));
+      const j = await (await fetch(u)).json().catch(() => ({}));
+      const vals = j.data?.[0]?.values; if (vals) total = (total || 0) + vals.reduce((x: number, v: any) => x + Number(v.value || 0), 0);
+    }
+    return total;
+  };
+  out.reach = await pg("page_impressions_unique");
+  out.engagement = await pg("page_post_engagements");
+  out.views = await pg("page_views_total");
+  return out;
+}
+
+/* ---------- TikTok (API oficial; login pelo botão "Conectar TikTok" → função tiktok-oauth) ---------- */
+async function tiktokToken() {
+  const { data: row } = await db.from("integrations").select("value,meta").eq("key", "tiktok_refresh_token").maybeSingle();
+  if (!row?.value) throw new Error("TikTok ainda não conectado");
+  const r = await fetch("https://open.tiktokapis.com/v2/oauth/token/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams({ client_key: env("TIKTOK_CLIENT_KEY"), client_secret: env("TIKTOK_CLIENT_SECRET"), grant_type: "refresh_token", refresh_token: row.value }) });
+  const j = await r.json();
+  if (!j.access_token) throw new Error("TikTok: " + (j.error_description || j.error || "sem token") + " — conecte de novo");
+  if (j.refresh_token && j.refresh_token !== row.value) await db.from("integrations").upsert({ key: "tiktok_refresh_token", value: j.refresh_token, meta: row.meta, at: new Date().toISOString() });
+  return j.access_token as string;
+}
+async function tiktokBlock() {
+  const tok = await tiktokToken();
+  const h = { Authorization: "Bearer " + tok, "Content-Type": "application/json" };
+  const u = await (await fetch("https://open.tiktokapis.com/v2/user/info/?fields=display_name,username,follower_count,likes_count,video_count,profile_deep_link", { headers: h })).json();
+  if (u.error?.code && u.error.code !== "ok") throw new Error("TikTok: " + u.error.message);
+  const user = u.data?.user || {};
+  const videos: any[] = []; let cursor: number | undefined; let more = true;
+  for (let i = 0; i < 5 && more; i++) {
+    const v = await (await fetch("https://open.tiktokapis.com/v2/video/list/?fields=id,title,video_description,create_time,share_url,view_count,like_count,comment_count,share_count", { method: "POST", headers: h, body: JSON.stringify({ max_count: 20, ...(cursor ? { cursor } : {}) }) })).json();
+    (v.data?.videos || []).forEach((x: any) => videos.push(x));
+    more = !!v.data?.has_more; cursor = v.data?.cursor;
+    if (videos.length && new Date(videos.at(-1).create_time * 1000).toISOString().slice(0, 10) < RANGE.start) break;
+  }
+  const inR = videos.filter((x) => { const d = new Date(x.create_time * 1000).toISOString().slice(0, 10); return d >= RANGE.start && d <= RANGE.end; });
+  const s = (k: string) => inR.reduce((a, x) => a + Number(x[k] || 0), 0);
+  return { username: user.username, followers: user.follower_count ?? null, likes: user.likes_count ?? null, videos_total: user.video_count ?? null, link: user.profile_deep_link || (user.username ? `https://www.tiktok.com/@${user.username}` : null),
+    videos: inR.length, views: s("view_count"), video_likes: s("like_count"), shares: s("share_count"), comments: s("comment_count"),
+    top: inR.sort((a, b) => Number(b.view_count || 0) - Number(a.view_count || 0)).slice(0, 5).map((x) => ({ title: String(x.title || x.video_description || "").slice(0, 120), url: x.share_url, views: x.view_count, likes: x.like_count, shares: x.share_count, ts: new Date(x.create_time * 1000).toISOString() })) };
+}
+
+/* ---------- Lista de e-mails (Google Sheets "Brasileuros – Lista de contatos") ---------- */
+const isTest = (r: Record<string, string>) => /teste|test\b/i.test(r.nome || "") || /@brasileuros\.com$/i.test(r.email || "");
+async function emailsBlock(token: string, save: boolean) {
+  const id = env("CONTACTS_SHEET_ID") || "134j84PBNIKr6BkuKx-FcgtcGjPmGxo_WuMob9YygTys";
+  const r = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${id}/values/A1:Z5000`, { headers: { Authorization: "Bearer " + token } });
+  const j = await r.json(); if (j.error) throw new Error("Planilha de contatos: " + j.error.message);
+  const [head, ...rows] = j.values || [];
+  const H = (head || []).map((x: string) => String(x).trim().toLowerCase());
+  const list = rows.map((row: string[]) => Object.fromEntries(H.map((k: string, i: number) => [k, String(row[i] ?? "").trim()]))).filter((x: any) => x.email && !isTest(x));
+  const seen = new Set<string>(); const uniq = list.filter((x: any) => { const e = x.email.toLowerCase(); if (seen.has(e)) return false; seen.add(e); return true; });
+  const confirmed = (x: any) => /confirmad/i.test(x.status || "") || /^sim \(confirm/i.test(x.consentimento_marketing || "");
+  const conf = uniq.filter(confirmed);
+  const inR = (x: any) => x.data_cadastro >= RANGE.start && x.data_cadastro <= RANGE.end;
+  const byLang: Record<string, number> = {}; conf.forEach((x: any) => { const l = x.idioma || "pt"; byLang[l] = (byLang[l] || 0) + 1; });
+  // quem confirmou por e-mail entra na lista do painel (aba E-mail)
+  if (save && conf.length) {
+    const { data: have } = await db.from("signups").select("email");
+    const known = new Set((have || []).map((x: any) => String(x.email).toLowerCase()));
+    const fresh = conf.filter((x: any) => !known.has(x.email.toLowerCase())).map((x: any) => ({ name: x.nome || null, email: x.email, lang: x.idioma || "pt", source: x.origem || "site", consent: true }));
+    if (fresh.length) await db.from("signups").insert(fresh);
+  }
+  return { total: uniq.length, confirmed: conf.length, pending: uniq.filter((x: any) => !confirmed(x) && x.origem === "site").length, buyers: uniq.filter((x: any) => x.origem === "eventbrite").length,
+    new_in_period: uniq.filter(inR).length, confirmed_in_period: conf.filter(inR).length, by_lang: byLang,
+    sheet_url: `https://docs.google.com/spreadsheets/d/${id}/edit` };
+}
+
 async function adsBlock() {
   const acc = env("META_AD_ACCOUNT_ID"); if (!acc) return null;
   const r = await graph(`${acc.startsWith("act_") ? acc : "act_" + acc}/insights`, { fields: "spend,impressions,reach,clicks,inline_link_clicks,actions", time_range: JSON.stringify({ since: RANGE.start, until: RANGE.end }), time_increment: "1", limit: "400" });
@@ -140,7 +221,10 @@ async function collect(save = true) {
     let token = ""; try { token = await googleToken(); } catch (e) { data.errors.push(String((e as Error).message)); }
     if (token && env("GA4_PROPERTY_ID")) await safe("ga", () => gaBlock(token));
     if (token && env("GSC_SITE")) await safe("gsc", () => gscBlock(token));
+    if (token) await safe("emails", () => emailsBlock(token, save));
   }
+  if (env("META_TOKEN")) await safe("fb", fbBlock);
+  if (env("TIKTOK_CLIENT_KEY")) await safe("tiktok", tiktokBlock); else data.errors.push("TikTok ainda não conectado");
   if (env("META_TOKEN") && env("IG_USER_ID")) await safe("ig", igBlock); else data.errors.push("Instagram ainda não conectado (falta META_TOKEN)");
   if (env("META_AD_ACCOUNT_ID") && env("META_TOKEN")) await safe("ads", adsBlock);
   const at = new Date().toISOString();

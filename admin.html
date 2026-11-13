@@ -272,7 +272,7 @@ td.num,th.num{text-align:right}
 }
 
 /* funil cruzado */
-.fsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px;margin-top:6px}
+.fsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:8px;margin-top:6px}
 .fs{position:relative;display:grid;gap:3px;align-content:end;padding:10px 8px 8px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);min-height:190px}
 .fs.worst{border-color:var(--danger);box-shadow:0 0 0 1px var(--danger)}
 .fs b{font-size:22px;font-weight:800;letter-spacing:-.02em}
@@ -318,6 +318,89 @@ a.fi.post{color:var(--text);text-decoration:none}
 .em-mail-h span{font-weight:600}.em-mail-h small{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #em-frame{width:100%;height:640px;border:0;background:#dfe9f5;display:block}
 @media (max-width:1100px){.em{grid-template-columns:1fr}.em-prev{position:static}}
+
+/* ---- botões de destaque ---- */
+.btn-sun{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+/* ---- seletor de período compacto ---- */
+.hello-acts{display:flex;align-items:center;gap:8px}
+.pdrop{position:relative}
+.pbtn{display:flex;align-items:center;gap:8px;height:36px;padding:0 10px 0 14px;border-radius:999px;border:1px solid var(--line2);background:var(--panel);color:var(--text);cursor:pointer;font-size:13px;white-space:nowrap}
+.pbtn span{color:var(--muted)}.pbtn .ic{width:16px;height:16px;color:var(--muted)}
+.pmenu{position:absolute;right:0;top:calc(100% + 6px);z-index:40;min-width:230px;padding:6px;display:grid;gap:2px;box-shadow:0 12px 32px rgba(0,0,0,.14)}
+.pm-i{border:0;background:none;text-align:left;padding:9px 12px;border-radius:9px;cursor:pointer;color:var(--text);font-size:14px}
+.pm-i:hover{background:var(--panel2)}.pm-i.on{font-weight:700;background:var(--brand-soft)}
+.pmenu .pcustom{display:flex;align-items:center;gap:6px;padding:6px 6px 4px}.pmenu .pcustom.off{display:none}
+.pmenu .pcustom input{height:34px;flex:1;min-width:0}
+/* ---- redes sociais ---- */
+.soc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.soc{padding:14px;display:flex;flex-direction:column;gap:2px;position:relative;overflow:hidden}
+.soc-h{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13.5px}
+.soc-logo{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:#fff}
+.soc-logo .ic{width:18px;height:18px}
+.s-ig .soc-logo{background:linear-gradient(135deg,#f9a83b,#e1306c 55%,#8a3ab9)}
+.s-fb .soc-logo{background:#1877f2}
+.s-tt .soc-logo{background:#111;box-shadow:inset -2px -2px 0 #25f4ee,inset 2px 2px 0 #fe2c55}
+.s-em .soc-logo{background:var(--brand)}
+.soc-go{color:var(--muted);display:grid}.soc-go .ic{width:16px;height:16px}
+.soc-v{font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1.05}
+.soc-l{font-size:12.5px;color:var(--muted)}.soc-l em{font-style:normal;font-weight:700}.soc-l em.up{color:var(--ok)}.soc-l em.down{color:var(--danger)}
+.soc-rows{display:flex;gap:14px;margin-top:12px}
+.soc-rows span{display:grid}.soc-rows b{font-size:15px}.soc-rows small{font-size:11.5px;color:var(--muted)}
+.soc .spark{position:absolute;right:0;bottom:0;width:45%;height:34px;opacity:.5}
+.soc-c{margin-top:12px;align-self:flex-start}
+@media (max-width:1100px){.soc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:767px){.soc-grid{gap:10px}.soc{padding:13px;min-height:150px}.soc-v{font-size:24px}.soc-rows{gap:10px}.hello{flex-wrap:wrap;gap:10px}.pbtn span{display:none}}
+/* ---- página do show (perfil) ---- */
+.prof{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:start;margin:14px 0 6px;padding-bottom:18px}
+.prof-av{width:150px;height:150px;border-radius:50%;padding:5px;background:conic-gradient(#FDD929 0 var(--p,0%),#3772B4 var(--p,0%) 100%);display:grid}
+.prof-av .st-in{border-width:5px}.prof-av .st-in b{font-size:52px}.prof-av .st-in small{font-size:15px}
+.prof-av.sm{width:72px;height:72px;padding:3px;flex:none}.prof-av.sm .st-in{border-width:3px}.prof-av.sm .st-in b{font-size:24px}.prof-av.sm .st-in small{font-size:11px}
+.prof-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.prof-top h1{font-size:22px;font-weight:600;letter-spacing:-.01em}.prof-top h1::first-letter{text-transform:uppercase}
+.prof-acts{display:flex;gap:6px;flex-wrap:wrap}
+.prof-stats{list-style:none;padding:0;margin:16px 0;display:flex;gap:28px;flex-wrap:wrap;font-size:15px}
+.prof-stats b{font-weight:700}
+.prof-bio{display:grid;gap:2px;font-size:14px}
+.hls{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none;padding:6px 2px 18px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.hls::-webkit-scrollbar{display:none}
+.hl{display:grid;justify-items:center;gap:6px;text-decoration:none;color:var(--text);flex:none;width:72px}
+.hl-ring{width:64px;height:64px;border-radius:50%;padding:2px;background:conic-gradient(var(--sc) 0 var(--p),var(--line2) var(--p) 100%);display:grid}
+.hl-in{border-radius:50%;background:var(--panel);border:3px solid var(--panel);display:grid;place-items:center;font-size:13px;font-weight:700}
+.hl-l{font-size:12px;color:var(--muted);white-space:nowrap}
+.pgrid{columns:2 380px;column-gap:16px}
+.pgrid>.card{break-inside:avoid;margin:0 0 16px;display:block}
+.pcard{border-top:3px solid var(--sc,var(--line))}
+.pcard.flash{animation:flash 1.2s ease}
+.pcard .kpis{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.pcard .kpi{padding:10px 12px}.pcard .kpi b{font-size:20px}
+@keyframes flash{0%{box-shadow:0 0 0 3px var(--sc)}100%{box-shadow:0 0 0 0 transparent}}
+.ptasks{border-top:3px solid var(--accent)}
+.seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{border:0;background:none;padding:5px 14px;border-radius:999px;cursor:pointer;color:var(--muted);font-weight:600;font-size:13px}
+.seg button.on{background:var(--text);color:var(--bg)}
+@media (max-width:767px){
+  .prof{grid-template-columns:auto minmax(0,1fr);gap:16px}
+  .prof-av{width:86px;height:86px;padding:3px}.prof-av .st-in{border-width:3px}.prof-av .st-in b{font-size:28px}.prof-av .st-in small{font-size:11px}
+  .prof-top h1{font-size:17px}.prof-stats{gap:6px 16px;font-size:13px;margin:10px 0}
+  .prof-bio{grid-column:1/-1}.prof-main{display:contents}
+  .prof-top,.prof-stats{grid-column:2}
+  .hl{width:62px}.hl-ring{width:56px;height:56px}
+}
+/* ---- novo show em passos ---- */
+.ns{max-width:620px;margin:0 auto;padding-top:6px}
+.ns-top{display:flex;align-items:center;gap:8px}
+.ns-prog{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0 18px}
+.ns-prog span{display:grid;gap:6px}.ns-prog i{height:4px;border-radius:4px;background:var(--line2);transition:background .3s}
+.ns-prog span.done i,.ns-prog span.on i{background:var(--brand)}.ns-prog small{font-size:12px;color:var(--muted)}.ns-prog span.on small{color:var(--text);font-weight:600}
+.ns-card{padding:26px}
+.ns-q{font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px}
+.ns-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.ns-acts{display:flex;align-items:center;gap:8px;margin-top:22px}
+.ns-sum{display:flex;gap:16px;align-items:center}
+.in-r{animation:nsr .28s ease}.in-l{animation:nsl .28s ease}
+@keyframes nsr{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@keyframes nsl{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.in-r,.in-l,.pcard.flash{animation:none}}
+@media (max-width:767px){.ns-card{padding:18px}.ns-q{font-size:20px}}
 </style>
 </head>
 <body>
@@ -532,13 +615,21 @@ const IC = {
   more: '<path d="M4 7h16M4 12h16M4 17h16"/>',
   email: '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/>',
   sync: '<path d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0 0 14.3 4.9L20 16M20 20v-4h-4"/>',
+  chev: '<path d="m7 10 5 5 5-5"/>',
+  ext: '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+  ig: '<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/>',
+  fb: '<path d="M14.5 8H17V4.5h-2.5A4 4 0 0 0 10.5 8.5V11H8v3.5h2.5V21H14v-6.5h2.6l.4-3.5h-3V8.8a.8.8 0 0 1 .5-.8z"/>',
+  tt: '<path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.4 2.6 2.3 4.4 5 4.6"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/>',
+  check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  back: '<path d="M15 5l-7 7 7 7"/>',
 };
 const icon = (k, cls = "") => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[k] || ""}</svg>`;
 const NAV = [["home", "Início", "Home"], ["shows", "Shows", "Shows"], ["publico", "Público", "Audience"], ["email", "E-mail", "Email"], ["fin", "Financeiro", "Finance"], ["team", "Equipe", "Team"]];
 function themeIcon() { const t = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); return t === "dark" ? L("Tema claro", "Light theme") : L("Tema escuro", "Dark theme"); }
 function render() {
-  const main = { home: vHome, shows: vShows, show: vShow, fin: vFin, publico: vCoupons, email: vEmail, team: vTeam }[R.view] || vHome;
-  const on = k => R.view === k || (k === "shows" && R.view === "show");
+  const main = { home: vHome, shows: vShows, show: vShow, newshow: vNewShow, fin: vFin, publico: vCoupons, email: vEmail, team: vTeam }[R.view] || vHome;
+  const on = k => R.view === k || (k === "shows" && (R.view === "show" || R.view === "newshow"));
   const navBtn = ([k, pt, en]) => `<button data-nav="${k}" class="${on(k) ? "on" : ""}" aria-label="${L(pt, en)}">${icon(k)}<span>${L(pt, en)}</span></button>`;
   $("#app").innerHTML = `
   ${DEMO ? `<div class="demo-bar">${L("Modo demonstração: números de exemplo, não são vendas reais.", "Demo mode: sample numbers, not real sales.")} <button class="btn sm" id="demo-off">${L("Sair", "Exit")}</button></div>` : ""}
@@ -573,9 +664,9 @@ function render() {
   $("#theme").onclick = () => { const cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); const nx = cur === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = nx; localStorage.setItem("bxe-theme", nx); render(); };
   const dOff = $("#demo-off"); if (dOff) dOff.onclick = leaveDemo;
   wireLang(); wireCommon();
-  ({ home: wireHome, shows: wireShows, show: wireShow, fin: wireFin, publico: wireCoupons, email: wireEmail, team: wireTeam }[R.view] || (() => {}))();
+  ({ home: wireHome, shows: wireShows, show: wireShow, newshow: wireNewShow, fin: wireFin, publico: wireCoupons, email: wireEmail, team: wireTeam }[R.view] || (() => {}))();
 }
-function go(patch) { R = { ...R, ...patch }; if (patch.view && patch.view !== "show") R.showId = null; const h = R.view === "show" ? "#show/" + R.showId + "/" + R.tab : "#" + R.view; history.replaceState(null, "", h); render(); scrollTo(0, 0); }
+function go(patch) { R = { ...R, ...patch }; if (patch.view && patch.view !== "show") R.showId = null; const h = R.view === "show" ? "#show/" + R.showId : "#" + R.view; history.replaceState(null, "", h); render(); scrollTo(0, 0); }
 
 /* ---------------- período ---------------- */
 const PERIODS = () => [["7d", L("7 dias", "7 days")], ["week", L("Semana", "Week")], ["28d", L("28 dias", "28 days")], ["month", L("Mês", "Month")], ["3m", L("3 meses", "3 months")], ["6m", L("6 meses", "6 months")], ["year", L("Ano", "Year")], ["custom", L("Escolher", "Custom")]];
@@ -602,12 +693,19 @@ function periodIns() {
   return { ins: INS, loading: true };
 }
 function periodBar() {
-  const g = periodRange();
-  return `<div class="pbar"><div class="pchips">${PERIODS().map(([k, l]) => `<button class="pchip ${g.k === k ? "on" : ""}" data-period="${k}">${l}</button>`).join("")}</div>
-    ${g.k === "custom" ? `<div class="pcustom"><input type="date" id="pstart" value="${g.start}" max="${today()}"><span class="muted">${L("até", "to")}</span><input type="date" id="pend" value="${g.end}" max="${today()}"></div>` : `<span class="muted small">${rangeLabel(g)}</span>`}</div>`;
+  const g = periodRange(), lab = (PERIODS().find(x => x[0] === g.k) || [0, ""])[1];
+  return `<div class="pdrop"><button class="pbtn" id="pbtn" aria-haspopup="true" aria-expanded="false"><b>${esc(lab)}</b><span>${rangeLabel(g)}</span>${icon("chev")}</button>
+    <div class="pmenu card" id="pmenu" hidden>${PERIODS().map(([k, l]) => `<button class="pm-i ${g.k === k ? "on" : ""}" data-period="${k}">${l}</button>`).join("")}
+      <div class="pcustom ${g.k === "custom" ? "" : "off"}"><input type="date" id="pstart" value="${g.start}" max="${today()}" aria-label="${L("De", "From")}"><span class="muted">–</span><input type="date" id="pend" value="${g.end}" max="${today()}" aria-label="${L("Até", "To")}"></div></div></div>`;
 }
 function wirePeriod() {
-  document.querySelectorAll("[data-period]").forEach(b => b.onclick = () => { const k = b.dataset.period; const g = periodRange(); R.period = k === "custom" ? { k, start: g.start, end: g.end } : { k }; try { localStorage.setItem("bxe-period", JSON.stringify(R.period)); } catch (e) {} render(); });
+  const b = $("#pbtn"), m = $("#pmenu"); if (!b) return;
+  b.onclick = e => { e.stopPropagation(); m.hidden = !m.hidden; b.setAttribute("aria-expanded", String(!m.hidden)); };
+  m.onclick = e => e.stopPropagation();
+  const close = () => { if (!m.hidden) { m.hidden = true; b.setAttribute("aria-expanded", "false"); } };
+  document.addEventListener("click", close, { once: true });
+  m.onkeydown = b.onkeydown = e => { if (e.key === "Escape") { close(); b.focus(); } };
+  document.querySelectorAll("[data-period]").forEach(x => x.onclick = () => { const k = x.dataset.period; const g = periodRange(); if (k === "custom") { R.period = { k, start: g.start, end: g.end }; m.querySelector(".pcustom").classList.remove("off"); m.querySelectorAll(".pm-i").forEach(y => y.classList.toggle("on", y === x)); $("#pstart").focus(); return; } R.period = { k }; try { localStorage.setItem("bxe-period", JSON.stringify(R.period)); } catch (e) {} render(); });
   const s = $("#pstart"), e = $("#pend");
   if (s && e) [s, e].forEach(el => el.onchange = () => { if (!s.value || !e.value) return; R.period = { k: "custom", start: s.value, end: e.value }; try { localStorage.setItem("bxe-period", JSON.stringify(R.period)); } catch (er) {} render(); });
 }
@@ -618,6 +716,29 @@ function buckets(g) {
   else if (unit === "week") for (let a = weekStart(g.start); a <= g.end; a = addDays(a, 7)) { const b = addDays(a, 6); out.push({ a, b, lab: fdate(a, { day: "numeric", month: "numeric" }), tip: L("semana de ", "week of ") + fdate(a, { day: "numeric", month: "short" }) }); }
   else { let d = pd(g.start.slice(0, 8) + "01"); while (ymd(d) <= g.end) { const a = ymd(d); const e = new Date(d.getFullYear(), d.getMonth() + 1, 0); out.push({ a, b: ymd(e), lab: fdate(a, { month: "short" }), tip: fdate(a, { month: "long", year: "numeric" }) }); d = new Date(d.getFullYear(), d.getMonth() + 1, 1); } }
   return { unit, out };
+}
+
+/* ---------------- redes sociais + lista de e-mails (painel inicial) ---------------- */
+function socialBlock() {
+  const P = periodIns(), d = P.ins?.data || {}, G = periodRange(), errs = d.errors || [];
+  const fmt = v => v == null ? "—" : Number(v).toLocaleString(LANG === "en" ? "en-GB" : "pt-BR");
+  const ig = igRows(), last = ig.at(-1), wk = ig.filter(r => inRange(r.date, G));
+  const igF = d.ig?.followers ?? (last ? num(last.followers) : null);
+  const igD = wk.length > 1 ? num(wk.at(-1).followers) - num(wk[0].followers) : null;
+  const igReach = d.ig?.reach_28d ?? (wk.length ? sum(wk, r => r.reach) : null);
+  const need = re => errs.some(e => re.test(e));
+  const card = (cls, logo, name, href, big, bigL, rows, extra = "") => `<div class="card soc ${cls}">
+    <div class="soc-h"><span class="soc-logo">${logo}</span><span class="grow"><b>${name}</b></span>${href ? `<a class="soc-go" href="${esc(href)}" target="_blank" rel="noopener" aria-label="${L("Abrir", "Open")} ${name}">${icon("ext")}</a>` : ""}</div>
+    <b class="soc-v">${big}</b><span class="soc-l">${bigL}</span>
+    <div class="soc-rows">${rows.map(([v, l]) => `<span><b>${v}</b><small>${l}</small></span>`).join("")}</div>${extra}</div>`;
+  const connect = (k, l) => `<button class="btn sm btn-sun soc-c" data-connect="${k}">${l}</button>`;
+  const fb = d.fb, tt = d.tiktok, em = d.emails;
+  return `<div class="soc-grid sec2" aria-label="${L("Redes sociais e e-mails", "Social and email")}">
+    ${card("s-ig", icon("ig"), "Instagram", "https://www.instagram.com/osbrasileuros/", fmt(igF), L("seguidores", "followers") + (igD ? ` · <em class="${igD > 0 ? "up" : "down"}">${igD > 0 ? "+" : ""}${igD}</em>` : ""), [[fmt(igReach), L("alcance", "reach")], [fmt(d.ig?.profile_visits_28d), L("no perfil", "profile")]], spark(wk.map(r => num(r.followers))))}
+    ${card("s-fb", icon("fb"), "Facebook", fb?.link || "https://www.facebook.com/", fmt(fb?.followers), L("seguidores da página", "page followers"), [[fmt(fb?.reach), L("alcance", "reach")], [fmt(fb?.engagement), L("interações", "engagement")]], fb ? "" : `<span class="faint small">${P.loading ? L("buscando…", "loading…") : L("Sem dados da página ainda", "No page data yet")}</span>`)}
+    ${card("s-tt", icon("tt"), "TikTok", tt?.link, fmt(tt?.followers), L("seguidores", "followers"), [[fmt(tt?.views), L("views", "views")], [fmt(tt?.videos), L("vídeos", "videos")]], tt ? "" : connect("tiktok", L("Conectar TikTok", "Connect TikTok")))}
+    ${card("s-em", icon("mail"), L("Lista de e-mails", "Email list"), em?.sheet_url, fmt(em?.confirmed), L("confirmados", "confirmed") + (em?.buyers ? ` · ${fmt(em.buyers)} ${L("compradores", "buyers")}` : ""), [[fmt(em?.new_in_period), L("novos", "new")], [fmt(em?.pending), L("a confirmar", "to confirm")]], em ? "" : need(/^Google/) ? connect("google", L("Conectar Google", "Connect Google")) : `<span class="faint small">${P.loading ? L("buscando…", "loading…") : L("Reconecte o Google para ler a planilha", "Reconnect Google to read the sheet")}</span>`)}
+  </div>`;
 }
 
 /* ---------------- início: painel de métricas ---------------- */
@@ -660,10 +781,6 @@ function vHome() {
   const oT = ordersOn(t0), oY = ordersOn(t1);
   const qT = sum(oT, o => o.quantity), vT = sum(oT, o => o.net), qY = sum(oY, o => o.quantity);
   const G = periodRange();
-  const ig = igRows(), last = ig.at(-1), wk = ig.filter(r => inRange(r.date, G));
-  const fNow = last ? num(last.followers) : null, f7 = wk[0] || null, fEnd = wk.at(-1) || null;
-  const fDelta = f7 && fEnd ? num(fEnd.followers) - num(f7.followers) : null;
-  const reach7 = sum(wk, r => r.reach);
   const oP = S.orders.filter(o => o.created_at && inRange(madrid(o.created_at), G));
   const qP = sum(oP, o => o.quantity), vP = sum(oP, o => o.net);
   const up = shows().filter(s => s.date >= t0 && s.status !== "cancelled").slice(0, 10);
@@ -677,8 +794,7 @@ function vHome() {
   return `<div class="home">
   <div class="home-main">
     <div class="hello"><div><h1>${L("Olá", "Hi")}, ${esc(String(PROFILE?.name || "").split(" ")[0] || "time")}</h1><p class="muted">${fdate(t0, { weekday: "long", day: "numeric", month: "long" })}</p></div>
-      <button class="btn" id="syncall">${icon("sync")} ${L("Atualizar", "Refresh")}</button></div>
-    ${periodBar()}
+      <div class="hello-acts">${periodBar()}<button class="btn" id="syncall" aria-label="${L("Atualizar", "Refresh")}">${icon("sync")}<span class="hide-m"> ${L("Atualizar", "Refresh")}</span></button></div></div>
     <div class="stories" aria-label="${L("Próximos shows", "Upcoming shows")}">
       ${up.map(s => { const p = tickets(s) / cap(s); return `<button class="story ${nx && s.id === nx.id ? "next" : ""}" data-open="${s.id}" style="--p:${Math.min(100, p * 100)}%"><span class="st-ring"><span class="st-in"><b>${pd(s.date).getDate()}</b><small>${fdate(s.date, { month: "short" })}</small></span></span><span class="st-l">${fdate(s.date, { weekday: "short" })} · ${tickets(s)}/${cap(s)}</span></button>`; }).join("")}
       <button class="story add" id="addshow"><span class="st-ring"><span class="st-in">${icon("plus")}</span></span><span class="st-l">${L("Novo", "New")}</span></button>
@@ -686,9 +802,8 @@ function vHome() {
     <div class="kgrid">
       <div class="card k k-sales"><span class="k-l">${L("Vendas hoje", "Sales today")}</span><b class="k-v">${qT}<small> ${L("ingressos", "tickets")}</small></b><span class="k-s">${eur(vT)} ${L("líquido", "net")} · ${L("ontem", "yesterday")} ${qY}</span><span class="k-s k-per">${L("No período", "In period")}: <b>${qP}</b> ${L("ingressos", "tickets")} · ${eur(vP)}</span></div>
       <div class="card k k-next">${nx ? `${ring(sold / cap(nx), 92, 10, L("Ocupação do próximo show", "Next show fill"))}<div><span class="k-l">${L("Próximo show", "Next show")}</span><b class="k-v2">${fdate(nx.date, { weekday: "short", day: "numeric", month: "short" })}</b><span class="k-s">${sold}/${cap(nx)} ${L("ingressos", "tickets")} · ${daysTo(nx.date) === 0 ? L("é hoje", "tonight") : L("faltam ", "in ") + daysTo(nx.date) + L(" dias", " days")}</span></div>` : `<span class="k-l">${L("Próximo show", "Next show")}</span><span class="k-s">${L("Nenhum show marcado", "No show booked")}</span>`}</div>
-      <div class="card k"><span class="k-l">${L("Seguidores", "Followers")} · @osbrasileuros</span><b class="k-v">${fNow != null ? fNow.toLocaleString(LANG === "en" ? "en-GB" : "pt-BR") : "—"}</b><span class="k-s ${fDelta > 0 ? "up" : fDelta < 0 ? "down" : ""}">${fDelta != null ? (fDelta > 0 ? "+" : "") + fDelta + L(" no período", " in period") : ig.length ? L("Sem histórico no período", "No history in period") : L("Conecte o Instagram", "Connect Instagram")}</span>${spark(wk.map(r => num(r.followers)))}</div>
-      <div class="card k"><span class="k-l">${L("Alcance no período", "Reach in period")}</span><b class="k-v">${wk.length ? reach7.toLocaleString(LANG === "en" ? "en-GB" : "pt-BR") : "—"}</b><span class="k-s">${last?.profile_visits != null ? num(last.profile_visits) + L(" visitas ao perfil ontem", " profile visits yesterday") : L("contas alcançadas", "accounts reached")}</span>${spark(wk.map(r => num(r.reach)))}</div>
     </div>
+    ${socialBlock()}
     ${flowBlock()}
     <div class="card pad sec2"><div class="sec-h"><h2 class="grow">${L("Ingressos vendidos", "Tickets sold")} ${unitL}</h2><span class="muted small">${qP} ${L("no período", "in period")}</span></div>${salesBars(G)}
       <p class="faint small" style="margin:8px 0 0">${ebSync?.at ? L("Eventbrite sincronizado ", "Eventbrite synced ") + ago(ebSync.at) + ". " : ""}${L("Atualiza sozinho a cada 30 minutos.", "Updates on its own every 30 minutes.")}</p></div>
@@ -709,13 +824,12 @@ function vHome() {
 }
 function wireHome() {
   wirePeriod();
-  const gc = $("#g-connect");
-  if (gc) gc.onclick = async () => {
+  document.querySelectorAll("[data-connect]").forEach(gc => gc.onclick = async () => {
     if (DEMO) { toast(L("Na demonstração nada é conectado", "Nothing connects in demo mode")); return; }
     gc.disabled = true;
-    try { const r = await fnCall("google-oauth", { action: "start" }); location.href = r.url; }
+    try { const r = await fnCall(gc.dataset.connect + "-oauth", { action: "start" }); location.href = r.url; }
     catch (e) { gc.disabled = false; toast(e.message); }
-  };
+  });
   document.querySelectorAll("[data-open]").forEach(c => c.onclick = () => go({ view: "show", showId: c.dataset.open, tab: "overview" }));
   $("#addshow").onclick = newShow;
   $("#syncall").onclick = async () => {
@@ -788,7 +902,7 @@ function flowBlock() {
     ${worst ? `<div class="tip"><b>${L("Gargalo agora", "Bottleneck now")}: ${esc(worst.l)}</b> — ${worst.rate}% ${L("da etapa anterior (referência", "of the previous step (reference")} ${FLOW_REF[worst.k]}%). ${FLOW_TIP[worst.k]()}</div>` : ""}
     <p class="faint small" style="margin:10px 0 0">${L("Cada etapa vem de uma fonte diferente, então as taxas são aproximadas. O site conta só quem aceitou cookies e já exclui robôs.", "Each step comes from a different source, so rates are approximate. The site counts only cookie-accepting visitors and excludes bots.")}</p>
     ${missing.length ? `<p class="faint small" style="margin:6px 0 0">${missing.map(esc).join(" · ")}</p>` : ""}
-    ${missing.some(m => /^Google/.test(m)) ? `<div class="tip" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="grow">${L("Ligue o Google Analytics e o Search Console com a conta que tem acesso a eles.", "Link Google Analytics and Search Console with the account that can see them.")}</span><button class="btn btn-sun" id="g-connect">${L("Conectar Google", "Connect Google")}</button></div>` : ""}
+    ${missing.some(m => /^Google/.test(m)) ? `<div class="tip" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="grow">${L("Ligue o Google Analytics e o Search Console com a conta que tem acesso a eles.", "Link Google Analytics and Search Console with the account that can see them.")}</span><button class="btn btn-sun" data-connect="google">${L("Conectar Google", "Connect Google")}</button></div>` : ""}
   </div>
   <div class="cols sec2">
     <div class="card pad"><h2 style="margin-bottom:10px">${L("De onde vem quem compra", "Where buyers come from")}</h2>
@@ -809,6 +923,9 @@ function flowBlock() {
 function demoInsights() {
   const t0 = today();
   return { at: new Date(Date.now() - 42 * 6e4).toISOString(), data: { period: "28d", errors: [],
+    fb: { name: "Brasileuros", followers: 212, reach: 1840, engagement: 96, link: "https://www.facebook.com/" },
+    tiktok: { username: "osbrasileuros", followers: 431, likes: 5120, videos: 6, views: 18400, link: "https://www.tiktok.com/" },
+    emails: { total: 15, confirmed: 5, pending: 2, buyers: 8, new_in_period: 7, confirmed_in_period: 5, by_lang: { pt: 2, en: 2, es: 1 }, sheet_url: "#" },
     ga: { site_users: 15, entradas_users: 6, buy_users: 8, buy_clicks: 24, eb_users: 6, checkout_users: 2, signups: 4, leads: 3, wa_users: 0,
       channels: [{ src: "(direct) / (none)", sessions: 38, users: 10, dur: 180, buy_clicks: 8, buy_users: 3 }, { src: "ig / social", sessions: 15, users: 6, dur: 302, buy_clicks: 14, buy_users: 5 }, { src: "linktr.ee / referral", sessions: 2, users: 2, dur: 27, buy_clicks: 1, buy_users: 1 }, { src: "google / organic", sessions: 1, users: 1, dur: 3, buy_clicks: 0, buy_users: 0 }],
       devices: [{ device: "mobile", users: 13 }, { device: "desktop", users: 4 }], hours: [{ hour: 11, sessions: 7 }, { hour: 17, sessions: 9 }, { hour: 22, sessions: 3 }] },
@@ -1111,66 +1228,125 @@ const SHOW_FIELDS = () => [
   { k: "eb_url", l: L("Link do Eventbrite", "Eventbrite link"), t: "url", full: true },
   { k: "notes", l: L("Notas", "Notes"), t: "area" },
 ];
+function nextFreeWednesdays(n = 6) {
+  const taken = new Set(S.shows.map(x => x.date)); const out = []; let d = today();
+  while (out.length < n) { const wd = pd(d).getDay(); if (wd === 3 && !taken.has(d)) out.push(d); d = addDays(d, 1); }
+  return out;
+}
 function newShow() {
-  const last = shows().at(-1);
-  modal(L("Novo show", "New show"), SHOW_FIELDS(), { ...SHOW_DEFAULTS, date: last ? addDays(last.date, 7) : today() }, async row => {
-    if (S.shows.some(s => s.date === row.date)) throw new Error(L("Já existe um show nessa data.", "There is already a show on that date."));
-    row.id = "s" + uid();
-    const s = await save("shows", row);
-    const tasks = template().map(t => ({ id: s.id + ":" + t.key, show_id: s.id, template_key: t.key, title: t.title, sector: t.sector, due: addDays(s.date, t.offset), done: false }));
-    const { data, error } = DEMO ? { data: tasks } : await sb.from("tasks").upsert(tasks).select(); if (error) throw error;
-    data.forEach(t => { const i = S.tasks.findIndex(x => x.id === t.id); if (i >= 0) S.tasks[i] = t; else S.tasks.push(t); });
-    logAct("show_created", { date: s.date, by: PROFILE?.name });
-    R.view = "show"; R.showId = s.id; R.tab = "overview";
-  });
+  const last = shows().filter(x => x.status !== "cancelled").at(-1);
+  R.ns = { step: 0, dir: 1, row: { ...SHOW_DEFAULTS, ...(last ? { venue: last.venue, capacity: last.capacity, cash_price: last.cash_price, bizum_price: last.bizum_price, time: last.time, title: last.title } : {}), date: nextFreeWednesdays(1)[0] } };
+  go({ view: "newshow" });
+}
+const NS_STEPS = () => [["when", L("Quando", "When")], ["where", L("Onde", "Where")], ["price", L("Ingresso", "Ticket")], ["review", L("Conferir", "Review")]];
+function vNewShow() {
+  if (!R.ns) { const last = shows().filter(x => x.status !== "cancelled").at(-1); R.ns = { step: 0, dir: 1, row: { ...SHOW_DEFAULTS, ...(last ? { venue: last.venue, capacity: last.capacity, cash_price: last.cash_price, bizum_price: last.bizum_price, time: last.time, title: last.title } : {}), date: nextFreeWednesdays(1)[0] } }; }
+  const { step, row, dir } = R.ns, st = NS_STEPS(), k = st[step][0];
+  const nTasks = template().length;
+  const body = {
+    when: `<h2 class="ns-q">${L("Qual é a data do show?", "When is the show?")}</h2>
+      <div class="ns-chips">${nextFreeWednesdays(6).map(d => `<button type="button" class="pchip ${row.date === d ? "on" : ""}" data-nsdate="${d}">${fdate(d, { weekday: "short", day: "numeric", month: "short" })}</button>`).join("")}</div>
+      <div class="grid2"><label class="f"><span>${L("Outra data", "Another date")}</span><input type="date" name="date" value="${esc(row.date)}" required></label><label class="f"><span>${L("Horário", "Time")}</span><input type="time" name="time" value="${esc(row.time)}"></label></div>`,
+    where: `<h2 class="ns-q">${L("Onde vai ser?", "Where is it?")}</h2>
+      <div class="grid2"><label class="f full"><span>${L("Local", "Venue")}</span><input type="text" name="venue" value="${esc(row.venue)}" required></label><label class="f"><span>${L("Lugares", "Seats")}</span><input type="number" name="capacity" value="${esc(row.capacity)}" min="1"></label><label class="f"><span>${L("Nome do show", "Show name")}</span><input type="text" name="title" value="${esc(row.title)}"></label></div>`,
+    price: `<h2 class="ns-q">${L("Quanto custa o ingresso?", "How much is a ticket?")}</h2>
+      <div class="grid2"><label class="f"><span>${L("Na porta (€)", "At the door (€)")}</span><input type="number" step="any" name="cash_price" value="${esc(row.cash_price)}"></label><label class="f"><span>Bizum (€)</span><input type="number" step="any" name="bizum_price" value="${esc(row.bizum_price)}"></label><label class="f full"><span>${L("Link do Eventbrite (pode ficar para depois)", "Eventbrite link (can wait)")}</span><input type="url" name="eb_url" value="${esc(row.eb_url || "")}" placeholder="https://www.eventbrite.com/e/…"></label></div>`,
+    review: `<h2 class="ns-q">${L("Tudo certo?", "All good?")}</h2>
+      <div class="ns-sum"><div class="prof-av sm"><span class="st-in"><b>${pd(row.date).getDate()}</b><small>${fdate(row.date, { month: "short" })}</small></span></div>
+        <div><b>${fdate(row.date, { weekday: "long", day: "numeric", month: "long" })} · ${esc(row.time || "")}</b><div class="muted">${esc(row.title || "")}</div><div class="muted">${esc(row.venue || "")} · ${num(row.capacity)} ${L("lugares", "seats")} · ${eur(row.cash_price)}</div></div></div>
+      <p class="muted small" style="margin:14px 0 0">${L("Ao criar, o painel já monta as ", "Creating it sets up the ")}${nTasks}${L(" tarefas do show com as datas certas.", " show tasks with the right dates.")}</p>`,
+  }[k];
+  return `<div class="ns">
+    <div class="ns-top"><button class="btn ghost sm" id="ns-x">${icon("back")} ${L("Cancelar", "Cancel")}</button><span class="grow"></span><span class="muted small">${step + 1}/${st.length}</span></div>
+    <div class="ns-prog">${st.map((x, i) => `<span class="${i < step ? "done" : i === step ? "on" : ""}"><i></i><small>${x[1]}</small></span>`).join("")}</div>
+    <form class="card ns-card ${dir > 0 ? "in-r" : "in-l"}" id="nsf" novalidate>${body}
+      <div id="ns-err"></div>
+      <div class="ns-acts">${step ? `<button type="button" class="btn" id="ns-back">${L("Voltar", "Back")}</button>` : ""}<span class="grow"></span><button class="btn primary btn-sun" id="ns-next">${step === st.length - 1 ? L("Criar show", "Create show") : L("Continuar", "Continue")}</button></div>
+    </form></div>`;
+}
+function wireNewShow() {
+  if (!R.ns) return;
+  const f = $("#nsf"), st = NS_STEPS();
+  const keep = () => { new FormData(f).forEach((v, k) => { R.ns.row[k] = ["capacity", "cash_price", "bizum_price"].includes(k) ? (v === "" ? null : num(v)) : v; }); };
+  const err = m => { $("#ns-err").innerHTML = `<div class="msg err">${esc(m)}</div>`; };
+  document.querySelectorAll("[data-nsdate]").forEach(b => b.onclick = () => { keep(); R.ns.row.date = b.dataset.nsdate; f.querySelector('[name="date"]').value = b.dataset.nsdate; document.querySelectorAll("[data-nsdate]").forEach(x => x.classList.toggle("on", x === b)); });
+  $("#ns-x").onclick = () => { R.ns = null; go({ view: "shows" }); };
+  const back = $("#ns-back"); if (back) back.onclick = () => { keep(); R.ns.step--; R.ns.dir = -1; render(); };
+  f.onsubmit = async e => {
+    e.preventDefault(); keep(); const row = R.ns.row, k = st[R.ns.step][0];
+    if (k === "when") { if (!row.date) return err(L("Escolha a data.", "Pick a date.")); if (S.shows.some(x => x.date === row.date)) return err(L("Já existe um show nessa data.", "There is already a show on that date.")); }
+    if (k === "where" && !String(row.venue || "").trim()) return err(L("Informe o local.", "Enter the venue."));
+    if (R.ns.step < st.length - 1) { R.ns.step++; R.ns.dir = 1; render(); return; }
+    const b = $("#ns-next"); b.disabled = true; b.textContent = L("Criando…", "Creating…");
+    try {
+      const s = await save("shows", { ...row, id: "s" + uid(), eb_url: row.eb_url || null });
+      const tasks = template().map(t => ({ id: s.id + ":" + t.key, show_id: s.id, template_key: t.key, title: t.title, sector: t.sector, due: addDays(s.date, t.offset), done: false }));
+      const { data, error } = DEMO ? { data: tasks } : await sb.from("tasks").upsert(tasks).select(); if (error) throw error;
+      data.forEach(t => { const i = S.tasks.findIndex(x => x.id === t.id); if (i >= 0) S.tasks[i] = t; else S.tasks.push(t); });
+      logAct("show_created", { date: s.date, by: PROFILE?.name });
+      R.ns = null; toast(L("Show criado", "Show created")); go({ view: "show", showId: s.id, tab: "overview" });
+    } catch (x) { b.disabled = false; b.textContent = L("Criar show", "Create show"); err(x.message || String(x)); }
+  };
+  setTimeout(() => f.querySelector("input")?.focus({ preventScroll: true }), 60);
 }
 
 /* ---------------- event page ---------------- */
-const TABS = () => [["overview", L("Visão geral", "Overview")], ...SECTORS.map(s => [s[0], L(s[1], s[2])])];
+/* página do show: perfil estilo Instagram, tudo numa tela (sem abas) */
+function showTasks(s) {
+  const t0 = today(), wkEnd = addDays(t0, 6), f = R.tfilter || "day";
+  const open = tasksOf(s.id).filter(t => !t.done).sort((a, b) => (a.due || "9").localeCompare(b.due || "9"));
+  const list = open.filter(t => t.due && (f === "day" ? t.due <= t0 : t.due <= wkEnd));
+  const nextUp = open.find(t => t.due && t.due > (f === "day" ? t0 : wkEnd));
+  const doneToday = tasksOf(s.id).filter(t => t.done && t.done_at && madrid(t.done_at) === t0);
+  return `<div class="card pad ptasks">
+    <div class="sec-h"><h3 class="grow">${L("O que fazer", "To do")}</h3>
+      <div class="seg" role="tablist"><button role="tab" data-tf="day" class="${f === "day" ? "on" : ""}" aria-selected="${f === "day"}">${L("Hoje", "Today")}</button><button role="tab" data-tf="week" class="${f === "week" ? "on" : ""}" aria-selected="${f === "week"}">${L("Semana", "Week")}</button></div></div>
+    <div class="list">${list.map(t => taskItem(t, { sector: true, due: t.due !== t0, edit: true })).join("") || `<div class="empty">${f === "day" ? L("Nada para hoje", "Nothing for today") : L("Nada nesta semana", "Nothing this week")}${nextUp ? ` · ${L("próxima", "next")}: <b>${esc(taskTitle(nextUp))}</b> ${L("em", "on")} ${fdate(nextUp.due, { day: "numeric", month: "short" })}` : ""}</div>`}</div>
+    ${doneToday.length ? `<p class="faint small" style="margin:10px 0 0">${icon("check")} ${doneToday.length} ${L("feita(s) hoje", "done today")}</p>` : ""}
+  </div>`;
+}
 function vShow() {
   const s = showById(R.showId); if (!s) { R.view = "home"; return vHome(); }
-  const d = daysTo(s.date);
-  const tabChip = k => { if (k === "overview") return ""; const p = progress(s.id, k); return p.total ? `<span class="chip ${p.done === p.total ? "ok" : ""}">${p.done}/${p.total}</span>` : ""; };
-  const body = { overview: tOverview, Show: tLineup, Instagram: tInstagram, Anuncios: tAds, Cupons: tCoupons, Ingressos: tTickets, Financeiro: tMoney }[R.tab] || tOverview;
+  const d = daysTo(s.date), sold = tickets(s), all = tasksOf(s.id), doneN = all.filter(t => t.done).length;
+  const bk = lineupOf(s.id).filter(booked).length;
+  const status = s.status === "cancelled" ? `<span class="chip bad">${L("Cancelado", "Cancelled")}</span>` : d < 0 ? `<span class="chip">${L("Realizado", "Done")}</span>` : `<span class="chip warn">${d === 0 ? L("Hoje", "Tonight") : L("em ", "in ") + d + L(" dias", " days")}</span>`;
+  const hl = SECTORS.map(([k]) => { const p = progress(s.id, k); const pct = p.total ? p.done / p.total * 100 : 0; return `<a class="hl" href="#c-${k}" data-jump="c-${k}"><span class="hl-ring" style="--p:${pct}%;--sc:${SECTOR_COLOR(k)}"><span class="hl-in">${p.total ? `${p.done}/${p.total}` : "—"}</span></span><span class="hl-l">${SECTOR_NAME(k)}</span></a>`; }).join("");
   return `
-  <button class="btn ghost sm" id="back">← Shows</button>
-  <div class="ev-head" style="margin-top:10px">
-    <div class="grow"><h1>${fdate(s.date, { weekday: "long", day: "numeric", month: "long" })} · ${esc(s.time)}</h1>
-      <div class="muted" style="margin-top:4px">${esc(s.title)} · ${esc(s.venue || "")}</div>
-      <div class="row wrap" style="margin-top:10px">${s.status === "cancelled" ? `<span class="chip bad">${L("Cancelado", "Cancelled")}</span>` : d < 0 ? `<span class="chip">${L("Realizado", "Done")}</span>` : `<span class="chip warn">${d === 0 ? L("Hoje", "Tonight") : L("em ", "in ") + d + L(" dias", " days")}</span>`}
-      ${s.eb_url ? `<a class="chip" href="${esc(s.eb_url)}" target="_blank" rel="noopener">Eventbrite</a>` : `<span class="chip bad">${L("Sem link do Eventbrite", "No Eventbrite link")}</span>`}</div></div>
-    <div class="row"><button class="btn" id="editshow">${L("Editar show", "Edit show")}</button><button class="btn" id="addt">+ ${L("Tarefa", "Task")}</button></div>
-  </div>
-  <div class="tabs">${TABS().map(([k, lab]) => `<button data-tab="${k}" class="${R.tab === k ? "on" : ""}">${lab}${tabChip(k)}</button>`).join("")}</div>
-  ${body(s)}`;
-}
-function sectorTasks(s, sector) {
-  const ts = tasksOf(s.id).filter(t => t.sector === sector);
-  return `<div class="card pad"><div class="sec-h"><h3 class="grow">${L("Tarefas", "Tasks")}</h3></div><div class="list">${ts.map(t => taskItem(t, { due: true, edit: true })).join("") || `<div class="empty">${L("Nenhuma tarefa", "No tasks")}</div>`}</div></div>`;
-}
-function tOverview(s) {
-  const open = tasksOf(s.id).filter(t => !t.done);
-  return `<div class="sectors">${SECTORS.map(([k]) => { const p = progress(s.id, k); const pct = p.total ? Math.round(p.done / p.total * 100) : 0; return `<div class="card sector" data-tab="${k}"><div class="row"><span class="dot" style="background:${SECTOR_COLOR(k)}"></span><b class="grow">${SECTOR_NAME(k)}</b><span class="faint small">${p.done}/${p.total}</span></div><div class="bar ${pct === 100 ? "done" : ""}" style="margin-top:10px"><i style="width:${pct}%"></i></div></div>`; }).join("")}</div>
-  <div class="cols sec">
-    <div class="card pad"><h3 style="margin-bottom:10px">${L("Próximas tarefas", "Open tasks")} (${open.length})</h3><div class="list">${open.map(t => taskItem(t, { sector: true, due: true, edit: true })).join("") || `<div class="empty">${L("Tudo feito", "All done")}</div>`}</div></div>
-    <div class="card pad"><h3 style="margin-bottom:10px">${L("Resumo", "Summary")}</h3>
-      <table><tr><td class="muted">Barcelouca</td><td class="num">${lineupOf(s.id).filter(booked).length}/${LINEUP_GOAL}</td></tr>
-      <tr><td class="muted">${L("Ingressos", "Tickets")}</td><td class="num">${tickets(s)}</td></tr>
-      <tr><td class="muted">${L("Receita", "Income")}</td><td class="num">${eur(income(s) + sponsorIn(s))}</td></tr>
-      <tr><td class="muted">${L("Cachês", "Fees")}</td><td class="num">${eur(fees(s))}</td></tr>
-      <tr><td><b>${s.date > today() ? L("Resultado previsto", "Expected result") : L("Resultado", "Result")}</b></td><td class="num"><b>${eur(net(s))}</b></td></tr></table>
-      ${s.notes ? `<p class="muted small" style="margin:12px 0 0">${esc(s.notes)}</p>` : ""}</div>
+  <button class="btn ghost sm" id="back">${icon("back")} Shows</button>
+  <section class="prof">
+    <div class="prof-av" style="--p:${Math.min(100, sold / cap(s) * 100)}%"><span class="st-in"><b>${pd(s.date).getDate()}</b><small>${fdate(s.date, { month: "short" })}</small></span></div>
+    <div class="prof-main">
+      <div class="prof-top"><h1>${fdate(s.date, { weekday: "long", day: "numeric", month: "long" })}</h1>
+        <div class="prof-acts"><button class="btn sm" id="editshow">${L("Editar show", "Edit show")}</button><button class="btn sm" id="addt">+ ${L("Tarefa", "Task")}</button>${s.eb_url ? `<a class="btn sm" href="${esc(s.eb_url)}" target="_blank" rel="noopener">Eventbrite</a>` : ""}</div></div>
+      <ul class="prof-stats">
+        <li><b>${sold}/${cap(s)}</b> ${L("ingressos", "tickets")}</li>
+        <li><b>${bk}/${LINEUP_GOAL}</b> Barcelouca</li>
+        <li><b>${doneN}/${all.length}</b> ${L("tarefas", "tasks")}</li>
+        <li><b>${eur(net(s))}</b> ${s.date > today() ? L("previsto", "expected") : L("resultado", "result")}</li>
+      </ul>
+      <div class="prof-bio"><b>${esc(s.title)}</b><span class="muted">${esc(s.venue || "")} · ${esc(s.time || "")}</span><span class="row wrap" style="gap:6px;margin-top:6px">${status}${s.eb_url ? "" : `<span class="chip bad">${L("Sem link do Eventbrite", "No Eventbrite link")}</span>`}</span>${s.notes ? `<span class="muted small" style="margin-top:6px">${esc(s.notes)}</span>` : ""}</div>
+    </div>
+  </section>
+  <nav class="hls" aria-label="${L("Setores", "Sectors")}">${hl}</nav>
+  <div class="pgrid">
+    ${showTasks(s)}
+    ${tTickets(s)}
+    ${tLineup(s)}
+    ${tInstagram(s)}
+    ${tMoney(s)}
+    ${tAds(s)}
+    ${tCoupons(s)}
   </div>`;
 }
 const PAY = () => [["Invited", L("Convidado", "Invited")], ["Confirmed", L("Confirmado", "Confirmed")], ["Paid", L("Pago", "Paid")], ["Declined", L("Recusou", "Declined")]];
 function tLineup(s) {
   const lu = lineupOf(s.id);
-  return `<div class="cols"><div class="card pad">
+  return `<div class="card pad pcard" id="c-Show" style="--sc:${SECTOR_COLOR("Show")}">
     <div class="sec-h"><h3 class="grow">${L("Convidados do Barcelouca", "Barcelouca guests")} (${lu.filter(booked).length}/${LINEUP_GOAL} ${L("confirmados", "confirmed")})</h3><button class="btn sm primary" id="addlu">+ ${L("Comediante", "Comedian")}</button></div>
     ${lu.length ? `<div class="tablewrap"><table><tr><th>${L("Nome", "Name")}</th><th>${L("Posição", "Spot")}</th><th class="num">${L("Cachê", "Fee")}</th><th>Status</th><th>${L("Cupom", "Coupon")}</th><th></th></tr>
     ${lu.map(l => { const c = S.comedians.find(x => x.id === l.comedian_id); return `<tr><td><b>${esc(l.artist)}</b>${c?.email ? `<div class="faint small">${esc(c.email)}</div>` : ""}</td><td>${esc(l.spot === "headliner" ? "Headliner" : L("Convidado", "Guest"))}</td><td class="num">${eur(l.fee)}</td><td><span class="chip ${booked(l) ? "ok" : ""}">${esc((PAY().find(p => p[0] === l.payment) || [0, l.payment])[1])}</span></td><td>${l.coupon_code ? `<span class="chip">${esc(l.coupon_code)}</span>` : ""}</td><td class="num"><button class="btn ghost sm" data-lu="${l.id}">${L("Editar", "Edit")}</button></td></tr>`; }).join("")}</table></div>` : `<div class="empty">${L("Ninguém no lineup ainda", "No one booked yet")}</div>`}
     <p class="faint small" style="margin:12px 0 0">${L("Ao adicionar um comediante com e-mail, o sistema cria um cupom de 10% com o nome dele.", "Adding a comedian with an e-mail creates a 10% coupon with their name.")}</p>
-  </div>${sectorTasks(s, "Show")}</div>`;
+  </div>`;
 }
 function couponCodeFor(name) {
   const base = String(name || "").normalize("NFD").replace(/[̀-ͯ]/g, "").split(/\s+/)[0].replace(/[^A-Za-z0-9]/g, "").toUpperCase().slice(0, 12) || "AMIGO";
@@ -1208,10 +1384,10 @@ function editLineup(s, l) {
 }
 function tInstagram(s) {
   const posts = S.instagram.filter(p => p.show_id === s.id).sort((a, b) => (a.date || "").localeCompare(b.date || ""));
-  return `<div class="cols">${sectorTasks(s, "Instagram")}<div class="card pad">
+  return `<div class="card pad pcard" id="c-Instagram" style="--sc:${SECTOR_COLOR("Instagram")}">
     <div class="sec-h"><h3 class="grow">${L("Posts e stories", "Posts and stories")}</h3><button class="btn sm primary" id="addpost">+ Post</button></div>
     ${posts.length ? `<table><tr><th>${L("Data", "Date")}</th><th>${L("Formato", "Format")}</th><th>${L("Título", "Title")}</th><th>Status</th><th></th></tr>${posts.map(p => `<tr><td>${fdate(p.date)}</td><td>${esc(p.format || "")}</td><td>${esc(p.title || "")}</td><td><span class="chip ${p.status === "Published" ? "ok" : ""}">${esc(p.status || "")}</span></td><td class="num"><button class="btn ghost sm" data-post="${p.id}">${L("Editar", "Edit")}</button></td></tr>`).join("")}</table>` : `<div class="empty">${L("Nenhum post planejado", "No posts planned")}</div>`}
-  </div></div>`;
+  </div>`;
 }
 function editPost(s, p) {
   modal(p ? L("Editar post", "Edit post") : L("Novo post", "New post"), [
@@ -1226,10 +1402,10 @@ function editPost(s, p) {
 }
 function tAds(s) {
   const ads = S.ads.filter(a => a.show_id === s.id);
-  return `<div class="cols">${sectorTasks(s, "Anuncios")}<div class="card pad">
+  return `<div class="card pad pcard" id="c-Anuncios" style="--sc:${SECTOR_COLOR("Anuncios")}">
     <div class="sec-h"><h3 class="grow">${L("Anúncios", "Ads")}</h3><button class="btn sm primary" id="addad">+ ${L("Anúncio", "Ad")}</button></div>
     ${ads.length ? `<table><tr><th>${L("Período", "Period")}</th><th class="num">${L("Verba", "Budget")}</th><th class="num">${L("Gasto", "Spent")}</th><th>Status</th><th></th></tr>${ads.map(a => `<tr><td>${fdate(a.start_date, { day: "numeric", month: "short" })} – ${fdate(a.end_date, { day: "numeric", month: "short" })}</td><td class="num">${eur(a.budget)}</td><td class="num">${eur(a.spent)}</td><td><span class="chip">${esc(a.status)}</span></td><td class="num"><button class="btn ghost sm" data-ad="${a.id}">${L("Editar", "Edit")}</button></td></tr>`).join("")}</table>` : `<div class="empty">${L("Nenhum anúncio", "No ads yet")}</div>`}
-  </div></div>`;
+  </div>`;
 }
 function editAd(s, a) {
   modal(a ? L("Editar anúncio", "Edit ad") : L("Novo anúncio", "New ad"), [
@@ -1245,22 +1421,22 @@ function couponRows(list) {
 }
 function tCoupons(s) {
   const mine = S.coupons.filter(c => c.show_id === s.id || !c.show_id).sort((a, b) => (b.show_id === s.id) - (a.show_id === s.id) || a.code.localeCompare(b.code));
-  return `<div class="cols">${sectorTasks(s, "Cupons")}<div class="card pad"><div class="sec-h"><h3 class="grow">${L("Cupons válidos para este show", "Coupons for this show")}</h3><button class="btn sm primary" id="addcoupon">+ ${L("Cupom", "Coupon")}</button></div>${couponRows(mine)}</div></div>`;
+  return `<div class="card pad pcard" id="c-Cupons" style="--sc:${SECTOR_COLOR("Cupons")}"><div class="sec-h"><h3 class="grow">${L("Cupons válidos para este show", "Coupons for this show")}</h3><button class="btn sm primary" id="addcoupon">+ ${L("Cupom", "Coupon")}</button></div>${couponRows(mine)}</div>`;
 }
 function tTickets(s) {
   const ords = S.orders.filter(o => o.show_id === s.id).sort((a, b) => (b.created_at || "").localeCompare(a.created_at || ""));
   const last = (S.settings.find(x => x.key === "eb_last_sync") || {}).value;
   const differs = s.eb_sync_at && (num(s.eb_sync_tickets) !== num(s.eb_tickets) || Math.abs(num(s.eb_sync_net) - num(s.eb_net)) > 0.009);
-  return `<div class="cols">${sectorTasks(s, "Ingressos")}<div class="card pad">
+  return `<div class="card pad pcard" id="c-Ingressos" style="--sc:${SECTOR_COLOR("Ingressos")}">
     <div class="sec-h wrap"><h3 class="grow">${L("Ingressos", "Tickets")}</h3><button class="btn sm" id="ebsync">${L("Sincronizar agora", "Sync now")}</button><button class="btn sm" id="edittix">${L("Editar n\u00fameros", "Edit numbers")}</button></div>
     <div class="kpis"><div class="card kpi"><span class="muted small">Eventbrite</span><b>${num(s.eb_tickets)}</b><span class="faint small">${eur(s.eb_net)} ${L("l\u00edquido", "net")}</span></div><div class="card kpi"><span class="muted small">${L("Porta (dinheiro)", "Door (cash)")}</span><b>${num(s.cash_tickets)}</b></div><div class="card kpi"><span class="muted small">Bizum</span><b>${num(s.bizum_tickets)}</b></div><div class="card kpi"><span class="muted small">${L("Cortesia", "Free")}</span><b>${num(s.free_tickets)}</b></div></div>
     ${differs ? `<div class="msg" style="margin-top:12px;background:var(--accent-soft);color:var(--text)">${L("O Eventbrite informa ", "Eventbrite reports ")}${num(s.eb_sync_tickets)} ${L("ingressos e ", "tickets and ")}${eur(s.eb_sync_net)} ${L("l\u00edquido. O painel usa os n\u00fameros registrados por voc\u00eas.", "net. The hub uses the figures you recorded.")} <button class="btn sm" id="usesync" style="margin-left:6px">${L("Usar os do Eventbrite", "Use Eventbrite's")}</button></div>` : ""}
     <p class="faint small" style="margin:12px 0 0">${s.eb_event_id ? L("Ligado ao evento ", "Linked to event ") + esc(s.eb_event_id) : L("Ainda sem evento do Eventbrite ligado.", "No Eventbrite event linked yet.")}${last?.at ? " \u00b7 " + L("\u00faltima sincroniza\u00e7\u00e3o ", "last sync ") + new Intl.DateTimeFormat(LANG === "en" ? "en-GB" : "pt-BR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(last.at)) : ""}. ${L("Atualiza sozinho a cada 30 minutos.", "Updates on its own every 30 minutes.")}</p>
-    ${ords.length ? `<h3 style="margin:16px 0 8px">${L("Pedidos", "Orders")} (${ords.length})</h3><div class="tablewrap"><table><tr><th>${L("Data", "Date")}</th><th>${L("Comprador", "Buyer")}</th><th class="num">${L("Qtd", "Qty")}</th><th>${L("Cupom", "Coupon")}</th><th class="num">${L("L\u00edquido", "Net")}</th></tr>${ords.map(o => `<tr><td class="small">${o.created_at ? fdate(o.created_at.slice(0, 10), { day: "numeric", month: "short" }) : ""}</td><td>${esc(o.buyer_name || "")}</td><td class="num">${num(o.quantity)}</td><td>${o.discount_code ? `<span class="chip">${esc(o.discount_code)}</span>` : ""}</td><td class="num">${eur(o.net)}</td></tr>`).join("")}</table></div>` : ""}
-  </div></div>`;
+    ${ords.length ? `<h3 style="margin:16px 0 8px">${L("Últimos pedidos", "Latest orders")} (${ords.length})</h3><div class="tablewrap"><table><tr><th>${L("Data", "Date")}</th><th>${L("Comprador", "Buyer")}</th><th class="num">${L("Qtd", "Qty")}</th><th>${L("Cupom", "Coupon")}</th><th class="num">${L("L\u00edquido", "Net")}</th></tr>${ords.slice(0, 6).map(o => `<tr><td class="small">${o.created_at ? fdate(o.created_at.slice(0, 10), { day: "numeric", month: "short" }) : ""}</td><td>${esc(o.buyer_name || "")}</td><td class="num">${num(o.quantity)}</td><td>${o.discount_code ? `<span class="chip">${esc(o.discount_code)}</span>` : ""}</td><td class="num">${eur(o.net)}</td></tr>`).join("")}</table></div>` : ""}
+  </div>`;
 }
 function tMoney(s) {
-  return `<div class="cols">${sectorTasks(s, "Financeiro")}<div class="card pad">
+  return `<div class="card pad pcard" id="c-Financeiro" style="--sc:${SECTOR_COLOR("Financeiro")}">
     <div class="sec-h"><h3 class="grow">${L("Caixa do show", "Show money")}</h3><button class="btn sm" id="editmoney">${L("Editar", "Edit")}</button></div>
     <table>
       <tr><td class="muted">Eventbrite (${L("líquido", "net")})</td><td class="num">${eur(s.eb_net)}</td></tr>
@@ -1270,12 +1446,13 @@ function tMoney(s) {
       <tr><td class="muted">${L("Cachês", "Fees")} (${num(s.headliners)} × ${eur(s.headliner_fee)} + ${num(s.guests)} × ${eur(s.guest_fee)})</td><td class="num">−${eur(fees(s))}</td></tr>
       <tr><td><b>${L("Resultado", "Result")}</b></td><td class="num"><b>${eur(net(s))}</b></td></tr>
       <tr><td class="muted">${L("Dinheiro com", "Money held by")}</td><td class="num">${esc(s.held_by || "—")}</td></tr>
-    </table></div></div>`;
+    </table></div>`;
 }
 function wireShow() {
   const s = showById(R.showId); if (!s) return;
   $("#back").onclick = () => go({ view: "shows" });
-  document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => go({ view: "show", showId: s.id, tab: b.dataset.tab }));
+  document.querySelectorAll("[data-tf]").forEach(b => b.onclick = () => { R.tfilter = b.dataset.tf; const y = scrollY; render(); scrollTo(0, y); });
+  document.querySelectorAll("[data-jump]").forEach(a => a.onclick = e => { e.preventDefault(); const el = document.getElementById(a.dataset.jump); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); } });
   $("#editshow").onclick = () => modal(L("Editar show", "Edit show"), SHOW_FIELDS(), s, async row => {
     const moved = row.date !== s.date; await save("shows", row);
     if (moved) { const off = Object.fromEntries(template().map(t => [t.key, t.offset])); const ups = tasksOf(s.id).filter(t => !t.done && off[t.template_key] !== undefined).map(t => ({ ...t, due: addDays(row.date, off[t.template_key]) })); if (ups.length) { const { data } = DEMO ? { data: ups } : await sb.from("tasks").upsert(ups).select(); (data || []).forEach(t => { const i = S.tasks.findIndex(x => x.id === t.id); S.tasks[i] = t; }); } }
@@ -1417,7 +1594,7 @@ function wireTeam() {
 function readHashRoute() {
   const h = location.hash.slice(1); if (!h || h.includes("access_token") || h.includes("error")) return;
   const [v, id, tab] = h.split("/");
-  if (v === "show" && id) R = { ...R, view: "show", showId: id, tab: tab || "overview" }; else if (NAV.some(n => n[0] === v)) R.view = v; else if (v === "coupons") R.view = "publico";
+  if (v === "show" && id) R = { ...R, view: "show", showId: id, tab: tab || "overview" }; else if (v === "newshow") { R.view = "newshow"; } else if (NAV.some(n => n[0] === v)) R.view = v; else if (v === "coupons") R.view = "publico";
 }
 function viewSetup() {
   $("#app").innerHTML = authShell(`
@@ -1439,11 +1616,11 @@ async function boot() {
   $("#app").innerHTML = `<div class="loading">${L("Carregando...", "Loading...")}</div>`;
   try { await loadAll(); } catch (e) { $("#app").innerHTML = `<div class="loading">${esc(e.message)}</div>`; return; }
   readHashRoute(); render();
-  const gq = new URLSearchParams(location.search).get("google");
+  const qs = new URLSearchParams(location.search), gk = qs.has("google") ? "google" : qs.has("tiktok") ? "tiktok" : null, gq = gk && qs.get(gk), gName = gk === "tiktok" ? "TikTok" : "Google";
   if (gq) {
     history.replaceState(null, "", location.pathname + location.hash);
-    if (gq === "ok") { toast(L("Google conectado. Buscando os dados…", "Google connected. Fetching data…")); for (const k in PINS) delete PINS[k]; await fnCall("metrics", {}).catch(() => {}); const ins = await sb.from("insights").select("*").order("at", { ascending: false }).limit(1); INS = ins.data?.[0] || INS; render(); toast(L("Google Analytics e Search Console ligados", "Google Analytics and Search Console linked")); }
-    else toast(L("Não deu para conectar o Google (", "Could not connect Google (") + gq + L("). Tente de novo.", "). Try again."));
+    if (gq === "ok") { toast(gName + L(" conectado. Buscando os dados…", " connected. Fetching data…")); for (const k in PINS) delete PINS[k]; await fnCall("metrics", {}).catch(() => {}); const ins = await sb.from("insights").select("*").order("at", { ascending: false }).limit(1); INS = ins.data?.[0] || INS; render(); toast(gName + L(" ligado ao painel", " linked to the hub")); }
+    else toast(L("Não deu para conectar o ", "Could not connect ") + gName + " (" + gq + L("). Tente de novo.", "). Try again."));
   }
 }
 if (sb) sb.auth.onAuthStateChange((ev) => { if (ev === "PASSWORD_RECOVERY") { AUTH_TYPE = "recovery"; } if (ev === "SIGNED_IN" && !PROFILE) setTimeout(boot, 0); });
