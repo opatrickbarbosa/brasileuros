@@ -120,8 +120,12 @@ create table if not exists public.coupons (
   comedian_id uuid references public.comedians(id) on delete set null,
   eb_discount_id text,
   notes text,
+  owner_name text,
+  owner_email text,
   created_at timestamptz not null default now()
 );
+alter table public.coupons add column if not exists owner_name text;
+alter table public.coupons add column if not exists owner_email text;
 
 create table if not exists public.ads (
   id text primary key default gen_random_uuid()::text,

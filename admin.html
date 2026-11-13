@@ -211,9 +211,97 @@ body.dr-open{overflow:hidden}
 .k-next>div{display:grid;gap:3px;min-width:0}
 .hello p::first-letter,.rail-i b::first-letter,.k-v2::first-letter{text-transform:uppercase}
 .ig .main{max-width:none;margin:0 0 0 244px;padding:28px 32px 80px}
-.home{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:48px;max-width:1120px;margin:0 auto}
-.home-main{min-width:0}
-.hello{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px}
+.home{max-width:1560px;margin:0 auto}
+.hello{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"t s a";align-items:center;gap:12px 24px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.hello-t{grid-area:t}.hello .stories{grid-area:s;border:0;margin:0;padding:4px 2px}.hello-acts{grid-area:a;display:flex;gap:8px;align-items:center}
+.hello-acts .pbar{margin:0}
+.hgrid{display:grid;gap:16px;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(330px,.82fr);grid-template-areas:"kpi kpi side" "soc soc side" "flow flow side" "src ads side";align-items:start}
+.hgrid .sec2{margin-top:0}
+.h-kpi{grid-area:kpi}.h-soc{grid-area:soc}.h-flow{grid-area:flow}.h-side{grid-area:side;display:grid;gap:16px}.h-src{grid-area:src}.h-ads{grid-area:ads}
+.h-src>.card,.h-ads>.card{height:100%}
+.h-tasks .tlist{display:grid;gap:6px}
+.h-side .sec-h h2{font-size:16px}.h-side .sec-h{flex-wrap:wrap;gap:2px 10px}
+.h-tasks .task{font-size:13px}
+.hgrid .k{min-height:128px}
+.hgrid .fs{min-height:160px}.hgrid .fbar{height:56px}
+.side-me{margin-top:auto;padding:14px 12px 6px;border-top:1px solid var(--line);display:grid;gap:10px}
+.side-me .me{margin:0}
+.side-me+.side-more{margin-top:6px}
+/* posts que levam ao perfil: números primeiro */
+.prl{display:grid;gap:2px}
+.prl-h,.pr{display:grid;grid-template-columns:minmax(0,1.4fr) 64px 56px 64px;align-items:center;gap:10px}
+.prl-h{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:0 4px 6px;border-bottom:1px solid var(--line)}
+.prl-h span:nth-child(2),.prl-h span:nth-child(3),.pr-n{text-align:right}
+.pr{padding:8px 4px;border-bottom:1px solid var(--line);color:var(--text);text-decoration:none;border-radius:8px}
+.pr:last-child{border-bottom:0}.pr:hover{background:var(--panel2)}
+.pr-big{position:relative;display:flex;align-items:baseline;gap:8px;padding:4px 0 8px}
+.pr-big b{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.pr-big em{font-style:normal;font-size:10px;font-weight:800;text-transform:uppercase;background:#FDD929;color:#0f1e3b;border-radius:999px;padding:2px 7px}
+.pr-big i{position:absolute;left:0;bottom:0;height:4px;width:var(--w);min-width:4px;border-radius:4px;background:linear-gradient(90deg,#FDD929,#3772B4)}
+.pr-n{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--muted)}
+.pr-th{position:relative;justify-self:end;display:grid;justify-items:center;gap:2px;color:var(--muted)}
+.pr-th img{width:40px;height:50px;object-fit:cover;border-radius:6px;display:block;opacity:.9}
+.pr-th small{font-size:10px;color:var(--faint,var(--muted));white-space:nowrap}
+.pr-th .pg-type{top:3px;right:3px;width:16px;height:16px}.pr-th .pg-type .ic{width:9px;height:9px}
+/* configurações + estratégia */
+.cfg{max-width:1100px;margin:0 auto}
+.cfg-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--brand-soft);color:#3772B4;flex:none}
+.cfg-ic .ic{width:20px;height:20px}
+.cfg .sec-h{gap:12px;align-items:center;margin-bottom:16px}
+.cfg-grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:start}
+.switch{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:13.5px}
+.switch input{position:absolute;opacity:0;pointer-events:none}
+.switch span{width:42px;height:24px;border-radius:999px;background:var(--line2);position:relative;transition:background .2s}
+.switch span::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.switch input:checked+span{background:#3772B4}.switch input:checked+span::after{transform:translateX(18px)}
+.switch input:focus-visible+span{outline:2px solid #3772B4;outline-offset:2px}
+.sxw{display:grid;grid-template-columns:repeat(var(--n),minmax(104px,1fr));gap:8px;overflow-x:auto;padding-bottom:4px}
+.sxw-d{display:grid;align-content:start;gap:6px;padding:10px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);min-height:120px}
+.sxw-d.show{background:var(--accent-soft);border-color:#FDD929}
+.sxw-h{font-size:11.5px;font-weight:700;text-transform:capitalize;color:var(--muted)}
+.sxw-d.show .sxw-h{color:var(--text)}
+.sxw-d{min-width:0}.sxw-i>span{min-width:0;overflow-wrap:anywhere}
+.sxw-i{display:flex;gap:7px;align-items:flex-start;padding:7px 8px;border-radius:9px;background:var(--panel);border:1px solid var(--line);font-size:12px;line-height:1.3}
+.sxw-i .ic{width:15px;height:15px;margin-top:1px;flex:none}
+.sxw-i b{display:block;font-weight:600}.sxw-i small{display:block;color:var(--muted);font-size:11px}
+.sxw-i.k-st .ic{color:#d4569b}.sxw-i.k-rl .ic{color:#3772B4}.sxw-i.k-fl .ic{color:#c99a00}
+.sx .ns{max-width:820px}
+.ns.sx{max-width:900px}
+.sx-rows{display:grid;gap:10px}
+.sx-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:10px 12px;align-items:end;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+.sx-row.rl{grid-template-columns:28px minmax(0,1.6fr) minmax(0,1fr) minmax(0,.8fr) 30px}
+.sx-row.off{opacity:.55}
+.sx-row .f{margin:0}
+.sx-on{display:flex;align-items:center;gap:10px;min-height:38px;cursor:pointer}
+.sx-on input,.sx-chk input{width:18px;height:18px;accent-color:#3772B4}
+.sx-num{width:26px;height:26px;border-radius:50%;background:#3772B4;color:#fff;display:grid;place-items:center;font-weight:700;font-size:12.5px;margin-bottom:6px}
+.sx-del{margin-bottom:4px}
+.sx-sub{font-size:13px;font-weight:600;margin:16px 0 8px}
+.sx-people{display:flex;flex-wrap:wrap;gap:8px}
+.sx-chk{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);cursor:pointer;font-weight:600;font-size:13.5px}
+.sx-chk:has(input:checked){border-color:#3772B4;background:var(--brand-soft)}
+.sx-tot{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.sx-tot span{display:grid;padding:10px 14px;border-radius:12px;background:var(--panel2);font-size:12px;color:var(--muted);min-width:110px}
+.sx-tot b{font-size:24px;font-weight:800;color:var(--text)}
+@media (max-width:1279px){
+  .hello{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"t a" "s s"}
+  .hgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"kpi kpi" "side side" "soc soc" "flow flow" "src ads"}
+  .h-side{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+}
+@media (max-width:900px){
+  .hgrid{grid-template-columns:minmax(0,1fr);grid-template-areas:"kpi" "side" "soc" "flow" "src" "ads"}
+  .h-side{grid-template-columns:minmax(0,1fr)}
+  .cfg-grid{grid-template-columns:1fr}
+  .sx-row,.sx-row.rl{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .sx-row .sx-on,.sx-row .sx-wide{grid-column:1/-1}
+  .sx-row.rl .sx-num{grid-column:1/2}
+  .sx-row.rl .sx-del{grid-column:2/3;justify-self:end;grid-row:1}
+}
+@media (max-width:767px){
+  .hello{grid-template-areas:"t a" "s s";gap:8px 12px}
+  .prl-h,.pr{grid-template-columns:minmax(0,1fr) 58px 48px 46px;gap:8px}
+  .pr-big b{font-size:22px}
+}
 .hello h1{font-size:26px}
 .hello p{margin:2px 0 0}
 .stories{display:flex;gap:16px;overflow-x:auto;padding:4px 2px 14px;scrollbar-width:none;border-bottom:1px solid var(--line);margin-bottom:22px}
@@ -268,6 +356,7 @@ body.dr-open{overflow:hidden}
   .side{width:72px;padding:22px 10px 16px}
   .side-logo img{display:none}.side-logo b{display:block}
   .side-nav button span,.side-more>button span{display:none}
+  .side-me{display:none}
   .side-nav button,.side-more>button{justify-content:center;padding:0}
   .ig .main{margin-left:72px}
 }
@@ -771,7 +860,8 @@ const fees = s => num(s.headliners) * num(s.headliner_fee) + num(s.guests) * num
 const sponsorIn = s => s.sponsor_paid ? num(s.sponsor) : 0;
 const net = s => income(s) + sponsorIn(s) - fees(s);
 const tickets = s => num(s.eb_tickets) + num(s.cash_tickets) + num(s.bizum_tickets) + num(s.free_tickets);
-const template = () => (S.settings.find(x => x.key === "task_template") || {}).value || DEFAULT_TEMPLATE;
+const baseTemplate = () => (S.settings.find(x => x.key === "task_template") || {}).value || DEFAULT_TEMPLATE;
+const template = () => { const st = strategy(); const base = baseTemplate().filter(t => !String(t.key).startsWith("sx_")); return st ? [...base.filter(t => !STRAT_REPLACES.includes(t.key)), ...compileStrategy(st)].sort((a, b) => a.offset - b.offset) : base; };
 const nextShow = () => shows().find(s => s.date >= today() && s.status !== "cancelled");
 function progress(showId, sector) {
   const ts = tasksOf(showId).filter(t => !sector || t.sector === sector);
@@ -883,6 +973,10 @@ const IC = {
   edit: '<path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
   send: '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>',
   back: '<path d="M15 5l-7 7 7 7"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  story: '<rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 6h4"/><circle cx="12" cy="13" r="3"/>',
+  print: '<path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
   eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
   share: '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>',
   save: '<path d="M6.5 3.5h11a1 1 0 0 1 1 1V21l-6.5-4.5L5.5 21V4.5a1 1 0 0 1 1-1z"/>',
@@ -896,7 +990,7 @@ const icon = (k, cls = "") => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-h
 const NAV = [["home", "Início", "Home"], ["publico", "Público", "Audience"], ["fin", "Financeiro", "Finance"], ["team", "Equipe", "Team"]];
 const curTheme = () => document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 function render() {
-  const main = { home: vHome, shows: vShows, show: vShow, newshow: vNewShow, post: vPost, fin: vFin, publico: vCoupons, email: vEmail, team: vTeam }[R.view] || vHome;
+  const main = { home: vHome, shows: vShows, show: vShow, newshow: vNewShow, post: vPost, fin: vFin, publico: vCoupons, email: vEmail, team: vTeam, config: vConfig, strategy: vStrategy }[R.view] || vHome;
   const on = k => R.view === k || (k === "home" && ["show", "newshow", "shows", "post"].includes(R.view)) || (k === "publico" && R.view === "email");
   const navBtn = ([k, pt, en]) => `<button data-nav="${k}" class="${on(k) ? "on" : ""}" aria-label="${L(pt, en)}">${icon(k)}<span>${L(pt, en)}</span></button>`;
   $("#app").innerHTML = `
@@ -906,7 +1000,12 @@ function render() {
       <a class="side-logo" href="#home" id="homelogo" aria-label="Brasileuros"><img src="/assets/logo.webp" alt="Brasileuros"><b>B€</b></a>
       <nav class="side-nav">${NAV.map(navBtn).join("")}
         <button id="newshow-side" aria-label="${L("Novo show", "New show")}">${icon("plus")}<span>${L("Novo show", "New show")}</span></button>
+        <button data-nav="config" class="${["config", "strategy"].includes(R.view) ? "on" : ""}" aria-label="${L("Configurações", "Settings")}">${icon("gear")}<span>${L("Configurações", "Settings")}</span></button>
       </nav>
+      <div class="side-me">
+        <div class="me"><span class="av">${esc(String(PROFILE?.name || ME?.email || "?").trim().split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase())}</span><div><b>${esc(PROFILE?.name || "")}</b><div class="muted small">${esc((ROLES().find(r => r[0] === PROFILE?.role) || [0, ""])[1])}</div></div></div>
+        <div class="rail-links"><a href="https://www.eventbrite.com/organizations/home" target="_blank" rel="noopener">Eventbrite</a><a href="https://www.instagram.com/osbrasileuros/" target="_blank" rel="noopener">Instagram</a><a href="https://www.brasileuros.com" target="_blank" rel="noopener">${L("Site", "Website")}</a></div>
+      </div>
       <div class="side-more">
         <button id="more" aria-label="${L("Mais", "More")}">${icon("more")}<span>${L("Mais", "More")}</span></button>
       </div>
@@ -921,6 +1020,7 @@ function render() {
       <div class="mm-row">${icon("globe")}<span>${L("Idioma", "Language")}</span><div class="mm-seg">${[["pt", "PT"], ["en", "EN"]].map(([k, l]) => `<button data-setlang="${k}" class="${LANG === k ? "on" : ""}">${l}</button>`).join("")}</div></div>
       <div class="mm-row">${icon(curTheme() === "dark" ? "moon" : "sun")}<span>${L("Tema", "Theme")}</span><div class="mm-seg">${[["light", "sun", L("Claro", "Light")], ["dark", "moon", L("Escuro", "Dark")]].map(([k, ic, l]) => `<button data-settheme="${k}" class="${curTheme() === k ? "on" : ""}" aria-label="${l}" title="${l}">${icon(ic)}</button>`).join("")}</div></div>
       <div class="mm-sep"></div>
+      <button data-nav="config">${icon("gear")}${L("Configurações", "Settings")}</button>
       <button id="out">${icon("out")}${L("Sair", "Sign out")}</button>
     </div>
   </div>`;
@@ -937,7 +1037,7 @@ function render() {
   $("#out").onclick = async () => { if (DEMO) { leaveDemo(); return; } await sb.auth.signOut(); location.reload(); };
   const dOff = $("#demo-off"); if (dOff) dOff.onclick = leaveDemo;
   wireLang(); wireCommon();
-  ({ home: wireHome, shows: wireShows, show: wireShow, newshow: wireNewShow, post: wirePost, fin: wireFin, publico: wireCoupons, email: wireEmail, team: wireTeam }[R.view] || (() => {}))();
+  ({ home: wireHome, shows: wireShows, show: wireShow, newshow: wireNewShow, post: wirePost, fin: wireFin, publico: wireCoupons, email: wireEmail, team: wireTeam, config: wireConfig, strategy: wireStrategy }[R.view] || (() => {}))();
 }
 let LASTPAGE = "";
 function pageAnim() {
@@ -1074,27 +1174,32 @@ function vHome() {
   const sold = nx ? tickets(nx) : 0;
   const ebSync = (S.settings.find(x => x.key === "eb_last_sync") || {}).value;
   const initials = n => String(n || "?").trim().split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase();
+  const mine = todo.filter(t => ownerMatches(t.owner, PROFILE?.name) || !t.owner);
+  const tasksToday = (mine.length ? mine : todo);
+  const F = flowParts();
   return `<div class="home">
-  <div class="home-main">
-    <div class="hello"><div><h1>${L("Olá", "Hi")}, ${esc(String(PROFILE?.name || "").split(" ")[0] || "time")}</h1><p class="muted">${fdate(t0, { weekday: "long", day: "numeric", month: "long" })}</p></div>
+    <div class="hello"><div class="hello-t"><h1>${L("Olá", "Hi")}, ${esc(String(PROFILE?.name || "").split(" ")[0] || "time")}</h1><p class="muted">${fdate(t0, { weekday: "long", day: "numeric", month: "long" })}</p></div>
+      <div class="stories" aria-label="${L("Próximos shows", "Upcoming shows")}">
+        ${up.map(s => { const p = tickets(s) / cap(s); return `<button class="story ${nx && s.id === nx.id ? "next" : ""}" data-open="${s.id}" style="--p:${Math.min(100, p * 100)}%" aria-label="${esc(fdate(s.date, { weekday: "long", day: "numeric", month: "long" }))}"><span class="st-ring"><span class="st-in"><b>${pd(s.date).getDate()}</b><small>${fdate(s.date, { month: "short" })}</small></span></span></button>`; }).join("")}
+        <button class="story add" id="addshow" aria-label="${L("Novo show", "New show")}"><span class="st-ring"><span class="st-in">${icon("plus")}</span></span></button>
+      </div>
       <div class="hello-acts">${periodBar()}<button class="btn" id="syncall" aria-label="${L("Atualizar", "Refresh")}">${icon("sync")}<span class="hide-m"> ${L("Atualizar", "Refresh")}</span></button></div></div>
-    <div class="stories" aria-label="${L("Próximos shows", "Upcoming shows")}">
-      ${up.map(s => { const p = tickets(s) / cap(s); return `<button class="story ${nx && s.id === nx.id ? "next" : ""}" data-open="${s.id}" style="--p:${Math.min(100, p * 100)}%"><span class="st-ring"><span class="st-in"><b>${pd(s.date).getDate()}</b><small>${fdate(s.date, { month: "short" })}</small></span></span><span class="st-l">${fdate(s.date, { weekday: "short" })} · ${tickets(s)}/${cap(s)}</span></button>`; }).join("")}
-      <button class="story add" id="addshow"><span class="st-ring"><span class="st-in">${icon("plus")}</span></span><span class="st-l">${L("Novo", "New")}</span></button>
+    <div class="hgrid">
+      <div class="kgrid h-kpi">
+        <div class="card k k-sales"><span class="k-l">${L("Vendas hoje", "Sales today")}</span><b class="k-v">${qT}<small> ${L("ingressos", "tickets")}</small></b><span class="k-s">${eur(vT)} ${L("líquido", "net")} · ${L("ontem", "yesterday")} ${qY}</span><span class="k-s k-per">${L("No período", "In period")}: <b>${qP}</b> ${L("ingressos", "tickets")} · ${eur(vP)}</span></div>
+        <div class="card k k-next">${nx ? `${ring(sold / cap(nx), 92, 10, L("Ocupação do próximo show", "Next show fill"))}<div><span class="k-l">${L("Próximo show", "Next show")}</span><b class="k-v2">${fdate(nx.date, { weekday: "short", day: "numeric", month: "short" })}</b><span class="k-s">${sold}/${cap(nx)} ${L("ingressos", "tickets")} · ${daysTo(nx.date) === 0 ? L("é hoje", "tonight") : L("faltam ", "in ") + daysTo(nx.date) + L(" dias", " days")}</span></div>` : `<span class="k-l">${L("Próximo show", "Next show")}</span><span class="k-s">${L("Nenhum show marcado", "No show booked")}</span>`}</div>
+      </div>
+      <div class="h-soc">${socialBlock()}</div>
+      <div class="h-flow">${F.flow}</div>
+      <div class="h-side">
+        <div class="card pad h-tasks"><div class="sec-h"><h2 class="grow">${L("Para hoje", "Today")}</h2><span class="chip ${tasksToday.length ? "warn" : "ok"}">${tasksToday.length}</span></div>
+          ${tasksToday.length ? `<div class="tlist">${tasksToday.slice(0, 7).map(t => taskItem(t, { showName: true })).join("")}</div>${tasksToday.length > 7 ? `<p class="faint small" style="margin:8px 0 0">+${tasksToday.length - 7} ${L("no show", "in the show page")}</p>` : ""}` : `<div class="empty">${L("Nada para hoje", "Nothing for today")}</div>`}</div>
+        ${F.posts}
+      </div>
+      <div class="h-src">${F.src}</div>
+      <div class="h-ads">${F.ads}</div>
     </div>
-    <div class="kgrid">
-      <div class="card k k-sales"><span class="k-l">${L("Vendas hoje", "Sales today")}</span><b class="k-v">${qT}<small> ${L("ingressos", "tickets")}</small></b><span class="k-s">${eur(vT)} ${L("líquido", "net")} · ${L("ontem", "yesterday")} ${qY}</span><span class="k-s k-per">${L("No período", "In period")}: <b>${qP}</b> ${L("ingressos", "tickets")} · ${eur(vP)}</span></div>
-      <div class="card k k-next">${nx ? `${ring(sold / cap(nx), 92, 10, L("Ocupação do próximo show", "Next show fill"))}<div><span class="k-l">${L("Próximo show", "Next show")}</span><b class="k-v2">${fdate(nx.date, { weekday: "short", day: "numeric", month: "short" })}</b><span class="k-s">${sold}/${cap(nx)} ${L("ingressos", "tickets")} · ${daysTo(nx.date) === 0 ? L("é hoje", "tonight") : L("faltam ", "in ") + daysTo(nx.date) + L(" dias", " days")}</span></div>` : `<span class="k-l">${L("Próximo show", "Next show")}</span><span class="k-s">${L("Nenhum show marcado", "No show booked")}</span>`}</div>
-    </div>
-    ${socialBlock()}
-    ${flowBlock()}
-  </div>
-  <aside class="rail">
-    <div class="me"><span class="av lg">${esc(initials(PROFILE?.name || ME?.email))}</span><div><b>${esc(PROFILE?.name || "")}</b><div class="muted small">${esc((ROLES().find(r => r[0] === PROFILE?.role) || [0, ""])[1])}</div></div></div>
-    <div class="rail-h"><span class="muted">${L("Atalhos", "Shortcuts")}</span></div>
-    <div class="rail-links"><a href="https://www.eventbrite.com/organizations/home" target="_blank" rel="noopener">Eventbrite</a><a href="https://www.instagram.com/osbrasileuros/" target="_blank" rel="noopener">Instagram</a><a href="https://www.brasileuros.com" target="_blank" rel="noopener">${L("Site", "Website")}</a></div>
-    <p class="faint small">Brasileuros · ${L("Painel de gestão", "Management hub")}</p>
-  </aside></div>`;
+  </div>`;
 }
 function wireHome() {
   wirePeriod();
@@ -1178,7 +1283,7 @@ function flowViz(steps, worst, mode) {
       <div class="fbar"><i style="height:${s.v == null ? 0 : Math.max(4, Math.sqrt(num(s.v) / mx) * 100)}%"></i></div>
       <b>${nf(s.v)}</b><span class="fl">${esc(s.l)}</span>${s.sub ? `<span class="faint small">${esc(s.sub)}</span>` : ""}<span class="fsrc">${esc(s.src)}</span></div>`).join("")}</div>`;
 }
-function flowBlock() {
+function flowParts() {
   const P = periodIns(), PI = P.ins, G = periodRange();
   const { steps, worst } = flowSteps(PI), d = PI?.data || {}, ga = d.ga, gsc = d.gsc, ig = d.ig, ads = d.ads;
   const t28 = sum(S.orders.filter(o => o.created_at && inRange(madrid(o.created_at), G)), o => o.quantity);
@@ -1187,8 +1292,9 @@ function flowBlock() {
   const posts = (ig?.posts || []).slice().sort((a, b) => num(b.profile_visits) - num(a.profile_visits) || num(b.reach) - num(a.reach)).slice(0, 6);
   const missing = (d.errors || []), mode = R.fview || "bars";
   const topQ = gsc?.queries?.slice().sort((a, b) => b.impressions - a.impressions)[0];
-  return `
-  <div class="card pad sec2 flow ${P.loading ? "is-loading" : ""}">
+  const mxPV = Math.max(1, ...posts.map(p => num(p.profile_visits)));
+  const flow = `
+  <div class="card pad flow ${P.loading ? "is-loading" : ""}">
     <div class="sec-h wrap"><h2 class="grow">${L("Do Instagram ao ingresso", "From Instagram to ticket")}</h2>
       <div class="seg" role="tablist">${[["bars", L("Etapas", "Steps")], ["funnel", L("Funil", "Funnel")], ["loss", L("Perdas", "Drop-offs")]].map(([k, l]) => `<button role="tab" data-fview="${k}" class="${mode === k ? "on" : ""}">${l}</button>`).join("")}</div>
       <span class="muted small">${P.loading ? L("buscando…", "loading…") : PI?.at ? L("cruzado ", "merged ") + ago(PI.at) : ""}</span></div>
@@ -1198,22 +1304,21 @@ function flowBlock() {
     <p class="faint small" style="margin:10px 0 0">${L("Cada etapa vem de uma fonte diferente, então as taxas são aproximadas. O site conta só quem aceitou cookies e já exclui robôs.", "Each step comes from a different source, so rates are approximate. The site counts only cookie-accepting visitors and excludes bots.")}</p>
     ${missing.length ? `<p class="faint small" style="margin:6px 0 0">${missing.map(esc).join(" · ")}</p>` : ""}
     ${missing.some(m => /^Google/.test(m)) ? `<div class="tip" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="grow">${L("Ligue o Google Analytics e o Search Console com a conta que tem acesso a eles.", "Link Google Analytics and Search Console with the account that can see them.")}</span><button class="btn btn-sun" data-connect="google">${L("Conectar Google", "Connect Google")}</button></div>` : ""}
-  </div>
-  <div class="card pad sec2"><div class="sec-h"><h2 class="grow">${L("Posts que levam ao perfil", "Posts that drive profile visits")}</h2><span class="muted small">${rangeLabel(G)}</span></div>
-    ${posts.length ? `<div class="pgal">${posts.map((p, i) => `<a class="pg-i" href="${esc(p.permalink)}" target="_blank" rel="noopener">
-      <span class="pg-img">${p.thumb ? `<img src="${esc(p.thumb)}" alt="" loading="lazy">` : `<span class="pg-ph">${icon("ig")}</span>`}${p.type === "REELS" || p.type === "VIDEO" ? `<span class="pg-type">${icon("play")}</span>` : ""}${i === 0 && num(p.profile_visits) ? `<span class="pg-top">${L("top", "top")}</span>` : ""}
-        <span class="pg-over"><b>${p.profile_visits != null ? nf(p.profile_visits) : "—"}</b><small>${L("visitas ao perfil", "profile visits")}</small></span></span>
-      <span class="pg-st"><span title="${L("alcance", "reach")}">${icon("eye")}${nf(p.reach)}</span><span class="pg-x" title="${L("compartilhamentos", "shares")}">${icon("share")}${nf(p.shares)}</span>${p.saved != null ? `<span class="pg-x" title="${L("salvos", "saves")}">${icon("save")}${nf(p.saved)}</span>` : ""}</span>
-      <span class="pg-d">${fdate(String(p.ts).slice(0, 10), { day: "numeric", month: "short" })}</span></a>`).join("")}</div>` : `<div class="empty">${L("Liga o Instagram para ver os posts.", "Connect Instagram to see posts.")}</div>`}
-  </div>
-  <div class="cols sec2">
-    <div class="card pad"><h2 style="margin-bottom:10px">${L("De onde vem quem compra", "Where buyers come from")}</h2>
-      ${ga?.channels?.length ? `<div class="tablewrap"><table><tr><th>${L("Origem", "Source")}</th><th class="num">${L("Pessoas", "People")}</th><th class="num">${L("Clicaram comprar", "Clicked buy")}</th><th class="num">%</th></tr>${ga.channels.map(c => `<tr><td>${esc(c.src)}</td><td class="num">${nf(c.users)}</td><td class="num">${nf(c.buy_users)}</td><td class="num">${c.users ? pct(c.buy_users, c.users) + "%" : "—"}</td></tr>`).join("")}</table></div>
-      <p class="faint small" style="margin:10px 0 0">${mob != null ? mob + L("% pelo celular", "% on mobile") + " · " : ""}${bestHour ? L("mais visitas às ", "most visits at ") + bestHour.hour + "h" : ""}</p>` : `<div class="empty">${L("Liga o Google Analytics para ver as origens.", "Connect Google Analytics to see sources.")}</div>`}</div>
-    <div class="card pad"><h2 style="margin-bottom:10px">${L("Anúncios (Meta)", "Ads (Meta)")}</h2>
-      ${ads ? `<div class="mini"><span><b>${eur(ads.spend)}</b><small>${L("investido", "spent")}</small></span><span><b>${nf(ads.link_clicks)}</b><small>${L("cliques no link", "link clicks")}</small></span><span><b>${t28 ? eur(ads.spend / t28) : "—"}</b><small>${L("por ingresso vendido", "per ticket sold")}</small></span></div>` : `<div class="empty">${L("Sem conta de anúncios ligada. Quando anunciar, informe o ID act_… e o custo por ingresso aparece aqui.", "No ad account linked yet. Add the act_… ID and cost per ticket shows here.")}</div>`}
-      ${ga ? `<div class="mini" style="margin-top:14px"><span><b>${nf(ga.signups)}</b><small>${L("cadastros", "sign-ups")}</small></span><span><b>${nf(ga.leads)}</b><small>${L("formulários", "forms")}</small></span><span><b>${nf(ga.wa_users)}</b><small>WhatsApp</small></span></div>` : ""}</div>
   </div>`;
+  const postsCard = `<div class="card pad"><div class="sec-h"><h2 class="grow">${L("Posts que levam ao perfil", "Posts that drive profile visits")}</h2><span class="muted small">${rangeLabel(G)}</span></div>
+    ${posts.length ? `<div class="prl"><div class="prl-h"><span>${L("Visitas ao perfil", "Profile visits")}</span><span>${L("Alcance", "Reach")}</span><span>${L("Envios", "Shares")}</span><span></span></div>${posts.map((p, i) => `<a class="pr" href="${esc(p.permalink)}" target="_blank" rel="noopener" style="--w:${Math.round(num(p.profile_visits) / mxPV * 100)}%">
+      <span class="pr-big"><b>${p.profile_visits != null ? nf(p.profile_visits) : "—"}</b>${i === 0 && num(p.profile_visits) ? `<em>${L("top", "top")}</em>` : ""}<i></i></span>
+      <span class="pr-n">${nf(p.reach)}</span>
+      <span class="pr-n">${nf(p.shares)}</span>
+      <span class="pr-th">${p.thumb ? `<img src="${esc(p.thumb)}" alt="" loading="lazy">` : icon("ig")}${p.type === "REELS" || p.type === "VIDEO" ? `<span class="pg-type">${icon("play")}</span>` : ""}<small>${fdate(String(p.ts).slice(0, 10), { day: "numeric", month: "short" })}</small></span></a>`).join("")}</div>` : `<div class="empty">${L("Liga o Instagram para ver os posts.", "Connect Instagram to see posts.")}</div>`}
+  </div>`;
+  const src = `<div class="card pad"><h2 style="margin-bottom:10px">${L("De onde vem quem compra", "Where buyers come from")}</h2>
+      ${ga?.channels?.length ? `<div class="tablewrap"><table><tr><th>${L("Origem", "Source")}</th><th class="num">${L("Pessoas", "People")}</th><th class="num">${L("Clicaram comprar", "Clicked buy")}</th><th class="num">%</th></tr>${ga.channels.map(c => `<tr><td>${esc(c.src)}</td><td class="num">${nf(c.users)}</td><td class="num">${nf(c.buy_users)}</td><td class="num">${c.users ? pct(c.buy_users, c.users) + "%" : "—"}</td></tr>`).join("")}</table></div>
+      <p class="faint small" style="margin:10px 0 0">${mob != null ? mob + L("% pelo celular", "% on mobile") + " · " : ""}${bestHour ? L("mais visitas às ", "most visits at ") + bestHour.hour + "h" : ""}</p>` : `<div class="empty">${L("Liga o Google Analytics para ver as origens.", "Connect Google Analytics to see sources.")}</div>`}</div>`;
+  const adsC = `<div class="card pad"><h2 style="margin-bottom:10px">${L("Anúncios (Meta)", "Ads (Meta)")}</h2>
+      ${ads ? `<div class="mini"><span><b>${eur(ads.spend)}</b><small>${L("investido", "spent")}</small></span><span><b>${nf(ads.link_clicks)}</b><small>${L("cliques no link", "link clicks")}</small></span><span><b>${t28 ? eur(ads.spend / t28) : "—"}</b><small>${L("por ingresso vendido", "per ticket sold")}</small></span></div>` : `<div class="empty">${L("Sem conta de anúncios ligada. Quando anunciar, informe o ID act_… e o custo por ingresso aparece aqui.", "No ad account linked yet. Add the act_… ID and cost per ticket shows here.")}</div>`}
+      ${ga ? `<div class="mini" style="margin-top:14px"><span><b>${nf(ga.signups)}</b><small>${L("cadastros", "sign-ups")}</small></span><span><b>${nf(ga.leads)}</b><small>${L("formulários", "forms")}</small></span><span><b>${nf(ga.wa_users)}</b><small>WhatsApp</small></span></div>` : ""}</div>`;
+  return { flow, posts: postsCard, src, ads: adsC };
 }
 function demoInsights() {
   const t0 = today();
@@ -1390,10 +1495,10 @@ function demoData() {
   shows.forEach(s => { const os = orders.filter(o => o.show_id === s.id); s.eb_tickets = sum(os, o => o.quantity); s.eb_net = sum(os, o => o.net); });
   const ig_stats = Array.from({ length: 30 }, (_, i) => ({ id: "ig" + i, date: addDays(t0, i - 30), followers: 62 + Math.round(i * 1.05 + (i > 25 ? 6 : 0)), reach: Math.round(40 + rnd() * 120 + (i % 7 === 2 ? 900 : 0)), profile_visits: Math.round(3 + rnd() * 10) }));
   const lineup = [{ id: "lu1", show_id: shows[2].id, artist: "Convidado(a) Barcelouca", payment: "Confirmed", spot: "guest", fee: 0 }];
-  const tasks = shows.filter(s => s.date >= t0).flatMap(s => template().map(t => ({ id: s.id + ":" + t.key, show_id: s.id, template_key: t.key, title: t.title, sector: t.sector, due: addDays(s.date, t.offset), done: addDays(s.date, t.offset) < t0 })));
-  return { shows, orders, ig_stats, lineup, tasks, comedians: [], coupons: [{ id: "c1", code: "PATRICK10", percent: 10, status: "Active", uses: 4 }], ads: [], expenses: [], payments: [], instagram: [], campaigns: [], signups: names.map((n, i) => ({ id: "su" + i, created_at: new Date(Date.now() - i * 864e5 * 2).toISOString(), name: n, email: n.toLowerCase().replace(/[^a-z]+/g, ".") + "@exemplo.com", lang: i % 4 === 0 ? "es" : "pt", consent: true, unsubscribed: i === 5 })), settings: [{ key: "task_template", value: DEFAULT_TEMPLATE }], profiles: [{ id: "demo", name: "Patrick", email: "demo@brasileuros.com", role: "admin", active: true }] };
+  const tasks = shows.filter(s => s.date >= t0).flatMap(s => template().map(t => ({ id: s.id + ":" + t.key, show_id: s.id, template_key: t.key, title: t.title, sector: t.sector, due: addDays(s.date, t.offset), owner: t.owner || null, done: addDays(s.date, t.offset) < t0 })));
+  return { shows, orders, ig_stats, lineup, tasks, comedians: [], coupons: [{ id: "c1", code: "PATRICK10", percent: 10, status: "Active", uses: 4 }], ads: [], expenses: [], payments: [], instagram: [], campaigns: [], signups: names.map((n, i) => ({ id: "su" + i, created_at: new Date(Date.now() - i * 864e5 * 2).toISOString(), name: n, email: n.toLowerCase().replace(/[^a-z]+/g, ".") + "@exemplo.com", lang: i % 4 === 0 ? "es" : "pt", consent: true, unsubscribed: i === 5 })), settings: [{ key: "task_template", value: DEFAULT_TEMPLATE }, { key: "strategy", value: DEFAULT_STRATEGY }], profiles: [{ id: "demo", name: "Patrick", email: "demo@brasileuros.com", role: "admin", active: true }, { id: "demo2", name: "Pipo", email: "pipo@exemplo.com", role: "admin", active: true }] };
 }
-function enterDemo() { DEMO = true; ME = { id: "demo", email: "demo@brasileuros.com" }; PROFILE = { id: "demo", name: "Patrick", role: "admin", active: true }; S = { ...S, ...{ settings: [{ key: "task_template", value: DEFAULT_TEMPLATE }] } }; S = { ...S, ...demoData() }; INS = demoInsights(); readHashRoute(); render(); }
+function enterDemo() { DEMO = true; ME = { id: "demo", email: "demo@brasileuros.com" }; PROFILE = { id: "demo", name: "Patrick", role: "admin", active: true }; S = { ...S, ...{ settings: [{ key: "task_template", value: DEFAULT_TEMPLATE }, { key: "strategy", value: DEFAULT_STRATEGY }], profiles: [{ id: "demo", name: "Patrick", email: "patrick@exemplo.com", role: "admin", active: true }, { id: "demo2", name: "Pipo", email: "pipo@exemplo.com", role: "admin", active: true }] } }; S = { ...S, ...demoData() }; INS = demoInsights(); readHashRoute(); render(); }
 function leaveDemo() { DEMO = false; history.replaceState(null, "", location.pathname); location.reload(); }
 
 /* ---------------- shared bits ---------------- */
@@ -1583,7 +1688,7 @@ function wireNewShow() {
     const b = $("#ns-next"); b.disabled = true; b.textContent = L("Criando…", "Creating…");
     try {
       const s = await save("shows", { ...row, id: "s" + uid(), eb_url: row.eb_url || null });
-      const tasks = template().map(t => ({ id: s.id + ":" + t.key, show_id: s.id, template_key: t.key, title: t.title, sector: t.sector, due: addDays(s.date, t.offset), done: false }));
+      const tasks = template().map(t => ({ id: s.id + ":" + t.key, show_id: s.id, template_key: t.key, title: t.title, sector: t.sector, due: addDays(s.date, t.offset), owner: t.owner || null, done: false }));
       const { data, error } = DEMO ? { data: tasks } : await sb.from("tasks").upsert(tasks).select(); if (error) throw error;
       data.forEach(t => { const i = S.tasks.findIndex(x => x.id === t.id); if (i >= 0) S.tasks[i] = t; else S.tasks.push(t); });
       logAct("show_created", { date: s.date, by: PROFILE?.name });
@@ -1725,10 +1830,10 @@ function editLineup(s, l) {
     const lu = { id: l?.id || "l" + uid(), show_id: s.id, comedian_id: com.id, artist: name, spot: row.spot, fee: row.fee, payment: row.payment, notes: row.notes, coupon_code: l?.coupon_code || null };
     if (!lu.coupon_code && com.email) {
       const code = couponCodeFor(name);
-      const cp = await save("coupons", { id: "c" + uid(), code, percent: 10, scope: L("Show de ", "Show on ") + fdate(s.date, { day: "numeric", month: "short" }), comedian_id: com.id, show_id: s.id, status: "Pending", notes: L("Cupom do comediante", "Comedian coupon") });
+      const cp = await save("coupons", { id: "c" + uid(), code, percent: 10, owner_name: name, owner_email: String(com.email).trim().toLowerCase(), scope: L("Show de ", "Show on ") + fdate(s.date, { day: "numeric", month: "short" }), comedian_id: com.id, show_id: s.id, status: "Pending", notes: L("Cupom do comediante", "Comedian coupon") });
       lu.coupon_code = code;
       await pushCoupon(cp);
-      if (!DEMO) fnCall("send-email", { comedian_coupon: cp.id }).then(r => toast(L("E-mail com o cupom enviado para ", "Coupon e-mail sent to ") + (r.to || com.email))).catch(e => toast(L("E-mail do cupom não foi: ", "Coupon e-mail failed: ") + e.message));
+      mailCoupon(cp);
     }
     await save("lineup", lu);
     const all = lineupOf(s.id).filter(booked).length; const lt = S.tasks.find(t => t.id === s.id + ":guest");
@@ -1785,9 +1890,13 @@ function couponLink(c) {
   try { const u = new URL(sh.eb_url); u.searchParams.set("discount", c.code); return u.toString(); } catch (e) { return null; }
 }
 const copyCouponBtn = c => `<button class="iconbtn cp-copy" data-copycoupon="${esc(c.id)}" aria-label="${L("Copiar link com o cupom", "Copy link with coupon")}" title="${L("Copiar link com o cupom", "Copy link with coupon")}">${icon("link")}</button>`;
+function mailCoupon(c) {
+  if (DEMO) { toast(L("Na demonstração o e-mail não é enviado", "No e-mail in demo mode")); return; }
+  fnCall("send-email", { coupon_email: c.id }).then(r => toast(L("Cupom enviado por e-mail para ", "Coupon e-mailed to ") + (r.to || c.owner_email))).catch(e => toast(L("O e-mail do cupom não foi: ", "Coupon e-mail failed: ") + e.message));
+}
 async function copyText(t, ok) { try { await navigator.clipboard.writeText(t); toast(ok); } catch (e) { prompt(L("Copie o link:", "Copy the link:"), t); } }
 function couponRows(list) {
-  return list.length ? `<div class="tablewrap"><table><tr><th>${L("Código", "Code")}</th><th class="num">%</th><th>${L("Validade", "Scope")}</th><th>${L("Usos", "Uses")}</th><th>Status</th><th></th></tr>${list.map(c => `<tr><td><span class="cp-acts" style="justify-content:flex-start"><b>${esc(c.code)}</b>${copyCouponBtn(c)}</span>${c.comedian_id ? `<div class="faint small">${esc(S.comedians.find(x => x.id === c.comedian_id)?.name || "")}</div>` : ""}</td><td class="num">${num(c.percent)}%</td><td class="small">${esc(c.scope || "")}</td><td>${num(c.uses)}${c.usage_limit ? " / " + c.usage_limit : ""}</td><td><span class="chip ${c.status === "Active" ? "ok" : c.status === "Pending" ? "warn" : c.status === "Review" ? "bad" : ""}">${esc(c.status)}</span>${c.eb_discount_id && c.eb_discount_id !== "manual" ? ` <span class="chip">Eventbrite</span>` : ""}</td><td class="num"><button class="btn ghost sm" data-coupon="${c.id}">${L("Editar", "Edit")}</button></td></tr>`).join("")}</table></div>` : `<div class="empty">${L("Nenhum cupom", "No coupons")}</div>`;
+  return list.length ? `<div class="tablewrap"><table><tr><th>${L("Código", "Code")}</th><th class="num">%</th><th>${L("Validade", "Scope")}</th><th>${L("Usos", "Uses")}</th><th>Status</th><th></th></tr>${list.map(c => `<tr><td><span class="cp-acts" style="justify-content:flex-start"><b>${esc(c.code)}</b>${copyCouponBtn(c)}</span>${c.owner_name || c.owner_email || c.comedian_id ? `<div class="faint small">${esc(c.owner_name || S.comedians.find(x => x.id === c.comedian_id)?.name || c.owner_email || "")}</div>` : ""}</td><td class="num">${num(c.percent)}%</td><td class="small">${esc(c.scope || "")}</td><td>${num(c.uses)}${c.usage_limit ? " / " + c.usage_limit : ""}</td><td><span class="chip ${c.status === "Active" ? "ok" : c.status === "Pending" ? "warn" : c.status === "Review" ? "bad" : ""}">${esc(c.status)}</span>${c.eb_discount_id && c.eb_discount_id !== "manual" ? ` <span class="chip">Eventbrite</span>` : ""}</td><td class="num"><button class="btn ghost sm" data-coupon="${c.id}">${L("Editar", "Edit")}</button></td></tr>`).join("")}</table></div>` : `<div class="empty">${L("Nenhum cupom", "No coupons")}</div>`;
 }
 function tCoupons(s) {
   const mine = S.coupons.filter(c => c.show_id === s.id || !c.show_id).sort((a, b) => (b.show_id === s.id) - (a.show_id === s.id) || a.code.localeCompare(b.code));
@@ -1973,18 +2082,235 @@ function wirePost() {
   };
 }
 
+
+/* ---------------- estratégia de conteúdo (Configurações) ---------------- */
+const CONTENT_TYPES = () => [
+  ["teaser", "Reel", L("Teaser do show", "Show teaser")],
+  ["comedy", "Reel", L("Vídeo de comédia (corte de stand-up)", "Comedy clip (stand-up cut)")],
+  ["carousel", "Carrossel", L("Carrossel do show", "Show carousel")],
+  ["backstage", "Reel", L("Bastidores", "Behind the scenes")],
+  ["guest", "Reel", L("Apresentação do comediante convidado", "Guest comedian intro")],
+  ["trend", "Reel", L("Trend ou meme", "Trend or meme")],
+  ["crowd", "Reel", L("Reação do público", "Crowd reaction")],
+  ["photo", "Post", L("Foto do show", "Show photo")],
+];
+const STRAT_REPLACES = ["flyer", "ig_post", "st2", "st1", "st0"];
+const DEFAULT_STRATEGY = {
+  client: "Brasileuros", brand: "@osbrasileuros",
+  flyer: { make: { on: true, day: -6, owner: "Patrick" }, print: { on: true, day: -5, owner: "Pipo" }, give: { on: true, day: -4, owner: "Patrick + Pipo" } },
+  stories: { from: -6, people: ["Patrick", "Pipo"], brand: true, brandOwner: "Patrick", brandIdea: "algo engraçado ou interessante" },
+  reels: [{ type: "teaser", day: -6, owner: "Patrick" }, { type: "comedy", day: -4, owner: "Pipo" }, { type: "carousel", day: -2, owner: "Patrick" }, { type: "comedy", day: -1, owner: "Pipo" }],
+};
+const strategy = () => (S.settings.find(x => x.key === "strategy") || {}).value || null;
+const slugK = s => String(s || "").toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g, "");
+const FLYER_STEPS = () => [["make", L("Fazer o flyer do show", "Design the show flyer")], ["print", L("Imprimir os flyers", "Print the flyers")], ["give", L("Distribuir os flyers", "Hand out the flyers")]];
+function contentTitle(r) {
+  const ct = CONTENT_TYPES().find(c => c[0] === r.type) || CONTENT_TYPES()[0];
+  return (ct[0] === "carousel" ? ct[2] : `${ct[1]}: ${ct[2]}`) + (r.note ? " · " + r.note : "");
+}
+function compileStrategy(st) {
+  if (!st) return [];
+  const out = [], F = st.flyer || {};
+  FLYER_STEPS().forEach(([k, t]) => { const x = F[k]; if (x?.on) out.push({ key: "sx_fl_" + k, title: t, sector: "Show", offset: num(x.day), owner: x.owner || null }); });
+  const so = st.stories || {}, from = Math.min(0, Math.round(num(so.from ?? -6)));
+  for (let d = from; d <= 0; d++) {
+    (so.people || []).forEach(p => out.push({ key: `sx_st_${slugK(p)}_${-d}`, title: L("Stories com o link do ingresso", "Story with the ticket link"), sector: "Instagram", offset: d, owner: p }));
+    if (so.brand) out.push({ key: `sx_sb_${-d}`, title: L(`Stories no ${st.brand || "perfil"} com o link`, `Story on ${st.brand || "the page"} with the link`) + (so.brandIdea ? ": " + so.brandIdea : ""), sector: "Instagram", offset: d, owner: so.brandOwner || null });
+  }
+  (st.reels || []).forEach((r, i) => out.push({ key: "sx_rl_" + i, title: contentTitle(r), sector: "Instagram", offset: num(r.day), owner: r.owner || null }));
+  return out;
+}
+/* quem pode ser responsável: primeiros nomes da equipe (ou os sócios), mais "todos juntos" */
+function teamNames() {
+  return [...new Set([...PARTNERS, ...S.profiles.filter(p => p.active && p.name).map(p => String(p.name).trim().split(/\s+/)[0])])];
+}
+const ownerOpts = () => { const n = teamNames(); return [["", "—"], ...n.map(x => [x, x]), ...(n.length > 1 ? [[n.join(" + "), L("Todos juntos", "Everyone together") + " (" + n.join(" + ") + ")"]] : [])]; };
+const ownerMatches = (owner, name) => { const me = String(name || "").trim().split(/\s+/)[0].toLowerCase(); return !!me && String(owner || "").split("+").some(o => { o = o.trim().toLowerCase(); return o && (o === me || o.startsWith(me) || me.startsWith(o)); }); };
+function stratBaseDate() { const nx = nextShow(); if (nx) return nx.date; const t = pd(today()); t.setDate(t.getDate() + ((3 - t.getDay() + 7) % 7)); return ymd(t); }
+function dayLabel(d, short) {
+  const wd = fdate(addDays(stratBaseDate(), d), { weekday: short ? "short" : "long" });
+  if (d === 0) return short ? wd + " · " + L("show", "show") : L("No dia do show", "On show day") + ` (${wd})`;
+  return short ? `${wd} · ${d < 0 ? "D" + d : "D+" + d}` : `${wd} · ${d < 0 ? Math.abs(d) + L(" dia" + (d < -1 ? "s" : "") + " antes", " day" + (d < -1 ? "s" : "") + " before") : d + L(" depois", " after")}`;
+}
+const dayOpts = (min = -13, max = 3) => Array.from({ length: max - min + 1 }, (_, i) => min + i).map(d => [d, dayLabel(d)]);
+const optList = (o, v) => o.map(([val, lab]) => `<option value="${esc(val)}" ${String(v ?? "") === String(val) ? "selected" : ""}>${esc(lab)}</option>`).join("");
+
+/* aplica o modelo atual nos próximos shows: cria o que falta, ajusta o que mudou e tira o que saiu da estratégia */
+async function applyStrategyToShows() {
+  const tpl = template(), keys = new Set(tpl.map(t => t.key)), t0 = today(), ups = [], dels = [];
+  const upcoming = shows().filter(s => s.date >= t0 && s.status !== "cancelled");
+  let added = 0;
+  upcoming.forEach(s => {
+    const have = tasksOf(s.id);
+    tpl.forEach(t => {
+      const id = s.id + ":" + t.key, due = addDays(s.date, t.offset), ex = have.find(x => x.id === id || x.template_key === t.key);
+      if (!ex) { if (due >= t0) { ups.push({ id, show_id: s.id, template_key: t.key, title: t.title, sector: t.sector, due, owner: t.owner || null, done: false }); added++; } }
+      else if (!ex.done && String(t.key).startsWith("sx_") && (ex.due !== due || (ex.owner || null) !== (t.owner || null) || ex.title !== t.title)) ups.push({ ...ex, due, owner: t.owner || null, title: t.title });
+    });
+    have.forEach(x => { const k = String(x.template_key || ""); if (!x.done && !x.custom && (k.startsWith("sx_") || STRAT_REPLACES.includes(k)) && !keys.has(k)) dels.push(x.id); });
+  });
+  if (!DEMO) {
+    if (ups.length) { const { error } = await sb.from("tasks").upsert(ups); if (error) throw error; }
+    if (dels.length) { const { error } = await sb.from("tasks").delete().in("id", dels); if (error) throw error; }
+  }
+  S.tasks = S.tasks.filter(t => !dels.includes(t.id));
+  ups.forEach(t => { const i = S.tasks.findIndex(x => x.id === t.id); if (i >= 0) S.tasks[i] = t; else S.tasks.push(t); });
+  logAct("strategy_applied", { shows: upcoming.length, added, removed: dels.length, by: PROFILE?.name });
+  return { shows: upcoming.length, added, changed: ups.length - added, removed: dels.length };
+}
+
+/* semana da estratégia: uma coluna por dia, do primeiro item até o show */
+function sxWeek(st) {
+  const items = compileStrategy(st);
+  if (!items.length) return `<div class="empty">${L("Nada na estratégia ainda", "Nothing in the strategy yet")}</div>`;
+  const min = Math.min(0, ...items.map(t => t.offset)), max = Math.max(0, ...items.map(t => t.offset));
+  const days = Array.from({ length: max - min + 1 }, (_, i) => min + i);
+  const kind = t => t.key.startsWith("sx_fl_") ? "fl" : t.key.startsWith("sx_rl_") ? "rl" : "st";
+  const KI = { fl: "print", rl: "play", st: "story" };
+  return `<div class="sxw" style="--n:${days.length}">${days.map(d => {
+    const its = items.filter(t => t.offset === d);
+    const st_ = its.filter(t => kind(t) === "st"), other = its.filter(t => kind(t) !== "st");
+    return `<div class="sxw-d ${d === 0 ? "show" : ""}"><span class="sxw-h">${esc(dayLabel(d, true))}</span>
+      ${other.map(t => `<span class="sxw-i k-${kind(t)}">${icon(KI[kind(t)])}<span><b>${esc(t.title)}</b><small>${esc(t.owner || "—")}</small></span></span>`).join("")}
+      ${st_.length ? `<span class="sxw-i k-st">${icon("story")}<span><b>${st_.length} stories</b><small>${esc(st_.filter(t => t.key.startsWith("sx_st_")).map(t => t.owner).join(", ") + (st_.some(t => t.key.startsWith("sx_sb_")) ? " + " + (st.brand || L("perfil", "page")) : ""))}</small></span></span>` : ""}
+    </div>`; }).join("")}</div>`;
+}
+function sxCounts(st) {
+  const it = compileStrategy(st), n = k => it.filter(t => t.key.startsWith(k)).length;
+  return { stories: n("sx_st_") + n("sx_sb_"), reels: n("sx_rl_"), flyer: n("sx_fl_"), total: it.length };
+}
+
+/* ---- passo a passo ---- */
+const SX_STEPS = () => [["client", L("Cliente", "Client")], ["print", L("Material gráfico", "Print")], ["stories", "Stories"], ["reels", L("Reels e posts", "Reels and posts")], ["review", L("Revisão", "Review")]];
+function vStrategy() {
+  if (!R.sx) R.sx = { step: 0, dir: 1, st: JSON.parse(JSON.stringify(strategy() || DEFAULT_STRATEGY)) };
+  const { step, st, dir } = R.sx, steps = SX_STEPS(), k = steps[step][0], O = ownerOpts();
+  const sel = (path, opts, v, cls = "") => `<select class="${cls}" data-sx="${path}">${optList(opts, v)}</select>`;
+  const so = st.stories || (st.stories = {});
+  const body = {
+    client: `<h2 class="ns-q">${L("Para quem é essa estratégia?", "Who is this strategy for?")}</h2>
+      <p class="muted" style="margin:-6px 0 16px">${L("Um show por semana. Tudo é contado a partir do dia do show, então a estratégia serve para qualquer data.", "One show a week. Everything counts from show day, so it works for any date.")}</p>
+      <div class="grid2"><label class="f"><span>${L("Cliente ou projeto", "Client or project")}</span><input type="text" data-sx="client" value="${esc(st.client || "")}"></label>
+      <label class="f"><span>${L("Perfil principal no Instagram", "Main Instagram account")}</span><input type="text" data-sx="brand" value="${esc(st.brand || "")}" placeholder="@perfil"></label></div>`,
+    print: `<h2 class="ns-q">${L("Flyers: quem faz o quê e quando?", "Flyers: who does what, and when?")}</h2>
+      <div class="sx-rows">${FLYER_STEPS().map(([fk, t]) => { const x = (st.flyer ||= {})[fk] ||= { on: false, day: -5, owner: "" }; return `<div class="sx-row ${x.on ? "" : "off"}">
+        <label class="sx-on"><input type="checkbox" data-sxc="flyer.${fk}.on" ${x.on ? "checked" : ""}><b>${esc(t)}</b></label>
+        <label class="f"><span>${L("Dia", "Day")}</span>${sel(`flyer.${fk}.day`, dayOpts(-13, 0), x.day)}</label>
+        <label class="f"><span>${L("Quem", "Who")}</span>${sel(`flyer.${fk}.owner`, O, x.owner)}</label></div>`; }).join("")}</div>`,
+    stories: `<h2 class="ns-q">${L("Stories todo dia com o link do ingresso", "A story every day with the ticket link")}</h2>
+      <div class="grid2"><label class="f full"><span>${L("Começa quantos dias antes do show", "Starts how many days before the show")}</span>${sel("stories.from", dayOpts(-13, 0), so.from ?? -6)}</label></div>
+      <div class="sx-sub">${L("Quem posta no próprio perfil (um por dia cada)", "Who posts on their own profile (one a day each)")}</div>
+      <div class="sx-people">${teamNames().map(n => `<label class="sx-chk"><input type="checkbox" data-sxp="${esc(n)}" ${(so.people || []).includes(n) ? "checked" : ""}><span>${esc(n)}</span></label>`).join("")}</div>
+      <div class="sx-row ${so.brand ? "" : "off"}" style="margin-top:14px">
+        <label class="sx-on"><input type="checkbox" data-sxc="stories.brand" ${so.brand ? "checked" : ""}><b>${L("Stories no ", "Story on ")}${esc(st.brand || L("perfil principal", "main account"))} ${L("todo dia", "every day")}</b></label>
+        <label class="f"><span>${L("Quem posta", "Who posts")}</span>${sel("stories.brandOwner", O, so.brandOwner)}</label>
+        <label class="f sx-wide"><span>${L("Tipo de conteúdo", "Kind of content")}</span><input type="text" data-sx="stories.brandIdea" value="${esc(so.brandIdea || "")}" placeholder="${L("algo engraçado ou interessante", "something funny or interesting")}"></label></div>
+      <p class="muted small" style="margin:12px 0 0">${L("Dá ", "That's ")}<b>${sxCounts(st).stories}</b>${L(" stories por show, todos com o link do ingresso.", " stories per show, all with the ticket link.")}</p>`,
+    reels: `<h2 class="ns-q">${L("Reels e posts da semana", "This week's Reels and posts")}</h2>
+      <div class="ns-chips">${[2, 3, 4, 5, 6].map(n => `<button type="button" class="pchip ${(st.reels || []).length === n ? "on" : ""}" data-sxn="${n}">${n} ${L("por semana", "a week")}</button>`).join("")}</div>
+      <div class="sx-rows">${(st.reels || []).map((r, i) => `<div class="sx-row rl">
+        <span class="sx-num">${i + 1}</span>
+        <label class="f sx-wide"><span>${L("Conteúdo", "Content")}</span>${sel(`reels.${i}.type`, CONTENT_TYPES().map(c => [c[0], `${c[1] === "Carrossel" ? L("Carrossel", "Carousel") : c[1]} · ${c[2]}`]), r.type)}</label>
+        <label class="f"><span>${L("Dia", "Day")}</span>${sel(`reels.${i}.day`, dayOpts(-13, 3), r.day)}</label>
+        <label class="f"><span>${L("Quem", "Who")}</span>${sel(`reels.${i}.owner`, O, r.owner)}</label>
+        <button type="button" class="iconbtn sx-del" data-sxdel="${i}" aria-label="${L("Remover", "Remove")}">×</button></div>`).join("")}</div>
+      <button type="button" class="btn sm" id="sx-add" style="margin-top:10px">+ ${L("Adicionar conteúdo", "Add content")}</button>`,
+    review: `<h2 class="ns-q">${L("Assim fica a semana de cada show", "This is every show's week")}</h2>
+      <div class="sx-tot"><span><b>${sxCounts(st).stories}</b>stories</span><span><b>${sxCounts(st).reels}</b>${L("reels e posts", "reels and posts")}</span><span><b>${sxCounts(st).flyer}</b>${L("etapas de flyer", "flyer steps")}</span></div>
+      ${sxWeek(st)}
+      <p class="muted small" style="margin:14px 0 0">${L("Ao salvar, as tarefas entram nos próximos shows com dia e responsável. Elas aparecem no painel e no e-mail das 8h.", "Saving adds these tasks to upcoming shows with day and owner. They show in the hub and in the 8am e-mail.")}</p>`,
+  }[k];
+  return `<div class="ns sx">
+    <div class="ns-top"><button class="btn ghost sm" id="sx-x">${icon("back")} ${L("Configurações", "Settings")}</button><span class="grow"></span><span class="muted small">${step + 1}/${steps.length}</span></div>
+    <div class="ns-prog" style="grid-template-columns:repeat(${steps.length},1fr)">${steps.map((x, i) => `<span class="${i < step ? "done" : i === step ? "on" : ""}"><i></i><small>${x[1]}</small></span>`).join("")}</div>
+    <form class="card ns-card ${dir > 0 ? "in-r" : "in-l"}" id="sxf" novalidate>${body}
+      <div id="sx-err"></div>
+      <div class="ns-acts">${step ? `<button type="button" class="btn" id="sx-back">${L("Voltar", "Back")}</button>` : ""}<span class="grow"></span><button class="btn primary btn-sun" id="sx-next">${step === steps.length - 1 ? L("Salvar e aplicar", "Save and apply") : L("Continuar", "Continue")}</button></div>
+    </form></div>`;
+}
+function wireStrategy() {
+  if (!R.sx) return;
+  const st = R.sx.st;
+  const setPath = (path, v) => { const ks = path.split("."); let o = st; ks.slice(0, -1).forEach(k => { o = o[k] ??= {}; }); const last = ks.at(-1); o[last] = /day$|from$/.test(last) ? num(v) : v; };
+  const keepY = fn => { const y = scrollY; fn(); render(); scrollTo(0, y); };
+  document.querySelectorAll("[data-sx]").forEach(el => el.onchange = () => { setPath(el.dataset.sx, el.value); if (el.tagName === "SELECT" || el.dataset.sx === "brand") keepY(() => {}); });
+  document.querySelectorAll("[data-sxc]").forEach(el => el.onchange = () => keepY(() => setPath(el.dataset.sxc, el.checked)));
+  document.querySelectorAll("[data-sxp]").forEach(el => el.onchange = () => keepY(() => { const p = new Set(st.stories.people || []); el.checked ? p.add(el.dataset.sxp) : p.delete(el.dataset.sxp); st.stories.people = teamNames().filter(n => p.has(n)).concat([...p].filter(n => !teamNames().includes(n))); }));
+  document.querySelectorAll("[data-sxn]").forEach(b => b.onclick = () => keepY(() => { const n = +b.dataset.sxn, r = st.reels ||= []; const days = [-6, -4, -2, -1, -3, -5]; while (r.length < n) r.push({ type: CONTENT_TYPES()[r.length % CONTENT_TYPES().length][0], day: days[r.length] ?? -3, owner: teamNames()[r.length % teamNames().length] }); r.length = n; }));
+  document.querySelectorAll("[data-sxdel]").forEach(b => b.onclick = () => keepY(() => st.reels.splice(+b.dataset.sxdel, 1)));
+  const add = $("#sx-add"); if (add) add.onclick = () => keepY(() => (st.reels ||= []).push({ type: "comedy", day: -3, owner: teamNames()[0] }));
+  $("#sx-x").onclick = () => { R.sx = null; go({ view: "config" }); };
+  const back = $("#sx-back"); if (back) back.onclick = () => { document.activeElement?.blur(); R.sx.step--; R.sx.dir = -1; render(); scrollTo(0, 0); };
+  $("#sxf").onsubmit = async e => {
+    e.preventDefault(); document.activeElement?.blur();
+    document.querySelectorAll("[data-sx]").forEach(el => setPath(el.dataset.sx, el.value));
+    const steps = SX_STEPS(), k = steps[R.sx.step][0], err = m => { $("#sx-err").innerHTML = `<div class="msg err">${esc(m)}</div>`; };
+    if (k === "client" && !String(st.client || "").trim()) return err(L("Dê um nome para a estratégia.", "Name the strategy."));
+    if (R.sx.step < steps.length - 1) { R.sx.step++; R.sx.dir = 1; render(); scrollTo(0, 0); return; }
+    const b = $("#sx-next"); b.disabled = true; b.textContent = L("Salvando…", "Saving…");
+    try {
+      await save("settings", { key: "strategy", value: st });
+      const r = await applyStrategyToShows();
+      R.sx = null; toast(L(`Estratégia salva · ${r.added} tarefas novas em ${r.shows} show${r.shows === 1 ? "" : "s"}`, `Strategy saved · ${r.added} new tasks across ${r.shows} show${r.shows === 1 ? "" : "s"}`)); go({ view: "config" });
+    } catch (x) { b.disabled = false; b.textContent = L("Salvar e aplicar", "Save and apply"); err(x.message || String(x)); }
+  };
+}
+
+/* ---------------- Configurações ---------------- */
+const digestCfg = () => ({ on: true, hour: 8, to: null, ...((S.settings.find(x => x.key === "digest") || {}).value || {}) });
+const digestPeople = () => S.profiles.filter(p => p.active && p.email);
+function vConfig() {
+  const st = strategy(), c = sxCounts(st), D = digestCfg(), ppl = digestPeople();
+  const to = D.to || ppl.map(p => p.email);
+  return `<div class="cfg">
+  <div class="row wrap"><h1 class="grow">${L("Configurações", "Settings")}</h1></div>
+  <section class="card pad sec">
+    <div class="sec-h wrap"><span class="cfg-ic">${icon("ig")}</span><div class="grow"><h2>${L("Estratégia de conteúdo", "Content strategy")}</h2><p class="muted small" style="margin:2px 0 0">${st ? `${esc(st.client || "")} · ${c.stories} stories · ${c.reels} ${L("reels e posts", "reels and posts")} · ${c.flyer} ${L("etapas de flyer por show", "flyer steps per show")}` : L("Defina o que sai em cada semana de show e quem faz.", "Set what goes out each show week and who does it.")}</p></div>
+      ${st ? `<button class="btn" id="sx-apply">${icon("sync")} ${L("Aplicar aos próximos shows", "Apply to upcoming shows")}</button>` : ""}<button class="btn btn-sun" id="sx-edit">${st ? L("Editar passo a passo", "Edit step by step") : L("Criar estratégia", "Create strategy")}</button></div>
+    ${st ? sxWeek(st) : `<div class="empty">${L("Ainda sem estratégia. O passo a passo leva uns 2 minutos.", "No strategy yet. The step-by-step takes about 2 minutes.")}</div>`}
+  </section>
+  <section class="card pad sec">
+    <div class="sec-h wrap"><span class="cfg-ic">${icon("mail")}</span><div class="grow"><h2>${L("Resumo diário por e-mail", "Daily e-mail summary")}</h2><p class="muted small" style="margin:2px 0 0">${L("Todo dia de manhã: vendas de ontem, o próximo show e as tarefas do dia de cada pessoa.", "Every morning: yesterday's sales, the next show and each person's tasks for the day.")}</p></div>
+      <label class="switch"><input type="checkbox" id="dg-on" ${D.on ? "checked" : ""}><span></span><b>${D.on ? L("Ligado", "On") : L("Desligado", "Off")}</b></label></div>
+    <div class="cfg-grid">
+      <label class="f"><span>${L("Horário (Barcelona)", "Time (Barcelona)")}</span><select id="dg-hour">${optList(Array.from({ length: 6 }, (_, i) => [i + 6, String(i + 6).padStart(2, "0") + ":00"]), D.hour)}</select></label>
+      <div class="f"><span>${L("Quem recebe", "Who gets it")}</span><div class="sx-people">${ppl.length ? ppl.map(p => `<label class="sx-chk"><input type="checkbox" data-dgto="${esc(p.email)}" ${to.includes(p.email) ? "checked" : ""}><span>${esc(String(p.name || p.email).split(" ")[0])}</span></label>`).join("") : `<span class="muted small">${L("Convide a equipe na aba Equipe.", "Invite the team in the Team tab.")}</span>`}</div></div>
+    </div>
+    <div class="row wrap" style="margin-top:14px;gap:8px"><button class="btn" id="dg-test">${icon("mail")} ${L("Mandar um teste para mim", "Send me a test")}</button><span class="grow"></span><button class="btn btn-sun" id="dg-save">${L("Salvar", "Save")}</button></div>
+  </section></div>`;
+}
+function wireConfig() {
+  $("#sx-edit").onclick = () => { R.sx = null; go({ view: "strategy" }); };
+  const ap = $("#sx-apply"); if (ap) ap.onclick = async () => { ap.disabled = true; try { const r = await applyStrategyToShows(); toast(L(`${r.added} tarefas novas, ${r.changed} ajustadas, ${r.removed} removidas`, `${r.added} new tasks, ${r.changed} updated, ${r.removed} removed`)); } catch (e) { toast(e.message); } ap.disabled = false; };
+  $("#dg-on").onchange = e => { e.target.parentElement.querySelector("b").textContent = e.target.checked ? L("Ligado", "On") : L("Desligado", "Off"); };
+  $("#dg-save").onclick = async () => {
+    const to = [...document.querySelectorAll("[data-dgto]")].filter(x => x.checked).map(x => x.dataset.dgto);
+    await save("settings", { key: "digest", value: { on: $("#dg-on").checked, hour: +$("#dg-hour").value, to } });
+    toast(L("Resumo diário salvo", "Daily summary saved"));
+  };
+  $("#dg-test").onclick = async () => {
+    if (DEMO) return toast(L("Na demonstração nada é enviado", "Nothing is sent in demo mode"));
+    const b = $("#dg-test"); b.disabled = true;
+    try { const r = await fnCall("daily-digest", { test: true }); toast(L("Teste enviado para ", "Test sent to ") + (r.sent?.[0]?.to || ME.email)); } catch (e) { toast(e.message); }
+    b.disabled = false;
+  };
+}
+
 /* ---------------- coupons & audience ---------------- */
 function editCoupon(c, showId) {
   modal(c ? L("Editar cupom", "Edit coupon") : L("Novo cupom", "New coupon"), [
     { k: "code", l: L("Código", "Code"), req: true }, { k: "percent", l: L("Desconto (%)", "Discount (%)"), t: "number" },
+    { k: "owner_name", l: L("Dono do cupom", "Coupon owner") }, { k: "owner_email", l: L("E-mail do dono (recebe o cupom)", "Owner's e-mail (gets the coupon)"), t: "email" },
     { k: "scope", l: L("Validade", "Scope"), full: true },
     { k: "usage_limit", l: L("Limite de usos", "Usage limit"), t: "number" }, { k: "uses", l: L("Usos", "Uses"), t: "number" },
     { k: "status", l: "Status", t: "select", o: [["Active", L("Ativo", "Active")], ["Pending", L("Pendente", "Pending")], ["Review", L("Revisar", "Review")], ["Inactive", L("Inativo", "Inactive")]] },
     { k: "notes", l: L("Notas", "Notes"), t: "area" },
   ], c || { status: "Active", percent: 10, show_id: showId || null }, async row => {
     row.id = row.id || "c" + uid(); row.code = String(row.code).trim().toUpperCase();
+    if (row.owner_email) row.owner_email = String(row.owner_email).trim().toLowerCase();
     const saved = await save("coupons", row);
     if (saved.status !== "Inactive") await pushCoupon(saved);
+    if (saved.owner_email && saved.status !== "Inactive" && (!c || c.owner_email !== saved.owner_email)) mailCoupon(saved);
   }, c ? async () => {
     if (c.eb_discount_id && c.eb_discount_id !== "manual") { try { await ebCall({ action: "delete_coupon", eb_discount_id: c.eb_discount_id }); } catch (e) { toast("Eventbrite: " + e.message); } }
     await del("coupons", c.id);
@@ -2109,7 +2435,7 @@ function wireTeam() {
 function readHashRoute() {
   const h = location.hash.slice(1); if (!h || h.includes("access_token") || h.includes("error")) return;
   const [v, id, tab] = h.split("/");
-  if (v === "show" && id) R = { ...R, view: "show", showId: id, tab: tab || "overview" }; else if (v === "newshow") { R.view = "newshow"; } else if (NAV.some(n => n[0] === v) || v === "email" || v === "shows") R.view = v; else if (v === "coupons") R.view = "publico";
+  if (v === "show" && id) R = { ...R, view: "show", showId: id, tab: tab || "overview" }; else if (v === "newshow") { R.view = "newshow"; } else if (NAV.some(n => n[0] === v) || v === "email" || v === "shows" || v === "config" || v === "strategy") R.view = v; else if (v === "coupons") R.view = "publico";
 }
 function viewSetup() {
   $("#app").innerHTML = authShell(`

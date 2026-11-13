@@ -31,7 +31,8 @@ revoke all on function private.call_fn(text, jsonb) from public, anon, authentic
 select cron.unschedule(jobname) from cron.job where jobname in ('eb-sync','eb-sync-full','daily-digest','ig-stats','metrics');
 select cron.schedule('eb-sync', '*/30 * * * *', $$select private.call_fn('eventbrite', '{"action":"sync"}')$$);
 select cron.schedule('eb-sync-full', '15 3 * * *', $$select private.call_fn('eventbrite', '{"action":"sync","full":true}')$$);
-select cron.schedule('daily-digest', '30 7 * * *', $$select private.call_fn('daily-digest', '{}')$$);
+-- resumo diário: o cron chama de hora em hora e a função só manda na hora escolhida em Configurações (horário de Barcelona)
+select cron.schedule('daily-digest', '0 * * * *', $$select private.call_fn('daily-digest', '{}')$$);
 -- seguidores e alcance do Instagram: todo dia às 06:00 UTC
 select cron.schedule('ig-stats', '0 6 * * *', $$select private.call_fn('instagram', '{}')$$);
 -- cruzamento GA4 + Search Console + Instagram + Meta: a cada 3 horas

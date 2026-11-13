@@ -1,7 +1,7 @@
 // send-email: envia uma campanha da aba E-mail marketing.
 // Corpo: { campaign_id, test_to? }. Com test_to manda só para esse endereço (precisa ser de alguém da equipe).
 // Sem test_to: manda para a lista com consentimento (no máximo 400 por chamada; o painel chama de novo até acabar).
-// Corpo alternativo: { comedian_coupon: coupon_id } manda ao comediante o cupom dele com o link do Eventbrite já com desconto.
+// Corpo alternativo: { coupon_email: coupon_id } manda ao dono do cupom (owner_email, ou o e-mail do comediante) o cupom e o link do Eventbrite já com desconto.
 // Segredos: SMTP_PASSWORD (senha de app do Gmail de contato@patrickbarbosa.com.br).
 import { createClient } from "npm:@supabase/supabase-js@2";
 import nodemailer from "npm:nodemailer@6.9.14";
@@ -32,14 +32,15 @@ async function staff(req: Request) {
 // ---------- cupom do comediante ----------
 const fdate = (d: string) => new Date(d + "T12:00:00Z").toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Madrid" });
 function withDiscount(url: string, code: string) { try { const u = new URL(url); u.searchParams.set("discount", code); return u.toString(); } catch { return null; } }
-async function sendComedianCoupon(id: string, mailer: any, me: any) {
+async function sendCoupon(id: string, mailer: any, me: any) {
   const { data: c } = await db.from("coupons").select("*").eq("id", id).maybeSingle();
   if (!c) throw new Error("Cupom não encontrado");
   const { data: com } = c.comedian_id ? await db.from("comedians").select("*").eq("id", c.comedian_id).maybeSingle() : { data: null };
-  if (!com?.email) throw new Error("O comediante não tem e-mail");
-  const tpl = "comedian-coupon:" + c.id;
+  const to = String(c.owner_email || com?.email || "").trim().toLowerCase();
+  if (!to) throw new Error("O cupom não tem e-mail do dono");
+  const tpl = "coupon:" + c.id + ":" + to;
   const { data: sent } = await db.from("email_log").select("id").eq("template", tpl).eq("status", "sent").limit(1);
-  if (sent?.length) return { ok: true, to: com.email, already: true };
+  if (sent?.length) return { ok: true, to, already: true };
   const today = new Date().toISOString().slice(0, 10);
   let show: any = null;
   if (c.show_id) ({ data: show } = await db.from("shows").select("*").eq("id", c.show_id).maybeSingle());
@@ -48,7 +49,8 @@ async function sendComedianCoupon(id: string, mailer: any, me: any) {
     show = up?.[0] || show;
   }
   const link = show?.eb_url ? withDiscount(show.eb_url, c.code) : null;
-  const name = first(com.name);
+  const name = first(c.owner_name || com?.name);
+  const isComic = !!com;
   const when = show?.date ? fdate(show.date) + (show.time ? " às " + String(show.time).slice(0, 5) : "") : "";
   const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;background:#3772B4;font-family:Inter,Arial,sans-serif;color:#0f1e3b">
@@ -57,20 +59,20 @@ async function sendComedianCoupon(id: string, mailer: any, me: any) {
 <tr><td align="center" style="padding:0 0 20px"><img src="https://www.brasileuros.com/assets/logo.webp" alt="Brasileuros" height="44" style="height:44px"></td></tr>
 <tr><td style="background:#ffffff;border-radius:18px;padding:28px 26px">
 <p style="margin:0 0 14px;font-size:20px;font-weight:800">Oi, ${esc(name || "")}!</p>
-<p style="margin:0 0 14px;font-size:15.5px;line-height:1.55">Que bom ter você no Brasileuros${when ? ` na <b>${esc(when)}</b>` : ""}${show?.venue ? `, no ${esc(show.venue)}` : ""}. Criamos um cupom com o seu nome para você divulgar: quem usar ganha <b>${Number(c.percent) || 10}% de desconto</b> no ingresso.</p>
+<p style="margin:0 0 14px;font-size:15.5px;line-height:1.55">${isComic ? `Que bom ter você no palco do Brasileuros` : `Aqui está o seu cupom do Brasileuros`}${when ? ` para <b>${esc(when)}</b>` : ""}${show?.venue ? `, no ${esc(show.venue)}` : ""}. ${isComic ? "Criamos um cupom com o seu nome para você divulgar: quem" : "Quem"} usar ganha <b>${Number(c.percent) || 10}% de desconto</b> no ingresso.</p>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:18px 0"><tr><td align="center" style="background:#0f1e3b;border-radius:14px;padding:16px">
 <div style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#cfdcf0">Seu cupom</div>
 <div style="font-size:30px;font-weight:800;letter-spacing:.04em;color:#FDD929;margin-top:4px">${esc(c.code)}</div></td></tr></table>
 ${link ? `<p style="margin:0 0 10px;font-size:15.5px;line-height:1.55">Se preferir, mande direto este link: ele já abre o Eventbrite com o desconto aplicado.</p>
 <table role="presentation" cellpadding="0" cellspacing="0" style="margin:6px 0 14px"><tr><td style="background:#FDD929;border-radius:999px"><a href="${esc(link)}" style="display:inline-block;padding:13px 22px;font-weight:800;color:#0f1e3b;text-decoration:none;font-size:15px">Ingresso com ${Number(c.percent) || 10}% off</a></td></tr></table>
 <p style="margin:0 0 14px;font-size:12.5px;color:#5b6b84;word-break:break-all">${esc(link)}</p>` : ""}
-<p style="margin:0;font-size:15.5px;line-height:1.55">A pessoa pode falar o nome do cupom ou usar o link, os dois funcionam. Nos vemos no palco!</p>
+<p style="margin:0;font-size:15.5px;line-height:1.55">A pessoa pode digitar o nome do cupom no Eventbrite ou usar o link, os dois funcionam. ${isComic ? "Nos vemos no palco!" : "Nos vemos no show!"}</p>
 <p style="margin:16px 0 0;font-size:15.5px;font-weight:700">Patrick e Pipo · Brasileuros</p>
 </td></tr></table></td></tr></table></body></html>`;
-  await mailer.sendMail({ from: FROM, to: com.email, subject: `Seu cupom do Brasileuros: ${c.code}`, html });
-  await db.from("email_log").insert({ recipient: com.email, template: tpl, status: "sent", detail: { link } });
-  await db.from("activity_log").insert({ user_id: me.id, action: "comedian_coupon_sent", detail: { coupon: c.code, to: com.email } });
-  return { ok: true, to: com.email, link };
+  await mailer.sendMail({ from: FROM, to, subject: `Seu cupom do Brasileuros: ${c.code}`, html });
+  await db.from("email_log").insert({ recipient: to, template: tpl, status: "sent", detail: { link } });
+  await db.from("activity_log").insert({ user_id: me.id, action: "coupon_sent", detail: { coupon: c.code, to } });
+  return { ok: true, to, link };
 }
 
 Deno.serve(async (req) => {
@@ -79,9 +81,9 @@ Deno.serve(async (req) => {
     const me = await staff(req);
     if (!me) return json({ error: "Not allowed" }, 401);
     if (!Deno.env.get("SMTP_PASSWORD")) return json({ error: "Falta o segredo SMTP_PASSWORD (senha de app do Gmail)" }, 400);
-    const { campaign_id, test_to, comedian_coupon } = await req.json().catch(() => ({}));
+    const { campaign_id, test_to, comedian_coupon, coupon_email } = await req.json().catch(() => ({}));
     const mailerC = () => nodemailer.createTransport({ host: "smtp.gmail.com", port: 465, secure: true, auth: { user: SMTP_USER, pass: Deno.env.get("SMTP_PASSWORD") } });
-    if (comedian_coupon) return json(await sendComedianCoupon(comedian_coupon, mailerC(), me));
+    if (coupon_email || comedian_coupon) return json(await sendCoupon(coupon_email || comedian_coupon, mailerC(), me));
     const { data: c } = await db.from("campaigns").select("*").eq("id", campaign_id).maybeSingle();
     if (!c || !c.html) return json({ error: "Campanha não encontrada" }, 404);
     const mailer = nodemailer.createTransport({ host: "smtp.gmail.com", port: 465, secure: true, auth: { user: SMTP_USER, pass: Deno.env.get("SMTP_PASSWORD") } });
