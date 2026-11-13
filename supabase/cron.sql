@@ -1,4 +1,4 @@
--- Troque SEU-PROJETO pelo id do projeto Supabase do Brasileuros antes de rodar.
+-- Projeto Supabase do Brasileuros: zgtigkuhfnizoerhsuvv
 -- Scheduler: pg_cron + pg_net call the edge functions with a token that only the database knows.
 create extension if not exists pg_cron;
 create extension if not exists pg_net;
@@ -19,7 +19,7 @@ language plpgsql security definer set search_path = '' as $$
 declare rid bigint;
 begin
   select net.http_post(
-    url := 'https://SEU-PROJETO.supabase.co/functions/v1/' || fn,
+    url := 'https://zgtigkuhfnizoerhsuvv.supabase.co/functions/v1/' || fn,
     headers := jsonb_build_object('Content-Type', 'application/json', 'x-cron-secret', (select token from private.cron_token)),
     body := body,
     timeout_milliseconds := 60000) into rid;
