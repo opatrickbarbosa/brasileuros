@@ -550,6 +550,36 @@ a.fi.post{color:var(--text);text-decoration:none}
   .htiles{grid-template-columns:repeat(2,minmax(0,1fr))}
   .hn-btn.next span{display:none}.hn-btn.next{padding:0 10px}
 }
+
+/* ---- linha do tempo das tarefas ---- */
+.tl-wrap{overflow-x:auto;overflow-y:hidden;margin:0 -4px;padding:0 4px 6px;scrollbar-width:thin}
+.tk-axis{display:grid;min-height:240px;position:relative}
+.tl-col{display:flex;flex-direction:column;justify-content:flex-end;position:relative;padding:0;border-left:1px dashed var(--line)}
+.tl-col:first-child{border-left:0}
+.tl-col.past .tl-it:not(.late){opacity:.75}
+.tl-col.today{background:linear-gradient(to bottom,transparent,rgba(253,217,41,.22));border-left:2px solid #FDD929}
+.tl-col.show{background:linear-gradient(to bottom,transparent,var(--brand-soft));border-left:2px solid var(--brand)}
+.tl-stack{display:flex;flex-direction:column-reverse;align-items:center;gap:6px;padding:10px 0 8px}
+.tl-it{display:grid;justify-items:center;gap:3px;border:0;background:none;cursor:pointer;padding:0;width:62px;color:var(--text);animation:tlUp .35s cubic-bezier(.2,.7,.2,1) both}
+.tl-it:nth-child(2){animation-delay:.04s}.tl-it:nth-child(3){animation-delay:.08s}.tl-it:nth-child(4){animation-delay:.12s}
+@keyframes tlUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.tl-ic{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--sc);color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.12);overflow:hidden;transition:transform .15s}
+.tl-ic .ic{width:19px;height:19px}.tl-ic img{width:100%;height:100%;object-fit:cover}
+.tl-it:hover .tl-ic{transform:translateY(-2px) scale(1.06)}
+.tl-it.post .tl-ic{border-radius:10px;box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--sc)}
+.tl-it.done .tl-ic{background:var(--ok-soft);color:var(--ok);box-shadow:none}
+.tl-it.done .tl-l{color:var(--faint,var(--muted));text-decoration:line-through}
+.tl-it.late .tl-ic{box-shadow:0 0 0 3px var(--danger)}
+.tl-it.late .tl-l{color:var(--danger);font-weight:600}
+.tl-l{font-size:10.5px;line-height:1.2;text-align:center;max-width:62px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tl-day{position:relative;display:grid;justify-items:center;gap:1px;padding:8px 0 4px;border-top:2px solid var(--line2)}
+.tl-day b{font-size:15px}.tl-day small{font-size:10.5px;color:var(--muted);text-transform:uppercase}
+.tl-col.today .tl-day b{background:#FDD929;color:#0f1e3b;border-radius:999px;padding:0 8px}
+.tl-col.show .tl-day b{color:var(--brand)}
+.tl-col.show .tl-day small{background:var(--brand);color:#fff;border-radius:999px;padding:1px 7px;font-weight:700}
+.tl-leg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:12px;color:var(--muted)}
+.tl-leg span{display:flex;align-items:center;gap:6px}.tl-leg i{width:10px;height:10px;border-radius:50%}.tl-leg i.late{background:none;box-shadow:0 0 0 2px var(--danger)}
+@media (prefers-reduced-motion:reduce){.tl-it{animation:none}}
 </style>
 </head>
 <body>
@@ -1470,17 +1500,39 @@ function cardHead(s, sec, title) {
     <div class="grow ch-t"><h3>${title}</h3><span class="ch-sub ${late ? "late" : ""}">${ts.length ? `<b>${done}/${ts.length}</b> · ` : ""}${sub}</span></div>`;
 }
 /* página do show: perfil estilo Instagram, tudo numa tela (sem abas) */
+function taskTimeline(s) {
+  const t0 = today(), ts = tasksOf(s.id).filter(t => t.due), posts = S.instagram.filter(p => p.show_id === s.id && p.date);
+  const dues = [...ts.map(t => t.due), ...posts.map(p => p.date)];
+  let a = addDays(s.date, -14), b = addDays(s.date, 4);
+  dues.forEach(d => { if (d < a) a = d; if (d > b) b = d; });
+  if (t0 < a && daysTo(a) < 10) a = t0; if (t0 > b && -daysTo(b) < 10) b = t0;
+  const days = []; for (let d = a; d <= b; d = addDays(d, 1)) days.push(d);
+  const FMT = { Stories: "Stories", Post: "Post", Reel: "Reel", Carrossel: L("Carrossel", "Carousel") };
+  const col = d => {
+    const items = [
+      ...ts.filter(t => t.due === d).sort((x, y) => x.done - y.done).map(t => { const late = !t.done && d < t0; return `<button class="tl-it ${t.done ? "done" : ""} ${late ? "late" : ""}" data-tl-task="${esc(t.id)}" style="--sc:${SECTOR_COLOR(t.sector)}" title="${esc(taskTitle(t))}${t.done ? " ✓" : ""}"><span class="tl-ic">${t.done ? icon("check") : icon(SECTOR_ICON[t.sector] || "check")}</span><span class="tl-l">${esc(taskTitle(t))}</span></button>`; }),
+      ...posts.filter(p => p.date === d).map(p => `<button class="tl-it post ${p.status === "Published" ? "done" : ""}" data-tl-post="${esc(p.id)}" style="--sc:${SECTOR_COLOR("Instagram")}" title="${esc(FMT[p.format] || p.format)} ${esc(p.time || "")}"><span class="tl-ic">${(p.media || [])[0] && (p.media[0].type !== "video") ? `<img src="${esc(p.media[0].url)}" alt="">` : icon("ig")}</span><span class="tl-l">${esc(FMT[p.format] || p.format)}${p.time ? " " + esc(p.time) : ""}</span></button>`),
+    ];
+    const isShow = d === s.date, isToday = d === t0;
+    return `<div class="tl-col ${isToday ? "today" : ""} ${isShow ? "show" : ""} ${d < t0 ? "past" : ""}" ${isToday ? 'id="tl-today"' : ""}>
+      <div class="tl-stack">${items.join("")}</div>
+      <div class="tl-day"><b>${pd(d).getDate()}</b><small>${isToday ? L("hoje", "today") : isShow ? "show" : fdate(d, { weekday: "short" })}</small></div></div>`;
+  };
+  return `<div class="tl-wrap" id="tlwrap"><div class="tk-axis" style="grid-template-columns:repeat(${days.length},minmax(68px,1fr))">${days.map(col).join("")}</div></div>
+    <div class="tl-leg">${SECTORS.filter(([k]) => ts.some(t => t.sector === k)).map(([k]) => `<span><i style="background:${SECTOR_COLOR(k)}"></i>${SECTOR_NAME(k)}</span>`).join("")}<span><i class="late"></i>${L("atrasada", "late")}</span></div>`;
+}
 function showTasks(s) {
-  const t0 = today(), wkEnd = addDays(t0, 6), f = R.tfilter || "day";
+  const t0 = today(), wkEnd = addDays(t0, 6), mode = R.tview || "tl", f = R.tfilter || "day";
   const open = tasksOf(s.id).filter(t => !t.done).sort((a, b) => (a.due || "9").localeCompare(b.due || "9"));
+  const late = open.filter(t => t.due && t.due < t0).length;
   const list = open.filter(t => t.due && (f === "day" ? t.due <= t0 : t.due <= wkEnd));
   const nextUp = open.find(t => t.due && t.due > (f === "day" ? t0 : wkEnd));
   const doneToday = tasksOf(s.id).filter(t => t.done && t.done_at && madrid(t.done_at) === t0);
   return `<div class="card pad ptasks">
-    <div class="sec-h ch"><span class="ch-ic todo"><span>${icon("check")}</span></span><div class="grow ch-t"><h3>${L("O que fazer", "To do")}</h3><span class="ch-sub">${f === "day" ? L("hoje e atrasadas", "today and overdue") : L("próximos 7 dias", "next 7 days")}</span></div>
-      <div class="seg" role="tablist"><button role="tab" data-tf="day" class="${f === "day" ? "on" : ""}" aria-selected="${f === "day"}">${L("Hoje", "Today")}</button><button role="tab" data-tf="week" class="${f === "week" ? "on" : ""}" aria-selected="${f === "week"}">${L("Semana", "Week")}</button></div></div>
-    <div class="list">${list.map(t => taskItem(t, { sector: true, due: t.due !== t0, edit: true })).join("") || `<div class="empty">${f === "day" ? L("Nada para hoje", "Nothing for today") : L("Nada nesta semana", "Nothing this week")}${nextUp ? ` · ${L("próxima", "next")}: <b>${esc(taskTitle(nextUp))}</b> ${L("em", "on")} ${fdate(nextUp.due, { day: "numeric", month: "short" })}` : ""}</div>`}</div>
-    ${doneToday.length ? `<p class="faint small" style="margin:10px 0 0">${icon("check")} ${doneToday.length} ${L("feita(s) hoje", "done today")}</p>` : ""}
+    <div class="sec-h ch"><span class="ch-ic todo"><span>${icon("check")}</span></span><div class="grow ch-t"><h3>${L("O que fazer", "To do")}</h3><span class="ch-sub ${late ? "late" : ""}">${open.length} ${L("pendentes", "pending")}${late ? ` · ${late} ${L("atrasadas", "late")}` : ""}</span></div>
+      <div class="seg" role="tablist"><button role="tab" data-tv="tl" class="${mode === "tl" ? "on" : ""}">${L("Linha do tempo", "Timeline")}</button><button role="tab" data-tv="day" class="${mode !== "tl" && f === "day" ? "on" : ""}">${L("Hoje", "Today")}</button><button role="tab" data-tv="week" class="${mode !== "tl" && f === "week" ? "on" : ""}">${L("Semana", "Week")}</button></div></div>
+    ${mode === "tl" ? taskTimeline(s) : `<div class="list">${list.map(t => taskItem(t, { sector: true, due: t.due !== t0, edit: true })).join("") || `<div class="empty">${f === "day" ? L("Nada para hoje", "Nothing for today") : L("Nada nesta semana", "Nothing this week")}${nextUp ? ` · ${L("próxima", "next")}: <b>${esc(taskTitle(nextUp))}</b> ${L("em", "on")} ${fdate(nextUp.due, { day: "numeric", month: "short" })}` : ""}</div>`}</div>
+    ${doneToday.length ? `<p class="faint small" style="margin:10px 0 0">${icon("check")} ${doneToday.length} ${L("feita(s) hoje", "done today")}</p>` : ""}`}
   </div>`;
 }
 function vShow() {
@@ -1651,7 +1703,10 @@ function wireShow() {
   const jump = dir => { const t = list[i + dir]; if (!t) return; R.navDir = dir; go({ view: "show", showId: t.id }); };
   const pv = $("#prevshow"), nx = $("#nextshow"); if (pv) pv.onclick = () => jump(-1); if (nx) nx.onclick = () => jump(1);
   document.onkeydown = e => { if (R.view !== "show" || /input|textarea|select/i.test(e.target.tagName) || document.querySelector(".ov")) return; if (e.key === "ArrowRight") jump(1); if (e.key === "ArrowLeft") jump(-1); };
-  document.querySelectorAll("[data-tf]").forEach(b => b.onclick = () => { R.tfilter = b.dataset.tf; const y = scrollY; render(); scrollTo(0, y); });
+  document.querySelectorAll("[data-tv]").forEach(b => b.onclick = () => { const v = b.dataset.tv; if (v === "tl") R.tview = "tl"; else { R.tview = "list"; R.tfilter = v; } const y = scrollY; render(); scrollTo(0, y); });
+  document.querySelectorAll("[data-tl-task]").forEach(b => b.onclick = () => editTask(S.tasks.find(t => t.id === b.dataset.tlTask)));
+  document.querySelectorAll("[data-tl-post]").forEach(b => b.onclick = () => newPost(s, S.instagram.find(p => p.id === b.dataset.tlPost)));
+  const tw = $("#tlwrap"), td = $("#tl-today"); if (tw) { const target = td || tw.querySelector(".tl-col.show"); if (target) tw.scrollLeft = Math.max(0, target.offsetLeft - tw.clientWidth * .35); }
   document.querySelectorAll("[data-jump]").forEach(a => a.onclick = e => { e.preventDefault(); const el = document.getElementById(a.dataset.jump); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); } });
   $("#editshow").onclick = () => modal(L("Editar show", "Edit show"), SHOW_FIELDS(), s, async row => {
     const moved = row.date !== s.date; await save("shows", row);
