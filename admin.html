@@ -473,6 +473,71 @@ a.fi.post{color:var(--text);text-decoration:none}
 .pl-th img,.pl-th video{width:100%;height:100%;object-fit:cover}
 .pl-t{display:grid;min-width:0}.pl-cap{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media (max-width:600px){.fmt-grid{grid-template-columns:1fr}.pp-review{flex-direction:column}}
+
+/* ---- transições entre páginas ---- */
+.page{will-change:transform,opacity}
+.pg-fade{animation:pgFade .32s ease both}
+.pg-in{animation:pgIn .36s cubic-bezier(.2,.7,.2,1) both}
+.pg-out{animation:pgOut .36s cubic-bezier(.2,.7,.2,1) both}
+.pg-next{animation:pgNext .4s cubic-bezier(.2,.7,.2,1) both}
+.pg-prev{animation:pgPrev .4s cubic-bezier(.2,.7,.2,1) both}
+@keyframes pgFade{from{opacity:0}to{opacity:1}}
+@keyframes pgIn{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
+@keyframes pgOut{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@keyframes pgNext{from{opacity:0;transform:translateX(48px)}to{opacity:1;transform:none}}
+@keyframes pgPrev{from{opacity:0;transform:translateX(-48px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.pg-fade,.pg-in,.pg-out,.pg-next,.pg-prev{animation:none}}
+.ic.flip{transform:scaleX(-1)}
+/* ---- página do show: herói ---- */
+.hnav{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.hn-btn{height:40px;min-width:40px;padding:0 10px;border-radius:999px;border:1px solid var(--line2);background:var(--panel);display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--text);font-weight:700;font-size:13px}
+.hn-btn .ic{width:20px;height:20px}
+.hn-btn.next{background:var(--brand);border-color:var(--brand);color:#fff;padding:0 8px 0 14px}
+.hn-btn:disabled{opacity:.35;cursor:default}
+.hn-btn:not(:disabled):hover{transform:translateY(-1px)}
+.hn-pos{font-size:12px;color:var(--muted);min-width:34px;text-align:center}
+.hero{position:relative;border-radius:22px;padding:24px;background:linear-gradient(135deg,#3772B4 0%,#24548d 60%,#1b3f6c 100%);color:#fff;overflow:hidden;margin-bottom:18px;box-shadow:0 14px 36px rgba(29,63,108,.25)}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(253,217,41,.35),transparent 70%);pointer-events:none}
+.hero-top{display:flex;gap:20px;align-items:center;position:relative;z-index:1}
+.hero-ring{width:118px;height:118px;flex:none;border-radius:50%;padding:6px;background:conic-gradient(#FDD929 0 var(--p),rgba(255,255,255,.18) var(--p) 100%);display:grid}
+.hero-ring>span{border-radius:50%;background:#1f4c82;display:grid;place-items:center;align-content:center;line-height:1}
+.hero-ring b{font-size:46px;font-weight:800;color:#FDD929}.hero-ring small{font-size:13px;text-transform:uppercase;letter-spacing:.08em;opacity:.85}
+.hero-txt{display:grid;gap:4px;min-width:0;flex:1}
+.hero-k{font-size:13px;text-transform:uppercase;letter-spacing:.06em;opacity:.9;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.hero-k::first-letter{text-transform:uppercase}
+.hero-k em{font-style:normal;background:#FDD929;color:#0f1e3b;border-radius:999px;padding:2px 10px;font-weight:800;letter-spacing:0;text-transform:none}
+.hero-k em.bad{background:#ff6a52;color:#fff}
+.hero h1{font-size:26px;line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#fff}
+.hero-v{opacity:.85;font-size:14px}
+.hero-link{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:13px;min-width:0}
+.hero-link .ic{width:16px;height:16px;opacity:.8}
+.hero-link a{color:#FDD929;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.hero-link .link{color:#FDD929}
+.hero .iconbtn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff}
+.hero .iconbtn:hover{background:rgba(255,255,255,.22)}
+.hero-edit{align-self:flex-start}
+.hero-acts{display:grid;grid-template-columns:1.4fr 1fr;gap:12px;margin-top:22px;position:relative;z-index:1}
+.hbtn{display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:16px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;text-align:left;transition:transform .15s,box-shadow .15s}
+.hbtn .ic{width:26px;height:26px;flex:none}
+.hbtn span{display:grid}.hbtn b{font-size:16px}.hbtn small{font-size:12px;opacity:.8}
+.hbtn.sun{background:#FDD929;border-color:#FDD929;color:#0f1e3b;box-shadow:0 8px 22px rgba(253,217,41,.35)}
+.hbtn:hover{transform:translateY(-2px)}
+.htiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px;position:relative;z-index:1}
+.htile{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
+.htile .ic{grid-row:1/3;width:22px;height:22px;opacity:.85}
+.htile b{font-size:22px;font-weight:800;line-height:1.1}.htile b small{font-size:13px;opacity:.7;font-weight:600}
+.htile span{font-size:12px;opacity:.8}
+.htile.ok b{color:#FDD929}
+@media (max-width:767px){
+  .hero{padding:18px;border-radius:18px}
+  .hero-top{gap:14px;align-items:flex-start}
+  .hero-ring{width:84px;height:84px;padding:4px}.hero-ring b{font-size:32px}.hero-ring small{font-size:11px}
+  .hero h1{font-size:19px}
+  .hero-acts{grid-template-columns:1fr;gap:10px;margin-top:16px}
+  .hbtn{padding:13px 16px}
+  .htiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hn-btn.next span{display:none}.hn-btn.next{padding:0 10px}
+}
 </style>
 </head>
 <body>
@@ -702,6 +767,7 @@ const IC = {
   copy: '<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/>',
   cal: '<rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v4M10 15h4"/>',
   search: '<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/>',
+  edit: '<path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
   send: '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>',
   back: '<path d="M15 5l-7 7 7 7"/>',
 };
@@ -731,7 +797,7 @@ function render() {
       </div>
     </aside>
     <header class="mtop"><img src="/assets/logo.webp" alt="Brasileuros"><div class="grow"></div><button class="btn ghost sm" id="mnew" aria-label="${L("Novo show", "New show")}">${icon("plus")}</button><button class="btn ghost sm" id="mmore" aria-label="${L("Mais", "More")}">${icon("more")}</button></header>
-    <main class="main">${main()}</main>
+    <main class="main"><div class="page ${pageAnim()}">${main()}</div></main>
     <nav class="tabbar">${NAV.map(navBtn).join("")}</nav>
   </div>`;
   document.querySelectorAll("[data-nav]").forEach(b => b.onclick = () => go({ view: b.dataset.nav }));
@@ -746,6 +812,16 @@ function render() {
   const dOff = $("#demo-off"); if (dOff) dOff.onclick = leaveDemo;
   wireLang(); wireCommon();
   ({ home: wireHome, shows: wireShows, show: wireShow, newshow: wireNewShow, post: wirePost, fin: wireFin, publico: wireCoupons, email: wireEmail, team: wireTeam }[R.view] || (() => {}))();
+}
+let LASTPAGE = "";
+function pageAnim() {
+  const key = R.view + ":" + (R.showId || "");
+  if (key === LASTPAGE) return "";
+  const prevView = LASTPAGE.split(":")[0]; LASTPAGE = key;
+  if (!prevView) return "pg-fade";
+  if (R.view === "show" && prevView === "show") { const d = R.navDir || 1; R.navDir = 0; return d > 0 ? "pg-next" : "pg-prev"; }
+  const depth = { home: 0, publico: 0, fin: 0, team: 0, shows: 0, show: 1, email: 1, newshow: 2, post: 2 };
+  return (depth[R.view] ?? 0) > (depth[prevView] ?? 0) ? "pg-in" : (depth[R.view] ?? 0) < (depth[prevView] ?? 0) ? "pg-out" : "pg-fade";
 }
 function go(patch) { R = { ...R, ...patch }; if (patch.view && patch.view !== "show") R.showId = null; const h = R.view === "show" ? "#show/" + R.showId : "#" + R.view; history.replaceState(null, "", h); render(); scrollTo(0, 0); }
 
@@ -1395,21 +1471,37 @@ function vShow() {
   const d = daysTo(s.date), sold = tickets(s), all = tasksOf(s.id), doneN = all.filter(t => t.done).length;
   const bk = lineupOf(s.id).filter(booked).length;
   const status = s.status === "cancelled" ? `<span class="chip bad">${L("Cancelado", "Cancelled")}</span>` : d < 0 ? `<span class="chip">${L("Realizado", "Done")}</span>` : `<span class="chip warn">${d === 0 ? L("Hoje", "Tonight") : L("em ", "in ") + d + L(" dias", " days")}</span>`;
+  const list = shows(), i = list.findIndex(x => x.id === s.id), prev = list[i - 1], next = list[i + 1];
+  const pct = Math.min(100, sold / cap(s) * 100), wd = fdate(s.date, { weekday: "long" });
+  const short = u => u.replace(/^https?:\/\/(www\.)?/, "").replace(/\?.*$/, "");
+  const tile = (ic, v, l, cls = "") => `<div class="htile ${cls}">${icon(ic)}<b>${v}</b><span>${l}</span></div>`;
   return `
-  <button class="btn ghost sm" id="back">${icon("back")} ${L("Início", "Home")}</button>
-  <section class="prof">
-    <div class="prof-av" style="--p:${Math.min(100, sold / cap(s) * 100)}%"><span class="st-in"><b>${pd(s.date).getDate()}</b><small>${fdate(s.date, { month: "short" })}</small></span></div>
-    <div class="prof-main">
-      <div class="prof-top"><h1>${fdate(s.date, { weekday: "long", day: "numeric", month: "long" })}</h1>
-        <div class="prof-acts"><button class="btn sm btn-sun" id="schedpost">${icon("cal")} ${L("Agendar post ou stories", "Schedule post or story")}</button><button class="btn sm" id="editshow">${L("Editar show", "Edit show")}</button><button class="btn sm" id="addt">+ ${L("Tarefa", "Task")}</button></div></div>
-      <ul class="prof-stats">
-        <li><b>${sold}/${cap(s)}</b> ${L("ingressos", "tickets")}</li>
-        <li><b>${bk}/${LINEUP_GOAL}</b> Barcelouca</li>
-        <li><b>${doneN}/${all.length}</b> ${L("tarefas", "tasks")}</li>
-        <li><b>${eur(net(s))}</b> ${s.date > today() ? L("previsto", "expected") : L("resultado", "result")}</li>
-      </ul>
-      <div class="prof-bio"><b>${esc(s.title)}</b><span class="muted">${esc(s.venue || "")} · ${esc(s.time || "")}</span><span class="row wrap" style="gap:6px;margin-top:6px">${status}</span>
-        ${s.eb_url ? `<span class="evlink">${icon("link")}<a href="${esc(s.eb_url)}" target="_blank" rel="noopener">${esc(s.eb_url.replace(/^https?:\/\/(www\.)?/, "").replace(/\?.*$/, ""))}</a><button class="iconbtn" id="copylink" aria-label="${L("Copiar link do evento", "Copy event link")}" title="${L("Copiar link", "Copy link")}">${icon("copy")}</button></span>` : `<span class="evlink none">${icon("link")}<button class="link" id="addlink">${L("Adicionar link do Eventbrite", "Add Eventbrite link")}</button></span>`}${s.notes ? `<span class="muted small" style="margin-top:6px">${esc(s.notes)}</span>` : ""}</div>
+  <div class="hnav">
+    <button class="btn ghost sm" id="back">${icon("back")} ${L("Início", "Home")}</button><span class="grow"></span>
+    <button class="hn-btn" id="prevshow" ${prev ? "" : "disabled"} aria-label="${L("Show anterior", "Previous show")}" title="${prev ? fdate(prev.date, { day: "numeric", month: "short" }) : ""}">${icon("back")}</button>
+    <span class="hn-pos">${i + 1}/${list.length}</span>
+    <button class="hn-btn next" id="nextshow" ${next ? "" : "disabled"} aria-label="${L("Próximo show", "Next show")}">${next ? `<span>${fdate(next.date, { day: "numeric", month: "short" })}</span>` : ""}${icon("back", "flip")}</button>
+  </div>
+  <section class="hero">
+    <div class="hero-top">
+      <div class="hero-ring" style="--p:${pct}%"><span><b>${pd(s.date).getDate()}</b><small>${fdate(s.date, { month: "short" })}</small></span></div>
+      <div class="hero-txt">
+        <span class="hero-k">${esc(wd)} · ${esc(s.time || "")} ${s.status === "cancelled" ? `<em class="bad">${L("Cancelado", "Cancelled")}</em>` : d < 0 ? `<em>${L("Realizado", "Done")}</em>` : `<em>${d === 0 ? L("É hoje!", "Tonight!") : L("faltam ", "in ") + d + L(" dias", " days")}</em>`}</span>
+        <h1>${esc(s.title)}</h1>
+        <span class="hero-v">${esc(s.venue || "")}</span>
+        ${s.eb_url ? `<span class="hero-link">${icon("link")}<a href="${esc(s.eb_url)}" target="_blank" rel="noopener">${esc(short(s.eb_url))}</a><button class="iconbtn" id="copylink" aria-label="${L("Copiar link do evento", "Copy event link")}" title="${L("Copiar link", "Copy link")}">${icon("copy")}</button></span>` : `<span class="hero-link">${icon("link")}<button class="link" id="addlink">${L("Adicionar link do Eventbrite", "Add Eventbrite link")}</button></span>`}
+      </div>
+      <button class="iconbtn hero-edit" id="editshow" aria-label="${L("Editar show", "Edit show")}" title="${L("Editar show", "Edit show")}">${icon("edit")}</button>
+    </div>
+    <div class="hero-acts">
+      <button class="hbtn sun" id="schedpost">${icon("cal")}<span><b>${L("Agendar post ou stories", "Schedule post or story")}</b><small>${S.instagram.filter(x => x.show_id === s.id && x.status !== "Published").length} ${L("agendados", "scheduled")}</small></span></button>
+      <button class="hbtn" id="addt">${icon("plus")}<span><b>${L("Adicionar tarefa", "Add task")}</b><small>${all.length - doneN} ${L("pendentes", "pending")}</small></span></button>
+    </div>
+    <div class="htiles">
+      ${tile("ticket", `${sold}<small>/${cap(s)}</small>`, L("ingressos", "tickets"), pct >= 100 ? "ok" : "")}
+      ${tile("mic", `${bk}<small>/${LINEUP_GOAL}</small>`, "Barcelouca", bk >= LINEUP_GOAL ? "ok" : "")}
+      ${tile("check", `${doneN}<small>/${all.length}</small>`, L("tarefas", "tasks"))}
+      ${tile("fin", eur(net(s)), s.date > today() ? L("previsto", "expected") : L("resultado", "result"))}
     </div>
   </section>
   <div class="pgrid">
@@ -1538,6 +1630,10 @@ function tMoney(s) {
 function wireShow() {
   const s = showById(R.showId); if (!s) return;
   $("#back").onclick = () => go({ view: "home" });
+  const list = shows(), i = list.findIndex(x => x.id === s.id);
+  const jump = dir => { const t = list[i + dir]; if (!t) return; R.navDir = dir; go({ view: "show", showId: t.id }); };
+  const pv = $("#prevshow"), nx = $("#nextshow"); if (pv) pv.onclick = () => jump(-1); if (nx) nx.onclick = () => jump(1);
+  document.onkeydown = e => { if (R.view !== "show" || /input|textarea|select/i.test(e.target.tagName) || document.querySelector(".ov")) return; if (e.key === "ArrowRight") jump(1); if (e.key === "ArrowLeft") jump(-1); };
   document.querySelectorAll("[data-tf]").forEach(b => b.onclick = () => { R.tfilter = b.dataset.tf; const y = scrollY; render(); scrollTo(0, y); });
   document.querySelectorAll("[data-jump]").forEach(a => a.onclick = e => { e.preventDefault(); const el = document.getElementById(a.dataset.jump); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); } });
   $("#editshow").onclick = () => modal(L("Editar show", "Edit show"), SHOW_FIELDS(), s, async row => {
@@ -1708,7 +1804,7 @@ function contacts() {
   return [...m.values()].sort((a, b) => String(b.since || "").localeCompare(String(a.since || "")));
 }
 function vCoupons() {
-  const all = contacts(), f = R.pf || "all", q = String(R.pq || "").toLowerCase();
+  const all = contacts(), f = "all", q = String(R.pq || "").toLowerCase();
   const list = all.filter(x => (f === "all" || (f === "can" ? x.can : f === "buyers" ? x.buyer : (x.lang || "pt") === f)) && (!q || String(x.email).toLowerCase().includes(q) || String(x.name || "").toLowerCase().includes(q)));
   const can = all.filter(x => x.can).length;
   const chips = [["all", L("Todos", "All")], ["can", L("Recebem campanhas", "Get campaigns")], ["buyers", L("Compradores", "Buyers")], ["pt", "PT"], ["es", "ES"], ["en", "EN"]];
@@ -1717,7 +1813,6 @@ function vCoupons() {
     <div class="row wrap" style="gap:8px"><button class="btn" id="em-import">${L("Importar contatos", "Import contacts")}</button><button class="btn btn-sun" id="sendcamp">${icon("send")} ${L("Enviar uma campanha", "Send a campaign")}</button></div></div>
   <div class="card pad sec2">
     <div class="pub-tools"><label class="pub-search">${icon("search")}<input type="search" id="pq" value="${esc(R.pq || "")}" placeholder="${L("Buscar nome ou e-mail", "Search name or e-mail")}"></label>
-      <div class="pchips">${chips.map(([k, l]) => `<button class="pchip ${f === k ? "on" : ""}" data-pf="${k}">${l}</button>`).join("")}</div>
       <button class="btn sm ghost" id="copyemails">${icon("copy")} ${L("Copiar e-mails", "Copy e-mails")}</button></div>
     <div class="clist">${list.map(x => `<div class="cl-i"><span class="av">${esc(String(x.name || x.email).trim().split(/\s+/).slice(0, 2).map(w => w[0]).join("").toUpperCase())}</span>
       <div class="grow cl-t"><b>${esc(x.email)}</b><span class="muted small">${esc(x.name || "")}${x.name ? " · " : ""}${src(x)}${x.lang ? " · " + esc(String(x.lang).toUpperCase()) : ""}${x.since ? " · " + L("desde ", "since ") + fdate(String(x.since).slice(0, 10), { day: "numeric", month: "short" }) : ""}</span></div>
@@ -1731,7 +1826,7 @@ function wireCoupons() {
   document.querySelectorAll("[data-coupon]").forEach(b => b.onclick = () => editCoupon(S.coupons.find(c => c.id === b.dataset.coupon)));
   document.querySelectorAll("[data-pf]").forEach(b => b.onclick = () => { R.pf = b.dataset.pf; render(); });
   const q = $("#pq"); q.oninput = () => { R.pq = q.value; const p = q.selectionStart; render(); const n = $("#pq"); n.focus(); n.setSelectionRange(p, p); };
-  $("#copyemails").onclick = () => { const f = R.pf || "all"; const em = contacts().filter(x => f === "can" ? x.can : f === "buyers" ? x.buyer : f === "all" ? !x.unsub : (x.lang || "pt") === f && !x.unsub).map(x => x.email); navigator.clipboard.writeText(em.join(", ")); toast(em.length + L(" e-mails copiados", " e-mails copied")); };
+  $("#copyemails").onclick = () => { const em = contacts().filter(x => !x.unsub).map(x => x.email); navigator.clipboard.writeText(em.join(", ")); toast(em.length + L(" e-mails copiados", " e-mails copied")); };
   $("#em-import").onclick = importContacts;
 }
 function importContacts() {
