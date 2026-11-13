@@ -633,6 +633,28 @@ body.home.at-top::before{background:transparent}
 
 .phero h1,.prof-copy h1{color:var(--sun)}
 @media (max-width:768px){.top .cta{order:2}.ldd.in-top{order:3}.top .menu-btn{order:4}}
+
+/* hierarquia de compra */
+.btn-next{font-weight:800}
+@media (max-width:820px){.top .cta .cta-d{display:none}}
+.btn-line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+.show .btn-line{min-width:110px}
+.hero-when{margin:10px 0 0;color:#fff;font-weight:700;text-shadow:0 1px 8px rgba(0,0,0,.35);text-transform:capitalize}
+.next-body .when.big{font-size:1.35rem;font-weight:800;text-transform:capitalize;margin:0}
+.next-body .perks{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:2px 0 4px;color:var(--muted);font-size:.95rem}
+.next-body .perks .price{background:var(--sun);color:var(--sun-ink);font-weight:800;border-radius:999px;padding:4px 12px;font-size:1.05rem}
+.more-dates{justify-self:center;color:var(--sky-2);font-weight:700;text-decoration:none;padding:6px}
+.more-dates:hover{text-decoration:underline}
+.badge.last{position:absolute;left:12px;top:12px;background:#e5484d;color:#fff}
+.sticky-buy{display:none}
+@media (max-width:820px){
+  .sticky-buy{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px max(14px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));background:rgba(8,30,80,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#fff;box-shadow:0 -6px 20px rgba(0,0,0,.25)}
+  .sticky-buy .sb-info{display:grid;line-height:1.15;flex:1;min-width:0}
+  .sticky-buy small{opacity:.8;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em}
+  .sticky-buy b{text-transform:capitalize;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sticky-buy .btn{flex:none;min-height:48px;padding:0 18px}
+  .foot{padding-bottom:84px}
+}
 </style>
 
 <div class="bgfx" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -657,7 +679,7 @@ const T={
   ticker:["Toda quarta","19:30","Bar La Chirigota","Barcelona","Stand-up em português","Comédia do Nosso Jeitinho"],
   onStage:"Em cartaz",nextShows:"Próximos shows",fullAgenda:"Agenda completa →",cast:"Elenco",castH:"Quem sobe no palco",seeAll:"Ver todos →",
   premiere:"Estreia",today:"É hoje",tomorrow:"Amanhã",open:"Vendas abertas",last:"Últimos ingressos",extra:"Sessão extra",sold:"Esgotado",
-  buy:"Garantir entradas",buyNow:"Comprar agora",short:"Ingressos",waitlist:"Lista de espera",noDates:"Sem datas abertas no momento.",
+  buy:"Quero meu lugar",buyNow:"Comprar agora",short:"Ingressos",reserve:"Reservar",priceTag:"7 €",beer:"Cerveja a 2 € a partir das 18:30",otherDates:"Ver outras datas",cantGo:d=>`Não pode ${d}? A gente te avisa da próxima.`,stickyNext:"Próximo show",lastSeats:"Últimos lugares",waitlist:"Lista de espera",noDates:"Sem datas abertas no momento.",
   agendaH:"Agenda",agendaP:"Todas as datas da temporada. Os ingressos são vendidos pela Eventbrite.",
   castPageP:"Os comediantes da Brasileuros.",
   nextDates:"Próximas datas",allDates:n=>`Ver todas as ${n} datas →`,seeDates:"Ver datas",hire:n=>`Contratar ${n}`,videos:"Vídeos",
@@ -689,7 +711,7 @@ const T={
   ticker:["Every Wednesday","7:30 pm","Bar La Chirigota","Barcelona","Stand-up in Portuguese","Comédia do Nosso Jeitinho"],
   onStage:"On stage",nextShows:"Upcoming shows",fullAgenda:"All dates →",cast:"Cast",castH:"Who's on stage",seeAll:"See all →",
   premiere:"Premiere",today:"Tonight",tomorrow:"Tomorrow",open:"On sale",last:"Last tickets",extra:"Extra show",sold:"Sold out",
-  buy:"Get tickets",buyNow:"Buy now",short:"Tickets",waitlist:"Waiting list",noDates:"No dates on sale right now.",
+  buy:"Save my seat",buyNow:"Buy now",short:"Tickets",reserve:"Book",priceTag:"€7",beer:"€2 beers from 6:30 pm",otherDates:"See other dates",cantGo:d=>`Can’t make it ${d}? We’ll let you know about the next one.`,stickyNext:"Next show",lastSeats:"Last seats",waitlist:"Waiting list",noDates:"No dates on sale right now.",
   agendaH:"Shows",agendaP:"Every date of the season. Tickets are sold on Eventbrite.",castPageP:"The Brasileuros comedians.",
   nextDates:"Upcoming dates",allDates:n=>`See all ${n} dates →`,seeDates:"See dates",hire:n=>`Book ${n}`,videos:"Videos",
   linksSub:"Brazilian stand-up · every Wednesday in Barcelona",nextShow:"Next show",allDatesBtn:"See all dates",bizBtn:"Corporate and private events",castBtn:"Meet the comedians",
@@ -720,7 +742,7 @@ const T={
   ticker:["Todos los miércoles","19:30","Bar La Chirigota","Barcelona","Stand-up en portugués","Comédia do Nosso Jeitinho"],
   onStage:"En cartel",nextShows:"Próximos shows",fullAgenda:"Agenda completa →",cast:"Elenco",castH:"Quién sube al escenario",seeAll:"Ver todos →",
   premiere:"Estreno",today:"Hoy",tomorrow:"Mañana",open:"A la venta",last:"Últimas entradas",extra:"Sesión extra",sold:"Agotado",
-  buy:"Conseguir entradas",buyNow:"Comprar ya",short:"Entradas",waitlist:"Lista de espera",noDates:"No hay fechas a la venta ahora mismo.",
+  buy:"Quiero mi sitio",buyNow:"Comprar ya",short:"Entradas",reserve:"Reservar",priceTag:"7 €",beer:"Cerveza a 2 € desde las 18:30",otherDates:"Ver otras fechas",cantGo:d=>`¿No puedes ${d}? Te avisamos del próximo.`,stickyNext:"Próximo show",lastSeats:"Últimas plazas",waitlist:"Lista de espera",noDates:"No hay fechas a la venta ahora mismo.",
   agendaH:"Agenda",agendaP:"Todas las fechas de la temporada. Las entradas se venden en Eventbrite.",castPageP:"Los cómicos de Brasileuros.",
   nextDates:"Próximas fechas",allDates:n=>`Ver las ${n} fechas →`,seeDates:"Ver fechas",hire:n=>`Contratar a ${n}`,videos:"Vídeos",
   linksSub:"Stand-up brasileño · todos los miércoles en Barcelona",nextShow:"Próximo show",allDatesBtn:"Ver todas las fechas",bizBtn:"Empresas y eventos privados",castBtn:"Conoce a los cómicos",
@@ -751,7 +773,7 @@ const T={
   ticker:["Cada dimecres","19.30","Bar La Chirigota","Barcelona","Stand-up en portuguès","Comédia do Nosso Jeitinho"],
   onStage:"En cartell",nextShows:"Propers espectacles",fullAgenda:"Agenda completa →",cast:"Repartiment",castH:"Qui puja a l'escenari",seeAll:"Veure'ls tots →",
   premiere:"Estrena",today:"Avui",tomorrow:"Demà",open:"A la venda",last:"Últimes entrades",extra:"Sessió extra",sold:"Exhaurit",
-  buy:"Aconseguir entrades",buyNow:"Comprar ara",short:"Entrades",waitlist:"Llista d'espera",noDates:"Ara mateix no hi ha dates a la venda.",
+  buy:"Vull el meu lloc",buyNow:"Comprar ara",short:"Entrades",reserve:"Reservar",priceTag:"7 €",beer:"Cervesa a 2 € des de les 18.30",otherDates:"Veure altres dates",cantGo:d=>`No pots ${d}? T’avisem del proper.`,stickyNext:"Proper espectacle",lastSeats:"Últimes places",waitlist:"Llista d'espera",noDates:"Ara mateix no hi ha dates a la venda.",
   agendaH:"Agenda",agendaP:"Totes les dates de la temporada. Les entrades es venen a Eventbrite.",castPageP:"Els còmics de Brasileuros.",
   nextDates:"Properes dates",allDates:n=>`Veure les ${n} dates →`,seeDates:"Veure dates",hire:n=>`Contractar ${n}`,videos:"Vídeos",
   linksSub:"Stand-up brasiler · cada dimecres a Barcelona",nextShow:"Proper espectacle",allDatesBtn:"Veure totes les dates",bizBtn:"Empreses i esdeveniments privats",castBtn:"Coneix els còmics",
@@ -898,10 +920,17 @@ function statusBadge(s){
   if(x==="SESSAO_EXTRA")b.push(`<span class="badge gold">${t("extra")}</span>`);
   if(x==="ESGOTADO")b.push(`<span class="badge sold">${t("sold")}</span>`);
   return b.join("")}
+function isNext(s){const n=upcoming()[0];return !!n&&n.id===s.id}
+function shortDate(s){return fmt({weekday:"short",day:"numeric",month:"numeric"},d(s))}
+function ctaLabel(s){return `${t("buy")} · ${t("priceTag")}`}
 function buyBtn(s,extra=""){
   if(!s.url)return "";
   if(st(s)==="ESGOTADO")return `<button class="btn btn-wait ${extra}" data-wait="${s.id}">${t("waitlist")}</button>`;
-  return `<a class="btn btn-ok ${extra}" href="${ticketUrl(s)}" target="_blank" rel="noopener">${st(s)==="ULTIMOS_INGRESSOS"?t("buyNow"):t("buy")}</a>`}
+  if(isNext(s))return `<a class="btn btn-sun btn-next ${extra}" href="${ticketUrl(s)}" target="_blank" rel="noopener">${ctaLabel(s)}</a>`;
+  return `<a class="btn btn-line ${extra}" href="${ticketUrl(s)}" target="_blank" rel="noopener">${t("reserve")}</a>`}
+function stickyBar(){
+  const n=upcoming()[0];if(!n||!n.url||st(n)==="ESGOTADO")return "";
+  return `<div class="sticky-buy" role="region" aria-label="${t("stickyNext")}"><div class="sb-info"><small>${t("stickyNext")}</small><b class="tnum">${shortDate(n)} · ${n.hora}</b></div><a class="btn btn-sun btn-next" href="${ticketUrl(n)}" target="_blank" rel="noopener">${ctaLabel(n)}</a></div>`}
 function showCard(s,mini){const dt=d(s);
   return `<article class="show ${mini?"mini":""}">
     <div class="date tnum" aria-label="${fmt({weekday:"long",day:"numeric",month:"long"},dt)}"><span class="wd">${fmt({weekday:"short"},dt)}</span><span class="d">${dt.getDate()}</span><span class="m">${fmt({month:"short"},dt)}</span></div>
@@ -934,7 +963,7 @@ function header(route){
     <nav class="nav" aria-label="Menu">${keys.map((h,i)=>`<a href="#${h}"${cur===h?' aria-current="page"':""}>${t("nav")[i]}</a>`).join("")}
       <div class="nav-foot"><button class="nav-close" type="button">${t("closeMenu")}</button></div></nav>
     ${langSwitch("in-top")}
-    <a class="btn btn-sun btn-sm cta" href="#agenda">${t("tickets")}</a>
+    ${(()=>{const n=upcoming()[0];return n&&n.url?`<a class="btn btn-sun btn-sm cta" href="${ticketUrl(n)}" target="_blank" rel="noopener">${t("short")}<span class="cta-d"> · ${shortDate(n)}</span></a>`:`<a class="btn btn-sun btn-sm cta" href="#agenda">${t("tickets")}</a>`})()}
     <button class="menu-btn" type="button" aria-label="${t("openMenu")}" aria-expanded="false"><span></span></button>
   </div></header>`}
 function footer(){
@@ -958,7 +987,7 @@ function pHome(){
       <p class="jeitinho">– Comédia do Nosso Jeitinho –</p>
       <h1>${t("heroH")}</h1>
       <p class="hero-sub">${t("heroSub")}</p>
-      <div class="hero-ctas"><a class="btn btn-sun btn-hero" href="${next?ticketUrl(next):"#agenda"}"${next?' target="_blank" rel="noopener"':""}>${t("buy")}</a></div>
+      <div class="hero-ctas"><a class="btn btn-sun btn-hero btn-next" href="${next?ticketUrl(next):"#agenda"}"${next?' target="_blank" rel="noopener"':""}>${next?ctaLabel(next):t("buy")}</a>${next?`<p class="hero-when tnum">${fmt({weekday:"long",day:"numeric",month:"long"},d(next))} · ${next.hora} · ${esc(next.sala)}</p>`:""}</div>
     </div></div>
     <div class="hero-stage">
       <img class="ly ly-ground" data-ly="ground" src="${IMG.ground}" alt="">
@@ -979,20 +1008,19 @@ function pHome(){
 
 function pLinks(){
   const next=upcoming()[0],nd=next?d(next):null;
+  const sold=next&&st(next)==="ESGOTADO";
   return `<div class="links-page"><div class="lw">
     <div class="links-head"><img src="${IMG.logo}" alt="Brasileuros"><p>${t("linksSub")}</p></div>
     ${next?`<article class="next">
-      <div class="next-banner cover"><img class="ebcover" src="${IMG.ebcover}" alt="Brasileuros – Comédia do Nosso Jeitinho" width="940" height="470" loading="eager">${next.premiere?`<span class="badge real">${t("premiere")}</span>`:""}</div>
-      <div class="next-body"><p class="eyebrow">${t("nextShow")}</p><h2>${esc(next.titulo.replace("Brasileuros – ",""))}</h2>
-        <p class="when tnum">${fmt({weekday:"long",day:"numeric",month:"long"},nd)} · ${next.hora}</p>
+      <div class="next-banner cover"><img class="ebcover" src="${IMG.ebcover}" alt="Brasileuros – Comédia do Nosso Jeitinho" width="940" height="470" loading="eager">${next.premiere?`<span class="badge real">${t("premiere")}</span>`:(st(next)==="ULTIMOS_INGRESSOS"?`<span class="badge last">${t("lastSeats")}</span>`:"")}</div>
+      <div class="next-body"><p class="eyebrow">${t("nextShow")}</p>
+        <p class="when big tnum">${fmt({weekday:"long",day:"numeric",month:"long"},nd)} · ${next.hora}</p>
         <p class="where">${esc(next.sala)}, ${esc(next.cidade)}</p>
-        ${st(next)==="ESGOTADO"?buyBtn(next):`<a class="btn btn-sun btn-glow" href="${ticketUrl(next)}" target="_blank" rel="noopener">${t("buy")}</a>`}
-      </div></article>`:""}
-    <a class="lbtn" href="#agenda">${t("allDatesBtn")}</a>
-    <a class="lbtn" href="#corporativo">${t("bizBtn")}</a>
-    <a class="lbtn" href="#comediantes">${t("castBtn")}</a>
-    <div class="lvip"><p class="lvip-t">${t("waTitle")}</p>${vipForm("links")}</div>
-    ${socialIcons({name:"Brasileuros"})}
+        <p class="perks"><span class="price tnum">${t("priceTag")}</span><span>${t("beer")}</span></p>
+        ${sold?buyBtn(next):`<a class="btn btn-sun btn-glow btn-next" href="${ticketUrl(next)}" target="_blank" rel="noopener">${ctaLabel(next)}</a>`}
+        <a class="more-dates" href="#agenda">${t("otherDates")} →</a>
+      </div></article>`:`<a class="lbtn" href="#agenda">${t("allDatesBtn")}</a>`}
+    <div class="lvip"><p class="lvip-t">${next?t("cantGo")(fmt({weekday:"long"},nd)):t("waTitle")}</p>${vipForm("links")}</div>
     ${langSwitch("in-links")}
   </div></div>`}
 
@@ -1197,7 +1225,7 @@ function route(){
   else if(r==="")body=pHome();
   else body=p404();
   const nr=target?(target.startsWith("agenda-")?target.slice(7):"corporativo"):r;
-  app.innerHTML=header(nr)+`<main>${body}</main>`+footer();fixLinks();
+  app.innerHTML=header(nr)+`<main>${body}</main>`+footer()+stickyBar();fixLinks();
   if(target){const el=document.getElementById(target);if(el)scrollTo(0,el.getBoundingClientRect().top+scrollY-90)}else scrollTo(0,0);
   decorate();setMeta(r);
 }
