@@ -642,6 +642,9 @@ a.fi.post{color:var(--text);text-decoration:none}
 .pg-top{position:absolute;top:6px;left:6px;background:#FDD929;color:#0f1e3b;font-size:10px;font-weight:800;border-radius:999px;padding:2px 7px;text-transform:uppercase}
 .pg-over{position:absolute;left:0;right:0;bottom:0;padding:18px 8px 7px;background:linear-gradient(to top,rgba(0,0,0,.75),transparent);color:#fff;display:grid}
 .pg-over b{font-size:18px;line-height:1}.pg-over small{font-size:10px;opacity:.85}
+.cp-acts{display:inline-flex;align-items:center;gap:6px;justify-content:flex-end}
+.cp-copy{width:30px;height:30px;color:#3772B4}
+.cp-copy .ic{width:16px;height:16px}
 .pg-st{display:flex;gap:10px;font-size:11.5px;color:var(--muted);flex-wrap:wrap;font-variant-numeric:tabular-nums}
 .pg-st>span{display:inline-flex;align-items:center;gap:4px}
 .pg-st .ic{width:14px;height:14px;stroke-width:2;color:#3772B4}
@@ -1411,6 +1414,12 @@ function wireCommon() {
     logAct(c.checked ? "task_done" : "task_reopened", { id: t.id, by: PROFILE?.name }); render();
   });
   document.querySelectorAll("[data-edit-task]").forEach(b => b.onclick = () => editTask(S.tasks.find(x => x.id === b.dataset.editTask)));
+  document.querySelectorAll("[data-copycoupon]").forEach(b => b.onclick = e => {
+    e.preventDefault(); e.stopPropagation();
+    const c = S.coupons.find(x => x.id === b.dataset.copycoupon), link = couponLink(c);
+    if (!link) return toast(L("Coloque o link do Eventbrite no show para gerar o link do cupom", "Add the Eventbrite link to the show first"));
+    copyText(link, L("Link com o cupom ", "Link with coupon ") + c.code + L(" copiado", " copied"));
+  });
 }
 function modal(title, fields, row, onSave, extra) {
   // janela lateral que desliza da direita (substitui os pop-ups)
@@ -1688,8 +1697,8 @@ function tLineup(s) {
   return `<div class="card pad pcard" id="c-Show" style="--sc:${SECTOR_COLOR("Show")}">
     <div class="sec-h ch">${cardHead(s, "Show", `${L("Convidados do Barcelouca", "Barcelouca guests")}`)}<button class="btn sm primary" id="addlu">+ ${L("Comediante", "Comedian")}</button></div>
     ${lu.length ? `<div class="tablewrap"><table><tr><th>${L("Nome", "Name")}</th><th>${L("Posição", "Spot")}</th><th class="num">${L("Cachê", "Fee")}</th><th>Status</th><th>${L("Cupom", "Coupon")}</th><th></th></tr>
-    ${lu.map(l => { const c = S.comedians.find(x => x.id === l.comedian_id); return `<tr><td><b>${esc(l.artist)}</b>${c?.email ? `<div class="faint small">${esc(c.email)}</div>` : ""}</td><td>${esc(l.spot === "headliner" ? "Headliner" : L("Convidado", "Guest"))}</td><td class="num">${eur(l.fee)}</td><td><span class="chip ${booked(l) ? "ok" : ""}">${esc((PAY().find(p => p[0] === l.payment) || [0, l.payment])[1])}</span></td><td>${l.coupon_code ? `<span class="chip">${esc(l.coupon_code)}</span>` : ""}</td><td class="num"><button class="btn ghost sm" data-lu="${l.id}">${L("Editar", "Edit")}</button></td></tr>`; }).join("")}</table></div>` : `<div class="empty">${L("Ninguém no lineup ainda", "No one booked yet")}</div>`}
-    <p class="faint small" style="margin:12px 0 0">${L("Ao adicionar um comediante com e-mail, o sistema cria um cupom de 10% com o nome dele.", "Adding a comedian with an e-mail creates a 10% coupon with their name.")}</p>
+    ${lu.map(l => { const c = S.comedians.find(x => x.id === l.comedian_id); return `<tr><td><b>${esc(l.artist)}</b>${c?.email ? `<div class="faint small">${esc(c.email)}</div>` : ""}</td><td>${esc(l.spot === "headliner" ? "Headliner" : L("Convidado", "Guest"))}</td><td class="num">${eur(l.fee)}</td><td><span class="chip ${booked(l) ? "ok" : ""}">${esc((PAY().find(p => p[0] === l.payment) || [0, l.payment])[1])}</span></td><td>${l.coupon_code ? `<span class="cp-acts"><span class="chip">${esc(l.coupon_code)}</span>${(cpn => cpn ? copyCouponBtn(cpn) : "")(S.coupons.find(x => x.code === l.coupon_code))}</span>` : ""}</td><td class="num"><button class="btn ghost sm" data-lu="${l.id}">${L("Editar", "Edit")}</button></td></tr>`; }).join("")}</table></div>` : `<div class="empty">${L("Ninguém no lineup ainda", "No one booked yet")}</div>`}
+    <p class="faint small" style="margin:12px 0 0">${L("Ao adicionar um comediante com e-mail, o sistema cria um cupom de 10% com o nome dele e manda por e-mail, com o link do Eventbrite já com desconto.", "Adding a comedian with an e-mail creates a 10% coupon with their name and e-mails it with the discounted Eventbrite link.")}</p>
   </div>`;
 }
 function couponCodeFor(name) {
@@ -1719,6 +1728,7 @@ function editLineup(s, l) {
       const cp = await save("coupons", { id: "c" + uid(), code, percent: 10, scope: L("Show de ", "Show on ") + fdate(s.date, { day: "numeric", month: "short" }), comedian_id: com.id, show_id: s.id, status: "Pending", notes: L("Cupom do comediante", "Comedian coupon") });
       lu.coupon_code = code;
       await pushCoupon(cp);
+      if (!DEMO) fnCall("send-email", { comedian_coupon: cp.id }).then(r => toast(L("E-mail com o cupom enviado para ", "Coupon e-mail sent to ") + (r.to || com.email))).catch(e => toast(L("E-mail do cupom não foi: ", "Coupon e-mail failed: ") + e.message));
     }
     await save("lineup", lu);
     const all = lineupOf(s.id).filter(booked).length; const lt = S.tasks.find(t => t.id === s.id + ":guest");
@@ -1764,8 +1774,20 @@ function editAd(s, a) {
     { k: "results", l: L("Resultados", "Results"), full: true }, { k: "notes", l: L("Notas", "Notes"), t: "area" },
   ], a || { show_id: s.id, platform: "Meta", status: "Draft", start_date: addDays(s.date, -10), end_date: addDays(s.date, -1) }, async row => { row.id = row.id || "a" + uid(); row.show_id = s.id; await save("ads", row); }, a ? async () => del("ads", a.id) : null);
 }
+/* link do Eventbrite com o cupom já aplicado (?discount=CÓDIGO) */
+function couponShow(c) {
+  const sh = c.show_id && S.shows.find(x => x.id === c.show_id);
+  if (sh?.eb_url && sh.date >= today()) return sh;
+  return S.shows.filter(x => x.eb_url && x.status !== "cancelled" && x.date >= today()).sort((a, b) => a.date.localeCompare(b.date))[0] || (sh?.eb_url ? sh : null);
+}
+function couponLink(c) {
+  const sh = c && couponShow(c); if (!sh) return null;
+  try { const u = new URL(sh.eb_url); u.searchParams.set("discount", c.code); return u.toString(); } catch (e) { return null; }
+}
+const copyCouponBtn = c => `<button class="iconbtn cp-copy" data-copycoupon="${esc(c.id)}" aria-label="${L("Copiar link com o cupom", "Copy link with coupon")}" title="${L("Copiar link com o cupom", "Copy link with coupon")}">${icon("link")}</button>`;
+async function copyText(t, ok) { try { await navigator.clipboard.writeText(t); toast(ok); } catch (e) { prompt(L("Copie o link:", "Copy the link:"), t); } }
 function couponRows(list) {
-  return list.length ? `<div class="tablewrap"><table><tr><th>${L("Código", "Code")}</th><th class="num">%</th><th>${L("Validade", "Scope")}</th><th>${L("Usos", "Uses")}</th><th>Status</th><th></th></tr>${list.map(c => `<tr><td><b>${esc(c.code)}</b>${c.comedian_id ? `<div class="faint small">${esc(S.comedians.find(x => x.id === c.comedian_id)?.name || "")}</div>` : ""}</td><td class="num">${num(c.percent)}%</td><td class="small">${esc(c.scope || "")}</td><td>${num(c.uses)}${c.usage_limit ? " / " + c.usage_limit : ""}</td><td><span class="chip ${c.status === "Active" ? "ok" : c.status === "Pending" ? "warn" : c.status === "Review" ? "bad" : ""}">${esc(c.status)}</span>${c.eb_discount_id && c.eb_discount_id !== "manual" ? ` <span class="chip">Eventbrite</span>` : ""}</td><td class="num"><button class="btn ghost sm" data-coupon="${c.id}">${L("Editar", "Edit")}</button></td></tr>`).join("")}</table></div>` : `<div class="empty">${L("Nenhum cupom", "No coupons")}</div>`;
+  return list.length ? `<div class="tablewrap"><table><tr><th>${L("Código", "Code")}</th><th class="num">%</th><th>${L("Validade", "Scope")}</th><th>${L("Usos", "Uses")}</th><th>Status</th><th></th></tr>${list.map(c => `<tr><td><span class="cp-acts" style="justify-content:flex-start"><b>${esc(c.code)}</b>${copyCouponBtn(c)}</span>${c.comedian_id ? `<div class="faint small">${esc(S.comedians.find(x => x.id === c.comedian_id)?.name || "")}</div>` : ""}</td><td class="num">${num(c.percent)}%</td><td class="small">${esc(c.scope || "")}</td><td>${num(c.uses)}${c.usage_limit ? " / " + c.usage_limit : ""}</td><td><span class="chip ${c.status === "Active" ? "ok" : c.status === "Pending" ? "warn" : c.status === "Review" ? "bad" : ""}">${esc(c.status)}</span>${c.eb_discount_id && c.eb_discount_id !== "manual" ? ` <span class="chip">Eventbrite</span>` : ""}</td><td class="num"><button class="btn ghost sm" data-coupon="${c.id}">${L("Editar", "Edit")}</button></td></tr>`).join("")}</table></div>` : `<div class="empty">${L("Nenhum cupom", "No coupons")}</div>`;
 }
 function tCoupons(s) {
   const mine = S.coupons.filter(c => c.show_id === s.id || !c.show_id).sort((a, b) => (b.show_id === s.id) - (a.show_id === s.id) || a.code.localeCompare(b.code));
