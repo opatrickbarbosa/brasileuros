@@ -147,7 +147,19 @@ td.num,th.num{text-align:right}
 .sector:hover{border-color:var(--faint)}
 .empty{padding:18px;text-align:center;color:var(--faint);font-size:13px}
 /* modal */
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:16px;z-index:50}
+.ov{position:fixed;inset:0;background:rgba(10,20,40,0);z-index:50;transition:background .3s ease}
+.ov.on{background:rgba(10,20,40,.38)}
+.drawer{position:absolute;top:0;right:0;bottom:0;width:min(480px,100%);background:var(--panel);box-shadow:-18px 0 48px rgba(0,0,0,.18);transform:translateX(100%);transition:transform .32s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column}
+.ov.on .drawer{transform:none}
+.drawer form{display:flex;flex-direction:column;height:100%;margin:0}
+.dr-h{display:flex;align-items:center;gap:10px;padding:18px 20px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#3772B4,#24548d);color:#fff}
+.dr-h h2{font-size:18px;color:#fff}
+.dr-h .iconbtn{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);color:#fff;font-size:20px}
+.dr-b{flex:1;overflow:auto;padding:20px;display:grid;align-content:start;gap:12px}
+.dr-f{display:flex;gap:8px;align-items:center;padding:14px 20px;border-top:1px solid var(--line);background:var(--panel2)}
+.dr-f .btn-sun{min-width:120px;justify-content:center}
+body.dr-open{overflow:hidden}
+@media (prefers-reduced-motion:reduce){.drawer,.ov{transition:none}}
 .modal{width:100%;max-width:520px;max-height:90vh;overflow:auto;padding:20px}
 .modal form{display:grid;gap:12px;margin-top:14px}
 .modal .acts{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
@@ -1276,24 +1288,29 @@ function wireCommon() {
   document.querySelectorAll("[data-edit-task]").forEach(b => b.onclick = () => editTask(S.tasks.find(x => x.id === b.dataset.editTask)));
 }
 function modal(title, fields, row, onSave, extra) {
+  // janela lateral que desliza da direita (substitui os pop-ups)
+  document.querySelectorAll(".ov").forEach(x => x.remove());
   const ov = document.createElement("div"); ov.className = "ov";
-  ov.innerHTML = `<div class="card modal"><h2>${esc(title)}</h2><form id="mf">
-    <div class="grid2">${fields.map(f => field(f, row?.[f.k])).join("")}</div>
-    <div id="merr"></div>
-    <div class="acts">${extra ? `<button type="button" class="btn danger" id="mdel" style="margin-right:auto">${L("Excluir", "Delete")}</button>` : ""}<button type="button" class="btn" id="mcancel">${L("Cancelar", "Cancel")}</button><button class="btn primary">${L("Salvar", "Save")}</button></div>
-  </form></div>`;
-  document.body.appendChild(ov);
-  const close = () => ov.remove();
+  ov.innerHTML = `<aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-t"><form id="mf">
+    <header class="dr-h"><h2 id="dr-t" class="grow">${esc(title)}</h2><button type="button" class="iconbtn" id="mx" aria-label="${L("Fechar", "Close")}">×</button></header>
+    <div class="dr-b"><div class="grid2">${fields.map(f => field(f, row?.[f.k])).join("")}</div><div id="merr"></div></div>
+    <footer class="dr-f">${extra ? `<button type="button" class="btn ghost" id="mdel" style="color:var(--danger);margin-right:auto">${L("Excluir", "Delete")}</button>` : `<span class="grow"></span>`}<button type="button" class="btn" id="mcancel">${L("Cancelar", "Cancel")}</button><button class="btn btn-sun">${L("Salvar", "Save")}</button></footer>
+  </form></aside>`;
+  document.body.appendChild(ov); document.body.classList.add("dr-open");
+  requestAnimationFrame(() => ov.classList.add("on"));
+  const close = () => { ov.classList.remove("on"); document.body.classList.remove("dr-open"); document.removeEventListener("keydown", esc_); setTimeout(() => ov.remove(), 320); };
+  const esc_ = e => { if (e.key === "Escape") close(); };
+  document.addEventListener("keydown", esc_);
   ov.onclick = e => { if (e.target === ov) close(); };
-  ov.querySelector("#mcancel").onclick = close;
+  ov.querySelector("#mcancel").onclick = close; ov.querySelector("#mx").onclick = close;
   if (extra) ov.querySelector("#mdel").onclick = async () => { if (confirm(L("Excluir este item?", "Delete this item?"))) { await extra(); close(); render(); } };
   ov.querySelector("#mf").onsubmit = async e => {
     e.preventDefault(); const fd = new FormData(e.target), out = { ...(row || {}) };
     fields.forEach(f => { let v = fd.get(f.k); if (f.t === "check") v = fd.get(f.k) === "on"; else if (f.t === "number") v = v === "" ? null : num(v); else if (v === "") v = null; out[f.k] = v; });
-    const b = e.target.querySelector(".primary"); b.disabled = true;
-    try { await onSave(out); close(); render(); } catch (err) { b.disabled = false; ov.querySelector("#merr").innerHTML = `<div class="msg err">${esc(err.message || err)}</div>`; }
+    const b = e.target.querySelector(".btn-sun"); b.disabled = true; b.textContent = L("Salvando…", "Saving…");
+    try { await onSave(out); close(); render(); toast(L("Salvo", "Saved")); } catch (err) { b.disabled = false; b.textContent = L("Salvar", "Save"); ov.querySelector("#merr").innerHTML = `<div class="msg err">${esc(err.message || err)}</div>`; }
   };
-  setTimeout(() => ov.querySelector("input,select,textarea")?.focus(), 30);
+  setTimeout(() => ov.querySelector(".dr-b input,.dr-b select,.dr-b textarea")?.focus({ preventScroll: true }), 340);
 }
 function field(f, v) {
   const cls = f.full ? "full" : "";
