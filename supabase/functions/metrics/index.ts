@@ -116,7 +116,7 @@ async function igBlock() {
     return total;
   };
   const [reach, profile_visits, link_taps, views] = [await tv("reach"), await tv("profile_views"), await tv("profile_links_taps"), await tv("views")];
-  const media = await graph(`${ig}/media`, { fields: "id,caption,permalink,timestamp,media_type,media_product_type", limit: "50" });
+  const media = await graph(`${ig}/media`, { fields: "id,caption,permalink,timestamp,media_type,media_product_type,media_url,thumbnail_url", limit: "50" });
   const posts: any[] = [];
   for (const m of media.data || []) {
     const d = String(m.timestamp).slice(0, 10); if (d < RANGE.start || d > RANGE.end) continue;
@@ -124,7 +124,7 @@ async function igBlock() {
     for (const metrics of ["reach,shares,saved,profile_visits,follows,total_interactions", "reach,shares,saved,total_interactions"]) {
       try { const r = await graph(`${m.id}/insights`, { metric: metrics }); (r.data || []).forEach((x: any) => ins[x.name] = x.values?.[0]?.value ?? x.total_value?.value ?? 0); break; } catch { /* reels não aceitam algumas métricas */ }
     }
-    posts.push({ permalink: m.permalink, caption: String(m.caption || "").slice(0, 140), ts: m.timestamp, type: m.media_product_type || m.media_type, ...ins });
+    posts.push({ permalink: m.permalink, caption: String(m.caption || "").slice(0, 140), ts: m.timestamp, type: m.media_product_type || m.media_type, thumb: m.thumbnail_url || (m.media_type === "VIDEO" ? null : m.media_url) || null, ...ins });
   }
   return { reach_28d: reach, profile_visits_28d: profile_visits, link_taps_28d: link_taps, views_28d: views, posts };
 }
