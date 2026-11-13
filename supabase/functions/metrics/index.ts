@@ -17,6 +17,8 @@ const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 const env = (k: string) => Deno.env.get(k) || "";
+// aceita o ID/segredo puros ou o JSON baixado do Google ({"web":{"client_id":…,"client_secret":…}})
+const gcred = (() => { for (const k of ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]) { const v = (Deno.env.get(k) || "").trim(); if (v.startsWith("{")) { try { const j = JSON.parse(v); const w = j.web || j.installed || j; if (w.client_id) return { id: w.client_id, secret: w.client_secret }; } catch (_) { /* não é JSON */ } } } return { id: (Deno.env.get("GOOGLE_CLIENT_ID") || "").trim(), secret: (Deno.env.get("GOOGLE_CLIENT_SECRET") || "").trim() }; })();
 const BOT_CITIES = ["Singapore", "Springfield", "Ashburn"]; // padrões de robô vistos no GA4 do site
 const BOT_COUNTRIES = ["China"];
 const day = (n = 0) => new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
@@ -30,7 +32,7 @@ async function googleToken(): Promise<string> {
     // login Google da equipe (botão "Conectar Google" no painel → função google-oauth)
     const { data: row } = await db.from("integrations").select("value").eq("key", "google_refresh_token").maybeSingle();
     if (!row?.value) throw new Error("Google ainda não conectado");
-    const r = await fetch("https://oauth2.googleapis.com/token", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams({ grant_type: "refresh_token", refresh_token: row.value, client_id: env("GOOGLE_CLIENT_ID"), client_secret: env("GOOGLE_CLIENT_SECRET") }) });
+    const r = await fetch("https://oauth2.googleapis.com/token", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams({ grant_type: "refresh_token", refresh_token: row.value, client_id: gcred.id, client_secret: gcred.secret }) });
     const j = await r.json();
     if (!j.access_token) throw new Error("Google: " + (j.error_description || j.error || "sem token") + " — conecte de novo");
     return j.access_token;

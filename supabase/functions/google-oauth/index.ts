@@ -15,13 +15,15 @@ const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 const env = (k: string) => Deno.env.get(k) || "";
+// aceita o ID/segredo puros ou o JSON baixado do Google ({"web":{"client_id":…,"client_secret":…}})
+const gcred = (() => { for (const k of ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]) { const v = (Deno.env.get(k) || "").trim(); if (v.startsWith("{")) { try { const j = JSON.parse(v); const w = j.web || j.installed || j; if (w.client_id) return { id: w.client_id, secret: w.client_secret }; } catch (_) { /* não é JSON */ } } } return { id: (Deno.env.get("GOOGLE_CLIENT_ID") || "").trim(), secret: (Deno.env.get("GOOGLE_CLIENT_SECRET") || "").trim() }; })();
 const REDIRECT = `${env("SUPABASE_URL")}/functions/v1/google-oauth`;
 const PANEL = "https://www.brasileuros.com/admin";
 const SCOPES = "https://www.googleapis.com/auth/analytics.readonly https://www.googleapis.com/auth/webmasters.readonly https://www.googleapis.com/auth/spreadsheets.readonly openid email";
 
 const hex = (b: ArrayBuffer) => [...new Uint8Array(b)].map((x) => x.toString(16).padStart(2, "0")).join("");
 async function sign(msg: string) {
-  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(env("GOOGLE_CLIENT_SECRET") + env("SUPABASE_SERVICE_ROLE_KEY")), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(gcred.secret + env("SUPABASE_SERVICE_ROLE_KEY")), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   return hex(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(msg)));
 }
 async function staffId(req: Request) {
@@ -37,7 +39,7 @@ const back = (q: string) => new Response(null, { status: 302, headers: { Locatio
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   try {
-    if (!env("GOOGLE_CLIENT_ID") || !env("GOOGLE_CLIENT_SECRET")) return json({ error: "Faltam os segredos GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET" }, 400);
+    if (!gcred.id || !gcred.secret) return json({ error: "Faltam os segredos GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET" }, 400);
 
     if (req.method === "POST") {
       const uid = await staffId(req);
@@ -45,7 +47,7 @@ Deno.serve(async (req) => {
       const payload = `${uid}.${Date.now()}`;
       const state = `${payload}.${await sign(payload)}`;
       const u = new URL("https://accounts.google.com/o/oauth2/v2/auth");
-      Object.entries({ client_id: env("GOOGLE_CLIENT_ID"), redirect_uri: REDIRECT, response_type: "code", scope: SCOPES, access_type: "offline", prompt: "consent", include_granted_scopes: "true", state })
+      Object.entries({ client_id: gcred.id, redirect_uri: REDIRECT, response_type: "code", scope: SCOPES, access_type: "offline", prompt: "consent", include_granted_scopes: "true", state })
         .forEach(([k, v]) => u.searchParams.set(k, v));
       return json({ url: u.toString() });
     }
@@ -58,7 +60,7 @@ Deno.serve(async (req) => {
     const r = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ code: q.get("code") || "", client_id: env("GOOGLE_CLIENT_ID"), client_secret: env("GOOGLE_CLIENT_SECRET"), redirect_uri: REDIRECT, grant_type: "authorization_code" }),
+      body: new URLSearchParams({ code: q.get("code") || "", client_id: gcred.id, client_secret: gcred.secret, redirect_uri: REDIRECT, grant_type: "authorization_code" }),
     });
     const j = await r.json();
     if (!j.refresh_token) return back("erro");
